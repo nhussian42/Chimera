@@ -19,16 +19,7 @@ public class TrinketMenu : MonoBehaviour
 
     public void CloseMenu()
     {
-        if (active == false)
-        {
-            canvas.enabled = true;
-            active = true;
-        }
-        if (active == true)
-        {
-            canvas.enabled = false;
-            active = false;
-        }
+      TrinketOptionMenu.SetActive(false);
     }
 
 
