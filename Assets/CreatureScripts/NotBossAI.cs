@@ -46,6 +46,7 @@ public class NotBossAI : Creature
     {
         if (other.gameObject.GetComponent<TEMP_CharacterController>() != null)
         {
+            Debug.Log("Player damaged");
             //Player gets damaged here
         }
     }
