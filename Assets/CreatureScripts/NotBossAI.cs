@@ -42,6 +42,14 @@ public class NotBossAI : Creature
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<TEMP_CharacterController>() != null)
+        {
+            //Player gets damaged here
+        }
+    }
+
     public virtual IEnumerator Attack()
     {
         yield return null;
