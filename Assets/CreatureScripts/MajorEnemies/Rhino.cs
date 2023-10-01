@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Animations;
+using UnityEditor.Callbacks;
 using UnityEditor.ShortcutManagement;
 using UnityEngine;
 using UnityEngine.AI;
@@ -22,11 +23,15 @@ public class Rhino : NotBossAI
 
     [SerializeField] private GameObject attackIndicator;
 
+    private Rigidbody rb;
+
     private void OnEnable()
     {
         initialTurnSpeed = agent.angularSpeed;
         initialMovementSpeed = agent.speed;
         initialAcceleration = agent.acceleration;
+
+        rb = GetComponent<Rigidbody>();
     }
 
     public override IEnumerator Attack()
@@ -43,6 +48,7 @@ public class Rhino : NotBossAI
         float timer = 1f;
         while (Physics.CheckSphere(transform.position, slamAttackRange, playerLayerMask) == false)
         {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.steeringTarget - transform.position), Time.deltaTime);
             timer -= Time.deltaTime;
             if (timer < 0)
             {

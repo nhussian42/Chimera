@@ -45,4 +45,19 @@ public abstract class Creature : MonoBehaviour
     {
         //Pulls stats from FloorManager based on CreatureType enum
     }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health < 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        //Something happens
+        //Death
+    }
 }
