@@ -37,11 +37,12 @@ public class Wolf : NotBossAI
             {
                 angle -= 15;
             }
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.steeringTarget - transform.position), Time.deltaTime);
             agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
             yield return new WaitForSeconds(0.3f);
         }
         agent.destination = player.transform.position;
-        agent.speed = 1f;
+        agent.speed = 2f;
         StartCoroutine(Pounce());
         yield return null;
     }
@@ -52,11 +53,11 @@ public class Wolf : NotBossAI
         float rotationDuration = chargeDelay;
         var lookPos = player.transform.position - transform.position;
         var rotation = Quaternion.LookRotation(lookPos);
-        while (rotationDuration > 0f)
-        {
-            rotationDuration -= Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
-        }
+        // while (rotationDuration > 0f)
+        // {
+        //     rotationDuration -= Time.deltaTime;
+        //     transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
+        // }
         agent.velocity = Vector3.zero;
         Rigidbody rb = GetComponent<Rigidbody>();
         attackIndicator.SetActive(true);
