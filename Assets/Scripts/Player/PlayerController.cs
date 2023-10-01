@@ -26,7 +26,7 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private float _turnSpeed = 360f;
     [SerializeField] private bool smoothMovementEnabled;
 
-    private void Awake()
+    protected override void Init()
     {
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
