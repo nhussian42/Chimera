@@ -20,6 +20,10 @@ public class PlayerController : Singleton<PlayerController>
     private Transform cameraTransform;
     Matrix4x4 _isoMatrix;
 
+    public float health = 0;
+    public float damage = 0;
+    public float atkspeed = 0;
+
     [SerializeField] private float _movementSpeed = 10f;
     [SerializeField] private float _turnSpeed = 360f;
 
