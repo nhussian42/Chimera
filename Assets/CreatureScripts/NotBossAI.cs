@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent), typeof(Rigidbody))]
 public class NotBossAI : Creature
 {
     protected NavMeshAgent agent;
