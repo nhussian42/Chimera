@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.Animations;
 using UnityEditor.ShortcutManagement;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class Rhino : NotBossAI
     private float initialTurnSpeed;
     private float initialMovementSpeed;
     private float initialAcceleration;
+    private float angle = 90f;
 
     [SerializeField, Tooltip("How long it stops once in range before beginning the charge")] private float chargeDelay = 1f;
     [SerializeField, Tooltip("Acceleration during the charge")] private float chargeAcceleration = 4f;
@@ -38,8 +40,17 @@ public class Rhino : NotBossAI
 
         //Rhino runs towards player until within slam attack range
         agent.isStopped = false;
+        float timer = 1f;
         while (Physics.CheckSphere(transform.position, slamAttackRange, playerLayerMask) == false)
-        {           
+        {
+            timer -= Time.deltaTime;
+            if (timer < 0)
+            {
+                agent.speed += 1;
+                agent.angularSpeed += 1;
+                agent.acceleration += 1;
+                timer = 2f;
+            }
             yield return null;
         }
 
@@ -74,4 +85,14 @@ public class Rhino : NotBossAI
 
         yield return null;
     }
+
+    void FaceTarget()
+    {
+        var turnTowardNavSteeringTarget = agent.steeringTarget;
+
+        Vector3 direction = (turnTowardNavSteeringTarget - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
+    }
+
 }

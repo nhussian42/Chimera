@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -25,7 +26,7 @@ public class NotBossAI : Creature
         playerLayerMask = LayerMask.GetMask("Player");
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         agent.destination = player.transform.position;
 
@@ -42,9 +43,9 @@ public class NotBossAI : Creature
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<TEMP_CharacterController>() != null)
+        if (other.gameObject.GetComponent<CharacterController>() != null && attacking == true)
         {
             Debug.Log("Player damaged");
             //Player gets damaged here

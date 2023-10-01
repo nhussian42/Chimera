@@ -15,6 +15,7 @@ public class PirhanaDog : NotBossAI
     public override IEnumerator Attack()
     {
         //Stops the movement
+        attacking = true;
         agent.velocity = Vector3.zero;
         Rigidbody rb = GetComponent<Rigidbody>();
         attackIndicator.SetActive(true);
