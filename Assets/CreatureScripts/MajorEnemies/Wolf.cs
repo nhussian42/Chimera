@@ -11,21 +11,24 @@ public class Wolf : NotBossAI
     [SerializeField, Tooltip("How long after a charge until it can charge again")] private float attackCooldown = 1f;
 
     [SerializeField] private GameObject attackIndicator;
+
+    private float baseSpeed;
+    private Vector3 dir;
     private void Start()
     {
         agent.destination = player.transform.position;
+        baseSpeed = agent.speed;
+        
     }
     public override IEnumerator Attack()
     {
         attacking = true;
-        Vector3 dir = (player.transform.position - transform.position).normalized;
+        dir = (player.transform.position - transform.position).normalized;
         float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + 180;
-        int randomValue = Random.Range(1, 24);
+        int randomValue = Random.Range(12, 24);
         int randomPositiveNegative = Random.Range(0, 2);
         for (int i = 0; i < randomValue; i++)
         {
-            Debug.Log(i);
-            Debug.Log(randomPositiveNegative);
             if (randomPositiveNegative == 0)
             {
                 angle += 15;
@@ -35,10 +38,10 @@ public class Wolf : NotBossAI
                 angle -= 15;
             }
             agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
-            yield return new WaitForSeconds(0.5f);
-            yield return null;
+            yield return new WaitForSeconds(0.3f);
         }
-
+        agent.destination = player.transform.position;
+        agent.speed = 1f;
         StartCoroutine(Pounce());
         yield return null;
     }
@@ -46,6 +49,14 @@ public class Wolf : NotBossAI
     public IEnumerator Pounce()
     {
         //Stops the movement
+        float rotationDuration = chargeDelay;
+        var lookPos = player.transform.position - transform.position;
+        var rotation = Quaternion.LookRotation(lookPos);
+        while (rotationDuration > 0f)
+        {
+            rotationDuration -= Time.deltaTime;
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
+        }
         agent.velocity = Vector3.zero;
         Rigidbody rb = GetComponent<Rigidbody>();
         attackIndicator.SetActive(true);
@@ -53,6 +64,7 @@ public class Wolf : NotBossAI
 
         //Charges foward
         agent.isStopped = true;
+        agent.speed = baseSpeed;
         attackIndicator.SetActive(false);
         rb.AddForce(gameObject.transform.forward * chargeSpeed, ForceMode.Impulse);
         yield return new WaitForSeconds(chargeTime);
