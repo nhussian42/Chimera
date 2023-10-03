@@ -6,7 +6,7 @@ public abstract class Arm : Limb
 {
     [SerializeField] private float attackDamage;
     [SerializeField] private float attackSpeed;
-    [SerializeField] private SideOfPlayer side;
+    //[SerializeField] private SideOfPlayer side;      Why do we need this?
 
     private Animator anim;
 

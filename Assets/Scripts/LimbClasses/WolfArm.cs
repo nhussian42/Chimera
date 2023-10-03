@@ -6,6 +6,6 @@ public class WolfArm : Arm
 {
     public override void Attack()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Wolf Arm Attack");
     }
 }
