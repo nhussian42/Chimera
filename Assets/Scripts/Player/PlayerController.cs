@@ -26,6 +26,8 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private float _turnSpeed = 360f;
     [SerializeField] private bool smoothMovementEnabled;
 
+    public static Action PlayerSpawned;
+
     protected override void Init()
     {
         _playerInput = GetComponent<PlayerInput>();
@@ -74,6 +76,8 @@ public class PlayerController : Singleton<PlayerController>
     {
         _mainCamera = Camera.main;
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
+
+        PlayerSpawned?.Invoke();
     }
 
     private void Update()
