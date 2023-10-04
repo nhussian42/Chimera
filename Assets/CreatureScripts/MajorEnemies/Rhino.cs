@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEditor.Callbacks;
@@ -22,6 +23,7 @@ public class Rhino : NotBossAI
     [SerializeField, Tooltip("Range it begins slam attack")] private float slamAttackRange = 2f;
 
     [SerializeField] private GameObject attackIndicator;
+    [SerializeField] private MeshCollider attackCollider;
 
     private Rigidbody rb;
 
@@ -68,17 +70,18 @@ public class Rhino : NotBossAI
     public IEnumerator SlamAttack()
     {
         //Stops the rhino
+        gameObject.transform.LookAt(player.transform.position);
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         yield return new WaitForSeconds(0.5f);
 
         //Attack is performed
-        GetComponent<BoxCollider>().enabled = true;
+        attackCollider.enabled = true;
         attackIndicator.SetActive(true);
         yield return new WaitForSeconds(0.5f);
 
         //Attack ends, resets rhino to normal movement
-        GetComponent<BoxCollider>().enabled = false;
+        attackCollider.enabled = false;
         agent.isStopped = false;
         attackIndicator.SetActive(false);
         agent.angularSpeed = initialTurnSpeed;

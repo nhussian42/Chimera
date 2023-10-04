@@ -14,6 +14,8 @@ public class Wolf : NotBossAI
 
     private float baseSpeed;
     private Vector3 dir;
+    private float angle;
+    private bool circling;
     private void Start()
     {
         agent.destination = player.transform.position;
@@ -22,9 +24,10 @@ public class Wolf : NotBossAI
     }
     public override IEnumerator Attack()
     {
+        circling = false;
         attacking = true;
         dir = (player.transform.position - transform.position).normalized;
-        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + 180;
+        angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + 180;
         int randomValue = Random.Range(12, 24);
         int randomPositiveNegative = Random.Range(0, 2);
         for (int i = 0; i < randomValue; i++)
@@ -38,18 +41,19 @@ public class Wolf : NotBossAI
                 angle -= 15;
             }
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.steeringTarget - transform.position), Time.deltaTime);
-            agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.2f);
         }
         agent.destination = player.transform.position;
         agent.speed = 2f;
         StartCoroutine(Pounce());
+        circling = false;
         yield return null;
     }
 
     public IEnumerator Pounce()
     {
         //Stops the movement
+        attacking = true;
         float rotationDuration = chargeDelay;
         var lookPos = player.transform.position - transform.position;
         var rotation = Quaternion.LookRotation(lookPos);
@@ -95,7 +99,7 @@ public class Wolf : NotBossAI
 
     protected override void Update()
     {
-        if (attacking == false)
+        if (circling == false && attacking == false)
         {
             agent.destination = player.transform.position;
             if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
@@ -103,8 +107,12 @@ public class Wolf : NotBossAI
                 //Player is in range
                 //Perform attack coroutine
                 StartCoroutine(Attack());
-                attacking = true;
+                circling = true;
             }
+        }
+        else if (circling == true)
+        {
+            agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
         }
     }
 }
