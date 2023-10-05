@@ -16,6 +16,7 @@ public class PlayerController : Singleton<PlayerController>
     private InputAction _look; // for keyboard/mouse attack direction
     private InputAction _attackRight;
     private InputAction _attackLeft;
+    private InputAction _swapLimbs;
     // Put new actions here
     private CharacterController _controller;
 
@@ -78,6 +79,9 @@ public class PlayerController : Singleton<PlayerController>
         _attackLeft = _playerInputActions.DefaultControls.AttackLeft;
         _attackLeft.Enable();
 
+        _swapLimbs= _playerInputActions.DefaultControls.SwapLimbs;
+        _swapLimbs.Enable();
+
         // Instantiate Default Limbs
         currentLeftArm = Instantiate(coreLeftArm.gameObject, leftArmPos.position, Quaternion.identity, leftArmPos).GetComponent<Arm>();
         currentRightArm = Instantiate(coreRightArm.gameObject, rightArmPos.position, Quaternion.identity, rightArmPos).GetComponent<Arm>();
@@ -91,6 +95,7 @@ public class PlayerController : Singleton<PlayerController>
         _look.Disable();
         _attackRight.Disable();
         _attackLeft.Disable();
+        _swapLimbs.Disable();
     }
 
     // Switches between control schemes
@@ -151,7 +156,10 @@ public class PlayerController : Singleton<PlayerController>
             //Debug.Log("attack right");
         if (_attackLeft.triggered == true)
             currentLeftArm.Attack();
-            //Debug.Log("attack left");
+        //Debug.Log("attack left");
+        if (_swapLimbs.triggered == true)
+            SwapLeftAndRightArms();
+            Debug.Log("Switched Limbs");
     }
 
     private void OnTriggerStay(Collider other)
@@ -190,7 +198,13 @@ public class PlayerController : Singleton<PlayerController>
 
     private void SwapLeftAndRightArms()
     {
-
+        currentLeftArm.transform.SetParent(rightArmPos);
+        currentLeftArm.transform.position = rightArmPos.position;
+        currentRightArm.transform.SetParent(leftArmPos);
+        currentRightArm.transform.position = leftArmPos.position;
+        switchedArmRef = currentLeftArm;
+        currentLeftArm = currentRightArm;
+        currentRightArm = switchedArmRef;
     }
 
     public void SwapLimb(Arm newArm, SideOfPlayer side)

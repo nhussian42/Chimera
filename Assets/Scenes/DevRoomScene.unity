@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18375513, g: 0.22825809, b: 0.29943195, a: 1}
+  m_IndirectSpecularColor: {r: 0.18375464, g: 0.22825733, b: 0.29943115, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -360,6 +360,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrinketMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 5597117825006032296, guid: 86514d54c082e0b4f9e36284c3cd12ee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8085037520066951225, guid: 86514d54c082e0b4f9e36284c3cd12ee,
         type: 3}
       propertyPath: playerController
@@ -494,7 +499,12 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3139895642895867733, guid: c97cd93a014f60948923016ac5150021, type: 3}
+    - {fileID: 3751579616750883840, guid: c97cd93a014f60948923016ac5150021, type: 3}
+    - {fileID: 5879921498729165838, guid: c97cd93a014f60948923016ac5150021, type: 3}
+    - {fileID: 3548521288095972052, guid: c97cd93a014f60948923016ac5150021, type: 3}
+    - {fileID: 3506627948919013710, guid: c97cd93a014f60948923016ac5150021, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c97cd93a014f60948923016ac5150021, type: 3}
@@ -1074,6 +1084,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TrinketInteractor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1991673379962358034, guid: 1c91199d63215984f9462610f791fbdd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3546052603276181854, guid: 1c91199d63215984f9462610f791fbdd,
         type: 3}
