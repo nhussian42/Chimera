@@ -18,9 +18,13 @@ public class FloorManager : Singleton<FloorManager>
     [SerializeField] private int _totalRooms;
     [SerializeField] private int _currentRoomIndex; // unserialize after debug
     
-    public ExitRoomSide lastExitRoomSide;
+    public static ExitRoomSide lastExitRoomSide;
 
     private Transform startTransform;
+    public Transform StartTransform
+    {
+        get { return startTransform; }
+    }
 
     protected override void Init()
     {
@@ -31,10 +35,7 @@ public class FloorManager : Singleton<FloorManager>
     {
         LoadNextRoom += SetupNextRoom;
         NextRoomLoaded += DetermineEntrancePosition;
-        PlayerController.PlayerSpawned += SetPlayerPositionToEntrance;
         //EnableFloor += EnablePlayerControls;
-
-        
         
         NextRoomLoaded?.Invoke();
     }
@@ -46,7 +47,6 @@ public class FloorManager : Singleton<FloorManager>
 
     private void SetupNextRoom()
     {
-        print(PlayerController.Instance);
         PlayerController.Instance.gameObject.SetActive(false);
 
         UnitySceneManager.Instance.LoadScene(DetermineNextRoomIndex());
@@ -61,21 +61,16 @@ public class FloorManager : Singleton<FloorManager>
     {
         int startTransformIndex = 0;
 
-        if (lastExitRoomSide == ExitRoomSide.TopLeft)
+        if (lastExitRoomSide == ExitRoomSide.TopRight)
         {
             startTransformIndex = UnityEngine.Random.Range(0, _currentRoom.bottomLeftStartDoors.Count);
             startTransform = _currentRoom.bottomLeftStartDoors[startTransformIndex];
 
         }
-        else if (lastExitRoomSide == ExitRoomSide.TopRight)
+        else if (lastExitRoomSide == ExitRoomSide.TopLeft)
         {
             startTransformIndex = UnityEngine.Random.Range(0, _currentRoom.bottomRightStartDoors.Count);
             startTransform = _currentRoom.bottomRightStartDoors[startTransformIndex];
         }
-    } 
-
-    private void SetPlayerPositionToEntrance()
-    {
-        PlayerController.Instance.transform.position = startTransform.position;
     }
 }

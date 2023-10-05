@@ -17,7 +17,7 @@ public class LeaveRoomTrigger : MonoBehaviour
         if (!_triggered && other.gameObject.GetComponent<PlayerController>() != null)
         {
             _triggered = true;
-            FloorManager.Instance.lastExitRoomSide = _exitRoomSide;
+            FloorManager.lastExitRoomSide = _exitRoomSide;
             FloorManager.LeaveRoom?.Invoke();
         }
     }

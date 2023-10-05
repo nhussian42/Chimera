@@ -1053,6 +1053,7 @@ GameObject:
   - component: {fileID: 873469279}
   - component: {fileID: 873469278}
   - component: {fileID: 873469277}
+  - component: {fileID: 873469280}
   m_Layer: 0
   m_Name: ExitDoor
   m_TagString: Untagged
@@ -1090,7 +1091,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1146,6 +1147,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873469275}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &873469280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873469275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db2630b0e64ff0e439cc14d4f2bf1570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _exitRoomSide: 1
 --- !u!1 &1363251968
 GameObject:
   m_ObjectHideFlags: 0
@@ -1667,7 +1681,6 @@ MonoBehaviour:
   _currentRoom: {fileID: 1743606583}
   _totalRooms: 0
   _currentRoomIndex: 1
-  lastExitRoomSide: 0
 --- !u!1001 &5309695213743918005
 PrefabInstance:
   m_ObjectHideFlags: 0
