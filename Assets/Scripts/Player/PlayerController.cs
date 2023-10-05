@@ -26,7 +26,9 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private float _turnSpeed = 360f;
     [SerializeField] private bool smoothMovementEnabled;
 
-    private void Awake()
+    //public static Action PlayerSpawned;
+
+    protected override void Init()
     {
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
@@ -74,14 +76,30 @@ public class PlayerController : Singleton<PlayerController>
     {
         _mainCamera = Camera.main;
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
+
+        Instance.gameObject.SetActive(true);
+        // StartCoroutine(WaitForTransform(5f));
+        
+        SetPlayerPosition(FloorManager.Instance.StartTransform);
     }
+
+    // Debug
+    // IEnumerator WaitForTransform(float maxWaitTime)
+    // {
+    //     while (maxWaitTime > 0 && Instance.gameObject.GetComponent<Transform>())
+    //     {
+    //         maxWaitTime -= Time.deltaTime;
+    //         yield return new WaitForEndOfFrame();
+    //     }
+    //     PlayerSpawned?.Invoke();
+    // }
 
     private void Update()
     {
         Vector2 movementValues = _movement.ReadValue<Vector2>();
         Vector3 movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
-
+        
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
         
         if (movementVector != Vector3.zero)
@@ -94,5 +112,14 @@ public class PlayerController : Singleton<PlayerController>
         Quaternion newRotation = Quaternion.LookRotation(towards, Vector3.up);
 
         transform.rotation = smoothMovementEnabled ? Quaternion.RotateTowards(transform.rotation, newRotation, Time.deltaTime * _turnSpeed) : newRotation;
+    }
+
+    private void SetPlayerPosition(Transform to)
+    {
+        transform.position = to.position;
+
+        // Lets the character controller know that the position was manually set by a transform
+        // this gave me (Nick) two hours of headaches figuring this out
+        Physics.SyncTransforms();
     }
 }
