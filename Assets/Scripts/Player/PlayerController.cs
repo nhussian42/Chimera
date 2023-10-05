@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
@@ -12,6 +14,8 @@ public class PlayerController : Singleton<PlayerController>
     private PlayerInput _playerInput;
     private InputAction _movement;
     private InputAction _look; // for keyboard/mouse attack direction
+    private InputAction _attackRight;
+    private InputAction _attackLeft;
     // Put new actions here
     private CharacterController _controller;
 
@@ -25,6 +29,24 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private float _movementSpeed = 10f;
     [SerializeField] private float _turnSpeed = 360f;
     [SerializeField] private bool smoothMovementEnabled;
+
+    // Limb References
+    [SerializeField] Arm coreLeftArm;
+    [SerializeField] Arm coreRightArm;
+    //Legs coreLegs;
+    //Head coreHead;
+
+    Arm currentLeftArm;
+    Arm currentRightArm;
+    //Legs currentLegs;
+    //Head currentHead;
+
+    Arm switchedArmRef; // holds ref to arm being switched on player
+
+    [SerializeField] Transform leftArmPos;
+    [SerializeField] Transform rightArmPos;
+    //Transform legsPos;
+    //Transform headPos;
 
     //public static Action PlayerSpawned;
 
@@ -45,6 +67,17 @@ public class PlayerController : Singleton<PlayerController>
         
         _look = _playerInputActions.DefaultControls.Look;
         _look.Enable();
+
+        _attackRight = _playerInputActions.DefaultControls.AttackRight;
+        _attackRight.Enable();
+
+        _attackLeft = _playerInputActions.DefaultControls.AttackLeft;
+        _attackLeft.Enable();
+
+        // Instantiate Default Limbs
+        currentLeftArm = Instantiate(coreLeftArm.gameObject, leftArmPos.position, Quaternion.identity, leftArmPos).GetComponent<Arm>();
+        currentRightArm = Instantiate(coreRightArm.gameObject, rightArmPos.position, Quaternion.identity, rightArmPos).GetComponent<Arm>();
+
     }
 
     // Disable new player input actions in this method
@@ -52,6 +85,8 @@ public class PlayerController : Singleton<PlayerController>
     {
         _movement.Disable();
         _look.Disable();
+        _attackRight.Disable();
+        _attackLeft.Disable();
     }
 
     // Switches between control schemes
@@ -104,6 +139,32 @@ public class PlayerController : Singleton<PlayerController>
         
         if (movementVector != Vector3.zero)
             RotatePlayer(movementVector);
+
+
+        // Reads L and R mouse buttons 
+        if (_attackRight.triggered == true)
+            currentRightArm.Attack();
+            //Debug.Log("attack right");
+        if (_attackLeft.triggered == true)
+            currentLeftArm.Attack();
+            //Debug.Log("attack left");
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<ArmDrop>(out ArmDrop armDrop) != false)
+        {
+            if (_attackRight.triggered == true)
+            {
+                SwapLimb(armDrop.armReference, SideOfPlayer.Right);
+                Destroy(armDrop.gameObject);
+            }
+            else if (_attackLeft.triggered == true)
+            {
+                SwapLimb(armDrop.armReference, SideOfPlayer.Left);
+                Destroy(armDrop.gameObject);
+            }
+        }
     }
 
     private void RotatePlayer(Vector3 towards)
@@ -113,7 +174,7 @@ public class PlayerController : Singleton<PlayerController>
 
         transform.rotation = smoothMovementEnabled ? Quaternion.RotateTowards(transform.rotation, newRotation, Time.deltaTime * _turnSpeed) : newRotation;
     }
-
+    
     private void SetPlayerPosition(Transform to)
     {
         transform.position = to.position;
@@ -121,5 +182,24 @@ public class PlayerController : Singleton<PlayerController>
         // Lets the character controller know that the position was manually set by a transform
         // this gave me (Nick) two hours of headaches figuring this out
         Physics.SyncTransforms();
+    }
+
+    private void SwapLeftAndRightArms()
+    {
+
+    }
+
+    public void SwapLimb(Arm newArm, SideOfPlayer side)
+    {
+        if(side == SideOfPlayer.Right)
+        {
+            Destroy(currentRightArm.gameObject);
+            currentRightArm = Instantiate(newArm.gameObject, rightArmPos.position, Quaternion.identity, rightArmPos).GetComponent<Arm>();
+        }
+        else
+        {
+            Destroy(currentLeftArm.gameObject);
+            currentLeftArm = Instantiate(newArm.gameObject, leftArmPos.position, Quaternion.identity, leftArmPos).GetComponent<Arm>();
+        }
     }
 }
