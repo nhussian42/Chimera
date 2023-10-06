@@ -85,7 +85,8 @@ public class PlayerController : Singleton<PlayerController>
         // Instantiate Default Limbs
         currentLeftArm = Instantiate(coreLeftArm.gameObject, leftArmPos.position, Quaternion.identity, leftArmPos).GetComponent<Arm>();
         currentRightArm = Instantiate(coreRightArm.gameObject, rightArmPos.position, Quaternion.identity, rightArmPos).GetComponent<Arm>();
-
+        currentLeftArm.SwitchGameState();
+        currentRightArm.SwitchGameState();
     }
 
     // Disable new player input actions in this method
@@ -159,22 +160,21 @@ public class PlayerController : Singleton<PlayerController>
         //Debug.Log("attack left");
         if (_swapLimbs.triggered == true)
             SwapLeftAndRightArms();
-            Debug.Log("Switched Limbs");
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.TryGetComponent<ArmDrop>(out ArmDrop armDrop) != false)
+        if (other.gameObject.TryGetComponent<Arm>(out Arm arm) != false && arm.isPickup == true)
         {
             if (_attackRight.triggered == true)
             {
-                SwapLimb(armDrop.armReference, SideOfPlayer.Right);
-                Destroy(armDrop.gameObject);
+                SwapLimb(arm, SideOfPlayer.Right);
+                //Destroy(arm.gameObject);
             }
             else if (_attackLeft.triggered == true)
             {
-                SwapLimb(armDrop.armReference, SideOfPlayer.Left);
-                Destroy(armDrop.gameObject);
+                SwapLimb(arm, SideOfPlayer.Left);
+                //Destroy(arm.gameObject);
             }
         }
     }
@@ -209,15 +209,31 @@ public class PlayerController : Singleton<PlayerController>
 
     public void SwapLimb(Arm newArm, SideOfPlayer side)
     {
+        Vector3 swappedPosition = newArm.transform.position;
         if(side == SideOfPlayer.Right)
         {
-            Destroy(currentRightArm.gameObject);
-            currentRightArm = Instantiate(newArm.gameObject, rightArmPos.position, Quaternion.identity, rightArmPos).GetComponent<Arm>();
+            //Destroy(currentRightArm.gameObject);
+            //currentRightArm = Instantiate(newArm.gameObject, rightArmPos.position, Quaternion.identity, rightArmPos).GetComponent<Arm>();
+          
+            newArm.transform.SetParent(rightArmPos);
+            newArm.transform.position = currentRightArm.transform.position;
+            currentRightArm.SwitchGameState();
+            currentRightArm.transform.SetParent(null);
+            currentRightArm.transform.position = swappedPosition;
+            newArm.SwitchGameState();
+            currentRightArm = newArm;
         }
         else
         {
-            Destroy(currentLeftArm.gameObject);
-            currentLeftArm = Instantiate(newArm.gameObject, leftArmPos.position, Quaternion.identity, leftArmPos).GetComponent<Arm>();
+            //Destroy(currentLeftArm.gameObject);
+            //currentLeftArm = Instantiate(newArm.gameObject, leftArmPos.position, Quaternion.identity, leftArmPos).GetComponent<Arm>();
+            newArm.transform.SetParent(leftArmPos);
+            newArm.transform.position = currentLeftArm.transform.position;
+            currentLeftArm.SwitchGameState();
+            currentLeftArm.transform.SetParent(null);
+            currentLeftArm.transform.position = swappedPosition;
+            newArm.SwitchGameState();
+            currentLeftArm = newArm;
         }
     }
 }
