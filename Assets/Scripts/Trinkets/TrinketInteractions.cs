@@ -14,9 +14,13 @@ public class TrinketInteractiosn : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collider");
-        TrinketOptionsMenu.SetActive(true);
-        Destroy(gameObject);
+        if (other.CompareTag("Player")) //make it to where only the player can activate the Trinket Menu
+        {
+            Debug.Log("Collided with Player");
+            TrinketOptionsMenu.SetActive(true);
+            Destroy(gameObject);
+        }
+     
     }
     // Update is called once per frame
     void Update()

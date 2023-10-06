@@ -206,4 +206,5 @@ public class PlayerController : Singleton<PlayerController>
             currentLeftArm = Instantiate(newArm.gameObject, leftArmPos.position, Quaternion.identity, leftArmPos).GetComponent<Arm>();
         }
     }
+
 }
