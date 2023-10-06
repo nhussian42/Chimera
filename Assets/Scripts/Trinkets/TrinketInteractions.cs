@@ -12,11 +12,16 @@ public class TrinketInteractiosn : MonoBehaviour
         TrinketOptionsMenu.SetActive(false);
     }
 
+    //Makes it to where if only the player collides with the trinket it will pop up the menu
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collider");
-        TrinketOptionsMenu.SetActive(true);
-        Destroy(gameObject);
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Collider");
+            TrinketOptionsMenu.SetActive(true);
+            Destroy(gameObject);
+        }
+      
     }
     // Update is called once per frame
     void Update()

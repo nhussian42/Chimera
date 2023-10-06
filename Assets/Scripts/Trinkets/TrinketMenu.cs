@@ -7,6 +7,7 @@ public class TrinketMenu : MonoBehaviour
 {
     // Start is called before the first frame update
 
+
     public Button Option1;
     public Button Option2;
     public Button Option3;
@@ -19,25 +20,25 @@ public class TrinketMenu : MonoBehaviour
 
     public void CloseMenu()
     {
-      //TrinketOptionMenu.SetActive(false);
+      TrinketOptionMenu.SetActive(false);
     }
 
     public void IncreaseDamage()
     {
         playerController.health += 5;
-        TrinketOptionMenu.SetActive(false);
+        CloseMenu();
     }
 
     public void IncreaseATKSpeed()
     {
         playerController.atkspeed += 5;
-        TrinketOptionMenu.SetActive(false);
+        CloseMenu();
     }
 
     public void IncreaseHealth()
     {
         playerController.damage += 5;
-        TrinketOptionMenu.SetActive(false);
+        CloseMenu();
     }
 
 
