@@ -6,6 +6,7 @@ public class RhinoArm : Arm
 {
     public override void Attack()
     {
-        Debug.Log("Rhino Arm Attack");
+        base.Attack();
+        //Debug.Log("Rhino Arm Attack");
     }
 }

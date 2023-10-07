@@ -6,6 +6,7 @@ public class BearArm : Arm
 {
     public override void Attack()
     {
-        Debug.Log("Bear Arm Attack");
+        base.Attack();
+        //Debug.Log("Bear Arm Attack");
     }
 }

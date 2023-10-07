@@ -6,6 +6,7 @@ public class DefaultArm : Arm
 {
     public override void Attack()
     {
-        Debug.Log("Default Arm Attack");
+        base.Attack();
+        //Debug.Log("Default attack");
     }
 }

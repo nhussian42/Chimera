@@ -6,6 +6,7 @@ public class WolfArm : Arm
 {
     public override void Attack()
     {
-        Debug.Log("Wolf Arm Attack");
+        base.Attack();
+        //Debug.Log("Wolf Arm Attack");
     }
 }
