@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class Limb : MonoBehaviour
 {
     [SerializeField] private float health;
+    public float Health { get { return currentHealth; }}
     [SerializeField] private bool defaultLimb;
     [SerializeField] private Classification classification;
     public bool isPickup {get; private set;}
@@ -25,6 +26,8 @@ public abstract class Limb : MonoBehaviour
     public void UpdateHealth(float amount)
     {
         currentHealth = Mathf.Clamp(currentHealth + amount, minHealth, maxHealth);
+
+        PlayerController.OnDamageReceived?.Invoke();
     }
 
     public void SwitchGameState()

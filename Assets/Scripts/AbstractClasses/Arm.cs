@@ -5,9 +5,10 @@ using UnityEngine;
 
 public abstract class Arm : Limb
 {
-    [SerializeField] private float AttackDamage;
-    public float attackDamage { get { return AttackDamage; } }
+    [SerializeField] private float attackDamage;
+    public float AttackDamage { get { return attackDamage; } }
     [SerializeField] private float attackSpeed;
+    public float AttackSpeed { get { return attackSpeed; }  }
     [SerializeField] private AttackRange attackRangePrefab;
     private AttackRange attackRange;
     private bool canAttack = true;
