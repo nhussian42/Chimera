@@ -238,6 +238,45 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""3794e561-67af-4791-bf7c-15b270219935"",
+            ""actions"": [
+                {
+                    ""name"": ""UnPause"",
+                    ""type"": ""Button"",
+                    ""id"": ""766ddcfd-2f22-40ff-8912-b1a64d25cc25"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""71293b93-d7b0-443a-83e9-ba01e1c3947c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UnPause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c979f680-9230-41f2-9c0a-15f741e2407b"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UnPause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -278,6 +317,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_DefaultControls_AttackLeft = m_DefaultControls.FindAction("AttackLeft", throwIfNotFound: true);
         m_DefaultControls_Pause = m_DefaultControls.FindAction("Pause", throwIfNotFound: true);
         m_DefaultControls_SwapLimbs = m_DefaultControls.FindAction("SwapLimbs", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_UnPause = m_UI.FindAction("UnPause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -421,6 +463,52 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public DefaultControlsActions @DefaultControls => new DefaultControlsActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
+    private readonly InputAction m_UI_UnPause;
+    public struct UIActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @UnPause => m_Wrapper.m_UI_UnPause;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void AddCallbacks(IUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
+            @UnPause.started += instance.OnUnPause;
+            @UnPause.performed += instance.OnUnPause;
+            @UnPause.canceled += instance.OnUnPause;
+        }
+
+        private void UnregisterCallbacks(IUIActions instance)
+        {
+            @UnPause.started -= instance.OnUnPause;
+            @UnPause.performed -= instance.OnUnPause;
+            @UnPause.canceled -= instance.OnUnPause;
+        }
+
+        public void RemoveCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -447,5 +535,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnAttackLeft(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnSwapLimbs(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnUnPause(InputAction.CallbackContext context);
     }
 }

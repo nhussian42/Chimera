@@ -17,6 +17,8 @@ public class PlayerController : Singleton<PlayerController>
     private InputAction _attackRight;
     private InputAction _attackLeft;
     private InputAction _swapLimbs;
+    private InputAction _pause;
+    private InputAction _unpause;
     // Put new actions here
     private CharacterController _controller;
 
@@ -63,6 +65,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public static Action OnDamageReceived;
     public static Action OnArmSwapped;
+    public static Action OnGamePaused;
 
     protected override void Init()
     {
@@ -74,24 +77,21 @@ public class PlayerController : Singleton<PlayerController>
     // Enable new player input actions in this method
     private void OnEnable()
     {
-        _playerInput.onControlsChanged += ChangeControls;
+        _playerInput.onControlsChanged += ChangeControlSchemes;
+        GameManager.OnUnpause += Unpause;
 
+        // Assign default controls
         _movement = _playerInputActions.DefaultControls.Movement;
-        _movement.Enable();
-        
         _look = _playerInputActions.DefaultControls.Look;
-        _look.Enable();
-
         _attackRight = _playerInputActions.DefaultControls.AttackRight;
-        _attackRight.Enable();
-
         _attackLeft = _playerInputActions.DefaultControls.AttackLeft;
-        _attackLeft.Enable();
+        _swapLimbs = _playerInputActions.DefaultControls.SwapLimbs;
+        _pause = _playerInputActions.DefaultControls.Pause;
 
-        _swapLimbs= _playerInputActions.DefaultControls.SwapLimbs;
-        _swapLimbs.Enable();
+        EnableAllDefaultControls();
 
-
+        // Assign UI controls
+        _unpause = _playerInputActions.UI.UnPause;
 
         // Instantiate Default Limbs
         foreach(Arm arm in allArms)
@@ -109,15 +109,36 @@ public class PlayerController : Singleton<PlayerController>
     // Disable new player input actions in this method
     private void OnDisable()
     {
+        DisableAllDefaultControls();
+        DisableAllUIControls();
+    }
+
+    private void EnableAllDefaultControls()
+    {
+        _movement.Enable();
+        _look.Enable();
+        _attackRight.Enable();
+        _attackLeft.Enable();
+        _swapLimbs.Enable();
+        _pause.Enable();
+    }
+
+    private void DisableAllDefaultControls()
+    {
         _movement.Disable();
         _look.Disable();
         _attackRight.Disable();
         _attackLeft.Disable();
         _swapLimbs.Disable();
+        _pause.Disable();
     }
 
-    // Switches between control schemes
-    private void ChangeControls(PlayerInput input)
+    private void DisableAllUIControls()
+    {
+        _unpause.Disable();
+    }
+
+    private void ChangeControlSchemes(PlayerInput input)
     {
         if (_playerInput.currentControlScheme == mouseScheme && previousScheme != mouseScheme)
         {
@@ -178,6 +199,14 @@ public class PlayerController : Singleton<PlayerController>
         
         if (_swapLimbs.triggered == true)
             SwapLeftAndRightArms();
+
+        if (_pause.triggered == true)
+            Pause();
+        
+        if (_unpause.triggered == true)
+        {
+            UIManager.ResumePressed?.Invoke();
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -306,6 +335,19 @@ public class PlayerController : Singleton<PlayerController>
     public void UpdateCoreHealth(float amount)
     {
         coreHealth = Mathf.Clamp(coreHealth + amount, 0, 100);
+    }
+
+    private void Pause()
+    {
+        DisableAllDefaultControls();
+        _unpause.Enable();
+        OnGamePaused?.Invoke();
+    }
+
+    private void Unpause()
+    {
+        EnableAllDefaultControls();
+        _unpause.Disable();
     }
 
 }
