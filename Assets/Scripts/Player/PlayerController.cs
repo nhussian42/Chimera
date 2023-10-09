@@ -235,15 +235,16 @@ public class PlayerController : Singleton<PlayerController>
                 {
                     currentRightArm.Terminate();
                     currentRightArm.gameObject.SetActive(false);
+                    arm.Health = currentRightArm.Health;
                     arm.gameObject.SetActive(true);
                     currentRightArm = arm;
                     currentRightArm.Initialize(this);
-
                 }
                 else if (side == SideOfPlayer.Left)
                 {
                     currentLeftArm.Terminate();
                     currentLeftArm.gameObject.SetActive(false);
+                    arm.Health = currentLeftArm.Health;
                     arm.gameObject.SetActive(true);
                     currentLeftArm = arm;
                     currentLeftArm.Initialize(this);
@@ -289,11 +290,22 @@ public class PlayerController : Singleton<PlayerController>
             damagedLimbs.Add(currentRightArm);
 
         foreach (Limb limb in damagedLimbs)
-            limb.RemoveHealth(damage / (damagedLimbs.Count + 1));
+        {
+            float caclulatedDamage = -1 * (damage / (damagedLimbs.Count + 1));
+            limb.UpdateHealth(caclulatedDamage);
+        }
         
         // maybe make core its own limb?
         coreHealth -= damage / (damagedLimbs.Count + 1);
 
         OnDamageReceived?.Invoke();
     }
+
+    // temporary function to update core health, but we should make it its own limb
+    // and then set that limb as a reference in playercontroller
+    public void UpdateCoreHealth(float amount)
+    {
+        coreHealth = Mathf.Clamp(coreHealth + amount, 0, 100);
+    }
+
 }

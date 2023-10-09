@@ -14,7 +14,7 @@ public abstract class Limb : MonoBehaviour
 
     [SerializeField] private float startingHealth = 100f;
 
-    public float Health { get { return currentHealth; }}
+    public float Health { get { return currentHealth; } set { currentHealth = Mathf.Clamp(value, minHealth, maxHealth); }}
     protected float currentHealth;
     protected float minHealth = 0f;
     protected float maxHealth = 100f;
@@ -32,12 +32,7 @@ public abstract class Limb : MonoBehaviour
 
     }
 
-    public void RemoveHealth(float amount)
-    {
-        currentHealth = Mathf.Clamp(currentHealth - amount, minHealth, maxHealth);
-    }
-
-    public void AddHealth(float amount)
+    public void UpdateHealth(float amount)
     {
         currentHealth = Mathf.Clamp(currentHealth + amount, minHealth, maxHealth);
     }
