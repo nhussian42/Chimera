@@ -20,12 +20,12 @@ public class TrinketMenu : MonoBehaviour
 
     public void CloseMenu()
     {
-      self.SetActive(false);
+        Destroy(gameObject);
     }
 
     public void IncreaseDamage()
     {
-        PlayerController.Instance.currentLeftArm.UpdateAttackDamage(500);
+        PlayerController.Instance.currentLeftArm.UpdateAttackDamage(5);
         PlayerController.Instance.currentRightArm.UpdateAttackDamage(5);
         CloseMenu();
     }
