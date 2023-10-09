@@ -8,7 +8,12 @@ public abstract class Limb : MonoBehaviour
     [SerializeField] protected Classification classification;
     //public bool isPickup {get; private set;}
     //private Collider collider;
+    
+    // [SerializeField] private bool defaultLimb;
+    // [SerializeField] private Classification classification;
+    // public bool isPickup {get; private set;}
 
+    public float Health { get { return currentHealth; }}
     protected float currentHealth;
     protected float minHealth;
     protected float maxHealth;
@@ -23,6 +28,8 @@ public abstract class Limb : MonoBehaviour
     public void UpdateHealth(float amount)
     {
         currentHealth = Mathf.Clamp(currentHealth + amount, minHealth, maxHealth);
+
+        PlayerController.OnDamageReceived?.Invoke();
     }
 
     //public void SwitchGameState()

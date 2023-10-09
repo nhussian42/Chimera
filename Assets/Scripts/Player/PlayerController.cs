@@ -43,8 +43,8 @@ public class PlayerController : Singleton<PlayerController>
     //Legs coreLegs;
     //Head coreHead;
 
-    Arm currentLeftArm;
-    Arm currentRightArm;
+    public Arm currentLeftArm {get; private set;}
+    public Arm currentRightArm {get; private set;}
     //Legs currentLegs;
     //Head currentHead;
 
@@ -57,6 +57,9 @@ public class PlayerController : Singleton<PlayerController>
     public Transform attackRangeOrigin { get { return AttackRangeOrigin; } }
 
     //public static Action PlayerSpawned;
+
+    public static Action OnDamageReceived;
+    public static Action OnArmSwapped;
 
     protected override void Init()
     {
@@ -214,8 +217,9 @@ public class PlayerController : Singleton<PlayerController>
         switchedArmRef = currentRightArm;
         SwapLimb(currentLeftArm, SideOfPlayer.Right);
         SwapLimb(switchedArmRef, SideOfPlayer.Left);
-    }
 
+        OnArmSwapped?.Invoke();
+    }
     public void SwapLimb(ArmDrop newArm, SideOfPlayer side)
     {
         foreach (Arm arm in allArms)
@@ -268,6 +272,5 @@ public class PlayerController : Singleton<PlayerController>
                 }
             }
         }
-
     }
 }

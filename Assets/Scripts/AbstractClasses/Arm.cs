@@ -25,6 +25,8 @@ public abstract class Arm : Limb
     public SideOfPlayer Side { get { return side; } }
     public ArmDrop DropPrefab { get { return dropPrefab; } }
     public float AttackDamage { get { return attackDamage; } }
+    
+    public float AttackSpeed { get { return attackSpeed; }  }
 
     
 
