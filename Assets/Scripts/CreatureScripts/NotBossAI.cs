@@ -20,6 +20,8 @@ public class NotBossAI : Creature
         Attacking
     }
 
+    protected Animator animator;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
