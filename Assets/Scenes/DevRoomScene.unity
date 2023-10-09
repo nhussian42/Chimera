@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18375464, g: 0.22825733, b: 0.29943115, a: 1}
+  m_IndirectSpecularColor: {r: 0.18375513, g: 0.22825809, b: 0.29943195, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -173,6 +173,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5597117825006032296, guid: 86514d54c082e0b4f9e36284c3cd12ee,
     type: 3}
   m_PrefabInstance: {fileID: 332893104}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &61028083 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8251204150252773544, guid: 82d71a54e57a1ff49a43690c93ad7a17,
+    type: 3}
+  m_PrefabInstance: {fileID: 5326441581030299708}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &181583944
 GameObject:
@@ -469,13 +475,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237035275291944837, guid: 0df16a5777b96784095f49008efd899c,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3447
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237035275291944837, guid: 0df16a5777b96784095f49008efd899c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3447
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237035275291944837, guid: 0df16a5777b96784095f49008efd899c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3447
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237035275291944837, guid: 0df16a5777b96784095f49008efd899c,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.934172
       objectReference: {fileID: 0}
     - target: {fileID: 5237035275291944837, guid: 0df16a5777b96784095f49008efd899c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10
+      value: -13.13
       objectReference: {fileID: 0}
     - target: {fileID: 5237035275291944837, guid: 0df16a5777b96784095f49008efd899c,
         type: 3}
@@ -521,7 +542,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: f7c49b3c3f1083341a6d8483cb74297b,
+      objectReference: {fileID: 23800000, guid: 6b9f1337e6957d942ba1b499296e50db,
         type: 2}
     - target: {fileID: 6985586086688268073, guid: 0df16a5777b96784095f49008efd899c,
         type: 3}
@@ -1292,10 +1313,40 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 222540153053505754, guid: 82d71a54e57a1ff49a43690c93ad7a17,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 623444151430400762, guid: 82d71a54e57a1ff49a43690c93ad7a17,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3853353848429810119, guid: 82d71a54e57a1ff49a43690c93ad7a17,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 61028083}
     - target: {fileID: 7292895453198343033, guid: 82d71a54e57a1ff49a43690c93ad7a17,
         type: 3}
       propertyPath: m_RootOrder
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292895453198343033, guid: 82d71a54e57a1ff49a43690c93ad7a17,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292895453198343033, guid: 82d71a54e57a1ff49a43690c93ad7a17,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292895453198343033, guid: 82d71a54e57a1ff49a43690c93ad7a17,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7292895453198343033, guid: 82d71a54e57a1ff49a43690c93ad7a17,
         type: 3}
@@ -1346,6 +1397,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292895453198343033, guid: 82d71a54e57a1ff49a43690c93ad7a17,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8651667776403588921, guid: 82d71a54e57a1ff49a43690c93ad7a17,
         type: 3}
@@ -1423,7 +1479,12 @@ PrefabInstance:
     - target: {fileID: 4216877461643533831, guid: 1c08446b693e999428c08fa12ec8a104,
         type: 3}
       propertyPath: near clip plane
-      value: -6.34
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4216877461643533831, guid: 1c08446b693e999428c08fa12ec8a104,
+        type: 3}
+      propertyPath: orthographic size
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6824715179489719072, guid: 1c08446b693e999428c08fa12ec8a104,
         type: 3}

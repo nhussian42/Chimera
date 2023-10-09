@@ -52,6 +52,8 @@ public class PlayerController : Singleton<PlayerController>
 
     [SerializeField] Transform AttackRangeOrigin;
     [SerializeField] GameObject attackRangeRotator;
+
+    [SerializeField] Animator animator;
     public Transform attackRangeOrigin { get { return AttackRangeOrigin; } }
 
     //public static Action PlayerSpawned;
@@ -155,6 +157,8 @@ public class PlayerController : Singleton<PlayerController>
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
         
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
+        animator.SetFloat("Speed", movementValues.magnitude);
+
         
         if (movementVector != Vector3.zero)
             RotatePlayer(movementVector);
