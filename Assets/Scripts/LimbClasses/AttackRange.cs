@@ -17,7 +17,7 @@ public class AttackRange : MonoBehaviour
     {
         if(other.TryGetComponent<CreatureWithDrop>(out CreatureWithDrop creature) == true)
         {
-            creature.TakeDamage((int)arm.attackDamage);
+            creature.TakeDamage((int)arm.AttackDamage);
         }
     }
 

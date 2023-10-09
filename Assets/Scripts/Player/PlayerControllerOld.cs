@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
-public class PlayerController : Singleton<PlayerController>
+public class PlayerControllerOld : Singleton<PlayerController>
 {
     private PlayerInputActions _playerInputActions;
     private PlayerInput _playerInput;
@@ -36,8 +36,6 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private bool smoothMovementEnabled;
 
     // Limb References
-    public List<Arm> allArms;
-
     [SerializeField] Arm coreLeftArm;
     [SerializeField] Arm coreRightArm;
     //Legs coreLegs;
@@ -49,6 +47,11 @@ public class PlayerController : Singleton<PlayerController>
     //Head currentHead;
 
     Arm switchedArmRef; // holds ref to arm being switched on player
+
+    [SerializeField] Transform leftArmPos;
+    [SerializeField] Transform rightArmPos;
+    //Transform legsPos;
+    //Transform headPos;
 
     [SerializeField] Transform AttackRangeOrigin;
     [SerializeField] GameObject attackRangeRotator;
@@ -86,16 +89,12 @@ public class PlayerController : Singleton<PlayerController>
 
 
         // Instantiate Default Limbs
-        foreach(Arm arm in allArms)
-        {
-            arm.gameObject.SetActive(false);
-        }
-        coreLeftArm.gameObject.SetActive(true);
-        coreRightArm.gameObject.SetActive(true);
-        currentLeftArm = coreLeftArm;
-        currentRightArm = coreRightArm;
-        currentLeftArm.Initialize(this);
-        currentRightArm.Initialize(this);
+        currentLeftArm = Instantiate(coreLeftArm.gameObject, leftArmPos.position, Quaternion.identity, leftArmPos).GetComponent<Arm>();
+        currentRightArm = Instantiate(coreRightArm.gameObject, rightArmPos.position, Quaternion.identity, rightArmPos).GetComponent<Arm>();
+        //currentLeftArm.Initialize(this);
+        //currentRightArm.Initialize(this);
+        //currentLeftArm.SwitchGameState();
+        //currentRightArm.SwitchGameState();
     }
 
     // Disable new player input actions in this method
@@ -170,23 +169,22 @@ public class PlayerController : Singleton<PlayerController>
             SwapLeftAndRightArms();
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.TryGetComponent<ArmDrop>(out ArmDrop arm) != false)
-        {
-            if (_attackRight.triggered == true)
-            {
-                SwapLimb(arm, SideOfPlayer.Right);
-                Destroy(arm.gameObject);
-
-            }
-            else if (_attackLeft.triggered == true)
-            {
-                SwapLimb(arm, SideOfPlayer.Left);
-                Destroy(arm.gameObject);
-            }
-        }
-    }
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.gameObject.TryGetComponent<Arm>(out Arm arm) != false && arm.isPickup == true)
+    //    {
+    //        if (_attackRight.triggered == true)
+    //        {
+    //            SwapLimb(arm, SideOfPlayer.Right);
+                
+    //        }
+    //        else if (_attackLeft.triggered == true)
+    //        {
+    //            SwapLimb(arm, SideOfPlayer.Left);
+                
+    //        }
+    //    }
+    //}
 
     private void RotatePlayer(Vector3 towards)
     {
@@ -206,64 +204,42 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     private void SwapLeftAndRightArms()
-    { 
-        switchedArmRef = currentRightArm;
-        SwapLimb(currentLeftArm, SideOfPlayer.Right);
-        SwapLimb(switchedArmRef, SideOfPlayer.Left);
-    }
-
-    public void SwapLimb(ArmDrop newArm, SideOfPlayer side)
     {
-        foreach (Arm arm in allArms)
-        {
-            if (arm.Weight == newArm.Weight && arm.Classification == newArm.Classification && arm.Side == side)
-            {
-                if (side == SideOfPlayer.Right)
-                {
-                    currentRightArm.Terminate();
-                    currentRightArm.gameObject.SetActive(false);
-                    arm.gameObject.SetActive(true);
-                    currentRightArm = arm;
-                    currentRightArm.Initialize(this);
-
-                }
-                else if (side == SideOfPlayer.Left)
-                {
-                    currentLeftArm.Terminate();
-                    currentLeftArm.gameObject.SetActive(false);
-                    arm.gameObject.SetActive(true);
-                    currentLeftArm = arm;
-                    currentLeftArm.Initialize(this);
-                }
-            }
-        }
-
+        currentLeftArm.transform.SetParent(rightArmPos);
+        currentLeftArm.transform.position = rightArmPos.position;
+        currentRightArm.transform.SetParent(leftArmPos);
+        currentRightArm.transform.position = leftArmPos.position;
+        switchedArmRef = currentLeftArm;
+        currentLeftArm = currentRightArm;
+        currentRightArm = switchedArmRef;
     }
+
     public void SwapLimb(Arm newArm, SideOfPlayer side)
     {
-        foreach (Arm arm in allArms)
+        Vector3 swappedPosition = newArm.transform.position;
+        if(side == SideOfPlayer.Right)
         {
-            if (arm.Weight == newArm.Weight && arm.Classification == newArm.Classification && arm.Side == side)
-            {
-                if (side == SideOfPlayer.Right)
-                {
-                    currentRightArm.Terminate();
-                    currentRightArm.gameObject.SetActive(false);
-                    arm.gameObject.SetActive(true);
-                    currentRightArm = arm;
-                    currentRightArm.Initialize(this);
-
-                }
-                else if (side == SideOfPlayer.Left)
-                {
-                    currentLeftArm.Terminate();
-                    currentLeftArm.gameObject.SetActive(false);
-                    arm.gameObject.SetActive(true);
-                    currentLeftArm = arm;
-                    currentLeftArm.Initialize(this);
-                }
-            }
+            //currentRightArm.Terminate();
+            //newArm.transform.SetParent(rightArmPos);
+            //newArm.transform.position = currentRightArm.transform.position;
+            //currentRightArm.SwitchGameState();
+            //currentRightArm.transform.SetParent(null);
+            //currentRightArm.transform.position = swappedPosition;
+            //newArm.SwitchGameState();
+            //currentRightArm = newArm;
+            //currentRightArm.Initialize(this);
         }
-
+        else
+        {
+            //currentLeftArm.Terminate();
+            //newArm.transform.SetParent(leftArmPos);
+            //newArm.transform.position = currentLeftArm.transform.position;
+            //currentLeftArm.SwitchGameState();
+            //currentLeftArm.transform.SetParent(null);
+            //currentLeftArm.transform.position = swappedPosition;
+            //newArm.SwitchGameState();
+            //currentLeftArm = newArm;
+            //currentLeftArm.Initialize(this);
+        }
     }
 }

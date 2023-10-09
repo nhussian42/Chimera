@@ -5,20 +5,34 @@ using UnityEngine;
 
 public abstract class Arm : Limb
 {
-    [SerializeField] private float AttackDamage;
-    public float attackDamage { get { return AttackDamage; } }
+    //Exposed properties
+    [SerializeField] private float attackDamage;
     [SerializeField] private float attackSpeed;
+    [SerializeField] private Weight weight;
+    [SerializeField] private SideOfPlayer side;
+    [SerializeField] private ArmDrop dropPrefab;
     [SerializeField] private AttackRange attackRangePrefab;
+
+    //Hidden properties
     private AttackRange attackRange;
     private bool canAttack = true;
-    //[SerializeField] private SideOfPlayer side;      Why do we need this?
-
     private Animator anim;
+
+
+    //Public getters
+    public Classification Classification { get { return classification; } }
+    public Weight Weight { get { return weight; } }
+    public SideOfPlayer Side { get { return side; } }
+    public ArmDrop DropPrefab { get { return dropPrefab; } }
+    public float AttackDamage { get { return attackDamage; } }
+
+    
 
     public virtual void Attack()
     {
         if(canAttack == true)
         {
+            //Debug.Log("Attack");
             StartCoroutine(ActivateAttackRange());
         }
     }
@@ -28,22 +42,27 @@ public abstract class Arm : Limb
         attackRange = Instantiate(attackRangePrefab.gameObject, player.attackRangeOrigin.position, player.attackRangeOrigin.rotation, player.attackRangeOrigin).GetComponent<AttackRange>();
         attackRange.InputArmReference(this);
         attackRange.gameObject.SetActive(false);
+        StartCoroutine(Cooldown());
+        //Debug.Log("Arm initialized");
     }
 
     public virtual void Terminate()
     {
         Destroy(attackRange.gameObject);
+        //Debug.Log("Arm terminated");
     }
 
     private IEnumerator ActivateAttackRange()
     {
         canAttack = false;
         attackRange.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.25f);
-        if(attackRange != null)
-        {
-            attackRange.gameObject.SetActive(false);
-        }
+        yield return new WaitForSeconds(0.1f);
+        attackRange.gameObject.SetActive(false);
+        StartCoroutine(Cooldown());
+    }
+
+    private IEnumerator Cooldown()
+    {
         yield return new WaitForSeconds(attackSpeed);
         canAttack = true;
     }

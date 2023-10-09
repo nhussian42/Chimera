@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class ArmDrop : MonoBehaviour
 {
-    [SerializeField] private Arm ArmToDrop;
-    public Arm armReference { get; private set; }
+    [SerializeField] Classification classification;
+    [SerializeField] Weight weight;
 
-    private float instanceCurrentHealth;
-
-    private void OnEnable()
-    {
-        armReference = ArmToDrop;
-    }
-
+    public Classification Classification { get { return classification; } }
+    public Weight Weight { get { return weight; } }
+    public float instanceCurrentHealth { get; private set; }
     public void OverwriteHealth(float newHealth)
     {
         instanceCurrentHealth = newHealth;
