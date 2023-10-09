@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
-public class PlayerController : Singleton<PlayerController>
+public class PlayerControllerOld : Singleton<PlayerController>
 {
     private PlayerInputActions _playerInputActions;
     private PlayerInput _playerInput;
@@ -27,42 +27,37 @@ public class PlayerController : Singleton<PlayerController>
     private const string gamepadScheme = "Gamepad";
     private const string mouseScheme = "Keyboard&Mouse";
 
-    // public float health = 0;
-    // public float damage = 0;
-    // public float atkspeed = 0;
+    public float health = 0;
+    public float damage = 0;
+    public float atkspeed = 0;
 
     [SerializeField] private float _movementSpeed = 10f;
     [SerializeField] private float _turnSpeed = 360f;
     [SerializeField] private bool smoothMovementEnabled;
 
-    [SerializeField] private float coreHealth = 100f;
-    public float CoreHealth { get { return coreHealth; } }
-
     // Limb References
-    public List<Arm> allArms;
-
     [SerializeField] Arm coreLeftArm;
     [SerializeField] Arm coreRightArm;
     //Legs coreLegs;
     //Head coreHead;
 
-    public Arm currentLeftArm {get; private set;}
-    public Arm currentRightArm {get; private set;}
+    Arm currentLeftArm;
+    Arm currentRightArm;
     //Legs currentLegs;
     //Head currentHead;
 
     Arm switchedArmRef; // holds ref to arm being switched on player
 
+    [SerializeField] Transform leftArmPos;
+    [SerializeField] Transform rightArmPos;
+    //Transform legsPos;
+    //Transform headPos;
+
     [SerializeField] Transform AttackRangeOrigin;
     [SerializeField] GameObject attackRangeRotator;
-
-    [SerializeField] Animator animator;
     public Transform attackRangeOrigin { get { return AttackRangeOrigin; } }
 
     //public static Action PlayerSpawned;
-
-    public static Action OnDamageReceived;
-    public static Action OnArmSwapped;
 
     protected override void Init()
     {
@@ -94,16 +89,12 @@ public class PlayerController : Singleton<PlayerController>
 
 
         // Instantiate Default Limbs
-        foreach(Arm arm in allArms)
-        {
-            arm.gameObject.SetActive(false);
-        }
-        coreLeftArm.gameObject.SetActive(true);
-        coreRightArm.gameObject.SetActive(true);
-        currentLeftArm = coreLeftArm;
-        currentRightArm = coreRightArm;
-        currentLeftArm.Initialize(this);
-        currentRightArm.Initialize(this);
+        currentLeftArm = Instantiate(coreLeftArm.gameObject, leftArmPos.position, Quaternion.identity, leftArmPos).GetComponent<Arm>();
+        currentRightArm = Instantiate(coreRightArm.gameObject, rightArmPos.position, Quaternion.identity, rightArmPos).GetComponent<Arm>();
+        //currentLeftArm.Initialize(this);
+        //currentRightArm.Initialize(this);
+        //currentLeftArm.SwitchGameState();
+        //currentRightArm.SwitchGameState();
     }
 
     // Disable new player input actions in this method
@@ -163,8 +154,6 @@ public class PlayerController : Singleton<PlayerController>
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
         
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
-        animator.SetFloat("Speed", movementValues.magnitude);
-
         
         if (movementVector != Vector3.zero)
             RotatePlayer(movementVector);
@@ -180,25 +169,22 @@ public class PlayerController : Singleton<PlayerController>
             SwapLeftAndRightArms();
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.TryGetComponent<ArmDrop>(out ArmDrop arm) != false)
-        {
-            if (_attackRight.triggered == true)
-            {
-                SwapLimb(arm, SideOfPlayer.Right);
-                Destroy(arm.gameObject);
-
-            }
-            else if (_attackLeft.triggered == true)
-            {
-                SwapLimb(arm, SideOfPlayer.Left);
-                Destroy(arm.gameObject);
-            }
-        }
-
-        OnArmSwapped?.Invoke();
-    }
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.gameObject.TryGetComponent<Arm>(out Arm arm) != false && arm.isPickup == true)
+    //    {
+    //        if (_attackRight.triggered == true)
+    //        {
+    //            SwapLimb(arm, SideOfPlayer.Right);
+                
+    //        }
+    //        else if (_attackLeft.triggered == true)
+    //        {
+    //            SwapLimb(arm, SideOfPlayer.Left);
+                
+    //        }
+    //    }
+    //}
 
     private void RotatePlayer(Vector3 towards)
     {
@@ -218,94 +204,42 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     private void SwapLeftAndRightArms()
-    { 
-        switchedArmRef = currentRightArm;
-        SwapLimb(currentLeftArm, SideOfPlayer.Right);
-        SwapLimb(switchedArmRef, SideOfPlayer.Left);
-
-        OnArmSwapped?.Invoke();
-    }
-    public void SwapLimb(ArmDrop newArm, SideOfPlayer side)
     {
-        foreach (Arm arm in allArms)
-        {
-            if (arm.Weight == newArm.Weight && arm.Classification == newArm.Classification && arm.Side == side)
-            {
-                if (side == SideOfPlayer.Right)
-                {
-                    currentRightArm.Terminate();
-                    currentRightArm.gameObject.SetActive(false);
-                    arm.Health = currentRightArm.Health;
-                    arm.gameObject.SetActive(true);
-                    currentRightArm = arm;
-                    currentRightArm.Initialize(this);
-                }
-                else if (side == SideOfPlayer.Left)
-                {
-                    currentLeftArm.Terminate();
-                    currentLeftArm.gameObject.SetActive(false);
-                    arm.Health = currentLeftArm.Health;
-                    arm.gameObject.SetActive(true);
-                    currentLeftArm = arm;
-                    currentLeftArm.Initialize(this);
-                }
-            }
-        }
-
+        currentLeftArm.transform.SetParent(rightArmPos);
+        currentLeftArm.transform.position = rightArmPos.position;
+        currentRightArm.transform.SetParent(leftArmPos);
+        currentRightArm.transform.position = leftArmPos.position;
+        switchedArmRef = currentLeftArm;
+        currentLeftArm = currentRightArm;
+        currentRightArm = switchedArmRef;
     }
+
     public void SwapLimb(Arm newArm, SideOfPlayer side)
     {
-        foreach (Arm arm in allArms)
+        Vector3 swappedPosition = newArm.transform.position;
+        if(side == SideOfPlayer.Right)
         {
-            if (arm.Weight == newArm.Weight && arm.Classification == newArm.Classification && arm.Side == side)
-            {
-                if (side == SideOfPlayer.Right)
-                {
-                    currentRightArm.Terminate();
-                    currentRightArm.gameObject.SetActive(false);
-                    arm.gameObject.SetActive(true);
-                    currentRightArm = arm;
-                    currentRightArm.Initialize(this);
-
-                }
-                else if (side == SideOfPlayer.Left)
-                {
-                    currentLeftArm.Terminate();
-                    currentLeftArm.gameObject.SetActive(false);
-                    arm.gameObject.SetActive(true);
-                    currentLeftArm = arm;
-                    currentLeftArm.Initialize(this);
-                }
-            }
+            //currentRightArm.Terminate();
+            //newArm.transform.SetParent(rightArmPos);
+            //newArm.transform.position = currentRightArm.transform.position;
+            //currentRightArm.SwitchGameState();
+            //currentRightArm.transform.SetParent(null);
+            //currentRightArm.transform.position = swappedPosition;
+            //newArm.SwitchGameState();
+            //currentRightArm = newArm;
+            //currentRightArm.Initialize(this);
+        }
+        else
+        {
+            //currentLeftArm.Terminate();
+            //newArm.transform.SetParent(leftArmPos);
+            //newArm.transform.position = currentLeftArm.transform.position;
+            //currentLeftArm.SwitchGameState();
+            //currentLeftArm.transform.SetParent(null);
+            //currentLeftArm.transform.position = swappedPosition;
+            //newArm.SwitchGameState();
+            //currentLeftArm = newArm;
+            //currentLeftArm.Initialize(this);
         }
     }
-
-    public void DistributeDamage(float damage)
-    {
-        List<Limb> damagedLimbs = new List<Limb>();
-
-        if (currentLeftArm != coreLeftArm)
-            damagedLimbs.Add(currentLeftArm);
-        if (currentRightArm != coreRightArm)
-            damagedLimbs.Add(currentRightArm);
-
-        foreach (Limb limb in damagedLimbs)
-        {
-            float caclulatedDamage = -1 * (damage / (damagedLimbs.Count + 1));
-            limb.UpdateHealth(caclulatedDamage);
-        }
-        
-        // maybe make core its own limb?
-        coreHealth -= damage / (damagedLimbs.Count + 1);
-
-        OnDamageReceived?.Invoke();
-    }
-
-    // temporary function to update core health, but we should make it its own limb
-    // and then set that limb as a reference in playercontroller
-    public void UpdateCoreHealth(float amount)
-    {
-        coreHealth = Mathf.Clamp(coreHealth + amount, 0, 100);
-    }
-
 }

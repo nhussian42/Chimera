@@ -71,6 +71,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwapLimbs"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c39b9e2-4458-49e0-ad53-f1cf46ad8300"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -216,6 +225,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dcf19eb8-ef87-4417-b301-855bb94f1dbe"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapLimbs"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -257,6 +277,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_DefaultControls_AttackRight = m_DefaultControls.FindAction("AttackRight", throwIfNotFound: true);
         m_DefaultControls_AttackLeft = m_DefaultControls.FindAction("AttackLeft", throwIfNotFound: true);
         m_DefaultControls_Pause = m_DefaultControls.FindAction("Pause", throwIfNotFound: true);
+        m_DefaultControls_SwapLimbs = m_DefaultControls.FindAction("SwapLimbs", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -323,6 +344,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_DefaultControls_AttackRight;
     private readonly InputAction m_DefaultControls_AttackLeft;
     private readonly InputAction m_DefaultControls_Pause;
+    private readonly InputAction m_DefaultControls_SwapLimbs;
     public struct DefaultControlsActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -332,6 +354,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @AttackRight => m_Wrapper.m_DefaultControls_AttackRight;
         public InputAction @AttackLeft => m_Wrapper.m_DefaultControls_AttackLeft;
         public InputAction @Pause => m_Wrapper.m_DefaultControls_Pause;
+        public InputAction @SwapLimbs => m_Wrapper.m_DefaultControls_SwapLimbs;
         public InputActionMap Get() { return m_Wrapper.m_DefaultControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -356,6 +379,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @SwapLimbs.started += instance.OnSwapLimbs;
+            @SwapLimbs.performed += instance.OnSwapLimbs;
+            @SwapLimbs.canceled += instance.OnSwapLimbs;
         }
 
         private void UnregisterCallbacks(IDefaultControlsActions instance)
@@ -375,6 +401,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @SwapLimbs.started -= instance.OnSwapLimbs;
+            @SwapLimbs.performed -= instance.OnSwapLimbs;
+            @SwapLimbs.canceled -= instance.OnSwapLimbs;
         }
 
         public void RemoveCallbacks(IDefaultControlsActions instance)
@@ -417,5 +446,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnAttackRight(InputAction.CallbackContext context);
         void OnAttackLeft(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnSwapLimbs(InputAction.CallbackContext context);
     }
 }

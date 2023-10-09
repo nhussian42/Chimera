@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WolfArm : Arm
+public class DefaultArm : Arm
 {
     public override void Attack()
     {
         base.Attack();
-        //Debug.Log("Wolf Arm Attack");
+        //Debug.Log("Default attack");
     }
 }

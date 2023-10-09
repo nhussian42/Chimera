@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2721187341262514275
+--- !u!1 &2451710078824737866
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7150155193459017847}
-  - component: {fileID: 6814804440278631183}
-  - component: {fileID: 1674804543774962252}
-  - component: {fileID: 3803975521344606353}
-  - component: {fileID: 3087209519345571000}
-  - component: {fileID: 1939251994660623893}
+  - component: {fileID: 6355259626159617164}
+  - component: {fileID: 5610212771010444332}
+  - component: {fileID: 7441054862904542098}
+  - component: {fileID: -6620716193704346656}
+  - component: {fileID: 6424891771011572806}
+  - component: {fileID: 4774778122871680216}
   m_Layer: 0
-  m_Name: ArmDropPrototype
+  m_Name: WolfArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7150155193459017847
+--- !u!4 &6355259626159617164
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721187341262514275}
+  m_GameObject: {fileID: 2451710078824737866}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.18, y: 1.93, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.25, y: 0.5, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6814804440278631183
+--- !u!33 &5610212771010444332
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721187341262514275}
+  m_GameObject: {fileID: 2451710078824737866}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1674804543774962252
+--- !u!23 &7441054862904542098
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721187341262514275}
+  m_GameObject: {fileID: 2451710078824737866}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -86,13 +86,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &3803975521344606353
+--- !u!54 &-6620716193704346656
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721187341262514275}
+  m_GameObject: {fileID: 2451710078824737866}
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
@@ -108,18 +108,18 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!136 &3087209519345571000
+--- !u!136 &6424891771011572806
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721187341262514275}
+  m_GameObject: {fileID: 2451710078824737866}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -132,21 +132,26 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.677
+  m_Radius: 5
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &1939251994660623893
+--- !u!114 &4774778122871680216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2721187341262514275}
+  m_GameObject: {fileID: 2451710078824737866}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abae3f36736b58a42ae5a0f079f3b78e, type: 3}
+  m_Script: {fileID: 11500000, guid: c1d5048bdf39da3468ae2aed6d1170c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArmToDrop: {fileID: 4774778122871680216, guid: fb5df1e02a3f7b248b28235a065f5ac3,
+  health: 24
+  defaultLimb: 0
+  classification: 0
+  AttackDamage: 7
+  attackSpeed: 0.5
+  attackRangePrefab: {fileID: 5182243123753938400, guid: 1b9bd96893d9faf47813738e5483a4cc,
     type: 3}
