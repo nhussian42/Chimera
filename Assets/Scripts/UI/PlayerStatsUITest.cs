@@ -33,7 +33,7 @@ public class PlayerStatsUITest : MonoBehaviour
         PlayerController.OnArmSwapped -= UpdateHealthStats;
     }
 
-    private void Start()
+    private void Update()
     {
         UpdateHealthStats();
         UpdateArmStats();
@@ -49,8 +49,8 @@ public class PlayerStatsUITest : MonoBehaviour
     private void UpdateArmStats()
     {
         leftArmDamage.text = $"Damage: {PlayerController.Instance.currentLeftArm.AttackDamage}";
-        leftArmAttackSpeed.text = $"Attack Speed: {PlayerController.Instance.currentLeftArm.AttackSpeed}";
+        leftArmAttackSpeed.text = $"Attack Speed: {(1/PlayerController.Instance.currentLeftArm.AttackSpeed).ToString("F2")}";
         rightArmDamage.text = $"Damage: {PlayerController.Instance.currentRightArm.AttackDamage}";
-        rightArmAttackSpeed.text = $"Attack Speed: {PlayerController.Instance.currentRightArm.AttackSpeed}";
+        rightArmAttackSpeed.text = $"Attack Speed: {(1/PlayerController.Instance.currentRightArm.AttackSpeed).ToString("F2")}";
     }
 }
