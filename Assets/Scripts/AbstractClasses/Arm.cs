@@ -68,4 +68,8 @@ public abstract class Arm : Limb
         yield return new WaitForSeconds(attackSpeed);
         canAttack = true;
     }
+
+    public void UpdateAttackDamage(float amount) => attackDamage += amount;
+
+    public void UpdateAttackSpeed(float amount) => attackSpeed += amount;
 }

@@ -27,13 +27,16 @@ public class PlayerController : Singleton<PlayerController>
     private const string gamepadScheme = "Gamepad";
     private const string mouseScheme = "Keyboard&Mouse";
 
-    public float health = 0;
-    public float damage = 0;
-    public float atkspeed = 0;
+    // public float health = 0;
+    // public float damage = 0;
+    // public float atkspeed = 0;
 
     [SerializeField] private float _movementSpeed = 10f;
     [SerializeField] private float _turnSpeed = 360f;
     [SerializeField] private bool smoothMovementEnabled;
+
+    [SerializeField] private float coreHealth = 100f;
+    public float CoreHealth { get { return coreHealth; } }
 
     // Limb References
     public List<Arm> allArms;
@@ -193,6 +196,8 @@ public class PlayerController : Singleton<PlayerController>
                 Destroy(arm.gameObject);
             }
         }
+
+        OnArmSwapped?.Invoke();
     }
 
     private void RotatePlayer(Vector3 towards)
@@ -272,5 +277,23 @@ public class PlayerController : Singleton<PlayerController>
                 }
             }
         }
+    }
+
+    public void DistributeDamage(float damage)
+    {
+        List<Limb> damagedLimbs = new List<Limb>();
+
+        if (currentLeftArm != coreLeftArm)
+            damagedLimbs.Add(currentLeftArm);
+        if (currentRightArm != coreRightArm)
+            damagedLimbs.Add(currentRightArm);
+
+        foreach (Limb limb in damagedLimbs)
+            limb.RemoveHealth(damage / (damagedLimbs.Count + 1));
+        
+        // maybe make core its own limb?
+        coreHealth -= damage / (damagedLimbs.Count + 1);
+
+        OnDamageReceived?.Invoke();
     }
 }

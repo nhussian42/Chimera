@@ -24,19 +24,19 @@ public class TrinketMenu : MonoBehaviour
 
     public void IncreaseDamage()
     {
-        playerController.health += 5;
+        // playerController.health += 5;
         TrinketOptionMenu.SetActive(false);
     }
 
     public void IncreaseATKSpeed()
     {
-        playerController.atkspeed += 5;
+        // playerController.atkspeed += 5;
         TrinketOptionMenu.SetActive(false);
     }
 
     public void IncreaseHealth()
     {
-        playerController.damage += 5;
+        // playerController.damage += 5;
         TrinketOptionMenu.SetActive(false);
     }
 

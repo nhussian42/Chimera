@@ -28,7 +28,7 @@ public class FloorManager : Singleton<FloorManager>
 
     protected override void Init()
     {
-        _currentRoomIndex = 1;
+        _currentRoomIndex = 0;
     }
 
     private void OnEnable()

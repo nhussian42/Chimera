@@ -48,8 +48,9 @@ public class NotBossAIWithDrop : CreatureWithDrop
     {
         if (other.gameObject.GetComponent<CharacterController>() != null && attacking == true)
         {
-            Debug.Log("Player damaged");
             //Player gets damaged here
+            // TODO: Make a cooldown for this call to distribute damage
+            PlayerController.Instance.DistributeDamage(5f);
         }
     }
 
