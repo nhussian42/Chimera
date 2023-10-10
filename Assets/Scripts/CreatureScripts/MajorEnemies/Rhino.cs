@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEditor.Callbacks;
 using UnityEditor.ShortcutManagement;
+#endif
 using UnityEngine;
 using UnityEngine.AI;
 
