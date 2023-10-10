@@ -35,7 +35,6 @@ public class FloorManager : Singleton<FloorManager>
     {
         LoadNextRoom += SetupNextRoom;
         NextRoomLoaded += DetermineEntrancePosition;
-        //EnableFloor += EnablePlayerControls;
         
         NextRoomLoaded?.Invoke();
     }
