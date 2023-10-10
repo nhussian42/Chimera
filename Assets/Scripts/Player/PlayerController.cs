@@ -27,10 +27,6 @@ public class PlayerController : Singleton<PlayerController>
     private const string gamepadScheme = "Gamepad";
     private const string mouseScheme = "Keyboard&Mouse";
 
-    // public float health = 0;
-    // public float damage = 0;
-    // public float atkspeed = 0;
-
     [SerializeField] private float _movementSpeed = 10f;
     [SerializeField] private float _turnSpeed = 360f;
     [SerializeField] private bool smoothMovementEnabled;

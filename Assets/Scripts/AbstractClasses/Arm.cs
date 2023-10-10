@@ -71,5 +71,12 @@ public abstract class Arm : Limb
 
     public void UpdateAttackDamage(float amount) => attackDamage += amount;
 
-    public void UpdateAttackSpeed(float amount) => attackSpeed += amount;
+    public void UpdateAttackSpeed(float amount) => attackSpeed -= amount;
+
+    public void UpdateMaxHealth(float amount) => maxHealth += amount;
+
+    public void DebugLog()
+    {
+        Debug.Log("Arm Max HP: " + maxHealth.ToString());
+    }
 }

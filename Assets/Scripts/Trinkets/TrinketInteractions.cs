@@ -9,14 +9,20 @@ public class TrinketInteractiosn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TrinketOptionsMenu.SetActive(false);
+        
+        //TrinketOptionsMenu.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collider");
-        TrinketOptionsMenu.SetActive(true);
-        Destroy(gameObject);
+        if(other.CompareTag("Player"))
+        {
+            Debug.Log("TrinketPickedUp");
+            Instantiate(TrinketOptionsMenu, new Vector3(0,0,0), Quaternion.identity);
+            TrinketOptionsMenu.SetActive(true);
+            Destroy(gameObject);
+        }
+        
     }
     // Update is called once per frame
     void Update()

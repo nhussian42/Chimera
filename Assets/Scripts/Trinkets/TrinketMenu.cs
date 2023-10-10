@@ -13,31 +13,37 @@ public class TrinketMenu : MonoBehaviour
 
     public bool active = false;
 
-    public PlayerController playerController;
 
-    public GameObject TrinketOptionMenu;
+    public PlayerController PlayerController;
+
+    public GameObject self;
 
     public void CloseMenu()
     {
-      //TrinketOptionMenu.SetActive(false);
+        Destroy(gameObject);
     }
 
     public void IncreaseDamage()
     {
-        // playerController.health += 5;
-        TrinketOptionMenu.SetActive(false);
+        PlayerController.Instance.currentLeftArm.UpdateAttackDamage(5);
+        PlayerController.Instance.currentRightArm.UpdateAttackDamage(5);
+        CloseMenu();
     }
 
     public void IncreaseATKSpeed()
     {
-        // playerController.atkspeed += 5;
-        TrinketOptionMenu.SetActive(false);
+        PlayerController.Instance.currentLeftArm.UpdateAttackSpeed(0.05f);
+        PlayerController.Instance.currentRightArm.UpdateAttackSpeed(0.05f);
+        CloseMenu();
     }
 
     public void IncreaseHealth()
     {
-        // playerController.damage += 5;
-        TrinketOptionMenu.SetActive(false);
+
+        PlayerController.Instance.currentLeftArm.UpdateMaxHealth(5);
+        PlayerController.Instance.currentRightArm.UpdateMaxHealth(5);
+        PlayerController.Instance.currentRightArm.DebugLog();
+        CloseMenu();
     }
 
 
