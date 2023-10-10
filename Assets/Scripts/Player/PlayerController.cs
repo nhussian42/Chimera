@@ -138,9 +138,6 @@ public class PlayerController : Singleton<PlayerController>
     {
         _mainCamera = Camera.main;
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
-
-        Instance.gameObject.SetActive(true);
-        // StartCoroutine(WaitForTransform(5f));
         
         SetPlayerPosition(FloorManager.Instance.StartTransform);
     }
