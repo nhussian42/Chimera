@@ -7,7 +7,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent), typeof(Rigidbody))]
 public class NotBossAI : Creature
 {
-    protected NavMeshAgent agent;
     protected GameObject player;
     [SerializeField] protected LayerMask playerLayerMask;    //Used to check distance from the player
 
@@ -20,8 +19,6 @@ public class NotBossAI : Creature
         Attacking
     }
 
-    protected Animator animator;
-
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -33,7 +30,7 @@ public class NotBossAI : Creature
     {
         agent.destination = player.transform.position;
 
-        if (attacking == false)
+        if (attacking == false && alive == true)
         {
             if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
             {
@@ -42,6 +39,11 @@ public class NotBossAI : Creature
                 StartCoroutine(Attack());
                 attacking = true;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Die();
         }
 
     }
