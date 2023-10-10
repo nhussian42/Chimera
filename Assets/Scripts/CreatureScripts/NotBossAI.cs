@@ -24,6 +24,7 @@ public class NotBossAI : Creature
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerLayerMask = LayerMask.GetMask("Player");
+        currentHealth = health;
     }
 
     protected virtual void Update()
@@ -43,9 +44,8 @@ public class NotBossAI : Creature
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            Die();
+            TakeDamage(10);
         }
-
     }
 
     public virtual void OnTriggerEnter(Collider other)
