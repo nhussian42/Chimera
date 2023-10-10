@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 
 public abstract class Creature : MonoBehaviour
 {
@@ -28,9 +30,10 @@ public abstract class Creature : MonoBehaviour
 
     [SerializeField] List<GameObject> drops;
 
+    protected Animator animator;
+    protected NavMeshAgent agent;
+    protected bool alive = true;
     
-    
-
     private void Awake()
     {
         //Sets current room
@@ -55,8 +58,14 @@ public abstract class Creature : MonoBehaviour
         }
     }
 
-    private void Die()
+    protected void Die()
     {
+        animator.SetBool("Death", true);
+        agent.isStopped = true;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        alive = false;
+        Destroy(this.gameObject, 1f);
         //Something happens
         //Death
     }
