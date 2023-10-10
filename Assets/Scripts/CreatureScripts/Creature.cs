@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.UI;
 
 public abstract class Creature : MonoBehaviour
 {
     [Header("Creature Stats")]
-    [SerializeField] private float health;
+    [SerializeField] protected float health;
     [SerializeField] protected float attackSpeed;
     [SerializeField] protected float attackRange = 5f;
+    [SerializeField] protected float currentHealth;
 
     public enum Classification
     {
@@ -33,6 +35,7 @@ public abstract class Creature : MonoBehaviour
     protected Animator animator;
     protected NavMeshAgent agent;
     protected bool alive = true;
+    [SerializeField] private EnemyHealthBar healthbar;
     
     private void Awake()
     {
@@ -51,8 +54,9 @@ public abstract class Creature : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
-        if (health < 0)
+        currentHealth -= damage;
+        healthbar.UpdateHealthBar(currentHealth, health);
+        if (currentHealth <= 0)
         {
             Die();
         }
