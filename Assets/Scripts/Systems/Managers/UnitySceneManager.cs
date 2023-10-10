@@ -8,19 +8,27 @@ using UnityEngine.SceneManagement;
 public class UnitySceneManager : Singleton<UnitySceneManager>
 {
     [SerializeField] private float _fadeOutTime;
+    [SerializeField] private float _fadeInTime;
 
     private void OnEnable()
     {
-        FloorManager.LeaveRoom += FadeToBlack;
+        FloorManager.LeaveRoom += FadeOutToBlack;
+        FloorManager.NextRoomLoaded += FadeInToBlack;
     }
 
     private void OnDisable()
     {
-        FloorManager.LeaveRoom -= FadeToBlack;
+        FloorManager.LeaveRoom -= FadeOutToBlack;
+        FloorManager.NextRoomLoaded -= FadeInToBlack;
     }
-    private void FadeToBlack()
+    private void FadeOutToBlack()
     {
         StartCoroutine(FadeOut(_fadeOutTime));
+    }
+
+    private void FadeInToBlack()
+    {
+        StartCoroutine(FadeIn(_fadeOutTime));
     }
 
     private IEnumerator FadeOut(float fadeOutTime)
@@ -55,6 +63,7 @@ public class UnitySceneManager : Singleton<UnitySceneManager>
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneID);
 
+        // trigger an action to the UI Manager with operation
         // loadingScreen.SetActive(true);
 
         while (!operation.isDone)

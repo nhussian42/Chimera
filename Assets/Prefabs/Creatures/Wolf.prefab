@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 558057646949932676}
   - component: {fileID: 5126416605977770030}
   - component: {fileID: 9142033149534888582}
-  - component: {fileID: 7284345833402874301}
+  - component: {fileID: 8278740823430358598}
   m_Layer: 7
   m_Name: Wolf
   m_TagString: Enemy
@@ -223,7 +223,7 @@ Transform:
   - {fileID: 6619958421443257476}
   - {fileID: 395221821924511935}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7476901055269709529
 MeshFilter:
@@ -253,7 +253,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 86024f50650d54b4ab9e11573fcf3b27, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -333,7 +333,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 20
+  m_Speed: 10
   m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 180
@@ -345,7 +345,7 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7284345833402874301
+--- !u!114 &8278740823430358598
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -354,7 +354,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8362011193862050527}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2d69942c382eb646a4e0f4dc523b0fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 66b3758ae952acc4ca9093056ef118c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
@@ -363,7 +363,7 @@ MonoBehaviour:
   classification: 0
   creatureType: 1
   drops:
-  - {fileID: 2451710078824737866, guid: fb5df1e02a3f7b248b28235a065f5ac3, type: 3}
+  - {fileID: 8465967043707308671, guid: d6fcae7f3c1d6ff428a21ff15d19325a, type: 3}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
