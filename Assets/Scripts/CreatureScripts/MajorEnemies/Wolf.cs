@@ -11,6 +11,7 @@ public class Wolf : NotBossAI
     [SerializeField, Tooltip("How long after a charge until it can charge again")] private float attackCooldown = 1f;
 
     [SerializeField] private GameObject attackIndicator;
+    [SerializeField] private GameObject attackCollider;
 
     private float baseSpeed;
     private Vector3 dir;
@@ -73,10 +74,12 @@ public class Wolf : NotBossAI
         agent.isStopped = true;
         agent.speed = baseSpeed;
         attackIndicator.SetActive(false);
+        attackCollider.SetActive(true);
         rb.AddForce(gameObject.transform.forward * chargeSpeed, ForceMode.Impulse);
         yield return new WaitForSeconds(chargeTime);
 
         //Sets velocity to 0 and resumes movement
+        attackCollider.SetActive(false);
         rb.velocity = Vector3.zero;
         agent.isStopped = false;
         animator.SetBool("Attack", false);
