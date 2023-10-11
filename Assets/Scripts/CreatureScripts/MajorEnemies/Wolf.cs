@@ -129,6 +129,7 @@ public class Wolf : NotBossAI
 
     protected override void Die()
     {
+        SpawnDrop();
         animator.Play("Death");
         agent.isStopped = true;
         Rigidbody rb = GetComponent<Rigidbody>();

@@ -442,6 +442,7 @@ GameObject:
   - component: {fileID: 5126416605977770030}
   - component: {fileID: 9142033149534888582}
   - component: {fileID: 7284345833402874301}
+  - component: {fileID: -4857907692987008622}
   m_Layer: 7
   m_Name: Wolf
   m_TagString: Enemy
@@ -473,7 +474,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8362011193862050527}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -8343166460330163289, guid: 17d396234168d254fa2d0676a12e2d2b, type: 3}
 --- !u!54 &5126416605977770030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -542,7 +543,8 @@ MonoBehaviour:
   classification: 0
   creatureType: 1
   drops:
-  - {fileID: 2451710078824737866, guid: fb5df1e02a3f7b248b28235a065f5ac3, type: 3}
+  - {fileID: 8465967043707308671, guid: d6fcae7f3c1d6ff428a21ff15d19325a, type: 3}
+  - {fileID: 1991673379962358034, guid: 1c91199d63215984f9462610f791fbdd, type: 3}
   healthbar: {fileID: 4992417300023761576}
   playerLayerMask:
     serializedVersion: 2
@@ -553,6 +555,28 @@ MonoBehaviour:
   attackCooldown: 0
   attackIndicator: {fileID: 2900383628045873290}
   attackCollider: {fileID: 4335156919353796320}
+--- !u!64 &-4857907692987008622
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362011193862050527}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8343166460330163289, guid: 17d396234168d254fa2d0676a12e2d2b, type: 3}
 --- !u!1001 &1180063436314092698
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -68,6 +68,7 @@ public abstract class Creature : MonoBehaviour
 
     protected virtual void Die()
     {
+        SpawnDrop();
         animator.Play("Death");
         agent.isStopped = true;
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -77,5 +78,13 @@ public abstract class Creature : MonoBehaviour
         StopAllCoroutines();
         //Something happens
         //Death
+    }
+
+    protected void SpawnDrop()
+    {
+       foreach(GameObject drop in drops)
+        {
+            Instantiate(drop, transform.position, Quaternion.identity);
+        }
     }
 }
