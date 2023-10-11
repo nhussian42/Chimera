@@ -20,6 +20,7 @@ public class Wolf : NotBossAI
     {
         agent.destination = player.transform.position;
         baseSpeed = agent.speed;
+        animator = GetComponentInChildren<Animator>();
         
     }
     public override IEnumerator Attack()
@@ -52,6 +53,7 @@ public class Wolf : NotBossAI
 
     public IEnumerator Pounce()
     {
+        animator.SetBool("Attack", true);
         //Stops the movement
         attacking = true;
         float rotationDuration = chargeDelay;
@@ -77,6 +79,7 @@ public class Wolf : NotBossAI
         //Sets velocity to 0 and resumes movement
         rb.velocity = Vector3.zero;
         agent.isStopped = false;
+        animator.SetBool("Attack", false);
         yield return new WaitForSeconds(attackCooldown);
 
         //Resets attack cooldown
@@ -99,7 +102,7 @@ public class Wolf : NotBossAI
 
     protected override void Update()
     {
-        if (circling == false && attacking == false)
+        if (circling == false && attacking == false && alive == true)
         {
             agent.destination = player.transform.position;
             if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
@@ -110,9 +113,27 @@ public class Wolf : NotBossAI
                 circling = true;
             }
         }
-        else if (circling == true)
+        else if (circling == true && alive == true)
         {
             agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
         }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            TakeDamage(10);
+        }
+    }
+
+    protected override void Die()
+    {
+        animator.Play("Death");
+        agent.isStopped = true;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        alive = false;
+        StopAllCoroutines();
+        Destroy(this.gameObject, 2f);
+        //Something happens
+        //Death
     }
 }
