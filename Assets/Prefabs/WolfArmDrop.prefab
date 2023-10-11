@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 86024f50650d54b4ab9e11573fcf3b27, type: 2}
+  - {fileID: 2100000, guid: 7ada45b638bc5824da808ae8618f9a7d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -158,8 +158,8 @@ GameObject:
   m_Component:
   - component: {fileID: 703859972947461443}
   - component: {fileID: 6608880605014765258}
-  - component: {fileID: 5844677002280142452}
   - component: {fileID: 4208332133513634927}
+  - component: {fileID: 3244514245376401728}
   m_Layer: 0
   m_Name: WolfArmDrop
   m_TagString: Untagged
@@ -181,7 +181,7 @@ Transform:
   m_Children:
   - {fileID: 1116198844490198364}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6608880605014765258
 Rigidbody:
@@ -210,8 +210,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!136 &5844677002280142452
-CapsuleCollider:
+--- !u!114 &4208332133513634927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8465967043707308671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abae3f36736b58a42ae5a0f079f3b78e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  classification: 0
+  weight: 0
+--- !u!65 &3244514245376401728
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -228,22 +242,6 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &4208332133513634927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8465967043707308671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abae3f36736b58a42ae5a0f079f3b78e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  classification: 0
-  weight: 0
+  serializedVersion: 3
+  m_Size: {x: 3.2048283, y: 5.665719, z: 3.1393337}
+  m_Center: {x: 0.096982, y: 0.3304032, z: -0.30268955}

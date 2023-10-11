@@ -15,7 +15,7 @@ public class AttackRange : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<CreatureWithDrop>(out CreatureWithDrop creature) == true)
+        if(other.TryGetComponent<Creature>(out Creature creature) == true)
         {
             creature.TakeDamage((int)arm.AttackDamage);
         }
