@@ -28,6 +28,8 @@ public abstract class Arm : Limb
     
     public float AttackSpeed { get { return attackSpeed; }  }
 
+    public bool CanAttack { get { return canAttack; } }
+
     
 
     public virtual void Attack()

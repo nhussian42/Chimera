@@ -184,11 +184,20 @@ public class PlayerController : Singleton<PlayerController>
             RotatePlayer(movementVector);
 
         // Reads L and R mouse buttons 
-        if (_attackRight.triggered == true)
+        if (_attackRight.triggered == true && currentRightArm.CanAttack == true)
+        {
             currentRightArm.Attack();
-            
-        if (_attackLeft.triggered == true)
+            animator.SetTrigger("RightAttack");
+        }
+
+
+        if (_attackLeft.triggered == true && currentLeftArm.CanAttack == true)
+        {
             currentLeftArm.Attack();
+            animator.SetTrigger("LeftAttack");
+        }
+
+            
         
         if (_swapLimbs.triggered == true)
             SwapLeftAndRightArms();
