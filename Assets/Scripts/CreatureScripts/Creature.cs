@@ -60,16 +60,21 @@ public abstract class Creature : MonoBehaviour
         {
             Die();
         }
+        else
+        {
+            animator.Play("Take Damage");
+        }
     }
 
-    protected void Die()
+    protected virtual void Die()
     {
-        animator.SetBool("Death", true);
+        animator.Play("Death");
         agent.isStopped = true;
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         alive = false;
         Destroy(this.gameObject, 1f);
+        StopAllCoroutines();
         //Something happens
         //Death
     }
