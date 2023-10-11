@@ -442,7 +442,7 @@ GameObject:
   - component: {fileID: 5126416605977770030}
   - component: {fileID: 9142033149534888582}
   - component: {fileID: 7284345833402874301}
-  - component: {fileID: -4857907692987008622}
+  - component: {fileID: 3276741288151932870}
   m_Layer: 7
   m_Name: Wolf
   m_TagString: Enemy
@@ -465,7 +465,7 @@ Transform:
   - {fileID: 1392399125855653087}
   - {fileID: 1549709548927654668}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7476901055269709529
 MeshFilter:
@@ -555,8 +555,8 @@ MonoBehaviour:
   attackCooldown: 0
   attackIndicator: {fileID: 2900383628045873290}
   attackCollider: {fileID: 4335156919353796320}
---- !u!64 &-4857907692987008622
-MeshCollider:
+--- !u!65 &3276741288151932870
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -573,10 +573,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -8343166460330163289, guid: 17d396234168d254fa2d0676a12e2d2b, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.38265267, y: 1.7369707, z: 1.3192083}
+  m_Center: {x: 0.030576995, y: 0.36848694, z: 0.1596057}
 --- !u!1001 &1180063436314092698
 PrefabInstance:
   m_ObjectHideFlags: 0
