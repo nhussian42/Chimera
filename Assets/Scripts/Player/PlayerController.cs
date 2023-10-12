@@ -63,6 +63,8 @@ public class PlayerController : Singleton<PlayerController>
     public static Action OnArmSwapped;
     public static Action OnGamePaused;
 
+    float startingYPos;
+
     private bool isLeftWolfArm = false;
     private bool isRightWolfArm = false;
     protected override void Init()
@@ -158,7 +160,9 @@ public class PlayerController : Singleton<PlayerController>
         _mainCamera = Camera.main;
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
         
-        SetPlayerPosition(FloorManager.Instance.StartTransform);
+        SetPlayerPosition(FloorManager.Instance.StartTransform.position);
+
+        startingYPos = transform.position.y;
     }
 
     // Debug
@@ -179,6 +183,7 @@ public class PlayerController : Singleton<PlayerController>
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
         
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
+        SetPlayerPosition(new Vector3(transform.position.x, startingYPos, transform.position.z));
         animator.SetFloat("Speed", movementValues.magnitude);
 
         
@@ -252,9 +257,9 @@ public class PlayerController : Singleton<PlayerController>
         transform.rotation = smoothMovementEnabled ? Quaternion.RotateTowards(transform.rotation, newRotation, Time.deltaTime * _turnSpeed) : newRotation;
     }
     
-    private void SetPlayerPosition(Transform to)
+    private void SetPlayerPosition(Vector3 to)
     {
-        transform.position = to.position;
+        transform.position = to;
 
         // Lets the character controller know that the position was manually set by a transform
         // this gave me (Nick) two hours of headaches figuring this out
