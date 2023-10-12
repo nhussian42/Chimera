@@ -183,7 +183,6 @@ public class PlayerController : Singleton<PlayerController>
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
         
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
-        SetPlayerPosition(new Vector3(transform.position.x, startingYPos, transform.position.z));
         animator.SetFloat("Speed", movementValues.magnitude);
 
         
@@ -227,6 +226,11 @@ public class PlayerController : Singleton<PlayerController>
         {
             UIManager.ResumePressed?.Invoke();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        SetPlayerPosition(new Vector3(transform.position.x, startingYPos, transform.position.z));
     }
 
     private void OnTriggerStay(Collider other)
