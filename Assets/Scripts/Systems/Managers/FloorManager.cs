@@ -28,7 +28,7 @@ public class FloorManager : Singleton<FloorManager>
 
     protected override void Init()
     {
-        _currentRoomIndex = 0;
+        _currentRoomIndex = 1;
     }
 
     private void OnEnable()
@@ -53,6 +53,7 @@ public class FloorManager : Singleton<FloorManager>
 
     private int DetermineNextRoomIndex()
     {
+        print(_currentRoomIndex);
         return _currentRoomIndex;
     }
 
