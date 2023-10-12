@@ -48,6 +48,9 @@ public class Wolf : NotBossAI
         agent.destination = player.transform.position;
         agent.speed = 2f;
         StartCoroutine(Pounce());
+
+        // AudioManager.Instance.PlayMajEnemySFX("WolfBark");
+
         circling = false;
         yield return null;
     }
@@ -71,6 +74,7 @@ public class Wolf : NotBossAI
         yield return new WaitForSeconds(chargeDelay);
 
         //Charges foward
+        AudioManager.Instance.PlayMajEnemySFX("WolfSlash");
         agent.isStopped = true;
         agent.speed = baseSpeed;
         attackIndicator.SetActive(false);
@@ -114,7 +118,10 @@ public class Wolf : NotBossAI
                 //Perform attack coroutine
                 StartCoroutine(Attack());
                 circling = true;
+                AudioManager.Instance.PlayMajEnemySFX("WolfBark");
+
             }
+
         }
         else if (circling == true && alive == true)
         {
@@ -129,6 +136,8 @@ public class Wolf : NotBossAI
 
     protected override void Die()
     {
+        AudioManager.Instance.PlayMajEnemySFX("WolfDeath");
+
         SpawnDrop();
         animator.Play("Death");
         agent.isStopped = true;

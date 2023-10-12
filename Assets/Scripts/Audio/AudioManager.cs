@@ -7,8 +7,8 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    public Sound[] musicSounds, menuSFXSounds, worldSFXSounds, playerSFXSounds, enemySFXSounds;
-    public AudioSource musicSource, menuSFXSource, worldSFXSource, playerSFXSource, enemySFXSource;
+    public Sound[] musicSounds, menuSFXSounds, worldSFXSounds, playerSFXSounds, minEnemySFXSounds, majEnemySFXSounds;
+    public AudioSource musicSource, menuSFXSource, worldSFXSource, playerSFXSource, minEnemySFXSource, majEnemySFXSource;
 
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayMusic("DungeonMusic");
+        PlayMusic("MenuMusic");
     }
 
     public void PlayMusic(string name) 
@@ -69,9 +69,9 @@ public class AudioManager : MonoBehaviour
             worldSFXSource.PlayOneShot(s.clip);
         }
     }
-    public void PlayEnemySFX(string name)
+    public void PlayMinEnemySFX(string name)
     {
-        Sound s = Array.Find(enemySFXSounds, x => x.name == name);
+        Sound s = Array.Find(minEnemySFXSounds, x => x.name == name);
 
         if (s == null)
         {
@@ -79,7 +79,21 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            enemySFXSource.PlayOneShot(s.clip);
+            minEnemySFXSource.PlayOneShot(s.clip);
+        }
+    }
+
+    public void PlayMajEnemySFX(string name)
+    {
+        Sound s = Array.Find(majEnemySFXSounds, x => x.name == name);
+
+        if (s == null)
+        {
+            Debug.Log("Sound Not Found");
+        }
+        else
+        {
+            majEnemySFXSource.PlayOneShot(s.clip);
         }
     }
 
@@ -112,9 +126,14 @@ public class AudioManager : MonoBehaviour
         worldSFXSource.mute = !worldSFXSource.mute;
     }
 
-    public void ToggleEnemySFX()
+    public void ToggleMinEnemySFX()
     {
-        enemySFXSource.mute = !enemySFXSource.mute;
+        minEnemySFXSource.mute = !minEnemySFXSource.mute;
+    }
+
+    public void ToggleMajEnemySFX()
+    {
+        majEnemySFXSource.mute = !majEnemySFXSource.mute;
     }
 
     public void TogglePlayerSFX()
@@ -135,9 +154,14 @@ public class AudioManager : MonoBehaviour
     {
         worldSFXSource.volume = volume;
     }
-    public void EnemySFXVolume(float volume)
+    public void MinEnemySFXVolume(float volume)
     {
-        enemySFXSource.volume = volume;
+        minEnemySFXSource.volume = volume;
+    }
+
+    public void MajEnemySFXVolume(float volume)
+    {
+        majEnemySFXSource.volume = volume;
     }
 
     public void PlayerSFXVolume(float volume)

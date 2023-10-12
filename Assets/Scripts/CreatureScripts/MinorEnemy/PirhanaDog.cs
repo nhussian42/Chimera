@@ -21,6 +21,7 @@ public class PirhanaDog : NotBossAI
     {
         //Stops the movement
         animator.SetBool("Charging", true);
+        AudioManager.Instance.PlayMinEnemySFX("HedgehogSqueak");
         attacking = true;
         agent.velocity = Vector3.zero;
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -28,6 +29,7 @@ public class PirhanaDog : NotBossAI
         yield return new WaitForSeconds(chargeDelay);
 
         //Charges foward
+        AudioManager.Instance.PlayMinEnemySFX("HedgehogAttack");
         animator.SetBool("Attacking", true);
         agent.isStopped = true;
         attackIndicator.SetActive(false);
