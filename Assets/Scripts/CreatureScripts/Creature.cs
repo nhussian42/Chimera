@@ -12,6 +12,7 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected float attackSpeed;
     [SerializeField] protected float attackRange = 5f;
     [SerializeField] protected float currentHealth;
+    [SerializeField] protected float attackDamage = 5f;
 
     public enum Classification
     {

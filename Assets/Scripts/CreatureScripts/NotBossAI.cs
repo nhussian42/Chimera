@@ -52,7 +52,7 @@ public class NotBossAI : Creature
     {
         if (other.gameObject.GetComponent<CharacterController>() != null && attacking == true)
         {
-            PlayerController.Instance.DistributeDamage(5f);
+            PlayerController.Instance.DistributeDamage(attackDamage);
         }
     }
 
