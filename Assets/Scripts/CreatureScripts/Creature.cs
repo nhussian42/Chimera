@@ -57,11 +57,11 @@ public abstract class Creature : MonoBehaviour
     {
         currentHealth -= damage;
         healthbar.UpdateHealthBar(currentHealth, health);
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && alive == true)
         {
             Die();
         }
-        else
+        else if (alive == true)
         {
             animator.Play("Take Damage");
         }

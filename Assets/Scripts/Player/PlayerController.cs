@@ -353,10 +353,9 @@ public class PlayerController : Singleton<PlayerController>
             float caclulatedDamage = -1 * (damage / (damagedLimbs.Count + 1));
             limb.UpdateHealth(caclulatedDamage);
         }
-        
-        // maybe make core its own limb?
-        coreHealth -= damage / (damagedLimbs.Count + 1);
 
+        // maybe make core its own limb?
+        UpdateCoreHealth(-(damage / (damagedLimbs.Count + 1)));
         OnDamageReceived?.Invoke();
     }
 
