@@ -69,6 +69,7 @@ public abstract class Creature : MonoBehaviour
     protected virtual void Die()
     {
         SpawnDrop();
+        AudioManager.Instance.PlayMinEnemySFX("HedgehogDie");
         animator.Play("Death");
         agent.isStopped = true;
         Rigidbody rb = GetComponent<Rigidbody>();

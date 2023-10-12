@@ -63,6 +63,8 @@ public class PlayerController : Singleton<PlayerController>
     public static Action OnArmSwapped;
     public static Action OnGamePaused;
 
+    private bool isLeftWolfArm = false;
+    private bool isRightWolfArm = false;
     protected override void Init()
     {
         _playerInput = GetComponent<PlayerInput>();
@@ -188,6 +190,11 @@ public class PlayerController : Singleton<PlayerController>
         {
             currentRightArm.Attack();
             animator.SetTrigger("RightAttack");
+
+            if (isRightWolfArm)
+                AudioManager.Instance.PlayPlayerSFX("WolfArm");
+            else
+                AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
 
@@ -195,6 +202,12 @@ public class PlayerController : Singleton<PlayerController>
         {
             currentLeftArm.Attack();
             animator.SetTrigger("LeftAttack");
+            AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
+
+            if (isLeftWolfArm)
+                AudioManager.Instance.PlayPlayerSFX("WolfArm");
+            else
+                AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
             
@@ -264,6 +277,7 @@ public class PlayerController : Singleton<PlayerController>
             {
                 if (side == SideOfPlayer.Right)
                 {
+                    isRightWolfArm = true;
                     currentRightArm.Terminate();
                     currentRightArm.gameObject.SetActive(false);
                     arm.Health = currentRightArm.Health;
@@ -273,6 +287,7 @@ public class PlayerController : Singleton<PlayerController>
                 }
                 else if (side == SideOfPlayer.Left)
                 {
+                    isLeftWolfArm = true;
                     currentLeftArm.Terminate();
                     currentLeftArm.gameObject.SetActive(false);
                     arm.Health = currentLeftArm.Health;
@@ -313,6 +328,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void DistributeDamage(float damage)
     {
+        AudioManager.Instance.PlayPlayerSFX("MinHit");
         List<Limb> damagedLimbs = new List<Limb>();
 
         if (currentLeftArm != coreLeftArm)
