@@ -67,6 +67,10 @@ public class PlayerController : Singleton<PlayerController>
 
     private bool isLeftWolfArm = false;
     private bool isRightWolfArm = false;
+
+    private Vector2 movementValues;
+    private Vector3 movementDir;
+    private Vector3 movementVector;
     protected override void Init()
     {
         _playerInput = GetComponent<PlayerInput>();
@@ -178,16 +182,15 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Update()
     {
-        Vector2 movementValues = _movement.ReadValue<Vector2>();
-        Vector3 movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
+        movementValues = _movement.ReadValue<Vector2>();
+        movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
-        
+
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
         animator.SetFloat("Speed", movementValues.magnitude);
-
         
         if (movementVector != Vector3.zero)
-            RotatePlayer(movementVector);
+            RotatePlayer(movementVector); 
 
         // Reads L and R mouse buttons 
         if (_attackRight.triggered == true && currentRightArm.CanAttack == true)
@@ -230,7 +233,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void FixedUpdate()
     {
-        SetPlayerPosition(new Vector3(transform.position.x, startingYPos, transform.position.z));
+        //SetPlayerPosition(new Vector3(transform.position.x, startingYPos, transform.position.z));
     }
 
     private void OnTriggerStay(Collider other)
