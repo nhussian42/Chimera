@@ -64,6 +64,7 @@ public class PlayerController : Singleton<PlayerController>
     public static Action OnGamePaused;
 
     float startingYPos;
+    bool firstMove = false;
 
     private bool isLeftWolfArm = false;
     private bool isRightWolfArm = false;
@@ -165,8 +166,6 @@ public class PlayerController : Singleton<PlayerController>
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
         
         SetPlayerPosition(FloorManager.Instance.StartTransform.position);
-
-        startingYPos = transform.position.y;
     }
 
     // Debug
@@ -185,8 +184,12 @@ public class PlayerController : Singleton<PlayerController>
         movementValues = _movement.ReadValue<Vector2>();
         movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
-
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
+        if(transform.position.y > 1.5f)
+        {
+            SetPlayerPosition(new Vector3(transform.position.x, 1.5f, transform.position.z));
+            Debug.Log("Artifical Gravity activated");
+        }
         animator.SetFloat("Speed", movementValues.magnitude);
         
         if (movementVector != Vector3.zero)
