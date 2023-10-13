@@ -21,5 +21,6 @@ public class EnemyHealthBar : MonoBehaviour
     public void UpdateHealthBar(float currentValue, float maxValue)
     {
         healthbar.value = currentValue / maxValue;
+        Debug.Log("healthbar value: " + healthbar.value);
     }
 }
