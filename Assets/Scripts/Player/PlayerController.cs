@@ -36,6 +36,9 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private float coreHealth = 100f;
     public float CoreHealth { get { return coreHealth; } }
 
+    // Reference to SaveManager
+    SaveManager saveManager;
+
     // Limb References
     public List<Arm> allArms;
 
@@ -63,8 +66,8 @@ public class PlayerController : Singleton<PlayerController>
     public static Action OnArmSwapped;
     public static Action OnGamePaused;
 
-    float startingYPos;
-    bool firstMove = false;
+    //float startingYPos;  I don't think we need these anymore  - Amon
+    //bool firstMove = false;
 
     private bool isLeftWolfArm = false;
     private bool isRightWolfArm = false;
@@ -77,6 +80,7 @@ public class PlayerController : Singleton<PlayerController>
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
         _controller = GetComponent<CharacterController>();
+        saveManager = SaveManager.Instance;
     }
 
     // Enable new player input actions in this method
@@ -99,16 +103,41 @@ public class PlayerController : Singleton<PlayerController>
         _unpause = _playerInputActions.UI.UnPause;
 
         // Instantiate Default Limbs
-        foreach(Arm arm in allArms)
+        if(SaveManager.Instance.firstLoad == true)
         {
-            arm.gameObject.SetActive(false);
+            Debug.Log("First Load");
+            foreach (Arm arm in allArms)
+            {
+                arm.gameObject.SetActive(false);
+            }
+            coreLeftArm.gameObject.SetActive(true);
+            coreRightArm.gameObject.SetActive(true);
+            currentLeftArm = coreLeftArm;
+            currentRightArm = coreRightArm;
+            currentLeftArm.Initialize(this);
+            currentRightArm.Initialize(this);
         }
-        coreLeftArm.gameObject.SetActive(true);
-        coreRightArm.gameObject.SetActive(true);
-        currentLeftArm = coreLeftArm;
-        currentRightArm = coreRightArm;
-        currentLeftArm.Initialize(this);
-        currentRightArm.Initialize(this);
+        else
+        {
+            Debug.Log("Persistent Load");
+            foreach (Arm arm in allArms)
+            {
+                arm.gameObject.SetActive(false);
+            }
+            SwapLimb(saveManager.SavedLeftArm, SideOfPlayer.Left);   
+            SwapLimb(saveManager.SavedRightArm, SideOfPlayer.Right);
+            currentLeftArm.LoadStats(
+                saveManager.SavedLeftArm.AttackDamage,
+                saveManager.SavedLeftArm.AttackSpeed,
+                saveManager.SavedLeftArm.MaxHealth,
+                saveManager.SavedLeftArm.Health);
+            currentRightArm.LoadStats(
+                saveManager.SavedRightArm.AttackDamage,
+                saveManager.SavedRightArm.AttackSpeed,
+                saveManager.SavedRightArm.MaxHealth,
+                saveManager.SavedRightArm.Health);
+        }
+        
     }
 
     // Disable new player input actions in this method
@@ -116,6 +145,13 @@ public class PlayerController : Singleton<PlayerController>
     {
         DisableAllDefaultControls();
         DisableAllUIControls();
+    }
+
+    private void OnDestroy()
+    {
+        // Called when the player exits the room (loading a new scene destroys all current scene objects)
+        Debug.Log("Player destroyed");
+        saveManager.SaveLimbData(currentLeftArm, currentRightArm);
     }
 
     private void EnableAllDefaultControls()
@@ -278,9 +314,32 @@ public class PlayerController : Singleton<PlayerController>
 
     private void SwapLeftAndRightArms()
     { 
-        switchedArmRef = currentRightArm;
-        SwapLimb(currentLeftArm, SideOfPlayer.Right);
-        SwapLimb(switchedArmRef, SideOfPlayer.Left);
+        // Bug: when swapping between two wolf arms, the right wolf arm will always change health to match left but left arm will not change health
+        if(currentLeftArm.Classification == currentRightArm.Classification && currentLeftArm.Weight == currentRightArm.Weight)
+        {
+            return;
+        }
+        else
+        {
+            switchedArmRef = currentRightArm;
+            switchedArmRef.Health = currentRightArm.Health;
+
+            SwapLimb(currentLeftArm, SideOfPlayer.Right);
+            currentRightArm.LoadStats(
+                currentLeftArm.AttackDamage,
+                currentLeftArm.AttackSpeed,
+                currentLeftArm.MaxHealth,
+                currentLeftArm.Health);
+
+            SwapLimb(switchedArmRef, SideOfPlayer.Left);
+            currentLeftArm.LoadStats(
+                switchedArmRef.AttackDamage,
+                switchedArmRef.AttackSpeed,
+                switchedArmRef.MaxHealth,
+                switchedArmRef.Health);
+        }
+
+
 
         OnArmSwapped?.Invoke();
     }
@@ -322,8 +381,11 @@ public class PlayerController : Singleton<PlayerController>
             {
                 if (side == SideOfPlayer.Right)
                 {
-                    currentRightArm.Terminate();
-                    currentRightArm.gameObject.SetActive(false);
+                    if(currentRightArm != null)
+                    {
+                        currentRightArm.Terminate();
+                        currentRightArm.gameObject.SetActive(false);
+                    }
                     arm.gameObject.SetActive(true);
                     currentRightArm = arm;
                     currentRightArm.Initialize(this);
@@ -331,8 +393,11 @@ public class PlayerController : Singleton<PlayerController>
                 }
                 else if (side == SideOfPlayer.Left)
                 {
-                    currentLeftArm.Terminate();
-                    currentLeftArm.gameObject.SetActive(false);
+                    if(currentLeftArm != null)
+                    {
+                        currentLeftArm.Terminate();
+                        currentLeftArm.gameObject.SetActive(false);
+                    }
                     arm.gameObject.SetActive(true);
                     currentLeftArm = arm;
                     currentLeftArm.Initialize(this);

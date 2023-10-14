@@ -19,6 +19,8 @@ public abstract class Limb : MonoBehaviour
     protected float minHealth = 0f;
     protected float maxHealth = 100f;
 
+    public float MaxHealth { get { return maxHealth; } }
+
     private void Awake()
     {
         currentHealth = Mathf.Clamp(startingHealth, minHealth, maxHealth);
