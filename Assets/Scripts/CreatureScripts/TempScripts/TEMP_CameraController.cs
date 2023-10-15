@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TEMP_CameraController : MonoBehaviour
 {
+    //This is a test comment that doesn't actually do anything
     public Transform playerPos;
     
     void Update()
