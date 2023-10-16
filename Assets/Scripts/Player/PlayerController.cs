@@ -369,6 +369,14 @@ public class PlayerController : Singleton<PlayerController>
         coreHealth = Mathf.Clamp(coreHealth + amount, 0, 100);
     }
 
+    // temporary function to update move speed called by trinket script
+    // (_movementSpeed can't be edited from other scripts to my knowledge)
+    public void MulesKick(float amount)
+    {
+        _movementSpeed += amount;
+        Debug.Log(_movementSpeed.ToString());
+    }
+
     private void Pause()
     {
         DisableAllDefaultControls();
