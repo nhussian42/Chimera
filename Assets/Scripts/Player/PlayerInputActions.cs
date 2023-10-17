@@ -251,6 +251,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenEquipMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""b08b0f06-5429-4719-a6a6-4ed79a5ff45c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -273,6 +282,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""UnPause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4bd3823-a1aa-4eed-8741-afe2317b09a1"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenEquipMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2e7f63d-9f75-435b-bc86-3c3e1100c942"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenEquipMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -320,6 +351,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UnPause = m_UI.FindAction("UnPause", throwIfNotFound: true);
+        m_UI_OpenEquipMenu = m_UI.FindAction("OpenEquipMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -468,11 +500,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_UnPause;
+    private readonly InputAction m_UI_OpenEquipMenu;
     public struct UIActions
     {
         private @PlayerInputActions m_Wrapper;
         public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @UnPause => m_Wrapper.m_UI_UnPause;
+        public InputAction @OpenEquipMenu => m_Wrapper.m_UI_OpenEquipMenu;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -485,6 +519,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @UnPause.started += instance.OnUnPause;
             @UnPause.performed += instance.OnUnPause;
             @UnPause.canceled += instance.OnUnPause;
+            @OpenEquipMenu.started += instance.OnOpenEquipMenu;
+            @OpenEquipMenu.performed += instance.OnOpenEquipMenu;
+            @OpenEquipMenu.canceled += instance.OnOpenEquipMenu;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -492,6 +529,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @UnPause.started -= instance.OnUnPause;
             @UnPause.performed -= instance.OnUnPause;
             @UnPause.canceled -= instance.OnUnPause;
+            @OpenEquipMenu.started -= instance.OnOpenEquipMenu;
+            @OpenEquipMenu.performed -= instance.OnOpenEquipMenu;
+            @OpenEquipMenu.canceled -= instance.OnOpenEquipMenu;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -539,5 +579,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnUnPause(InputAction.CallbackContext context);
+        void OnOpenEquipMenu(InputAction.CallbackContext context);
     }
 }
