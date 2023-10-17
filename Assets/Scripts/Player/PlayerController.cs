@@ -313,33 +313,27 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     private void SwapLeftAndRightArms()
-    { 
-        // Bug: when swapping between two wolf arms, the right wolf arm will always change health to match left but left arm will not change health
-        if(currentLeftArm.Classification == currentRightArm.Classification && currentLeftArm.Weight == currentRightArm.Weight)
-        {
-            return;
-        }
-        else
-        {
-            switchedArmRef = currentRightArm;
-            switchedArmRef.Health = currentRightArm.Health;
+    {
+        switchedArmRef = currentRightArm;
+        Debug.Log("switchedArmRef Health: " + switchedArmRef.Health + " (after setting ref)");
+        Debug.Log("currentRightArm Health: " + currentRightArm.Health + " (after setting ref)");
+        SwapLimb(currentLeftArm, SideOfPlayer.Right);
+        Debug.Log("switchedArmRef Health: " + switchedArmRef.Health + " (after SwapLimb)");
+        Debug.Log("currentRightArm Health: " + currentRightArm.Health + " (after SwapLimb)");
+        currentRightArm.LoadStats(
+            currentLeftArm.AttackDamage,
+            currentLeftArm.AttackSpeed,
+            currentLeftArm.MaxHealth,
+            currentLeftArm.Health);
+        Debug.Log("switchedArmRef Health: " + switchedArmRef.Health + " (after LoadStats)");
+        Debug.Log("currentRightArm Health: " + currentRightArm.Health + " (after LoadStats)");
 
-            SwapLimb(currentLeftArm, SideOfPlayer.Right);
-            currentRightArm.LoadStats(
-                currentLeftArm.AttackDamage,
-                currentLeftArm.AttackSpeed,
-                currentLeftArm.MaxHealth,
-                currentLeftArm.Health);
-
-            SwapLimb(switchedArmRef, SideOfPlayer.Left);
-            currentLeftArm.LoadStats(
-                switchedArmRef.AttackDamage,
-                switchedArmRef.AttackSpeed,
-                switchedArmRef.MaxHealth,
-                switchedArmRef.Health);
-        }
-
-
+        SwapLimb(switchedArmRef, SideOfPlayer.Left);
+        currentLeftArm.LoadStats(
+            switchedArmRef.AttackDamage,
+            switchedArmRef.AttackSpeed,
+            switchedArmRef.MaxHealth,
+            switchedArmRef.Health);
 
         OnArmSwapped?.Invoke();
     }
