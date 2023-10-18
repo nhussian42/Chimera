@@ -41,7 +41,7 @@ public class PlayerStatsUITest : MonoBehaviour
 
     private void UpdateHealthStats()
     {
-        coreHealth.text = $"Health: {PlayerController.Instance.CoreHealth}";
+        coreHealth.text = $"Health: {PlayerController.Instance.Core.Health}";
         leftArmHealth.text = $"Health: {PlayerController.Instance.currentLeftArm.Health}";
         rightArmHealth.text = $"Health: {PlayerController.Instance.currentRightArm.Health}";
     }

@@ -29,27 +29,28 @@ public class PlayerController : Singleton<PlayerController>
     private const string gamepadScheme = "Gamepad";
     private const string mouseScheme = "Keyboard&Mouse";
 
-    [SerializeField] private float _movementSpeed = 10f;
+    [SerializeField] private float _movementSpeed = 10f; // reference to current legs later
     [SerializeField] private float _turnSpeed = 360f;
     [SerializeField] private bool smoothMovementEnabled;
-
-    [SerializeField] private float coreHealth = 100f;
-    public float CoreHealth { get { return coreHealth; } }
 
     // Reference to SaveManager
     SaveManager saveManager;
 
     // Limb References
+    //public List<Heads> allHeads;
     public List<Arm> allArms;
+    public List<Legs> allLegs;
 
+    [SerializeField] Core core;
+    public Core Core { get { return core; } }
     [SerializeField] Arm coreLeftArm;
     [SerializeField] Arm coreRightArm;
-    //Legs coreLegs;
+    [SerializeField] Legs coreLegs;
     //Head coreHead;
 
     public Arm currentLeftArm {get; private set;}
     public Arm currentRightArm {get; private set;}
-    //Legs currentLegs;
+    public Legs currentLegs { get; private set; }
     //Head currentHead;
 
     Arm switchedArmRef; // holds ref to arm being switched on player
@@ -102,16 +103,19 @@ public class PlayerController : Singleton<PlayerController>
         // Assign UI controls
         _unpause = _playerInputActions.UI.UnPause;
 
-        // Instantiate Default Limbs
-        if(SaveManager.Instance.firstLoad == true)
+        // Instantiate Limbs
+        #region
+        // Deactivate all limbs first
+        foreach (Arm arm in allArms) arm.gameObject.SetActive(false);
+        foreach (Legs legs in allLegs) legs.gameObject.SetActive(false);
+  
+        if (saveManager.firstLoad == true)
         {
-            Debug.Log("First Load");
-            foreach (Arm arm in allArms)
-            {
-                arm.gameObject.SetActive(false);
-            }
+            // If first load into scene, set default limbs
             coreLeftArm.gameObject.SetActive(true);
             coreRightArm.gameObject.SetActive(true);
+            //coreLegs.gameObject.SetActive(true);
+            //currentLegs = coreLegs;
             currentLeftArm = coreLeftArm;
             currentRightArm = coreRightArm;
             currentLeftArm.Initialize(this);
@@ -119,25 +123,13 @@ public class PlayerController : Singleton<PlayerController>
         }
         else
         {
-            Debug.Log("Persistent Load");
-            foreach (Arm arm in allArms)
-            {
-                arm.gameObject.SetActive(false);
-            }
-            SwapLimb(saveManager.SavedLeftArm, SideOfPlayer.Left);   
-            SwapLimb(saveManager.SavedRightArm, SideOfPlayer.Right);
-            currentLeftArm.LoadStats(
-                saveManager.SavedLeftArm.AttackDamage,
-                saveManager.SavedLeftArm.AttackSpeed,
-                saveManager.SavedLeftArm.MaxHealth,
-                saveManager.SavedLeftArm.Health);
-            currentRightArm.LoadStats(
-                saveManager.SavedRightArm.AttackDamage,
-                saveManager.SavedRightArm.AttackSpeed,
-                saveManager.SavedRightArm.MaxHealth,
-                saveManager.SavedRightArm.Health);
+            // If not first load into scene, set limbs saved in SaveManager
+            LoadLimb(saveManager.SavedLeftArm);
+            LoadLimb(saveManager.SavedRightArm);
+            //LoadLimb(currentLegs, saveManager.SavedLegs);
         }
-        
+        #endregion
+
     }
 
     // Disable new player input actions in this method
@@ -150,7 +142,7 @@ public class PlayerController : Singleton<PlayerController>
     private void OnDestroy()
     {
         // Called when the player exits the room (loading a new scene destroys all current scene objects)
-        Debug.Log("Player destroyed");
+        Debug.Log("called save manager");
         saveManager.SaveLimbData(currentLeftArm, currentRightArm);
     }
 
@@ -277,18 +269,19 @@ public class PlayerController : Singleton<PlayerController>
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.TryGetComponent<ArmDrop>(out ArmDrop arm) != false)
+        if (other.gameObject.TryGetComponent<LimbDrop>(out LimbDrop limb) != false)
         {
+            //Configure later for limb swap menu controls
             if (_attackRight.triggered == true)
             {
-                SwapLimb(arm, SideOfPlayer.Right);
-                Destroy(arm.gameObject);
+                SwapLimb(currentRightArm, limb);
+                Destroy(limb.gameObject);
 
             }
             else if (_attackLeft.triggered == true)
             {
-                SwapLimb(arm, SideOfPlayer.Left);
-                Destroy(arm.gameObject);
+                SwapLimb(currentLeftArm, limb);
+                Destroy(limb.gameObject);
             }
         }
 
@@ -314,28 +307,28 @@ public class PlayerController : Singleton<PlayerController>
 
     private void SwapLeftAndRightArms()
     {
-        switchedArmRef = currentRightArm;
-        Debug.Log("switchedArmRef Health: " + switchedArmRef.Health + " (after setting ref)");
-        Debug.Log("currentRightArm Health: " + currentRightArm.Health + " (after setting ref)");
-        SwapLimb(currentLeftArm, SideOfPlayer.Right);
-        Debug.Log("switchedArmRef Health: " + switchedArmRef.Health + " (after SwapLimb)");
-        Debug.Log("currentRightArm Health: " + currentRightArm.Health + " (after SwapLimb)");
-        currentRightArm.LoadStats(
-            currentLeftArm.AttackDamage,
-            currentLeftArm.AttackSpeed,
-            currentLeftArm.MaxHealth,
-            currentLeftArm.Health);
-        Debug.Log("switchedArmRef Health: " + switchedArmRef.Health + " (after LoadStats)");
-        Debug.Log("currentRightArm Health: " + currentRightArm.Health + " (after LoadStats)");
+        //switchedArmRef = currentRightArm;
+        ////Debug.Log("switchedArmRef Health: " + switchedArmRef.Health + " (after setting ref)");
+        ////Debug.Log("currentRightArm Health: " + currentRightArm.Health + " (after setting ref)");
+        //SwapLimb(currentLeftArm, SideOfPlayer.Right);
+        ////Debug.Log("switchedArmRef Health: " + switchedArmRef.Health + " (after SwapLimb)");
+        ////Debug.Log("currentRightArm Health: " + currentRightArm.Health + " (after SwapLimb)");
+        //currentRightArm.LoadStats(
+        //    currentLeftArm.AttackDamage,
+        //    currentLeftArm.AttackSpeed,
+        //    currentLeftArm.MaxHealth,
+        //    currentLeftArm.Health);
+        ////Debug.Log("switchedArmRef Health: " + switchedArmRef.Health + " (after LoadStats)");
+        ////Debug.Log("currentRightArm Health: " + currentRightArm.Health + " (after LoadStats)");
 
-        SwapLimb(switchedArmRef, SideOfPlayer.Left);
-        currentLeftArm.LoadStats(
-            switchedArmRef.AttackDamage,
-            switchedArmRef.AttackSpeed,
-            switchedArmRef.MaxHealth,
-            switchedArmRef.Health);
+        //SwapLimb(switchedArmRef, SideOfPlayer.Left);
+        //currentLeftArm.LoadStats(
+        //    switchedArmRef.AttackDamage,
+        //    switchedArmRef.AttackSpeed,
+        //    switchedArmRef.MaxHealth,
+        //    switchedArmRef.Health);
 
-        OnArmSwapped?.Invoke();
+        //OnArmSwapped?.Invoke();
     }
     public void SwapLimb(ArmDrop newArm, SideOfPlayer side)
     {
@@ -367,15 +360,99 @@ public class PlayerController : Singleton<PlayerController>
         }
 
     }
-    public void SwapLimb(Arm newArm, SideOfPlayer side)
+
+    public void SwapLimb(LimbDrop newLimb)
+    {
+        switch (newLimb.LimbType)
+        {
+            case LimbType.Head:
+                Debug.Log("Heads are not implemented yet!");
+                break;
+            case LimbType.Arm:
+
+                break;
+            case LimbType.Legs:
+                foreach (Legs legs in allLegs)
+                {
+                    if (legs.Weight == newLimb.Weight && legs.Classification == newLimb.Classification)
+                    {
+                        currentLegs.gameObject.SetActive(false);
+                        legs.gameObject.SetActive(true);
+                        currentLegs = legs;
+                        // add function here for overwriting current health of equipped legs to match the stored health of the pickup
+                    }
+                }
+                break;
+        }
+
+    }
+
+    private void LoadLimb(Arm newArm)
     {
         foreach (Arm arm in allArms)
         {
-            if (arm.Weight == newArm.Weight && arm.Classification == newArm.Classification && arm.Side == side)
+            if (arm.Weight == newArm.Weight && arm.Classification == newArm.Classification && arm.Side == newArm.Side)
             {
-                if (side == SideOfPlayer.Right)
+                if (newArm.Side == SideOfPlayer.Right)
                 {
-                    if(currentRightArm != null)
+                    if (currentRightArm != null)
+                    {
+                        currentRightArm.Terminate();
+                        currentRightArm.gameObject.SetActive(false);
+                    }
+                    arm.gameObject.SetActive(true);
+                    currentRightArm = arm;
+                    currentRightArm.Initialize(this);
+                    currentRightArm.LoadStats(
+                        newArm.AttackDamage,
+                        newArm.AttackSpeed,
+                        newArm.MaxHealth,
+                        newArm.Health);
+
+                }
+                else if (newArm.Side == SideOfPlayer.Left)
+                {
+                    if (currentLeftArm != null)
+                    {
+                        currentLeftArm.Terminate();
+                        currentLeftArm.gameObject.SetActive(false);
+                    }
+                    arm.gameObject.SetActive(true);
+                    currentLeftArm = arm;
+                    currentLeftArm.Initialize(this);
+                    currentLeftArm.LoadStats(
+                        newArm.AttackDamage,
+                        newArm.AttackSpeed,
+                        newArm.MaxHealth,
+                        newArm.Health);
+                }
+            }
+        }
+    }
+
+    private void LoadLimb(Legs newLegs)
+    {
+        foreach (Legs legs in allLegs)
+        {
+            if (legs.Weight == newLegs.Weight && legs.Classification == newLegs.Classification)
+            {
+                currentLegs.gameObject.SetActive(false);
+                legs.gameObject.SetActive(true);
+                currentLegs = legs;
+                currentLegs.LoadStats(newLegs.Health, newLegs.MovementSpeed);
+            }
+        }
+    }
+
+    public void SwapLimb(Arm currentArm, LimbDrop newArm)
+    {
+        foreach (Arm arm in allArms)
+        {
+            if (arm.Weight == newArm.Weight && arm.Classification == newArm.Classification && arm.Side == currentArm.Side)
+            {
+                if (currentArm.Side == SideOfPlayer.Right)
+                {
+                    if (currentRightArm != null)
                     {
                         currentRightArm.Terminate();
                         currentRightArm.gameObject.SetActive(false);
@@ -385,9 +462,9 @@ public class PlayerController : Singleton<PlayerController>
                     currentRightArm.Initialize(this);
 
                 }
-                else if (side == SideOfPlayer.Left)
+                else if (currentArm.Side == SideOfPlayer.Left)
                 {
-                    if(currentLeftArm != null)
+                    if (currentLeftArm != null)
                     {
                         currentLeftArm.Terminate();
                         currentLeftArm.gameObject.SetActive(false);
@@ -405,6 +482,8 @@ public class PlayerController : Singleton<PlayerController>
         AudioManager.Instance.PlayPlayerSFX("MinHit");
         List<Limb> damagedLimbs = new List<Limb>();
 
+        damagedLimbs.Add(core);
+
         if (currentLeftArm != coreLeftArm)
             damagedLimbs.Add(currentLeftArm);
         if (currentRightArm != coreRightArm)
@@ -415,17 +494,7 @@ public class PlayerController : Singleton<PlayerController>
             float caclulatedDamage = -1 * (damage / (damagedLimbs.Count + 1));
             limb.UpdateHealth(caclulatedDamage);
         }
-
-        // maybe make core its own limb?
-        UpdateCoreHealth(-(damage / (damagedLimbs.Count + 1)));
         OnDamageReceived?.Invoke();
-    }
-
-    // temporary function to update core health, but we should make it its own limb
-    // and then set that limb as a reference in playercontroller
-    public void UpdateCoreHealth(float amount)
-    {
-        coreHealth = Mathf.Clamp(coreHealth + amount, 0, 100);
     }
 
     private void Pause()

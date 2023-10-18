@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Weight
+public enum LimbType
 {
-    Heavy,
-    Medium,
-    Light,
-    Core
+    Head,
+    Arm,
+    Legs
 }
