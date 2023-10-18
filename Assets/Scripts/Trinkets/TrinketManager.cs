@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class TrinketManager : MonoBehaviour
 {
@@ -9,12 +10,15 @@ public class TrinketManager : MonoBehaviour
 
     private bool hyenaJaw = false;
     private bool feedingFrenzy = false;
+    private bool bearClaw = false;
 
     public Arm LeftArm { get; private set; }
     public Arm RightArm { get; private set; }
 
     private float coreHealth;
     private bool HJHasRun = false;
+    private bool HJTier1 = false;
+    private bool HJTier2 = false;
 
     // Start is called before the first frame update
 
@@ -25,30 +29,13 @@ public class TrinketManager : MonoBehaviour
     }
 
     public void Update()
-    {
-
-
-
+    { 
         coreHealth = PlayerController.Instance.CoreHealth;
-        if (hyenaJaw) // Actively updates damage based on health (WIP) - Doesn't reset on healing
-        {
-            if((coreHealth < 50) && (coreHealth > 25) && HJHasRun == false)
-            {
-                //LeftArm.UpdateAttackDamage(10);
-                //RightArm.UpdateAttackDamage(10);
-                PlayerController.Instance.currentLeftArm.UpdateAttackDamage(10);
-                PlayerController.Instance.currentRightArm.UpdateAttackDamage(10);
-                HJHasRun = true;
-            }
-            if(coreHealth < 25 && HJHasRun == true) 
-            {
-                //LeftArm.UpdateAttackDamage(10);
-                //RightArm.UpdateAttackDamage(10);
-                PlayerController.Instance.currentLeftArm.UpdateAttackDamage(10);
-                PlayerController.Instance.currentRightArm.UpdateAttackDamage(10);
-                HJHasRun = false;
-            }
-        }
+
+        if (hyenaJaw) HyenaJaw();
+
+
+
     }
 
     public void LizardClaw() //Increases Attack Damage
@@ -106,6 +93,40 @@ public class TrinketManager : MonoBehaviour
     public void HyenaJaw() //Increases damage when core gets low (WIP)
     {
         hyenaJaw = true;
+
+        if ((coreHealth < 50) && (coreHealth > 25) && HJTier1 == false)
+        {
+            //LeftArm.UpdateAttackDamage(10);
+            //RightArm.UpdateAttackDamage(10);
+            PlayerController.Instance.currentLeftArm.UpdateAttackDamage(10);
+            PlayerController.Instance.currentRightArm.UpdateAttackDamage(10);
+            HJTier1 = true;         
+
+        }
+        if (coreHealth < 25 && HJTier2 == false)
+        {
+            //LeftArm.UpdateAttackDamage(10);
+            //RightArm.UpdateAttackDamage(10);
+            PlayerController.Instance.currentLeftArm.UpdateAttackDamage(10);
+            PlayerController.Instance.currentRightArm.UpdateAttackDamage(10);
+            HJTier2 = true; 
+  
+        }
+
+        if (coreHealth > 50 && HJTier1)
+        {
+            PlayerController.Instance.currentLeftArm.UpdateAttackDamage(-10);
+            PlayerController.Instance.currentRightArm.UpdateAttackDamage(-10);
+            HJTier1 = false;
+        }
+
+        if ((coreHealth < 50) && (coreHealth > 25) && HJTier2)
+        {
+            PlayerController.Instance.currentLeftArm.UpdateAttackDamage(-10);
+            PlayerController.Instance.currentRightArm.UpdateAttackDamage(-10);
+            HJTier2 = false;
+        }
+
     }
 
     public void Scavenger() //Increases bone drops (WIP)
