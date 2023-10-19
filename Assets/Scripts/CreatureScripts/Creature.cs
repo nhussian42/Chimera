@@ -36,7 +36,7 @@ public abstract class Creature : MonoBehaviour
     protected Animator animator;
     protected NavMeshAgent agent;
     protected bool alive = true;
-    [SerializeField] private EnemyHealthBar healthbar;
+    [SerializeField] protected EnemyHealthBar healthbar;
     
     private void Awake()
     {
