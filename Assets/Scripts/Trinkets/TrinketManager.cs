@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class TrinketManager : MonoBehaviour
+public class TrinketManager : Singleton<TrinketManager>
 {
     public PlayerController PlayerController;
     public TrinketMenu TrinketMenu;
@@ -11,12 +12,15 @@ public class TrinketManager : MonoBehaviour
     private bool hyenaJaw = false;
     private bool feedingFrenzy = false;
     private bool bearClaw = false;
+    private float killSkillDuration = 2;
+    
 
     public Arm LeftArm { get; private set; }
     public Arm RightArm { get; private set; }
 
     private float coreHealth;
-    private bool HJHasRun = false;
+    public bool canFrenzy = false;
+    private bool hasFrenzied = false;
     private bool HJTier1 = false;
     private bool HJTier2 = false;
 
@@ -70,9 +74,32 @@ public class TrinketManager : MonoBehaviour
 
     }
 
-    public void FeedingFrenzy() //Increases damage after a kill (WIP)
+    public void EnableFeedingFrenzy()
     {
-        feedingFrenzy = true;
+        canFrenzy = true;
+        Debug.Log("frenzy enabled");
+    }
+
+    public void FeedingFrenzy(bool Frenzy) //Increases damage after a kill (WIP)
+    {
+        TrinketManager.Instance.canFrenzy = canFrenzy;
+        Debug.Log(canFrenzy);
+        if(canFrenzy == true) {
+
+            if (Frenzy == true)
+            {
+                PlayerController.Instance.currentLeftArm.UpdateAttackDamage(5);
+                PlayerController.Instance.currentRightArm.UpdateAttackDamage(5);
+                StartCoroutine(KillSkillDuration());
+                hasFrenzied = true;
+            }
+
+            if (Frenzy == false && hasFrenzied == true)
+            {
+                PlayerController.Instance.currentLeftArm.UpdateAttackDamage(-5);
+                PlayerController.Instance.currentRightArm.UpdateAttackDamage(-5);
+            }
+        }
     }
 
     public void PlumpMushroom() //Heals Player after room clear (WIP)
@@ -132,6 +159,20 @@ public class TrinketManager : MonoBehaviour
     public void Scavenger() //Increases bone drops (WIP)
     {
         //PlayerController.Instance.BonesMultiplier = 1.05;
+    }
+
+    public void StartKillSkills()
+    {
+        FeedingFrenzy(Frenzy: true);
+    }
+
+    private IEnumerator KillSkillDuration()
+    {
+        yield return new WaitForSeconds(killSkillDuration);
+        if (hasFrenzied)
+        {
+            FeedingFrenzy(Frenzy: false);
+        }
     }
 
 }

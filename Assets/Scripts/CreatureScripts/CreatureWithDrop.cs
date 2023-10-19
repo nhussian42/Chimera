@@ -63,5 +63,8 @@ public abstract class CreatureWithDrop : MonoBehaviour
     {
         gameObject.SetActive(false);
         SpawnDrop();
+        TrinketManager.Instance.StartKillSkills();
+     
+
     }
 }
