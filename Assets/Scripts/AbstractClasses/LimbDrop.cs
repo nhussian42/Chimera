@@ -16,6 +16,15 @@ public class LimbDrop : MonoBehaviour
     public Weight Weight { get { return weight; } }
     public float LimbHealth { get { return limbHealth; } }
 
+    private void OnEnable()
+    {
+        if (limbHealth == 0)
+        {
+            limbHealth = 100f;
+        }
+
+    }
+
     public void OverwriteLimbHealth(float newValue)
     {
         limbHealth = newValue;

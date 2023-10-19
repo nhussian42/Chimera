@@ -7,6 +7,7 @@ public abstract class Limb : MonoBehaviour
     [SerializeField] protected Classification classification;
     [SerializeField] protected Weight weight;
     [SerializeField] private float startingHealth = 100f;
+    [SerializeField] private Limb limbDropPrefab;
 
     public Classification Classification { get { return classification; } }
     public Weight Weight { get { return weight; } }

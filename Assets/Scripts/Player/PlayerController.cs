@@ -53,8 +53,6 @@ public class PlayerController : Singleton<PlayerController>
     public Legs currentLegs { get; private set; }
     //Head currentHead;
 
-    DefaultArm switchedArmRef; // holds ref to arm being switched on player
-
     [SerializeField] Transform AttackRangeOrigin;
     [SerializeField] GameObject attackRangeRotator;
 
@@ -327,12 +325,10 @@ public class PlayerController : Singleton<PlayerController>
         // BUG: when the player has two wolf arms, right arm stats do not switch
         Classification switchClass = currentLeftArm.Classification;
         Weight switchWeight = currentLeftArm.Weight;
-        WolfArm switchRef = new WolfArm();
-        switchRef.LoadStats(
-            currentLeftArm.AttackDamage,
-            currentLeftArm.AttackSpeed,
-            currentLeftArm.MaxHealth,
-            currentLeftArm.Health);
+        float switchAtkDmg = currentLeftArm.AttackDamage;
+        float switchAtkSpd = currentLeftArm.AttackSpeed;
+        float switchMxHP = currentLeftArm.MaxHealth;
+        float switchHP = currentLeftArm.Health;
         foreach (Arm arm in allArms)
         {
             if(arm.Weight == currentRightArm.Weight && arm.Classification == currentRightArm.Classification && arm.Side == SideOfPlayer.Left)
@@ -365,10 +361,10 @@ public class PlayerController : Singleton<PlayerController>
                 currentRightArm = arm;
                 currentRightArm.Initialize(this);
                 currentRightArm.LoadStats(
-                    switchRef.AttackDamage,
-                    switchRef.AttackSpeed,
-                    switchRef.MaxHealth,
-                    switchRef.Health);
+                    switchAtkDmg,
+                    switchAtkSpd,
+                    switchMxHP,
+                    switchHP);
             }
         } // swap right arm with ref
 
@@ -430,7 +426,7 @@ public class PlayerController : Singleton<PlayerController>
                                 arm.gameObject.SetActive(true);
                                 currentRightArm = arm;
                                 currentRightArm.Initialize(this);
-                                // Put function here to read the limbDrop's health onto the current arm
+                                currentRightArm.Health = newLimb.LimbHealth;
 
                             }
                             else if (originalArm.Side == SideOfPlayer.Left)
@@ -444,7 +440,7 @@ public class PlayerController : Singleton<PlayerController>
                                 arm.gameObject.SetActive(true);
                                 currentLeftArm = arm;
                                 currentLeftArm.Initialize(this);
-                                // Put function here to read the limbDrop's health onto the current arm
+                                currentLeftArm.Health = newLimb.LimbHealth;
                             }
                         }
                     }
@@ -470,6 +466,12 @@ public class PlayerController : Singleton<PlayerController>
         }
 
     }
+
+    private void DropLimb(Limb droppedLimb)
+    {
+
+    }
+
 
     //Consolidate LoadSavedLimb methods below into one function with no params after adding head class
     private void LoadSavedLimb(Arm savedArm)
