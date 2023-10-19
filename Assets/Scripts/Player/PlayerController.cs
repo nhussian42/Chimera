@@ -53,7 +53,7 @@ public class PlayerController : Singleton<PlayerController>
     public Legs currentLegs { get; private set; }
     //Head currentHead;
 
-    Arm switchedArmRef; // holds ref to arm being switched on player
+    DefaultArm switchedArmRef; // holds ref to arm being switched on player
 
     [SerializeField] Transform AttackRangeOrigin;
     [SerializeField] GameObject attackRangeRotator;
@@ -325,7 +325,14 @@ public class PlayerController : Singleton<PlayerController>
     private void SwitchArms()
     {
         // BUG: when the player has two wolf arms, right arm stats do not switch
-        Arm switchRef = currentLeftArm;
+        Classification switchClass = currentLeftArm.Classification;
+        Weight switchWeight = currentLeftArm.Weight;
+        WolfArm switchRef = new WolfArm();
+        switchRef.LoadStats(
+            currentLeftArm.AttackDamage,
+            currentLeftArm.AttackSpeed,
+            currentLeftArm.MaxHealth,
+            currentLeftArm.Health);
         foreach (Arm arm in allArms)
         {
             if(arm.Weight == currentRightArm.Weight && arm.Classification == currentRightArm.Classification && arm.Side == SideOfPlayer.Left)
@@ -347,7 +354,7 @@ public class PlayerController : Singleton<PlayerController>
         } // swap left arm with right
         foreach (Arm arm in allArms)
         {
-            if (arm.Weight == switchRef.Weight && arm.Classification == switchRef.Classification && arm.Side == SideOfPlayer.Right)
+            if (arm.Weight == switchWeight && arm.Classification == switchClass && arm.Side == SideOfPlayer.Right)
             {
                 if (currentRightArm != null)
                 {
