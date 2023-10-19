@@ -37,15 +37,18 @@ public class Crocodile : NotBossAI
     {
         Debug.Log("Just walking at the player");
         attacking = true;
-        yield return new WaitUntil(() => agent.remainingDistance < 4f);
+        yield return new WaitUntil(() => agent.remainingDistance < 0.5f);
 
+        Debug.Log("Attack collider enabled");
         agent.isStopped = true;
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);
 
+        Debug.Log("Attack collider disabled");
         attackCollider.enabled = false;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
 
+        Debug.Log("Movement resumed");
         agent.isStopped = false;
         attacking = false;
         yield return null;
@@ -90,10 +93,10 @@ public class Crocodile : NotBossAI
     protected override void Update()
     {
 
-        if (attacking == false && alive == true && underground == false)
+        if (alive == true && underground == false)
         {
             agent.destination = player.transform.position;
-            if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
+            if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
             {
                 //Player is in range
                 //Perform attack coroutine
