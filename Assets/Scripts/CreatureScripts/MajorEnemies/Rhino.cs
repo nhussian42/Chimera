@@ -15,7 +15,6 @@ public class Rhino : NotBossAI
     private float initialTurnSpeed;
     private float initialMovementSpeed;
     private float initialAcceleration;
-    private float angle = 90f;
 
     [SerializeField, Tooltip("How long it stops once in range before beginning the charge")] private float chargeDelay = 1f;
     [SerializeField, Tooltip("Acceleration during the charge")] private float chargeAcceleration = 4f;
@@ -24,8 +23,7 @@ public class Rhino : NotBossAI
 
     [SerializeField, Tooltip("Range it begins slam attack")] private float slamAttackRange = 2f;
 
-    [SerializeField] private GameObject attackIndicator;
-    [SerializeField] private MeshCollider attackCollider;
+    [SerializeField] private CapsuleCollider attackCollider;
 
     private Rigidbody rb;
 
@@ -72,20 +70,17 @@ public class Rhino : NotBossAI
     public IEnumerator SlamAttack()
     {
         //Stops the rhino
-        gameObject.transform.LookAt(player.transform.position);
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         yield return new WaitForSeconds(0.5f);
 
         //Attack is performed
         attackCollider.enabled = true;
-        attackIndicator.SetActive(true);
         yield return new WaitForSeconds(0.5f);
 
         //Attack ends, resets rhino to normal movement
         attackCollider.enabled = false;
         agent.isStopped = false;
-        attackIndicator.SetActive(false);
         agent.angularSpeed = initialTurnSpeed;
         agent.speed = initialMovementSpeed;
         agent.acceleration = initialAcceleration;
