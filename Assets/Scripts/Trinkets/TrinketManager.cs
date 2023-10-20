@@ -34,11 +34,12 @@ public class TrinketManager : Singleton<TrinketManager>
 
     public void Update()
     { 
-        coreHealth = PlayerController.Instance.Core.Health;
-
         if (hyenaJaw) HyenaJaw();
+        Debug.Log(hyenaJaw + " in update");
 
 
+        if (Input.GetKeyDown(KeyCode.O)) PlayerController.Instance.UpdateCoreHealth(-10);
+        if (Input.GetKeyDown(KeyCode.L)) PlayerController.Instance.UpdateCoreHealth(+10);
 
     }
 
@@ -83,7 +84,6 @@ public class TrinketManager : Singleton<TrinketManager>
     public void FeedingFrenzy(bool Frenzy) //Increases damage after a kill (WIP)
     {
         TrinketManager.Instance.canFrenzy = canFrenzy;
-        Debug.Log(canFrenzy);
         if(canFrenzy == true) {
 
             if (Frenzy == true)
@@ -114,17 +114,21 @@ public class TrinketManager : Singleton<TrinketManager>
 
     public void MulesKick() //Increases Player Move Speed 
     {
-        PlayerController.Instance.MulesKick(1);
+        PlayerController.Instance.MulesKick(2);
     }
 
     public void HyenaJaw() //Increases damage when core gets low (WIP)
     {
         hyenaJaw = true;
-
+        TrinketManager.Instance.hyenaJaw = hyenaJaw;
+        Debug.Log(hyenaJaw + "in script");
+        coreHealth = PlayerController.Instance.Core.Health;
         if ((coreHealth < 50) && (coreHealth > 25) && HJTier1 == false)
         {
             //LeftArm.UpdateAttackDamage(10);
             //RightArm.UpdateAttackDamage(10);
+            Debug.Log("Added Damage");
+            Debug.Log(coreHealth);
             PlayerController.Instance.currentLeftArm.UpdateAttackDamage(10);
             PlayerController.Instance.currentRightArm.UpdateAttackDamage(10);
             HJTier1 = true;         
