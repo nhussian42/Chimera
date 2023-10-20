@@ -10,7 +10,6 @@ public class Wolf : NotBossAI
     [SerializeField, Tooltip("How long it charges for")] private float chargeTime = 0.5f;
     [SerializeField, Tooltip("How long after a charge until it can charge again")] private float attackCooldown = 1f;
 
-    [SerializeField] private GameObject attackIndicator;
     [SerializeField] private GameObject attackCollider;
 
     private float baseSpeed;
@@ -70,14 +69,12 @@ public class Wolf : NotBossAI
         // }
         agent.velocity = Vector3.zero;
         Rigidbody rb = GetComponent<Rigidbody>();
-        attackIndicator.SetActive(true);
         yield return new WaitForSeconds(chargeDelay);
 
         //Charges foward
         AudioManager.Instance.PlayMajEnemySFX("WolfSlash");
         agent.isStopped = true;
         agent.speed = baseSpeed;
-        attackIndicator.SetActive(false);
         attackCollider.SetActive(true);
         rb.AddForce(gameObject.transform.forward * chargeSpeed, ForceMode.Impulse);
         yield return new WaitForSeconds(chargeTime);
