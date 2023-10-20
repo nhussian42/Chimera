@@ -8,22 +8,17 @@ public abstract class Arm : Limb
     //Exposed properties
     [SerializeField] private float attackDamage;
     [SerializeField] private float attackSpeed;
-    [SerializeField] private Weight weight;
     [SerializeField] private SideOfPlayer side;
-    [SerializeField] private ArmDrop dropPrefab;
+    //[SerializeField] private ArmDrop dropPrefab;
     [SerializeField] private AttackRange attackRangePrefab;
 
     //Hidden properties
     private AttackRange attackRange;
     private bool canAttack = true;
-    private Animator anim;
-
 
     //Public getters
-    public Classification Classification { get { return classification; } }
-    public Weight Weight { get { return weight; } }
     public SideOfPlayer Side { get { return side; } }
-    public ArmDrop DropPrefab { get { return dropPrefab; } }
+    //public ArmDrop DropPrefab { get { return dropPrefab; } }
     public float AttackDamage { get { return attackDamage; } }
     
     public float AttackSpeed { get { return attackSpeed; }  }
@@ -43,17 +38,19 @@ public abstract class Arm : Limb
 
     public virtual void Initialize(PlayerController player)
     {
+        // Instantiates and sets the arm's attack collider on the player's attack origin
         attackRange = Instantiate(attackRangePrefab.gameObject, player.attackRangeOrigin.position, player.attackRangeOrigin.rotation, player.attackRangeOrigin).GetComponent<AttackRange>();
         attackRange.InputArmReference(this);
         attackRange.gameObject.SetActive(false);
         StartCoroutine(Cooldown());
-        //Debug.Log("Arm initialized");
+        
     }
 
     public virtual void Terminate()
     {
+        // Destroys the instantiated attack collider
         Destroy(attackRange.gameObject);
-        //Debug.Log("Arm terminated");
+        
     }
 
     private IEnumerator ActivateAttackRange()

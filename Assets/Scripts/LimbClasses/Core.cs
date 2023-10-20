@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Weight
+public class Core : Limb
 {
-    Heavy,
-    Medium,
-    Light,
-    Core
+
 }
