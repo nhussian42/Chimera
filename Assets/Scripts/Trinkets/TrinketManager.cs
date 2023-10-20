@@ -34,7 +34,7 @@ public class TrinketManager : Singleton<TrinketManager>
 
     public void Update()
     { 
-        coreHealth = PlayerController.Instance.CoreHealth;
+        coreHealth = PlayerController.Instance.Core.Health;
 
         if (hyenaJaw) HyenaJaw();
 

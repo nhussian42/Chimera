@@ -36,9 +36,6 @@ public class PlayerController : Singleton<PlayerController>
     // Reference to SaveManager
     SaveManager saveManager;
 
-    // Reference to SaveManager
-    SaveManager saveManager;
-
     // Limb References
     //public List<Heads> allHeads;
     public List<Arm> allArms;
@@ -560,7 +557,7 @@ public class PlayerController : Singleton<PlayerController>
     // and then set that limb as a reference in playercontroller
     public void UpdateCoreHealth(float amount)
     {
-        coreHealth = Mathf.Clamp(coreHealth + amount, 0, 100);
+        core.Health = Mathf.Clamp(core.Health + amount, 0, 100);
     }
 
     // temporary function to update move speed called by trinket script
