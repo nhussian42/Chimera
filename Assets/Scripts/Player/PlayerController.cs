@@ -36,9 +36,6 @@ public class PlayerController : Singleton<PlayerController>
     // Reference to SaveManager
     SaveManager saveManager;
 
-    // Reference to SaveManager
-    SaveManager saveManager;
-
     // Limb References
     //public List<Heads> allHeads;
     public List<Arm> allArms;
