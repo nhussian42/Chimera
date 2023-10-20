@@ -10,7 +10,6 @@ public class SaveManager : Singleton<SaveManager>
 
     public bool firstLoad { get; private set; }
 
-
     // Public getters
     public Arm SavedLeftArm { get { return savedLeftArm; } }
     public Arm SavedRightArm { get { return savedRightArm; } }
@@ -21,7 +20,7 @@ public class SaveManager : Singleton<SaveManager>
         firstLoad = true;
         DontDestroyOnLoad(this);
     }
-
+    
     public void SaveLimbData(Arm leftArm, Arm rightArm, Core core)
     {
         // Add legs and head data here and in parameters later
@@ -34,5 +33,4 @@ public class SaveManager : Singleton<SaveManager>
         //Debug.Log(savedLeftArm.AttackSpeed);
         //Debug.Log(savedLeftArm.Health);
     }
-
 }
