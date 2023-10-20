@@ -23,7 +23,7 @@ public class NotBossAI : Creature
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = PlayerController.Instance.gameObject;
         playerLayerMask = LayerMask.GetMask("Player");
         currentHealth = health;
     }
