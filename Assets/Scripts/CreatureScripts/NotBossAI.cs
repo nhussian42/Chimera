@@ -54,13 +54,13 @@ public class NotBossAI : Creature
         if (other.gameObject.GetComponent<CharacterController>() != null && attacking == true && iFrame == false)
         {
             iFrame = true;
-            Debug.Log("Dealt damage to player");
-            PlayerController.Instance.DistributeDamage(attackDamage);
             Invoke("IFrame", 0.5f);
+            Debug.Log("Dealt damage to player");
+            PlayerController.Instance.DistributeDamage(attackDamage);     
         }
     }
 
-    private void IFrame()
+    void IFrame()
     {
         iFrame = false;
     }
