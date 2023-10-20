@@ -80,6 +80,7 @@ public class PlayerController : Singleton<PlayerController>
         _playerInputActions = new PlayerInputActions();
         _controller = GetComponent<CharacterController>();
         saveManager = SaveManager.Instance;
+
     }
 
     // Enable new player input actions in this method
@@ -225,6 +226,8 @@ public class PlayerController : Singleton<PlayerController>
         // Reads L and R mouse buttons 
         if (_attackRight.triggered == true && currentRightArm.CanAttack == true)
         {
+            currentRightArm.PauseInput();
+
             animator.SetTrigger("RightAttack");
 
             if (isRightWolfArm)
@@ -236,6 +239,8 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_attackLeft.triggered == true && currentLeftArm.CanAttack == true)
         {
+            currentRightArm.PauseInput();
+
             animator.SetTrigger("LeftAttack");
             AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
 

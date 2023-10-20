@@ -29,11 +29,12 @@ public abstract class Arm : Limb
 
     public virtual void Attack()
     {
-        if(canAttack == true)
-        {
-            //Debug.Log("Attack");
-            StartCoroutine(ActivateAttackRange());
-        }
+        StartCoroutine(ActivateAttackRange());
+    }
+
+    public virtual void PauseInput()
+    {
+        canAttack = false;
     }
 
     public virtual void Initialize(PlayerController player)
