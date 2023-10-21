@@ -60,6 +60,8 @@ public abstract class Creature : MonoBehaviour
         if (currentHealth <= 0 && alive == true)
         {
             Die();
+            TrinketManager.Instance.StartKillSkills();
+
         }
         else if (alive == true)
         {

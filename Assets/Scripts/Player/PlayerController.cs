@@ -74,6 +74,10 @@ public class PlayerController : Singleton<PlayerController>
     private Vector2 movementValues;
     private Vector3 movementDir;
     private Vector3 movementVector;
+
+    public float totalBones;
+    public float bonesMultiplier;
+
     protected override void Init()
     {
         _playerInput = GetComponent<PlayerInput>();
@@ -280,6 +284,13 @@ public class PlayerController : Singleton<PlayerController>
                 SwapLimb(currentLeftArm, newLimb);
                 Destroy(newLimb.gameObject);
             }
+            else if (Input.GetKeyDown(KeyCode.K))
+            {
+                Debug.Log("Scrapped Item");
+                AddBones(50);
+                Destroy(newLimb.gameObject);
+            }
+
         }
 
         OnArmSwapped?.Invoke();
@@ -553,6 +564,21 @@ public class PlayerController : Singleton<PlayerController>
         OnDamageReceived?.Invoke();
     }
 
+    // temporary function to update core health, but we should make it its own limb
+    // and then set that limb as a reference in playercontroller
+    public void UpdateCoreHealth(float amount)
+    {
+        core.Health = Mathf.Clamp(core.Health + amount, 0, 100);
+    }
+
+    // temporary function to update move speed called by trinket script
+    // (_movementSpeed can't be edited from other scripts to my knowledge)
+    public void MulesKick(float amount)
+    {
+        _movementSpeed += amount;
+        Debug.Log(_movementSpeed.ToString());
+    }
+
     private void Pause()
     {
         DisableAllDefaultControls();
@@ -564,6 +590,20 @@ public class PlayerController : Singleton<PlayerController>
     {
         EnableAllDefaultControls();
         _unpause.Disable();
+    }
+
+    public void AddBones(float amount)
+    {
+        if(bonesMultiplier > 1)
+        {
+            totalBones += amount * bonesMultiplier;
+        }
+        else
+        {
+            totalBones += amount;
+        }
+        
+        Debug.Log(totalBones.ToString("F2"));
     }
 
 }
