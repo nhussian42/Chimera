@@ -7,7 +7,10 @@ public class PlayerStatsUITest : MonoBehaviour
 {
     [Header("Core Text")]
     [SerializeField] private TextMeshProUGUI coreHealth;
-    
+
+    [Header("Bone Text")]
+    [SerializeField] private TextMeshProUGUI totalBones;
+
     [Header("Right Arm Text")]
     [SerializeField] private TextMeshProUGUI rightArmHealth;
     [SerializeField] private TextMeshProUGUI rightArmDamage;
@@ -17,6 +20,7 @@ public class PlayerStatsUITest : MonoBehaviour
     [SerializeField] private TextMeshProUGUI leftArmHealth;
     [SerializeField] private TextMeshProUGUI leftArmDamage;
     [SerializeField] private TextMeshProUGUI leftArmAttackSpeed;
+  
 
 
     private void OnEnable()
@@ -37,13 +41,14 @@ public class PlayerStatsUITest : MonoBehaviour
     {
         UpdateHealthStats();
         UpdateArmStats();
+        UpdateBoneCount();
     }
 
     private void UpdateHealthStats()
     {
-        coreHealth.text = $"Health: {PlayerController.Instance.Core.Health}";
-        leftArmHealth.text = $"Health: {PlayerController.Instance.currentLeftArm.Health}";
-        rightArmHealth.text = $"Health: {PlayerController.Instance.currentRightArm.Health}";
+        coreHealth.text = $"Health: {(PlayerController.Instance.Core.Health).ToString("F2")}";
+        leftArmHealth.text = $"Health: {(PlayerController.Instance.currentLeftArm.Health).ToString("F2")}";
+        rightArmHealth.text = $"Health: {(PlayerController.Instance.currentRightArm.Health).ToString("F2")}";
     }
 
     private void UpdateArmStats()
@@ -52,5 +57,10 @@ public class PlayerStatsUITest : MonoBehaviour
         leftArmAttackSpeed.text = $"Attack Speed: {(1/PlayerController.Instance.currentLeftArm.AttackSpeed).ToString("F2")}";
         rightArmDamage.text = $"Damage: {PlayerController.Instance.currentRightArm.AttackDamage}";
         rightArmAttackSpeed.text = $"Attack Speed: {(1/PlayerController.Instance.currentRightArm.AttackSpeed).ToString("F2")}";
+    }
+
+    private void UpdateBoneCount()
+    {
+        totalBones.text = $"Bones: {PlayerController.Instance.totalBones.ToString("F0")}";
     }
 }
