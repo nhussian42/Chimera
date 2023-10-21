@@ -7,7 +7,9 @@ public abstract class Legs : Limb
 {
     [SerializeField] float movementSpeed;
     [SerializeField] float cooldownTime;
+    protected bool canActivate = true;
 
+    public bool CanActivate { get { return canActivate; } }
     public float MovementSpeed { get { return movementSpeed; } }
 
     // Refs
