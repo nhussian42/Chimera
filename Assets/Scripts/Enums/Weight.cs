@@ -6,5 +6,6 @@ public enum Weight
 {
     Heavy,
     Medium,
-    Light
+    Light,
+    Core
 }
