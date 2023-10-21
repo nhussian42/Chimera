@@ -13,42 +13,14 @@ public class TrinketMenu : MonoBehaviour
 
     public bool active = false;
 
-
     public PlayerController PlayerController;
-
+    public TrinketManager TrinketManager;
+    
     public GameObject self;
-
     public void CloseMenu()
     {
-        Destroy(gameObject);
+        DestroyImmediate(self, true);
     }
-
-    public void IncreaseDamage()
-    {
-        PlayerController.Instance.currentLeftArm.UpdateAttackDamage(5);
-        PlayerController.Instance.currentRightArm.UpdateAttackDamage(5);
-        CloseMenu();
-    }
-
-    public void IncreaseATKSpeed()
-    {
-        PlayerController.Instance.currentLeftArm.UpdateAttackSpeed(0.05f);
-        PlayerController.Instance.currentRightArm.UpdateAttackSpeed(0.05f);
-        CloseMenu();
-    }
-
-    public void IncreaseHealth()
-    {
-
-        PlayerController.Instance.currentLeftArm.UpdateMaxHealth(5);
-        PlayerController.Instance.currentRightArm.UpdateMaxHealth(5);
-        PlayerController.Instance.currentRightArm.DebugLog();
-        CloseMenu();
-    }
-
-
-
-
 
 
 }

@@ -75,6 +75,15 @@ public abstract class Arm : Limb
 
     public void UpdateMaxHealth(float amount) => maxHealth += amount;
 
+    public void UpdateCurrentHealth(float amount)
+    {
+        if ((currentHealth + amount) > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+        else currentHealth += amount;
+    }
+      
     public void LoadStats(float atkDmg, float atkSpd, float maxHP, float currentHP)
     {
         attackDamage = atkDmg;
