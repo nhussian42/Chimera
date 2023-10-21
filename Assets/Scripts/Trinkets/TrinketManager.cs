@@ -10,8 +10,8 @@ public class TrinketManager : Singleton<TrinketManager>
     public TrinketMenu TrinketMenu;
 
     private bool hyenaJaw = false;
-    private bool feedingFrenzy = false;
-    private bool bearClaw = false;
+    // private bool feedingFrenzy = false;
+    // private bool bearClaw = false;
     private float killSkillDuration = 2;
     
 
