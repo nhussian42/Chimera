@@ -40,6 +40,7 @@ public class TrinketManager : Singleton<TrinketManager>
 
         if (Input.GetKeyDown(KeyCode.O)) PlayerController.Instance.UpdateCoreHealth(-10);
         if (Input.GetKeyDown(KeyCode.L)) PlayerController.Instance.UpdateCoreHealth(+10);
+        if (Input.GetKeyDown(KeyCode.M)) PlayerController.Instance.AddBones(100);
 
     }
 
@@ -162,7 +163,7 @@ public class TrinketManager : Singleton<TrinketManager>
 
     public void Scavenger() //Increases bone drops (WIP)
     {
-        //PlayerController.Instance.BonesMultiplier = 1.05;
+        PlayerController.Instance.bonesMultiplier = 1.05f;
     }
 
     public void StartKillSkills()

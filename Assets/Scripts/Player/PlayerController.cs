@@ -74,6 +74,10 @@ public class PlayerController : Singleton<PlayerController>
     private Vector2 movementValues;
     private Vector3 movementDir;
     private Vector3 movementVector;
+
+    public float totalBones;
+    public float bonesMultiplier;
+
     protected override void Init()
     {
         _playerInput = GetComponent<PlayerInput>();
@@ -280,6 +284,13 @@ public class PlayerController : Singleton<PlayerController>
                 SwapLimb(currentLeftArm, newLimb);
                 Destroy(newLimb.gameObject);
             }
+            else if (Input.GetKeyDown(KeyCode.K))
+            {
+                Debug.Log("Scrapped Item");
+                AddBones(50);
+                Destroy(newLimb.gameObject);
+            }
+
         }
 
         OnArmSwapped?.Invoke();
@@ -579,6 +590,20 @@ public class PlayerController : Singleton<PlayerController>
     {
         EnableAllDefaultControls();
         _unpause.Disable();
+    }
+
+    public void AddBones(float amount)
+    {
+        if(bonesMultiplier > 1)
+        {
+            totalBones += amount * bonesMultiplier;
+        }
+        else
+        {
+            totalBones += amount;
+        }
+        
+        Debug.Log(totalBones.ToString("F2"));
     }
 
 }
