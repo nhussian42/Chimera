@@ -6,6 +6,7 @@ using UnityEngine;
 
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
@@ -113,14 +114,16 @@ public class PlayerController : Singleton<PlayerController>
         // Deactivate all limbs first
         foreach (Arm arm in allArms) arm.gameObject.SetActive(false);
         foreach (Legs legs in allLegs) legs.gameObject.SetActive(false);
+
+        
   
         if (saveManager.firstLoad == true)
         {
             // If first load into scene, set default limbs
             coreLeftArm.gameObject.SetActive(true);
             coreRightArm.gameObject.SetActive(true);
-            //coreLegs.gameObject.SetActive(true);
-            //currentLegs = coreLegs;
+            coreLegs.gameObject.SetActive(true);
+            currentLegs = coreLegs;
             currentLeftArm = coreLeftArm;
             currentRightArm = coreRightArm;
             currentLeftArm.Initialize(this);
@@ -132,9 +135,9 @@ public class PlayerController : Singleton<PlayerController>
             LoadSavedLimb(saveManager.SavedLeftArm);
             LoadSavedLimb(saveManager.SavedRightArm);
             LoadSavedLimb(saveManager.SavedCore);
-
-            //LoadLimb(currentLegs, saveManager.SavedLegs);
+            LoadSavedLimb(saveManager.SavedLegs);
         }
+       
         #endregion
     }
 
@@ -148,8 +151,8 @@ public class PlayerController : Singleton<PlayerController>
     private void OnDestroy()
     {
         // Called when the player exits the room (loading a new scene destroys all current scene objects)
-        Debug.Log("called save manager");
-        saveManager.SaveLimbData(currentLeftArm, currentRightArm, core);
+        
+        saveManager.SaveLimbData(currentLeftArm, currentRightArm, core, currentLegs);
     }
 
     private void EnableAllDefaultControls()
@@ -198,6 +201,9 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Start()
     {
+        Debug.Log(currentLegs.MovementSpeed);
+        _movementSpeed = currentLegs.MovementSpeed;
+
         _mainCamera = Camera.main;
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
         
@@ -234,7 +240,7 @@ public class PlayerController : Singleton<PlayerController>
         // Reads L and R mouse buttons 
         if (_attackRight.triggered == true && currentRightArm.CanAttack == true)
         {
-            currentRightArm.PauseInput();
+            //currentRightArm.PauseInput();
 
             animator.SetTrigger("RightAttack");
 
@@ -247,7 +253,7 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_attackLeft.triggered == true && currentLeftArm.CanAttack == true)
         {
-            currentRightArm.PauseInput();
+            //currentRightArm.PauseInput();
 
             animator.SetTrigger("LeftAttack");
             AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
@@ -258,13 +264,13 @@ public class PlayerController : Singleton<PlayerController>
                 AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
-        if(_legsAbility.triggered == true) // add check for canActivate here
+        if(_legsAbility.triggered == true && currentLegs.CanActivate == true)
         {
-            //Perform legs ability
+            // This will need refactoring for special leg animations, the line below will probably
+            // be called by an animation event like the triggers above.
+            currentLegs.ActivateAbility();
         }
 
-            
-        
         if (_swapLimbs.triggered == true)
             SwitchArms();
 
@@ -342,6 +348,7 @@ public class PlayerController : Singleton<PlayerController>
     private void ActivateLegs()
     {
         // Called by animation event to enable attack collider at specific point in anim timeline.
+        currentLegs.ActivateAbility();
     }
 
     private void SwitchArms()
