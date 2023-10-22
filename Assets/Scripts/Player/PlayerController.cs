@@ -536,7 +536,10 @@ public class PlayerController : Singleton<PlayerController>
         {
             if (legs.Weight == savedLegs.Weight && legs.Classification == savedLegs.Classification)
             {
-                currentLegs.gameObject.SetActive(false);
+                if(currentLegs != null)
+                {
+                    currentLegs.gameObject.SetActive(false);
+                }
                 legs.gameObject.SetActive(true);
                 currentLegs = legs;
                 currentLegs.LoadStats(savedLegs.Health, savedLegs.MovementSpeed);
