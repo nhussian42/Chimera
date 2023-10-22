@@ -7,6 +7,7 @@ public class SaveManager : Singleton<SaveManager>
     private Arm savedLeftArm;
     private Arm savedRightArm;
     private Core savedCore;
+    private Legs savedLegs;
 
     public bool firstLoad { get; private set; }
 
@@ -14,6 +15,7 @@ public class SaveManager : Singleton<SaveManager>
     public Arm SavedLeftArm { get { return savedLeftArm; } }
     public Arm SavedRightArm { get { return savedRightArm; } }
     public Core SavedCore { get { return savedCore; } }
+    public Legs SavedLegs { get { return savedLegs; } }
 
     protected override void Init()
     {
@@ -21,12 +23,13 @@ public class SaveManager : Singleton<SaveManager>
         DontDestroyOnLoad(this);
     }
     
-    public void SaveLimbData(Arm leftArm, Arm rightArm, Core core)
+    public void SaveLimbData(Arm leftArm, Arm rightArm, Core core, Legs legs)
     {
         // Add legs and head data here and in parameters later
         savedLeftArm = leftArm;
         savedRightArm = rightArm;
         savedCore = core;
+        savedLegs = legs;
         firstLoad = false;
         //Debug.Log("Data saved");
         //Debug.Log(savedLeftArm.AttackDamage);
