@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UnitySceneManager : Singleton<UnitySceneManager>
+public class ChimeraSceneManager : Singleton<ChimeraSceneManager>
 {
     [SerializeField] private float _fadeOutTime;
     [SerializeField] private float _fadeInTime;
+
+    public static Action<float> FadeValueChanged;
 
     private void OnEnable()
     {
@@ -36,6 +38,7 @@ public class UnitySceneManager : Singleton<UnitySceneManager>
         while (elapsedTime < fadeOutTime)
         {
             elapsedTime += Time.deltaTime;
+            FadeValueChanged.Invoke(elapsedTime/fadeOutTime);
             yield return null;
         }
         FloorManager.LoadNextRoom?.Invoke();
@@ -47,6 +50,7 @@ public class UnitySceneManager : Singleton<UnitySceneManager>
         while (elapsedTime < fadeInTime)
         {
             elapsedTime += Time.deltaTime;
+            FadeValueChanged.Invoke(1 - elapsedTime/fadeInTime);
             yield return null;
         }
         FloorManager.EnableFloor?.Invoke();
