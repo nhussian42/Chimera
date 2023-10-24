@@ -5,29 +5,47 @@ using UnityEngine;
 public class CurrentLArmStatsSO : ScriptableObject
 {
     // Default stats for the current left arm
-    private float baseHealth;
-    private float baseMaxHealth;
-    private float baseAttackSpeed;
-    private float baseAttackDamage;
+    public float baseHealth { get; private set; }
+    public float baseMaxHealth { get; private set; }
+    public float baseAttackSpeed { get; private set; }
+    public float baseAttackDamage { get; private set; }
 
-    // Trinkets subtract their buffed value from the base value locally and add that value to these values
-    private float healthAddValue;
-    private float maxHealthAddValue;
-    private float attackSpeedAddValue;
-    private float attackDamageAddValue;
+    // Trinkets subtract the base value from their calculated buffed value locally and then add that value to these values
+    public float healthAddValue;
+    public float maxHealthAddValue;
+    public float attackSpeedAddValue;
+    public float attackDamageAddValue;
 
-    // Stats for the left arm after trinket buffs
-    private float currentHealth;
-    private float currentMaxHealth;
-    private float currentAttackSpeed;
-    private float currentAttackDamage; 
+    // Exposed stats for the left arm after trinket buffs
+    public float currentHealth { get; private set; }
+    public float currentMaxHealth { get; private set; }
+    public float currentAttackSpeed { get; private set; }
+    public float currentAttackDamage { get; private set; }
 
-    //Called by the current left arm when it is swapped/initialized so this SO has updated base values
+    // Called by the current left arm when it is swapped/initialized for updated base values
     public void LoadBaseStats(float health, float maxHealth, float attackSpeed, float attackDamage)
     {
         baseHealth = health;
         baseMaxHealth = maxHealth;
         baseAttackSpeed = attackSpeed;
         baseAttackDamage = attackDamage;
+    }
+
+    // Called whenever a SO game event is called to reset the add values before calculating new ones
+    public void ResetAddValues()
+    {
+        healthAddValue = 0;
+        maxHealthAddValue = 0;
+        attackSpeedAddValue = 0;
+        attackDamageAddValue = 0;
+    }
+
+    // Called after all trinkets are done adding their 'add values' to this script
+    public void CalculateCurrentStats()
+    {
+        currentHealth = baseHealth + healthAddValue;
+        currentMaxHealth = baseMaxHealth + maxHealthAddValue;
+        currentAttackSpeed = baseAttackSpeed + attackSpeedAddValue;
+        currentAttackDamage = baseAttackDamage + attackDamageAddValue;
     }
 }

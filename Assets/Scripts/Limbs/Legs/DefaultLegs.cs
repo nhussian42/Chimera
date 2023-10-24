@@ -7,7 +7,7 @@ public class DefaultLegs : Legs
     public override void ActivateAbility()
     {
         Debug.Log("Legs Activated");
-        StartCoroutine(Cooldown(canActivate));
+        StartCoroutine(Cooldown());
     }
 
 
