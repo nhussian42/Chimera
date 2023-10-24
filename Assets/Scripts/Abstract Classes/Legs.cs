@@ -17,11 +17,11 @@ public abstract class Legs : Limb
 
     public abstract void ActivateAbility();
 
-    protected virtual IEnumerator Cooldown(bool conditional)
+    protected virtual IEnumerator Cooldown()
     {
-        conditional = false;
+        canActivate= false;
         yield return new WaitForSeconds(cooldownTime);
-        conditional = true;
+        canActivate = true;
     }
 
     public virtual void LoadStats(float health, float moveSpd)
