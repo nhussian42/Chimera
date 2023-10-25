@@ -12,6 +12,8 @@ public abstract class Legs : Limb
     public bool CanActivate { get { return canActivate; } }
     public float MovementSpeed { get { return movementSpeed; } }
 
+    public float CooldownTime { get { return cooldownTime; } }
+
     // Refs
     private PlayerController player; // needed to manipulate player visibility and movement
 
