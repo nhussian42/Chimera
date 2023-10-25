@@ -85,13 +85,14 @@ public class PlayerController : Singleton<PlayerController>
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
         _controller = GetComponent<CharacterController>();
-        saveManager = SaveManager.Instance;
 
     }
 
     // Enable new player input actions in this method
     private void OnEnable()
     {
+        saveManager = SaveManager.Instance;
+
         _playerInput.onControlsChanged += ChangeControlSchemes;
         GameManager.OnUnpause += Unpause;
         FloorManager.LoadNextRoom += Deactivate;
@@ -118,9 +119,8 @@ public class PlayerController : Singleton<PlayerController>
         // Deactivate all limbs first
         foreach (Arm arm in allArms) arm.gameObject.SetActive(false);
         foreach (Legs legs in allLegs) legs.gameObject.SetActive(false);
+       
 
-        
-  
         if (saveManager.firstLoad == true)
         {
             // If first load into scene, set default limbs

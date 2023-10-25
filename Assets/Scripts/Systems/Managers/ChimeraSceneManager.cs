@@ -38,7 +38,7 @@ public class ChimeraSceneManager : Singleton<ChimeraSceneManager>
         while (elapsedTime < fadeOutTime)
         {
             elapsedTime += Time.deltaTime;
-            FadeValueChanged.Invoke(elapsedTime/fadeOutTime);
+            FadeValueChanged?.Invoke(elapsedTime/fadeOutTime);
             yield return null;
         }
         FloorManager.LoadNextRoom?.Invoke();
@@ -50,7 +50,7 @@ public class ChimeraSceneManager : Singleton<ChimeraSceneManager>
         while (elapsedTime < fadeInTime)
         {
             elapsedTime += Time.deltaTime;
-            FadeValueChanged.Invoke(1 - elapsedTime/fadeInTime);
+            FadeValueChanged?.Invoke(1 - elapsedTime/fadeInTime);
             yield return null;
         }
         FloorManager.EnableFloor?.Invoke();
