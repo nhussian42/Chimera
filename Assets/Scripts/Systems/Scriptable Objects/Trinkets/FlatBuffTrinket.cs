@@ -41,7 +41,7 @@ public class FlatBuffTrinket : Trinket
                     break;
             }
 
-            returnTo.value = returnTo.value + (modify.value - modifiedValue);
+            returnTo.Write(returnTo.value + (modifiedValue - modify.value)); //Debug here
         }
     }
 

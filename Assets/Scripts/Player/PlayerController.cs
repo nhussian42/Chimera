@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 
+using UnityEngine.Events;
+
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
 {
@@ -41,6 +43,12 @@ public class PlayerController : Singleton<PlayerController>
 
     // Reference to SaveManager
     SaveManager saveManager;
+
+    // Unity Events for Scriptable Object events (GameEvents class)
+    [SerializeField] UnityEvent OnAttack;
+    [SerializeField] UnityEvent OnDash;
+    [SerializeField] UnityEvent OnTakeDamage;
+    [SerializeField] UnityEvent OnSwapLimbs;
 
     // Limb References
     //public List<Heads> allHeads;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CurrentLegsStatsSO : MonoBehaviour
+public class BuffedStatsSO : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
