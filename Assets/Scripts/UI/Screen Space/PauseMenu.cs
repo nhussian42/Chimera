@@ -6,10 +6,10 @@ public class PauseMenu : MonoBehaviour
 {
     public void ResumePressed()
     {
-        UIManager.ResumePressed.Invoke();
+        UIManager.ResumePressed?.Invoke();
     }
     public void QuitPressed()
     {
-        UIManager.QuitPressed.Invoke();
+        UIManager.QuitPressed?.Invoke();
     }
 }
