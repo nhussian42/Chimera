@@ -17,6 +17,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
             {
                 Debug.LogWarning("Second instance of " + typeof(T) + " created. Automatic self-destruct triggered. KABOOM!");
                 Destroy(this.gameObject);
+                return;
             }
             
             _instance = this as T;
