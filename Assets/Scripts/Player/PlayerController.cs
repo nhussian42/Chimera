@@ -85,15 +85,20 @@ public class PlayerController : Singleton<PlayerController>
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
         _controller = GetComponent<CharacterController>();
-        saveManager = SaveManager.Instance;
 
     }
 
     // Enable new player input actions in this method
     private void OnEnable()
     {
+        saveManager = SaveManager.Instance;
+
         _playerInput.onControlsChanged += ChangeControlSchemes;
         GameManager.OnUnpause += Unpause;
+        FloorManager.LoadNextRoom += Deactivate;
+        FloorManager.NextRoomLoaded += SetStartPosition;
+        FloorManager.LeaveRoom += DisableAllDefaultControls;
+        // FloorManager.EnableFloor += EnableAllDefaultControls;
 
         // Assign default controls
         _movement = _playerInputActions.DefaultControls.Movement;
@@ -114,9 +119,8 @@ public class PlayerController : Singleton<PlayerController>
         // Deactivate all limbs first
         foreach (Arm arm in allArms) arm.gameObject.SetActive(false);
         foreach (Legs legs in allLegs) legs.gameObject.SetActive(false);
+       
 
-        
-  
         if (saveManager.firstLoad == true)
         {
             // If first load into scene, set default limbs
@@ -144,6 +148,13 @@ public class PlayerController : Singleton<PlayerController>
     // Disable new player input actions in this method
     private void OnDisable()
     {
+        _playerInput.onControlsChanged -= ChangeControlSchemes;
+        GameManager.OnUnpause -= Unpause;
+        FloorManager.LoadNextRoom -= Deactivate;
+        FloorManager.NextRoomLoaded -= SetStartPosition;
+        FloorManager.LeaveRoom -= DisableAllDefaultControls;
+        // FloorManager.EnableFloor -= EnableAllDefaultControls;
+
         DisableAllDefaultControls();
         DisableAllUIControls();
     }
@@ -201,13 +212,11 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Start()
     {
-        Debug.Log(currentLegs.MovementSpeed);
+        // Debug.Log(currentLegs.MovementSpeed);
         _movementSpeed = currentLegs.MovementSpeed;
 
         _mainCamera = Camera.main;
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
-        
-        SetPlayerPosition(FloorManager.Instance.StartTransform.position);
     }
 
     // Debug
@@ -322,6 +331,11 @@ public class PlayerController : Singleton<PlayerController>
         Quaternion newRotation = Quaternion.LookRotation(towards, Vector3.up);
 
         transform.rotation = smoothMovementEnabled ? Quaternion.RotateTowards(transform.rotation, newRotation, Time.deltaTime * _turnSpeed) : newRotation;
+    }
+
+    private void SetStartPosition()
+    {
+        SetPlayerPosition(FloorManager.Instance.StartTransform.position);
     }
     
     private void SetPlayerPosition(Vector3 to)
@@ -611,6 +625,11 @@ public class PlayerController : Singleton<PlayerController>
         }
         
         Debug.Log(totalBones.ToString("F2"));
+    }
+
+    private void Deactivate()
+    {
+        gameObject.SetActive(false);
     }
 
 }
