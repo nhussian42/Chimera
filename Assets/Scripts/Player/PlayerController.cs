@@ -49,6 +49,7 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] UnityEvent OnDash;
     [SerializeField] UnityEvent OnTakeDamage;
     [SerializeField] UnityEvent OnSwapLimbs;
+    [SerializeField] UnityEvent OnTest;
 
     // Limb References
     //public List<Heads> allHeads;
@@ -315,6 +316,13 @@ public class PlayerController : Singleton<PlayerController>
             Pause();
             EquipMenu.SetActive(true);
         }
+
+        if(Input.GetKeyDown(KeyCode.E)) //Test Game Event
+        {
+            Debug.Log("E pressed");
+            OnTest.Invoke();
+        }
+
     }
 
     private void FixedUpdate()
