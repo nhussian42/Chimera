@@ -34,8 +34,8 @@ public class TrinketManager : Singleton<TrinketManager>
 
     public void Update()
     { 
-        if (hyenaJaw) HyenaJaw();
-        Debug.Log(hyenaJaw + " in update");
+        // if (hyenaJaw) HyenaJaw();
+        // Debug.Log(hyenaJaw + " in update");
 
 
         if (Input.GetKeyDown(KeyCode.O)) PlayerController.Instance.UpdateCoreHealth(-10);
