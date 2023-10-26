@@ -301,6 +301,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (other.gameObject.TryGetComponent<LimbDrop>(out LimbDrop newLimb) != false)
         {
+            
             //Configure later for limb swap menu controls
             if (_attackRight.triggered == true)
             {

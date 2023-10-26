@@ -6,6 +6,7 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private PauseMenu _pauseMenu;
+
     public static Action QuitPressed;
     public static Action ResumePressed;
 
@@ -37,5 +38,5 @@ public class UIManager : Singleton<UIManager>
     private void DisablePauseMenu()
     {
         _pauseMenu.gameObject.SetActive(false);
-    }
+    }    
 }
