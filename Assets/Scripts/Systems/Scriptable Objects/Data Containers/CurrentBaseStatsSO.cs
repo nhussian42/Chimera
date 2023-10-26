@@ -5,7 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Scriptable Objects", menuName = "Scriptable Objects/Player Data/CurrentBaseStatsSO", order = 1)]
 public class CurrentBaseStatsSO : ScriptableObject
 {
-    // References that store current player limbs
+    // THE PLAYER WRITES TO THESE STATS
+
     //private Head head;
     private Core core;
     private Arm leftArm;
