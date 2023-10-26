@@ -25,8 +25,6 @@ public class Rhino : NotBossAI
 
     [SerializeField] private CapsuleCollider attackCollider;
 
-    private bool charging = false;
-
     private Rigidbody rb;
 
     private void OnEnable()
@@ -38,43 +36,19 @@ public class Rhino : NotBossAI
         rb = GetComponent<Rigidbody>();
     }
 
-    protected override void Update()
-    {
-
-        if (alive == true && attacking == false)
-        {
-            if (charging == false)
-            {
-                agent.destination = player.transform.position;
-                if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
-                {
-                    //Player is in range
-                    //Perform attack coroutine
-                    StartCoroutine(Attack());
-                    attacking = true;
-                }
-            }
-            if (charging == true)
-            {
-                agent.destination = player.transform.position + (transform.forward * 4);
-            }
-        }
-    }
-
     public override IEnumerator Attack()
     {
         //Rhino stops
-        charging = true;
         agent.isStopped = true;
         agent.speed = chargeSpeed;
         agent.angularSpeed = chargingTurnSpeed;
         agent.acceleration = chargeAcceleration;
         yield return new WaitForSeconds(chargeDelay);
+
         //Rhino runs towards player until within slam attack range
-        
         agent.isStopped = false;
         float timer = 1f;
-        while (agent.remainingDistance > 0.5f)
+        while (Physics.CheckSphere(transform.position, slamAttackRange, playerLayerMask) == false)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.steeringTarget - transform.position), Time.deltaTime);
             timer -= Time.deltaTime;
