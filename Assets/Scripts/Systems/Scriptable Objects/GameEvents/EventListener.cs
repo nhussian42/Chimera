@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class EventListener : ScriptableObject
 {
-    [SerializeField] private List<GameEvent> subscribedEvents = new List<GameEvent>();
+    [SerializeField][Tooltip("When do I need to calculate this value/do this thing?")] private List<GameEvent> subscribedEvents = new List<GameEvent>();
     bool isEnabled = false;
 
     public bool IsEnabled { get { return isEnabled; } }
