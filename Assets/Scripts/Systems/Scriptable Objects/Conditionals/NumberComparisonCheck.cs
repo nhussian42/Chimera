@@ -12,11 +12,6 @@ public class NumberComparisonCheck : Conditional
 
     public override bool Check()
     {
-        if (treatAsPercent == true)
-        {
-            // figure this out later
-        }
-
         switch (compare)
         {
             case Comparison.greaterThan:
