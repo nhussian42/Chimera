@@ -24,13 +24,13 @@ public class PlayerController : Singleton<PlayerController>
     // Put new actions here
     private CharacterController _controller;
 
-    private Camera _mainCamera;
     private Matrix4x4 _isoMatrix;
 
     private string previousScheme = "";
     private const string gamepadScheme = "Gamepad";
     private const string mouseScheme = "Keyboard&Mouse";
 
+    [SerializeField] private Camera _mainCamera;
     [SerializeField] private float _movementSpeed = 10f; // reference to current legs later
     [SerializeField] private float _turnSpeed = 360f;
     [SerializeField] private bool smoothMovementEnabled;
@@ -92,7 +92,7 @@ public class PlayerController : Singleton<PlayerController>
     private void OnEnable()
     {
         saveManager = SaveManager.Instance;
-
+        
         _playerInput.onControlsChanged += ChangeControlSchemes;
         GameManager.OnUnpause += Unpause;
         FloorManager.LoadNextRoom += Deactivate;
@@ -214,8 +214,8 @@ public class PlayerController : Singleton<PlayerController>
     {
         // Debug.Log(currentLegs.MovementSpeed);
         _movementSpeed = currentLegs.MovementSpeed;
+        // _mainCamera = Camera.main;
 
-        _mainCamera = Camera.main;
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
     }
 

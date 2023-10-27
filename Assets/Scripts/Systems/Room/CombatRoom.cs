@@ -38,7 +38,6 @@ public class CombatRoom : Room
 
     private void SubtractCreature()
     {
-        print(_numCreaturesAlive);
         if (--_numCreaturesAlive <= 0)
         {
             print("All creatures defeated!");

@@ -63,7 +63,7 @@ public class Spawner : MonoBehaviour
 
     private void UnsubscribeFromAllEnemiesDefeatedEvents()
     {
-        FloorManager.AllCreaturesDefeated += SpawnRandomObjectFromList;
+        FloorManager.AllCreaturesDefeated -= SpawnRandomObjectFromList;
     }
 
     private void SpawnRandomObjectFromList()
