@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.WSA;
 
 [CreateAssetMenu(fileName = "Scriptable Objects", menuName = "Scriptable Objects/Trinkets/FlatBuffTrinket", order = 1)]
 public class FlatBuffTrinket : Trinket
@@ -12,14 +13,20 @@ public class FlatBuffTrinket : Trinket
     [SerializeField] float thisValue;
     [SerializeField] bool treatAsPercent;
     [SerializeField] FloatVar returnTo;
-    private int amount;
 
     [SerializeField] bool debug;
+    bool activated;
+
+    public override void Enable()
+    {
+        activated = false;
+        base.Enable();
+    }
 
     public override void Activate()
     {
-        //if(activated == false)
-        //{
+        if(activated == false)
+        {
             if (treatAsPercent == true)
             {
                 thisValue /= 100f;
@@ -49,14 +56,14 @@ public class FlatBuffTrinket : Trinket
 
                 returnTo.Write(returnTo.value + (modifiedValue - modify.value)); //Debug here
             }
-            //SetActivatedTrue();
+            activated = true;
             if(debug == true) { Debug.Log("IN: " + modify.name + " value: " + modify.value + " | " + "OUT: " + returnTo.name + " value: " + returnTo.value); }
-        //}
+        }
         
     }
 
-    public void AddDuplicate()
+    public override void ResetTrinket()
     {
-        amount++;
+        activated = false;
     }
 }

@@ -52,6 +52,7 @@ public class PlayerController : Singleton<PlayerController>
     public List<Legs> allLegs;
 
     [SerializeField] CurrentBaseStatsSO currentBaseStatsSO;
+    [SerializeField] ModifiedStatsSO modifiedStatsSO;
     [SerializeField] Core core;
     public Core Core { get { return core; } }
     [SerializeField] Arm coreLeftArm;
@@ -152,6 +153,9 @@ public class PlayerController : Singleton<PlayerController>
             
         }
         currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+        modifiedStatsSO.ResetValues();
+        //OnSwapLimbs.Invoke();
+        modifiedStatsSO.CalculateFinalValues();
 
         #endregion
     }
@@ -440,6 +444,9 @@ public class PlayerController : Singleton<PlayerController>
         }
 
         currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+        modifiedStatsSO.ResetValues();
+        //OnSwapLimbs.Invoke();
+        modifiedStatsSO.CalculateFinalValues();
         OnArmSwapped?.Invoke();
     }
 
@@ -507,7 +514,9 @@ public class PlayerController : Singleton<PlayerController>
                 break;
         }
         currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
-
+        modifiedStatsSO.ResetValues();
+        //OnSwapLimbs.Invoke();
+        modifiedStatsSO.CalculateFinalValues();
     }
 
     private void DropLimb(Limb droppedLimb)

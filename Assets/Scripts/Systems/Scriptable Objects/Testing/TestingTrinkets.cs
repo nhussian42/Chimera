@@ -5,28 +5,31 @@ using UnityEngine.Events;
 
 public class TestingTrinkets : MonoBehaviour
 {
-    public List<EventListener> testObjects;
+    [SerializeField] List<Trinket> testObjects;
+    [SerializeField] private int amount;
 
-    public List<GameEvent> testEvents;
+    [SerializeField] List<GameEvent> testEvents;
 
-    public UnityEvent onTest;
+    [SerializeField] UnityEvent onTest;
 
     private void Start()
     {
-        foreach (EventListener listener in testObjects) { listener.Disable(); }
+        foreach (Trinket trinket in testObjects) { trinket.Disable(); }
         foreach (GameEvent gameEvent in testEvents) { gameEvent.UnsubscribeAll(); }
-        foreach (EventListener listener in testObjects) { listener.Enable(); }
+        foreach (Trinket trinket in testObjects) { trinket.Enable(); }
+        foreach (Trinket trinket in testObjects) { trinket.Add(amount); }
     }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.E))
         {
+            Debug.Log("Input E called");
             onTest.Invoke();
         }
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            foreach (EventListener listener in testObjects) { listener.ResetEvent(); }
+            foreach (Trinket trinket in testObjects) { trinket.ResetTrinket(); }
         }
     }
 
