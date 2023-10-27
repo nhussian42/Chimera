@@ -45,12 +45,12 @@ public abstract class Creature : MonoBehaviour
 
     public void OnEnable()
     {
-       DebugControls.DamageCreatures += TakeDamage;
+       DebugControls.DamageAllCreatures += TakeDamage;
     }
 
     public void OnDisable()
     {
-        DebugControls.DamageCreatures -= TakeDamage;
+        DebugControls.DamageAllCreatures -= TakeDamage;
     }
 
     private void SpawnDrop(GameObject objToSpawn)

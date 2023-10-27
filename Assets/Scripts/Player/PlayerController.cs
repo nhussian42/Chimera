@@ -67,6 +67,8 @@ public class PlayerController : Singleton<PlayerController>
     public static Action OnArmSwapped;
     public static Action OnGamePaused;
 
+    public static Action<LimbDrop> OnLimbDropTriggerStay; // DEBUG
+
     //float startingYPos;  I don't think we need these anymore  - Amon
     //bool firstMove = false;
 
@@ -301,29 +303,29 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (other.gameObject.TryGetComponent<LimbDrop>(out LimbDrop newLimb) != false)
         {
-            
+            // Scrap Limb
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                Debug.Log("Scrapped Item");
+                Instance.AddBones(50);
+                Destroy(newLimb.gameObject);
+            }
+
             //Configure later for limb swap menu controls
             if (_attackRight.triggered == true)
             {
                 SwapLimb(currentRightArm, newLimb);
                 Destroy(newLimb.gameObject);
+                OnArmSwapped?.Invoke();
 
             }
             else if (_attackLeft.triggered == true)
             {
                 SwapLimb(currentLeftArm, newLimb);
                 Destroy(newLimb.gameObject);
+                OnArmSwapped?.Invoke();
             }
-            else if (Input.GetKeyDown(KeyCode.K))
-            {
-                Debug.Log("Scrapped Item");
-                AddBones(50);
-                Destroy(newLimb.gameObject);
-            }
-
         }
-
-        OnArmSwapped?.Invoke();
     }
 
     private void RotatePlayer(Vector3 towards)

@@ -5,38 +5,52 @@ using UnityEngine;
 
 public class DebugControls : MonoBehaviour
 {
-    public static Action<int> DamageCreatures;
+    public static Action<int> DamageAllCreatures;
 
     private void Update()
     {
-        // A = WALK
+        // A = PlayerInputActions Move
+
         // B
         // C
-        // D = WALK
+
+        // D = PlayerInputActions Move
+
         // E = AMON STUFF // TRINKET TIMER
+
         // F
         // G
         // H
         // I
         // J
-        // K = PLAYERCONTROLLER SCRAP LIMB
-        
+
+        // K = PlayerController Scrap Limb Debug
+
         if (Input.GetKeyDown(KeyCode.L))
             PlayerController.Instance.UpdateCoreHealth(+10);
+
         if (Input.GetKeyDown(KeyCode.M))
             PlayerController.Instance.AddBones(100);
-        // N = PLAYERCONTROLLER SWAP BUTTON
+
+        // N = PlayerInputActions Swap Button
+
         if (Input.GetKeyDown(KeyCode.O))
             PlayerController.Instance.UpdateCoreHealth(-10);
+
         if (Input.GetKeyDown(KeyCode.P))
-            DamageCreatures?.Invoke(10);
+            DamageAllCreatures?.Invoke(10);
+
         // Q
         // R
-        // S = WALK
+
+        // S = PlayerInputActions Move
+
         // T
         // U
         // V
-        // W = WALK
+
+        // W = PlayerInputActions Move
+        
         // X
         // Y
         // Z
