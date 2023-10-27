@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TrinketTimer : MonoBehaviour
 {
-
     public void Play(float time)
     {
         StartCoroutine(Coroutine(time));

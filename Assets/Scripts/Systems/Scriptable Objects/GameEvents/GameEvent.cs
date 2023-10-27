@@ -11,6 +11,11 @@ public class GameEvent : ScriptableObject
 
     public void Unsubscribe(EventListener newListener) { listeners.Remove(newListener); }
 
+    public void UnsubscribeAll()
+    {
+        listeners.Clear();
+    }
+
     public void Invoke()
     {
         foreach(EventListener listener in listeners)

@@ -15,6 +15,7 @@ public class CurrentBaseStatsSO : ScriptableObject
 
 
     // SO References updated by the references above
+    [SerializeField] bool debug;
 
     //Add head SOs here
 
@@ -43,6 +44,7 @@ public class CurrentBaseStatsSO : ScriptableObject
     public FloatVar legsMovementSpeed;
     public FloatVar legsCooldown;
 
+
     // Called anytime the player swaps out a limb (including when switching L/R arms)
     public void UpdateCurrentBuild(Core currentCore, Arm currentLeftArm, Arm currentRightArm, Legs currentLegs)
     {
@@ -56,6 +58,29 @@ public class CurrentBaseStatsSO : ScriptableObject
         UpdateLeftArm();
         UpdateRightArm();
         UpdateLegs();
+
+        if(debug == true)
+        {
+            Debug.Log("////////// BASE STATS ////////// ");
+            Debug.Log("coreMaxHealth: " + coreMaxHealth.value);
+            Debug.Log("coreHealth: " + coreHealth.value);
+            Debug.Log("leftArmClass: " + leftArmClass.value);
+            Debug.Log("leftArmMaxHealth: " + leftArmMaxHealth.value);
+            Debug.Log("leftArmHealth: " + leftArmHealth.value);
+            Debug.Log("leftArmAttackDamage: " + leftArmAttackDamage.value);
+            Debug.Log("leftArmAttackSpeed: " + leftArmAttackSpeed.value);
+            Debug.Log("rightArmClass: " + rightArmClass.value);
+            Debug.Log("rightArmMaxHealth: " + rightArmMaxHealth.value);
+            Debug.Log("rightArmHealth: " + rightArmHealth.value);
+            Debug.Log("rightArmAttackDamage: " + rightArmAttackDamage.value);
+            Debug.Log("rightArmAttackSpeed: " + rightArmAttackSpeed.value);
+            Debug.Log("legsClass: " + legsClass.value);
+            Debug.Log("legsMaxHealth: " + legsMaxHealth.value);
+            Debug.Log("legsHealth: " + legsHealth.value);
+            Debug.Log("legsMovementSpeed: " + legsMovementSpeed.value);
+            Debug.Log("legsCooldown: " + legsCooldown.value);
+            Debug.Log("////////// ////////// ////////// ");
+        } // Debugging
     }
 
     private void UpdateCore()
@@ -90,6 +115,4 @@ public class CurrentBaseStatsSO : ScriptableObject
         legsMovementSpeed.Write(legs.MovementSpeed);
         legsCooldown.Write(legs.CooldownTime);
     }
-
-    //Update Conditionals function
 }

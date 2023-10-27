@@ -774,42 +774,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnTest.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnTest.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnTest.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 11400000, guid: ad545505358a2a34c97b0cd388588f6f,
-        type: 2}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnTest.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnTest.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Invoke
-      objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnTest.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameEvent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnTest.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 8651667776403588921, guid: 82d71a54e57a1ff49a43690c93ad7a17,
         type: 3}
       propertyPath: m_Name
@@ -3985,6 +3949,69 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6fcae7f3c1d6ff428a21ff15d19325a, type: 3}
+--- !u!1 &2035112898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2035112899}
+  - component: {fileID: 2035112900}
+  m_Layer: 0
+  m_Name: TrinketTester
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2035112899
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035112898}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2057520917}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2035112900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035112898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 392aae6688a9f7b428e0cd36b4a98d72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testObjects:
+  - {fileID: 11400000, guid: 7c4f1006a8f57104ebf4baae64c42623, type: 2}
+  testEvents:
+  - {fileID: 11400000, guid: ad545505358a2a34c97b0cd388588f6f, type: 2}
+  onTest:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: ad545505358a2a34c97b0cd388588f6f, type: 2}
+        m_TargetAssemblyTypeName: GameEvent, Assembly-CSharp
+        m_MethodName: Invoke
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2057520916
 GameObject:
   m_ObjectHideFlags: 0
@@ -4017,6 +4044,7 @@ Transform:
   - {fileID: 116065975}
   - {fileID: 1967563890}
   - {fileID: 1358460861}
+  - {fileID: 2035112899}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

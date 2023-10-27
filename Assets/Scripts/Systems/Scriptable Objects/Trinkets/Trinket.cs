@@ -13,4 +13,6 @@ public abstract class Trinket : EventListener
     public Sprite Icon { get { return icon; } }
 
     public abstract override void Activate();
+
+    
 }

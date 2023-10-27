@@ -9,9 +9,19 @@ public class CompoundTrinket : Trinket
 
     public override void Activate()
     {
-        foreach(Trinket trinket in trinketsToActivate)
+        //if(activated == false)
+        //{
+        //    foreach (Trinket trinket in trinketsToActivate)
+        //    {
+        //        trinket.Activate();
+        //    }
+        //    SetActivatedTrue();
+        //}
+
+        foreach (Trinket trinket in trinketsToActivate)
         {
             trinket.Activate();
         }
+
     }
 }
