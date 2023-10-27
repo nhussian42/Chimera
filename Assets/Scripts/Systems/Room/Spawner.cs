@@ -5,7 +5,8 @@ using UnityEngine;
 public enum SpawnCondition
 {
     OnLevelLoaded,
-    OnMajorEnemyDefeated
+
+    OnAllEnemiesDefeated
 }
 
 public class Spawner : MonoBehaviour
@@ -26,8 +27,8 @@ public class Spawner : MonoBehaviour
             case SpawnCondition.OnLevelLoaded:
                 SubscribeToLevelLoadedEvents();
                 break;
-            case SpawnCondition.OnMajorEnemyDefeated:
-                SubscribeToMajorEnemyDefeatedEvents();
+            case SpawnCondition.OnAllEnemiesDefeated:
+                SubscribeToAllEnemiesDefeatedEvents();
                 break;
         }        
     }
@@ -39,8 +40,8 @@ public class Spawner : MonoBehaviour
             case SpawnCondition.OnLevelLoaded:
                 UnsubscribeFromLevelLoadedEvents();
                 break;
-            case SpawnCondition.OnMajorEnemyDefeated:
-                UnsubscribeFromMajorEnemyDefeatedEvents();
+            case SpawnCondition.OnAllEnemiesDefeated:
+                UnsubscribeFromAllEnemiesDefeatedEvents();
                 break;
         }
     }
@@ -55,14 +56,14 @@ public class Spawner : MonoBehaviour
         FloorManager.EnableFloor -= SpawnRandomObjectFromList;
     }
 
-    private void SubscribeToMajorEnemyDefeatedEvents()
+    private void SubscribeToAllEnemiesDefeatedEvents()
     {
-        // FloorManager.Instance.CurrentRoom.MajorEnemyInstance.OnDied += SpawnRandomObjectFromList;
+        FloorManager.AllCreaturesDefeated += SpawnRandomObjectFromList;
     }
 
-    private void UnsubscribeFromMajorEnemyDefeatedEvents()
+    private void UnsubscribeFromAllEnemiesDefeatedEvents()
     {
-
+        FloorManager.AllCreaturesDefeated += SpawnRandomObjectFromList;
     }
 
     private void SpawnRandomObjectFromList()

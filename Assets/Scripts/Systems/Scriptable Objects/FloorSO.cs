@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "FloorSO", menuName = "ScriptableObjects/FloorSO", order = 1)]
+[CreateAssetMenu(fileName = "Floor", menuName = "Scriptable Objects/FloorSO", order = 1)]
 public class FloorSO : ScriptableObject
 {
     [Header("Room Information")]
@@ -12,16 +12,16 @@ public class FloorSO : ScriptableObject
     public int numCombatRooms;
     [Tooltip("Which creature classifications will spawn on this floor?")]
     public List<Classification> spawnableClassifications;
-    [Tooltip("Which room prefabs will spawn on this floor?")]
-    public List<Room> spawnableRooms;
+    [Tooltip("Which coombat room prefabs will spawn on this floor?")]
+    public List<CombatRoom> spawnableCombatRooms;
     [Tooltip("What is the boss room prefab for this floor?")]
-    public Room bossRoom;
+    public BossRoom bossRoom;
 
     [Header("Major Creature Scaling")]
-    public int majorHealthGainedPerRoom;
-    public int majorDamageGainedPerRoom;
+    public float majorHealthPercentGainedPerRoom;
+    public float majorDamagePercentGainedPerRoom;
 
     [Header("Minor Creature Scaling")]
-    public int minorHealthGainedPerRoom;
-    public int minorDamageGainedPerRoom;
+    public float minorHealthPercentGainedPerRoom;
+    public float minorDamagePercentGainedPerRoom;
 }

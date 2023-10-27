@@ -135,8 +135,9 @@ public class Wolf : NotBossAI
     {
         AudioManager.Instance.PlayMajEnemySFX("WolfDeath");
 
-        SpawnDrop();
+        // SpawnDrop();
         animator.Play("Death");
+        CreatureManager.AnyCreatureDied?.Invoke();
         agent.isStopped = true;
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
