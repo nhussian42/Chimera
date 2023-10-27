@@ -45,13 +45,13 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] UnityEvent OnDash;
     [SerializeField] UnityEvent OnTakeDamage;
     [SerializeField] UnityEvent OnSwapLimbs;
-    [SerializeField] UnityEvent OnTest;
 
     // Limb References
     //public List<Heads> allHeads;
     public List<Arm> allArms;
     public List<Legs> allLegs;
 
+    [SerializeField] CurrentBaseStatsSO currentBaseStatsSO;
     [SerializeField] Core core;
     public Core Core { get { return core; } }
     [SerializeField] Arm coreLeftArm;
@@ -149,8 +149,10 @@ public class PlayerController : Singleton<PlayerController>
             LoadSavedLimb(saveManager.SavedRightArm);
             LoadSavedLimb(saveManager.SavedCore);
             LoadSavedLimb(saveManager.SavedLegs);
+            
         }
-       
+        currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+
         #endregion
     }
 
@@ -299,13 +301,6 @@ public class PlayerController : Singleton<PlayerController>
         {
             UIManager.ResumePressed?.Invoke();
         }
-
-        if(Input.GetKeyDown(KeyCode.E)) //Test Game Event
-        {
-            Debug.Log("E pressed");
-            OnTest.Invoke();
-        }
-
     }
 
     private void FixedUpdate()
@@ -444,6 +439,7 @@ public class PlayerController : Singleton<PlayerController>
             }
         }
 
+        currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
         OnArmSwapped?.Invoke();
     }
 
@@ -510,6 +506,7 @@ public class PlayerController : Singleton<PlayerController>
                 else { Debug.Log("Limb type mismatch"); }
                 break;
         }
+        currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
 
     }
 

@@ -7,6 +7,8 @@ public class ModifiedStatsSO : ScriptableObject
 {
     // THE PLAYER READS THESE STATS
 
+    [SerializeField] bool debug;
+
     [Header("Reference to current base stats:")]
     public CurrentBaseStatsSO currentBaseStats;
 
@@ -55,7 +57,7 @@ public class ModifiedStatsSO : ScriptableObject
     // Always called after ResetValues is called and after all trinkets are done activating
     public void CalculateFinalValues()
     {
-        // Adds buff value calculate by trinkets to the current base value of respective limb to produce updated value
+        // Adds buff value calculate by trinkets to the current base value of respective limb to produce final value
         coreMaxHealth.Write(coreMaxHealth.value + currentBaseStats.coreMaxHealth.value);
         coreHealth.Write(coreHealth.value + currentBaseStats.coreHealth.value);
 
@@ -73,6 +75,29 @@ public class ModifiedStatsSO : ScriptableObject
         legsHealth.Write(legsHealth.value + currentBaseStats.legsHealth.value);
         legsMovementSpeed.Write(legsMovementSpeed.value + currentBaseStats.legsMovementSpeed.value);
         legsCooldown.Write(legsCooldown.value + currentBaseStats.legsCooldown.value);
+
+        if(debug == true)
+        {
+            Debug.Log("////////// BASE STATS ////////// ");
+            Debug.Log("coreMaxHealth: " + coreMaxHealth.value);
+            Debug.Log("coreHealth: " + coreHealth.value);
+            
+            Debug.Log("leftArmMaxHealth: " + leftArmMaxHealth.value);
+            Debug.Log("leftArmHealth: " + leftArmHealth.value);
+            Debug.Log("leftArmAttackDamage: " + leftArmAttackDamage.value);
+            Debug.Log("leftArmAttackSpeed: " + leftArmAttackSpeed.value);
+            
+            Debug.Log("rightArmMaxHealth: " + rightArmMaxHealth.value);
+            Debug.Log("rightArmHealth: " + rightArmHealth.value);
+            Debug.Log("rightArmAttackDamage: " + rightArmAttackDamage.value);
+            Debug.Log("rightArmAttackSpeed: " + rightArmAttackSpeed.value);
+          
+            Debug.Log("legsMaxHealth: " + legsMaxHealth.value);
+            Debug.Log("legsHealth: " + legsHealth.value);
+            Debug.Log("legsMovementSpeed: " + legsMovementSpeed.value);
+            Debug.Log("legsCooldown: " + legsCooldown.value);
+            Debug.Log("////////// ////////// ////////// ");
+        }//debugging
     }
 
 }
