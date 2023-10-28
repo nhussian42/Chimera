@@ -79,6 +79,6 @@ public class CombatRoom : Room
     {
         Transform plaqueIconParent = exitDoors[exitDoorIndex++].Find("PlaqueIconHolder").transform;
 
-        Instantiate(plaqueIcon, plaqueIconParent);
+        Instantiate(plaqueIcon, plaqueIconParent.transform.position, Quaternion.identity, plaqueIconParent);
     }
 }

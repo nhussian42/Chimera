@@ -37,10 +37,17 @@ public class FloorManager : Singleton<FloorManager>
 
     private void Start()
     {
-        if (_currentRoomIndex == 0 || _currentRoomIndex > currentFloor.numCombatRooms)
+        _currentRoomIndex++;
+
+        if (_currentRoomIndex == 1 || _currentRoomIndex > currentFloor.numCombatRooms)
             DetermineNextRoom();
         else
-            SpawnRoom(StoredNextRoom);
+        {
+            if (StoredNextRoom)
+                SpawnRoom(StoredNextRoom);
+            else
+                Debug.LogError("Stored next room has not been set to any room.");
+        }
     }
 
     private void OnDisable()
@@ -51,7 +58,7 @@ public class FloorManager : Singleton<FloorManager>
 
     private void LoadNextRoomIndex()
     {
-        if (_currentRoomIndex + 2 < currentFloor.numCombatRooms)
+        if (_currentRoomIndex <= currentFloor.numCombatRooms)
             ChimeraSceneManager.Instance.LoadScene(combatRoomBuildIndex);
         else
             ChimeraSceneManager.Instance.LoadScene(0); // Loads main menu after boss room
@@ -59,7 +66,7 @@ public class FloorManager : Singleton<FloorManager>
 
     private void DetermineNextRoom()
     {
-        if (++_currentRoomIndex > currentFloor.numCombatRooms)
+        if (_currentRoomIndex > currentFloor.numCombatRooms)
         {
             SpawnRoom(currentFloor.bossRoom);
         }
@@ -148,6 +155,16 @@ public class FloorManager : Singleton<FloorManager>
 
     private void GenerateNewCombatRooms()
     {
+        if (_currentRoomIndex >= currentFloor.numCombatRooms)
+        {
+            if (_currentRoom is CombatRoom)
+            {
+                CombatRoom _currentCombatRoom = (CombatRoom)_currentRoom;
+                _currentCombatRoom.SpawnPlaqueIcon(currentFloor.bossPlaque);
+            }
+            return;
+        }
+
         for (int i = 0; i < _currentRoom.exitDoors.Count; i++)
         {
             CombatRoom newRoom = DetermineNextCombatRoom();

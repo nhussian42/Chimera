@@ -11,7 +11,7 @@ public class LeaveRoomTrigger : MonoBehaviour
 
     private Collider roomTrigger;
 
-    private void OnAwake()
+    private void Awake()
     {
         roomTrigger = GetComponent<BoxCollider>();
     }
