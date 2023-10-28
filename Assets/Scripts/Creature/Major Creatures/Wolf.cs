@@ -124,11 +124,6 @@ public class Wolf : NotBossAI
         {
             agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
         }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TakeDamage(10);
-        }
     }
 
     protected override void Die()

@@ -5,5 +5,6 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     public List<Transform> bottomLeftStartDoors;
-    public List<Transform> bottomRightStartDoors;    
+    public List<Transform> bottomRightStartDoors;
+    public List<Transform> exitDoors;   
 }

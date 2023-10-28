@@ -8,6 +8,8 @@ public class CombatRoom : Room
     public Creature currentMinorCreature;
     public Transform majorCreatureSpawnsParent;
     public Transform minorCreatureSpawnsParent;
+    public List<Transform> ExitDoors;
+    int exitDoorIndex;
     
     private int _numCreaturesAlive;
 
@@ -19,6 +21,33 @@ public class CombatRoom : Room
     private void OnDisable()
     {
         CreatureManager.AnyCreatureDied -= SubtractCreature;
+    }
+
+    public void DetermineCreatures(FloorSO floorInfo)
+    {
+        List<Creature> majorCreaturePool = floorInfo.spawnableMajorCreatures;
+        int majorCreatureIndex = UnityEngine.Random.Range(0, majorCreaturePool.Count);
+        currentMajorCreature = majorCreaturePool[majorCreatureIndex];
+        DetermineMinorCreature(floorInfo, currentMajorCreature.classification);
+    }
+
+    private void DetermineMinorCreature(FloorSO floorInfo, Classification classification)
+    {
+        switch (classification)
+        {
+            case Classification.Mammalian:
+                currentMinorCreature = floorInfo.mammalianMinorCreature;
+                break;
+            case Classification.Reptilian:
+                currentMinorCreature = floorInfo.reptilianMinorCreature;
+                break;
+            case Classification.Aquatic:
+                currentMinorCreature = floorInfo.aquaticMinorCreature;
+                break;
+            default:
+                Debug.LogError("Classification was not accounted for when spawning a minor creature.");
+                break;
+        }
     }
 
     public void SpawnCreatures(Transform parent)
@@ -44,5 +73,12 @@ public class CombatRoom : Room
             FloorManager.AllCreaturesDefeated?.Invoke();
             // spawn limb at currentmajorcreature transform?????
         }
+    }
+
+    public void SpawnPlaqueIcon(GameObject plaqueIcon)
+    {
+        Transform plaqueIconParent = exitDoors[exitDoorIndex++].Find("PlaqueIconHolder").transform;
+
+        Instantiate(plaqueIcon, plaqueIconParent);
     }
 }

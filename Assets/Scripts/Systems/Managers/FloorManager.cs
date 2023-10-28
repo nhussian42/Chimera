@@ -6,15 +6,17 @@ using UnityEngine;
 public class FloorManager : Singleton<FloorManager>
 {
     public static Action LeaveRoom;
+    public static Action<Room> LeaveRoomRoom;
     public static Action LoadNextRoom;
     public static Action NextRoomLoaded;
     public static Action EnableFloor;
     public static Action AllCreaturesDefeated;
     public static RoomSide lastExitRoomSide;
+    public static Room StoredNextRoom;
     private static int _currentRoomIndex;
 
-    [Header("Floor Info")]
-    [SerializeField] private FloorSO currentFloor;  // unserialize after debug
+    [field: Header("Floor Info")]
+    [field: SerializeField] public FloorSO currentFloor { get; private set; }
     [SerializeField] private int combatRoomBuildIndex;
 
     [Header("DEBUG READ ONLY")]
@@ -26,32 +28,34 @@ public class FloorManager : Singleton<FloorManager>
         get { return startTransform; }
     }
 
+
     private void OnEnable()
     {
         LoadNextRoom += LoadNextRoomIndex;
+        AllCreaturesDefeated += GenerateNewCombatRooms;
     }
 
     private void Start()
     {
-        DetermineNextRoom();
+        if (_currentRoomIndex == 0 || _currentRoomIndex > currentFloor.numCombatRooms)
+            DetermineNextRoom();
+        else
+            SpawnRoom(StoredNextRoom);
     }
 
     private void OnDisable()
     {
         LoadNextRoom -= LoadNextRoomIndex;
+        AllCreaturesDefeated -= GenerateNewCombatRooms;
     }
 
     private void LoadNextRoomIndex()
     {
-        ChimeraSceneManager.Instance.LoadScene(combatRoomBuildIndex);
+        if (_currentRoomIndex + 2 < currentFloor.numCombatRooms)
+            ChimeraSceneManager.Instance.LoadScene(combatRoomBuildIndex);
+        else
+            ChimeraSceneManager.Instance.LoadScene(0); // Loads main menu after boss room
     }
-
-    // Write this function if we end up using different scenes for different rooms
-    // private int DetermineNextRoomIndex()
-    // {
-    //     print(_currentRoomIndex);
-    //     return _currentRoomIndex;
-    // }
 
     private void DetermineNextRoom()
     {
@@ -80,6 +84,8 @@ public class FloorManager : Singleton<FloorManager>
         {
             combatRoom = DetermineNextCombatRoom();
         }
+
+        combatRoom.DetermineCreatures(currentFloor);
         
         return combatRoom;
     }
@@ -137,6 +143,26 @@ public class FloorManager : Singleton<FloorManager>
         {
             startTransformIndex = UnityEngine.Random.Range(0, _currentRoom.bottomRightStartDoors.Count);
             startTransform = _currentRoom.bottomRightStartDoors[startTransformIndex];
+        }
+    }
+
+    private void GenerateNewCombatRooms()
+    {
+        for (int i = 0; i < _currentRoom.exitDoors.Count; i++)
+        {
+            CombatRoom newRoom = DetermineNextCombatRoom();
+            _currentRoom.exitDoors[i].GetComponentInChildren<LeaveRoomTrigger>()._nextRoom = newRoom;
+
+            if (_currentRoom is CombatRoom)
+            {
+                CombatRoom _currentCombatRoom = (CombatRoom)_currentRoom;
+                Creature currentMajorCreature = newRoom.currentMajorCreature;
+                _currentCombatRoom.SpawnPlaqueIcon(currentMajorCreature.CreatureInfo.plaqueIcon);
+            }
+            else
+            {
+                Debug.LogWarning("CombatRoom expected, another room type detected.");
+            }
         }
     }
 }

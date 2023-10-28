@@ -15,20 +15,15 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected float currentHealth;
     [SerializeField] protected float attackDamage = 5f;
 
+    [field: SerializeField] public CreatureSO CreatureInfo { get; private set; }
+
     protected virtual void InitializeStats(float percentDamageIncrease, float percentHealthIncrease)
     {
         attackDamage += attackDamage * percentDamageIncrease * 0.01f;
         currentHealth += currentHealth * percentHealthIncrease * 0.01f;
     }
 
-    public enum Classification
-    {
-        Mammal,
-        Reptile,
-        Aquatic
-    }
-
-    [SerializeField] private Classification classification;
+    [field: SerializeField] public Classification classification { get; private set; }
 
     public enum CreatureType
     {
