@@ -79,7 +79,7 @@ public class Crocodile : NotBossAI
         GetComponentInChildren<Canvas>().enabled = false; 
         yield return new WaitForSeconds(1f);
         agent.isStopped = false;
-        yield return new WaitUntil(() => agent.remainingDistance < 1.5f);
+        yield return new WaitUntil(() => agent.remainingDistance < 2f);
 
         //Enemy appears behind the player
         //Surfacing animation goes here
