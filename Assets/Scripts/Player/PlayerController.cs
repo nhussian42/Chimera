@@ -162,7 +162,7 @@ public class PlayerController : Singleton<PlayerController>
         }
         currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
         modifiedStatsSO.ResetValues();
-        //OnSwapLimbs.Invoke();
+        OnSwapLimbs.Invoke();
         modifiedStatsSO.CalculateFinalValues();
 
         #endregion
@@ -463,7 +463,7 @@ public class PlayerController : Singleton<PlayerController>
 
         currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
         modifiedStatsSO.ResetValues();
-        //OnSwapLimbs.Invoke();
+        OnSwapLimbs.Invoke();
         modifiedStatsSO.CalculateFinalValues();
         OnArmSwapped?.Invoke();
     }
@@ -533,7 +533,7 @@ public class PlayerController : Singleton<PlayerController>
         }
         currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
         modifiedStatsSO.ResetValues();
-        //OnSwapLimbs.Invoke();
+        OnSwapLimbs.Invoke();
         modifiedStatsSO.CalculateFinalValues();
     }
 
