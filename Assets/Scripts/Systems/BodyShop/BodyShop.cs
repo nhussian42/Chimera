@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class BodyShop : MonoBehaviour
 {
@@ -9,6 +11,9 @@ public class BodyShop : MonoBehaviour
     public List<GameObject> LegList;
     public List<GameObject> HeadList;
     public List<GameObject> ItemLocations;
+
+    public GameObject ShopMenu;
+    public bool IsMenuActive;
 
     int randomArm;
     int randomLeg;
@@ -20,6 +25,7 @@ public class BodyShop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         RandomizeOptions();
 
         Instantiate(ArmList[randomArm], ItemLocations[0].transform.position, Quaternion.identity);
@@ -36,9 +42,10 @@ public class BodyShop : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && (IsMenuActive == false)) 
         {
-
+            Instantiate(ShopMenu, new Vector3(0, 0, 0), Quaternion.identity);
+            IsMenuActive = true;
         }
     }
 
