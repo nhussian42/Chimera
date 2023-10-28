@@ -65,7 +65,7 @@ public class Wolf : NotBossAI
     {
         //Circle the player for a set period of time
         int randomValue = Random.Range(6, 13);
-        randomPositiveNegative = Random.Range(1, 3);
+        randomPositiveNegative = Random.Range(0, 2);
         dir = (player.transform.position - transform.position).normalized;
         angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + 180;
 
