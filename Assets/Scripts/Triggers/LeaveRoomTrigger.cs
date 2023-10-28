@@ -5,7 +5,7 @@ using UnityEngine;
 public class LeaveRoomTrigger : MonoBehaviour
 {
     private bool _triggered;
-    [SerializeField] private RoomSide _exitRoomSide;
+    [field: SerializeField] public RoomSide _exitRoomSide { get; private set; }
 
     [HideInInspector] public Room _nextRoom;
 

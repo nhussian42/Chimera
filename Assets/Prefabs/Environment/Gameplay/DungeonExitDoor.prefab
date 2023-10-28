@@ -35,7 +35,7 @@ Transform:
   - {fileID: 3798455782834957897}
   - {fileID: 7735349979038197311}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1280374462297554380
 BoxCollider:
@@ -54,10 +54,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.9374723, y: 4.9501343, z: 2.0252805}
-  m_Center: {x: 1.555659, y: 1.9750671, z: -1.4722745}
+  m_Center: {x: 2.29, y: 1.9750671, z: -1.4722745}
 --- !u!114 &5230569788630770630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2630b0e64ff0e439cc14d4f2bf1570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _exitRoomSide: 0
+  <_exitRoomSide>k__BackingField: 0
   _nextRoom: {fileID: 0}
 --- !u!1 &2428340002068678420
 GameObject:
@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 4542376876087620858}
   - component: {fileID: 5593246693999274934}
   - component: {fileID: 6339843187629487012}
+  - component: {fileID: 4239697554376779945}
   m_Layer: 0
   m_Name: ExitDoor
   m_TagString: Untagged
@@ -221,6 +222,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &4239697554376779945
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3393343627864238475}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 88.43594, y: 504.14923, z: 292.9618}
+  m_Center: {x: -13.872426, y: 252.07462, z: -141.58728}
 --- !u!1 &7216600441096862308
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,9 +266,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7216600441096862308}
-  m_LocalRotation: {x: 1, y: -0, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.5, y: 5.13, z: -1.5}
-  m_LocalScale: {x: 0.75251, y: 0.75251, z: 0.75251}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2206460738634538310}

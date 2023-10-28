@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,7 +48,7 @@ public abstract class Creature : MonoBehaviour
 
     public void OnEnable()
     {
-       DebugControls.DamageAllCreatures += TakeDamage;
+        DebugControls.DamageAllCreatures += TakeDamage;
     }
 
     public void OnDisable()

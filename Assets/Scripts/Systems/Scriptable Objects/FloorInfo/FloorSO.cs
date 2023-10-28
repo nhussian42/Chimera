@@ -20,7 +20,9 @@ public class FloorSO : ScriptableObject
     public List<CombatRoom> spawnableCombatRooms;
     [Tooltip("What is the boss room prefab for this floor?")]
     public BossRoom bossRoom;
-    [Tooltip("What is the prefab for the boss room plaque?")]
+    [Tooltip("What is the prefab for the boss?")]
+    public Creature boss;
+    [Tooltip("What is the prefab for the plaque before the boss room?")]
     public GameObject bossPlaque;
 
     [Header("Major Creature Scaling")]

@@ -111,6 +111,11 @@ public class FloorManager : Singleton<FloorManager>
             CombatRoom _currentCombatRoom = (CombatRoom)_currentRoom;
             _currentCombatRoom.SpawnCreatures(environmentParent.transform);
         }
+        else if (_currentRoom is BossRoom)
+        {
+            BossRoom _currentBossRoom = (BossRoom)_currentRoom;
+            _currentBossRoom.SpawnBoss(currentFloor, environmentParent.transform);
+        }
         
         //StartCoroutine(WaitForRoomLoad(room, 10f));
         DetermineEntrancePosition();

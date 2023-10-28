@@ -8,19 +8,18 @@ public class CombatRoom : Room
     public Creature currentMinorCreature;
     public Transform majorCreatureSpawnsParent;
     public Transform minorCreatureSpawnsParent;
-    public List<Transform> ExitDoors;
     int exitDoorIndex;
-    
-    private int _numCreaturesAlive;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
-        CreatureManager.AnyCreatureDied += SubtractCreature;
+        base.OnEnable();
+        DebugControls.SpawnDebugCreature += SpawnDebugCreature;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
-        CreatureManager.AnyCreatureDied -= SubtractCreature;
+        base.OnDisable();
+        DebugControls.SpawnDebugCreature -= SpawnDebugCreature;
     }
 
     public void DetermineCreatures(FloorSO floorInfo)
@@ -65,20 +64,40 @@ public class CombatRoom : Room
         }
     }
 
-    private void SubtractCreature()
+    private void SpawnDebugCreature()
     {
-        if (--_numCreaturesAlive <= 0)
-        {
-            print("All creatures defeated!");
-            FloorManager.AllCreaturesDefeated?.Invoke();
-            // spawn limb at currentmajorcreature transform?????
-        }
+        Instantiate(currentMajorCreature, Vector3.zero, Quaternion.identity);
+        _numCreaturesAlive++;
     }
 
     public void SpawnPlaqueIcon(GameObject plaqueIcon)
     {
-        Transform plaqueIconParent = exitDoors[exitDoorIndex++].Find("PlaqueIconHolder").transform;
+        // cursed
+        Transform plaqueIconParent = exitDoors[exitDoorIndex].Find("PlaqueIconHolder").transform;
+        
+        GameObject spawnedPlaqueIcon = Instantiate(plaqueIcon, plaqueIconParent);
+        spawnedPlaqueIcon.transform.Rotate(0, -90, 0);
 
-        Instantiate(plaqueIcon, plaqueIconParent.transform.position, Quaternion.identity, plaqueIconParent);
+        // DEBUG: adding a manual quaternion rotation for different room sides
+        // LeaveRoomTrigger exitDoorTrigger = exitDoors[exitDoorIndex].GetComponentInChildren<LeaveRoomTrigger>();
+
+        // if (exitDoorTrigger == null)
+        // {
+        //     Debug.LogError("Exit Door Trigger not found to instantiate plaque icon");
+        //     return;
+        // }
+
+        // if (exitDoorTrigger._exitRoomSide == RoomSide.Left)
+        //     Instantiate(plaqueIcon, plaqueIconParent.transform.position, Quaternion.identity, plaqueIconParent);
+        // else if (exitDoorTrigger._exitRoomSide == RoomSide.Right)
+        //     Instantiate(plaqueIcon, plaqueIconParent.transform.position, Quaternion.identity * Quaternion.Euler(0, 90, 0), plaqueIconParent);
+        // else
+        // {
+        //     Debug.LogError("Side unexpected when instantiating plaque icon.");
+        //     return;
+        // }
+
+        exitDoorIndex++;
+
     }
 }
