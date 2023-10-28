@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class TestingTrinkets : MonoBehaviour
 {
+    [SerializeField] ModifiedStatsSO modifiedStatsSO;
     [SerializeField] List<Trinket> testObjects;
     [SerializeField] private int amount;
 
@@ -14,8 +15,11 @@ public class TestingTrinkets : MonoBehaviour
 
     private void Start()
     {
+        // Move this behavior to the global trinket list
         foreach (Trinket trinket in testObjects) { trinket.Disable(); }
         foreach (GameEvent gameEvent in testEvents) { gameEvent.UnsubscribeAll(); }
+
+        // This is the logic for when the player selects a trinket from the popup UI (also move later)
         foreach (Trinket trinket in testObjects) { trinket.Enable(); }
         foreach (Trinket trinket in testObjects) { trinket.Add(amount); }
     }
