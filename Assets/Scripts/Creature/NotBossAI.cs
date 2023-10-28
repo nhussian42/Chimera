@@ -13,13 +13,10 @@ public class NotBossAI : Creature
 
     protected bool attacking = false;   //Keeps track of if the creature is currently attacking
 
-    private enum EnemyState
+    private void Start()
     {
-        Idle,
-        Chasing,
-        Attacking
+        
     }
-
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
