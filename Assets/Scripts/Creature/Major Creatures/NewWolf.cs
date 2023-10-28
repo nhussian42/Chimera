@@ -109,7 +109,8 @@ public class NewWolf : NotBossAI
         animator.SetBool("Attack", false);
         rb.velocity = Vector3.zero;
         agent.isStopped = false;
-        agent.destination = PointOnXZCircle(player.transform.position, attackRange * 2, Random.Range(90, 271));
+
+        agent.destination = PointOnXZCircle(transform.position, attackRange * 2, Random.Range(-45, 46));
         attackResetTime = 2f;
         yield return new WaitUntil(() => inAttackRange = false || attackResetTime < 0f);
 
