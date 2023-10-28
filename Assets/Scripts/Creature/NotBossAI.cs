@@ -39,11 +39,6 @@ public class NotBossAI : Creature
                 attacking = true;
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TakeDamage(10);
-        }
     }
 
     public virtual void OnTriggerEnter(Collider other)

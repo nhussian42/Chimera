@@ -37,9 +37,19 @@ public abstract class Creature : MonoBehaviour
     protected bool alive = true;
     [SerializeField] protected EnemyHealthBar healthbar;
     
-    private void Awake()
+    // private void Awake()
+    // {
+    //     //Sets current room
+    // }
+
+    public void OnEnable()
     {
-        //Sets current room
+       DebugControls.DamageAllCreatures += TakeDamage;
+    }
+
+    public void OnDisable()
+    {
+        DebugControls.DamageAllCreatures -= TakeDamage;
     }
 
     private void SpawnDrop(GameObject objToSpawn)
