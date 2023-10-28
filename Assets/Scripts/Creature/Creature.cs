@@ -11,7 +11,6 @@ public abstract class Creature : MonoBehaviour
     [Header("Creature Stats")]
 
     [SerializeField] protected float health;
-    [SerializeField] protected float attackSpeed;
     [SerializeField] protected float attackRange = 5f;
     [SerializeField] protected float currentHealth;
     [SerializeField] protected float attackDamage = 5f;

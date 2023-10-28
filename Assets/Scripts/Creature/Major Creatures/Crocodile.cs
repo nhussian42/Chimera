@@ -9,10 +9,6 @@ using UnityEngine.Animations.Rigging;
 public class Crocodile : NotBossAI
 {
     private Rigidbody rb;
-    private float chargeSpeed = 10f;
-
-    private bool idle = false;
-
 
     [SerializeField] private float digCooldown = 20f; //Cooldown between uses of dig
     private float remainingDigCooldown = 0f; //Actual value that track remaining dig cooldown
@@ -55,7 +51,7 @@ public class Crocodile : NotBossAI
         agent.stoppingDistance = 7;
         yield return new WaitUntil(() => agent.remainingDistance < 10f);
     
-        rb.AddForce(gameObject.transform.forward * chargeSpeed, ForceMode.Impulse);
+        rb.AddForce((gameObject.transform.forward * agent.remainingDistance)/2, ForceMode.Impulse);
         animator.SetBool("Charge", true);
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);
@@ -86,7 +82,7 @@ public class Crocodile : NotBossAI
         GetComponentInChildren<Canvas>().enabled = false; 
         yield return new WaitForSeconds(1f);
         agent.isStopped = false;
-        yield return new WaitUntil(() => agent.remainingDistance < 1.5f);
+        yield return new WaitUntil(() => agent.remainingDistance < 2f);
 
         //Enemy appears behind the player
         //Surfacing animation goes here
