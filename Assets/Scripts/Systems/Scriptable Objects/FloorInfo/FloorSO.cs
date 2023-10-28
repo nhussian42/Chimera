@@ -16,7 +16,8 @@ public class FloorSO : ScriptableObject
     public Creature mammalianMinorCreature;
     public Creature reptilianMinorCreature;
     public Creature aquaticMinorCreature;
-    [Tooltip("Which coombat room prefabs will spawn on this floor?")]
+    
+    [Tooltip("Which combat room prefabs will spawn on this floor?")]
     public List<CombatRoom> spawnableCombatRooms;
     [Tooltip("What is the boss room prefab for this floor?")]
     public BossRoom bossRoom;

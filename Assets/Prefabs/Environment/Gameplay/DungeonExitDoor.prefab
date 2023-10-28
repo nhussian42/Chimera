@@ -32,6 +32,7 @@ Transform:
   m_Children:
   - {fileID: 661567523750014857}
   - {fileID: 6205535523833637399}
+  - {fileID: 5601238179727169396}
   - {fileID: 3798455782834957897}
   - {fileID: 7735349979038197311}
   m_Father: {fileID: 0}
@@ -70,7 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2630b0e64ff0e439cc14d4f2bf1570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <_exitRoomSide>k__BackingField: 0
+  <ExitRoomSide>k__BackingField: 0
   _nextRoom: {fileID: 0}
 --- !u!1 &2428340002068678420
 GameObject:
@@ -103,6 +104,72 @@ Transform:
   m_Father: {fileID: 2206460738634538310}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3095792125964782276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5601238179727169396}
+  - component: {fileID: 9167900551015013313}
+  - component: {fileID: 2951559873689727165}
+  m_Layer: 0
+  m_Name: WalkUpTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5601238179727169396
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3095792125964782276}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2206460738634538310}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &9167900551015013313
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3095792125964782276}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 6.07, y: 2.74, z: 5.34}
+  m_Center: {x: -3.3, y: 1.08, z: -1.5}
+--- !u!114 &2951559873689727165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3095792125964782276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97edab6e7192a064a97413b098f17578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3393343627864238475
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,6 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dbfd677c74c92540bf141410754e68a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorOpenCondition: 2
 --- !u!95 &6339843187629487012
 Animator:
   serializedVersion: 5

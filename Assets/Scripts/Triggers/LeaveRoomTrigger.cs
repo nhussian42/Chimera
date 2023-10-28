@@ -5,7 +5,7 @@ using UnityEngine;
 public class LeaveRoomTrigger : MonoBehaviour
 {
     private bool _triggered;
-    [field: SerializeField] public RoomSide _exitRoomSide { get; private set; }
+    [field: SerializeField] public RoomSide ExitRoomSide { get; private set; }
 
     [HideInInspector] public Room _nextRoom;
 
@@ -25,7 +25,7 @@ public class LeaveRoomTrigger : MonoBehaviour
         FloorManager.AllCreaturesDefeated -= EnableRoomTrigger;
     }
 
-    private void EnableRoomTrigger()
+    public void EnableRoomTrigger()
     {
         roomTrigger.enabled = true;
     }
@@ -35,7 +35,7 @@ public class LeaveRoomTrigger : MonoBehaviour
         if (!_triggered && other.gameObject.GetComponent<PlayerController>() != null)
         {
             _triggered = true;
-            FloorManager.lastExitRoomSide = _exitRoomSide;
+            FloorManager.lastExitRoomSide = ExitRoomSide;
             FloorManager.StoredNextRoom = _nextRoom;
             FloorManager.LeaveRoom?.Invoke();
         }

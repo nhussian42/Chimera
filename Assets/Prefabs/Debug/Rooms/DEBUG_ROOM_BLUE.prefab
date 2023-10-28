@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &54008920871683796
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 327276638822992124}
-  m_Layer: 0
-  m_Name: Spawn (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &327276638822992124
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 54008920871683796}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.5, y: 0, z: -4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6713645165791083642}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &214860824175498639
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,7 +150,7 @@ Transform:
   - {fileID: 8966657577247620788}
   - {fileID: 1573609832101984461}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2706943503037227309
 MonoBehaviour:
@@ -208,7 +177,6 @@ MonoBehaviour:
     type: 3}
   majorCreatureSpawnsParent: {fileID: 6713645165791083642}
   minorCreatureSpawnsParent: {fileID: 8966657577247620788}
-  ExitDoors: []
 --- !u!1 &6584382745187141494
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +344,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 2e1c15cec8f14a3469c503e776725cb2, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 660b82a139ee80b41aac018aa804de4b, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &7777323960744131506
 GameObject:
@@ -780,6 +748,11 @@ PrefabInstance:
       propertyPath: _exitRoomSide
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5230569788630770630, guid: ace55d356959dc040bb32c0b7d5b8a43,
+        type: 3}
+      propertyPath: <ExitRoomSide>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -866,10 +839,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5846609127152224945}
-    - targetCorrespondingSourceObject: {fileID: 8020556133909241328, guid: 04c709237bd1e8145bd35bb5d770c877,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 327276638822992124}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04c709237bd1e8145bd35bb5d770c877, type: 3}
 --- !u!4 &6713645165791083642 stripped

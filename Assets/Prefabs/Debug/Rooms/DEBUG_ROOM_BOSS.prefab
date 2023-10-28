@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3735737683343374889}
   - component: {fileID: 8355502637090714034}
   m_Layer: 12
-  m_Name: DEBUG_FLOOR_BLUE
+  m_Name: DEBUG_FLOOR_BOSS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -292,7 +292,7 @@ Transform:
   - {fileID: 522283421195469490}
   - {fileID: 2510730116278712708}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7044922799774291545
 MonoBehaviour:
@@ -313,6 +313,8 @@ MonoBehaviour:
   exitDoors:
   - {fileID: 3036289259209494727}
   - {fileID: 2510730116278712708}
+  bossCreature: {fileID: 3988622010604232733, guid: f49d9933ae83d2e4a834171b58798e9a,
+    type: 3}
 --- !u!1001 &1486138768967728600
 PrefabInstance:
   m_ObjectHideFlags: 0

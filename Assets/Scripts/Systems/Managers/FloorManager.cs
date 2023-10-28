@@ -18,6 +18,7 @@ public class FloorManager : Singleton<FloorManager>
     [field: Header("Floor Info")]
     [field: SerializeField] public FloorSO currentFloor { get; private set; }
     [SerializeField] private int combatRoomBuildIndex;
+    [SerializeField] private TutorialRoom tutorialRoom;
 
     [Header("DEBUG READ ONLY")]
     [SerializeField] private Room _currentRoom; // unserialize after debug
@@ -38,16 +39,7 @@ public class FloorManager : Singleton<FloorManager>
     private void Start()
     {
         _currentRoomIndex++;
-
-        if (_currentRoomIndex == 1 || _currentRoomIndex > currentFloor.numCombatRooms)
-            DetermineNextRoom();
-        else
-        {
-            if (StoredNextRoom)
-                SpawnRoom(StoredNextRoom);
-            else
-                Debug.LogError("Stored next room has not been set to any room.");
-        }
+        DetermineNextRoom();
     }
 
     private void OnDisable()
@@ -69,13 +61,38 @@ public class FloorManager : Singleton<FloorManager>
 
     private void DetermineNextRoom()
     {
-        if (_currentRoomIndex > currentFloor.numCombatRooms)
+        // Tutorial Room
+        if (_currentRoomIndex == 1)
+        {
+            // Spawn the tutorial room only on the first floor
+            if (currentFloor.index == 1)
+            {
+                lastExitRoomSide = tutorialRoom.OppositeEnterSide;
+                SpawnRoom(tutorialRoom);
+            }
+            else
+            {
+                _currentRoomIndex++;
+                DetermineNextRoom();
+            }
+        }
+        // First combat room
+        else if (_currentRoomIndex == 2)
+        {
+            SpawnRoom(DetermineNextCombatRoom());
+        }
+        // Boss room
+        else if (_currentRoomIndex > currentFloor.numCombatRooms)
         {
             SpawnRoom(currentFloor.bossRoom);
         }
+        // Any other combat room after the first
         else
         {
-            SpawnRoom(DetermineNextCombatRoom());
+            if (StoredNextRoom)
+                SpawnRoom(StoredNextRoom);
+            else
+                Debug.LogError("Stored next room has not been set to any room.");
         }
     }
 
@@ -150,22 +167,32 @@ public class FloorManager : Singleton<FloorManager>
 
         if (lastExitRoomSide == RoomSide.Right)
         {
+            if (_currentRoom.bottomLeftStartDoors.Count <= 0) { EntrancePositionNotFound(); return; }
+
             startTransformIndex = UnityEngine.Random.Range(0, _currentRoom.bottomLeftStartDoors.Count);
             startTransform = _currentRoom.bottomLeftStartDoors[startTransformIndex];
 
         }
         else if (lastExitRoomSide == RoomSide.Left)
         {
+            if (_currentRoom.bottomRightStartDoors.Count <= 0) { EntrancePositionNotFound(); return; }
+
             startTransformIndex = UnityEngine.Random.Range(0, _currentRoom.bottomRightStartDoors.Count);
             startTransform = _currentRoom.bottomRightStartDoors[startTransformIndex];
         }
+    }
+
+    private void EntrancePositionNotFound()
+    {
+        Debug.LogWarning("Last exit room side not found. Start transform set to 0,0,0 ");
+        startTransform = Instantiate(new GameObject(), Vector3.zero, Quaternion.identity).transform;
     }
 
     private void GenerateNewCombatRooms()
     {
         for (int i = 0; i < _currentRoom.exitDoors.Count; i++)
         {
-            if (_currentRoomIndex >= currentFloor.numCombatRooms)
+            if (_currentRoomIndex == currentFloor.numCombatRooms)
             {
                 if (_currentRoom is CombatRoom)
                 {
