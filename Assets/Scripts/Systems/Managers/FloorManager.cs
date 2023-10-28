@@ -61,7 +61,10 @@ public class FloorManager : Singleton<FloorManager>
         if (_currentRoomIndex <= currentFloor.numCombatRooms)
             ChimeraSceneManager.Instance.LoadScene(combatRoomBuildIndex);
         else
+        {
+            _currentRoomIndex = 0;
             ChimeraSceneManager.Instance.LoadScene(0); // Loads main menu after boss room
+        }
     }
 
     private void DetermineNextRoom()
@@ -155,18 +158,18 @@ public class FloorManager : Singleton<FloorManager>
 
     private void GenerateNewCombatRooms()
     {
-        if (_currentRoomIndex >= currentFloor.numCombatRooms)
-        {
-            if (_currentRoom is CombatRoom)
-            {
-                CombatRoom _currentCombatRoom = (CombatRoom)_currentRoom;
-                _currentCombatRoom.SpawnPlaqueIcon(currentFloor.bossPlaque);
-            }
-            return;
-        }
-
         for (int i = 0; i < _currentRoom.exitDoors.Count; i++)
         {
+            if (_currentRoomIndex >= currentFloor.numCombatRooms)
+            {
+                if (_currentRoom is CombatRoom)
+                {
+                    CombatRoom _currentCombatRoom = (CombatRoom)_currentRoom;
+                    _currentCombatRoom.SpawnPlaqueIcon(currentFloor.bossPlaque);
+                }
+                continue;
+            }
+
             CombatRoom newRoom = DetermineNextCombatRoom();
             _currentRoom.exitDoors[i].GetComponentInChildren<LeaveRoomTrigger>()._nextRoom = newRoom;
 

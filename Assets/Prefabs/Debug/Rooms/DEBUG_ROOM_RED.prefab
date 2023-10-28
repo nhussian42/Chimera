@@ -31,37 +31,6 @@ Transform:
   m_Father: {fileID: 7330924622859962575}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2740190283394707336
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8021205492965028969}
-  m_Layer: 0
-  m_Name: Spawn (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8021205492965028969
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2740190283394707336}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.5, y: 0, z: -4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7330924622859962575}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3082100685429951274
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,8 +309,10 @@ MonoBehaviour:
   exitDoors:
   - {fileID: 2592061653045508156}
   - {fileID: 6670430698999288518}
-  currentMajorCreature: {fileID: 0}
-  currentMinorCreature: {fileID: 0}
+  currentMajorCreature: {fileID: 5045467928891353712, guid: 7f0aaa090bfd7ee4d9d3d70913cca91e,
+    type: 3}
+  currentMinorCreature: {fileID: 3988622010604232733, guid: f49d9933ae83d2e4a834171b58798e9a,
+    type: 3}
   majorCreatureSpawnsParent: {fileID: 7330924622859962575}
   minorCreatureSpawnsParent: {fileID: 5483876990436766847}
   ExitDoors: []
@@ -538,10 +509,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1583789274805276730}
-    - targetCorrespondingSourceObject: {fileID: 8020556133909241328, guid: 04c709237bd1e8145bd35bb5d770c877,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8021205492965028969}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04c709237bd1e8145bd35bb5d770c877, type: 3}
 --- !u!4 &7330924622859962575 stripped

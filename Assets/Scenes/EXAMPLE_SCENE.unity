@@ -743,6 +743,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
+        type: 3}
+      propertyPath: _mainCamera
+      value: 
+      objectReference: {fileID: 1533590660}
     - target: {fileID: 8651667776403588921, guid: 82d71a54e57a1ff49a43690c93ad7a17,
         type: 3}
       propertyPath: m_Name
@@ -2476,6 +2481,12 @@ Transform:
   m_Father: {fileID: 1697772336}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!20 &1533590660 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 4216877461643533831, guid: 1c08446b693e999428c08fa12ec8a104,
+    type: 3}
+  m_PrefabInstance: {fileID: 8741612878708742054}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1537075787 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8842008802578187940, guid: 16a973089fb71174881d1110a4ce0a2d,
@@ -4374,10 +4385,12 @@ MonoBehaviour:
   - {fileID: 167838701}
   bottomRightStartDoors:
   - {fileID: 1263011018}
+  exitDoors: []
   currentMajorCreature: {fileID: 0}
   currentMinorCreature: {fileID: 0}
   majorCreatureSpawnsParent: {fileID: 0}
   minorCreatureSpawnsParent: {fileID: 0}
+  ExitDoors: []
 --- !u!65 &457754523946917751
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10729,6 +10742,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2115084494}
     m_Modifications:
+    - target: {fileID: 3224420701628328348, guid: 52aef984de33e9744b7e4d91892e0501,
+        type: 3}
+      propertyPath: <currentFloor>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: e0b5a36390e6d064a83df33df89a9d92,
+        type: 2}
     - target: {fileID: 4827304026933843139, guid: 52aef984de33e9744b7e4d91892e0501,
         type: 3}
       propertyPath: m_RootOrder

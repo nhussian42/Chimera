@@ -6,6 +6,6 @@ using UnityEngine;
 public class CreatureSO : ScriptableObject
 {
     public string creatureName;
-    public List<LimbDrop> limbDrops;
+    //public List<LimbDrop> limbDrops;
     public GameObject plaqueIcon;
 }
