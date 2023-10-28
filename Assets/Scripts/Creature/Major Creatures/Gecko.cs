@@ -97,7 +97,6 @@ public class Gecko : NotBossAI
 
     protected override void Update()
     {
-        Debug.Log(remainingDashAttackCooldown);
         if (alive == true && remainingDashAttackCooldown < 0)
         {
             FaceTarget(agent.destination);
