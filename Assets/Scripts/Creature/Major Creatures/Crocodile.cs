@@ -10,10 +10,6 @@ using UnityEngine.Animations.Rigging;
 public class Crocodile : NotBossAI
 {
     private Rigidbody rb;
-    private float chargeSpeed = 10f;
-
-    private bool idle = false;
-
 
     [SerializeField] private float digCooldown = 20f; //Cooldown between uses of dig
     private float remainingDigCooldown = 0f; //Actual value that track remaining dig cooldown

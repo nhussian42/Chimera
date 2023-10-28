@@ -39,6 +39,7 @@ public class NotBossAI : Creature
                 attacking = true;
             }
         }
+
     }
 
     public virtual void OnTriggerEnter(Collider other)

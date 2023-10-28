@@ -9,9 +9,7 @@ using UnityEngine.UIElements;
 public class NewWolf : NotBossAI
 {
     [SerializeField, Tooltip("How long it stops once in range before beginning the charge")] private float chargeDelay = 0.75f;
-    [SerializeField, Tooltip("How fast it charges")] private float chargeSpeed = 10f;
     [SerializeField, Tooltip("How long it charges for")] private float chargeTime = 0.5f;
-    [SerializeField, Tooltip("How long after a charge until it can charge again")] private float attackCooldown = 1f;
     [SerializeField] private GameObject attackCollider;
 
 
@@ -83,7 +81,7 @@ public class NewWolf : NotBossAI
             }
             agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
 
-            yield return new WaitUntil(() => agent.remainingDistance < 2.5f || agentNearEdge == true);
+            yield return new WaitUntil(() => agent.remainingDistance < 2.5f || (agentNearEdge == true && inAttackRange == true));
         }
 
         StartCoroutine(Pounce());
@@ -111,8 +109,8 @@ public class NewWolf : NotBossAI
         agent.isStopped = false;
 
         agent.destination = PointOnXZCircle(transform.position, attackRange * 2, Random.Range(-45, 46));
-        attackResetTime = 2f;
-        yield return new WaitUntil(() => inAttackRange = false || attackResetTime < 0f);
+        attackResetTime = 3f;
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, player.transform.position) > attackRange * 1.5f || attackResetTime < 0f);
 
         attacking = false;
         yield return null;
