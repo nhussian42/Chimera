@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,9 +10,9 @@ using UnityEngine.Animations.Rigging;
 public class Crocodile : NotBossAI
 {
     private Rigidbody rb;
-    private float chargeSpeed = 20f;
+    private float chargeSpeed = 10f;
 
-    private bool performingDigAttack = false;
+    private bool idle = false;
 
 
     [SerializeField] private float digCooldown = 20f; //Cooldown between uses of dig
@@ -24,6 +25,7 @@ public class Crocodile : NotBossAI
         transform.position = new Vector3(transform.position.x, 1, transform.position.z);
         rb = GetComponent<Rigidbody>();
         agent.destination = player.transform.position;
+        animator = GetComponentInChildren<Animator>();
     }
 
     public override IEnumerator Attack()
@@ -43,64 +45,64 @@ public class Crocodile : NotBossAI
     protected IEnumerator RegularAttack()
     {
         //Walks up to the player and attacks in a small cone
-        agent.stoppingDistance = 6;
-        while (agent.remainingDistance > agent.stoppingDistance)
-        {
-            agent.destination = player.transform.position;
-            FaceTarget(agent.destination);
-            yield return null;
-        }
-
+        agent.stoppingDistance = 7;
+        yield return new WaitUntil(() => agent.remainingDistance < 10f);
+    
+        rb.AddForce(gameObject.transform.forward * chargeSpeed, ForceMode.Impulse);
+        animator.SetBool("Charge", true);
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);
 
+        rb.velocity = Vector3.zero;
         attackCollider.enabled = false;
-        yield return new WaitForSeconds(1f);
+        animator.SetBool("Charge", false);
+        agent.isStopped = true;
+        animator.SetBool("Idle", true);
+        yield return new WaitForSeconds(2f);
 
+        agent.isStopped = false;
+        animator.SetBool("Idle", false);
         attacking = false;
         yield return null;
     }
     protected IEnumerator Dig()
     {
         //Dig animation goes here
+        animator.SetBool("Burrow", true);
+        boxCollider.enabled = false;
         agent.stoppingDistance = 2;
-        performingDigAttack = true;
         agent.isStopped = true;
         yield return new WaitForSeconds(1f);
 
         //Enemy is invisible moving behind player
         //Maybe put particle effect here?
-        agent.speed = agent.speed * 2;
-        agent.isStopped = false;
-        this.GetComponent<MeshRenderer>().enabled = false;
-        boxCollider.enabled = false;
         GetComponentInChildren<Canvas>().enabled = false; 
-        yield return new WaitForSeconds(0.2f);
-        yield return new WaitUntil(() => agent.remainingDistance < 1f);
+        yield return new WaitForSeconds(1f);
+        agent.isStopped = false;
+        yield return new WaitUntil(() => agent.remainingDistance < 1.5f);
 
         //Enemy appears behind the player
         //Surfacing animation goes here
+        animator.SetBool("BurrowResurface", true);
+        animator.SetBool("Burrow", false);
         agent.isStopped = true;
         agent.updateRotation = false;
-        gameObject.transform.LookAt(player.transform.position);
-        boxCollider.enabled = true;
-        GetComponentInChildren<Canvas>().enabled = true;
-        this.GetComponent<MeshRenderer>().enabled = true;
+        gameObject.transform.LookAt(player.transform.position);   
         yield return new WaitForSeconds(0.5f);
 
         //Charges forward
         //Charging animation goes here
+        animator.SetBool("BurrowResurface", false);
+        boxCollider.enabled = true; 
         gameObject.transform.LookAt(player.transform.position);
-        rb.AddForce(gameObject.transform.forward * chargeSpeed, ForceMode.Impulse);
         yield return new WaitForSeconds(0.75f);
 
         //Resets speed, puts dig on cooldown
-        agent.speed = agent.speed / 2;
+        GetComponentInChildren<Canvas>().enabled = true;
         agent.isStopped = false;
         agent.updateRotation = true;
-        rb.velocity = Vector3.zero;
         remainingDigCooldown = digCooldown;
-        performingDigAttack = false;
+        yield return new WaitForSeconds(1f);
         attacking = false;
         yield return null;
     }
@@ -110,8 +112,6 @@ public class Crocodile : NotBossAI
 
         if (alive == true)
         {
-            if (performingDigAttack == false)
-            {
                 FaceTarget(agent.destination);
                 agent.destination = player.transform.position;
 
@@ -119,13 +119,7 @@ public class Crocodile : NotBossAI
                 {
                     StartCoroutine(Attack());
                     attacking = true;
-                }   
-            }
-
-            if (performingDigAttack == true)
-            {
-                agent.destination = player.transform.position + (player.transform.forward * -7f);
-            }       
+                }      
         }
 
         remainingDigCooldown -= Time.deltaTime;
@@ -136,5 +130,11 @@ public class Crocodile : NotBossAI
         Vector3 lookPos = destination - transform.position;
         Quaternion rotation = Quaternion.LookRotation(lookPos);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 2);  
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        animator.Play("Death");
     }
 }

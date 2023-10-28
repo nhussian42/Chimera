@@ -27,7 +27,7 @@ public class Rhino : NotBossAI
 
     private Rigidbody rb;
 
-    private void OnEnable()
+    private void Awake()
     {
         initialTurnSpeed = agent.angularSpeed;
         initialMovementSpeed = agent.speed;
@@ -71,10 +71,10 @@ public class Rhino : NotBossAI
     {
         //Stops the rhino
         agent.isStopped = true;
-        agent.velocity = Vector3.zero;
         yield return new WaitForSeconds(0.5f);
 
         //Attack is performed
+        agent.velocity = Vector3.zero;
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);
 
