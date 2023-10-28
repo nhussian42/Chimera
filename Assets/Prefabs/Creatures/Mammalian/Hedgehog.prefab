@@ -132,13 +132,13 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 2
 --- !u!114 &3988622010604232733
 MonoBehaviour:
@@ -153,7 +153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  attackSpeed: 5
   attackRange: 5
   currentHealth: 0
   attackDamage: 1
@@ -168,7 +167,6 @@ MonoBehaviour:
   chargeSpeed: 10
   chargeTime: 0.75
   attackCooldown: 0.5
-  attackIndicator: {fileID: 7921769513488255112}
 --- !u!195 &9043413049927628240
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -178,7 +176,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 2808466385115696920}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -190,7 +188,7 @@ NavMeshAgent:
   m_Height: 1
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 3
 --- !u!65 &5374373026523595839
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -204,7 +202,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
