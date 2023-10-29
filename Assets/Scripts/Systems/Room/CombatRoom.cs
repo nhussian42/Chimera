@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CombatRoom : Room
 {
-    public Creature currentMajorCreature;
-    public Creature currentMinorCreature;
+    [HideInInspector] public Creature currentMajorCreature;
+    [HideInInspector] public Creature currentMinorCreature;
     public Transform majorCreatureSpawnsParent;
     public Transform minorCreatureSpawnsParent;
     int exitDoorIndex;
