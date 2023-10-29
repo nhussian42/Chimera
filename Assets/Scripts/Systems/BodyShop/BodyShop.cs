@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Runtime.CompilerServices;
 
 public class BodyShop : MonoBehaviour
 {
@@ -46,6 +47,7 @@ public class BodyShop : MonoBehaviour
         {
             Instantiate(ShopMenu, new Vector3(0, 0, 0), Quaternion.identity);
             IsMenuActive = true;
+            Invoke("RefreshShopHud", 3);
         }
     }
 
@@ -55,6 +57,32 @@ public class BodyShop : MonoBehaviour
         randomArm = Random.Range(0, ArmList.Count);
         randomLeg = Random.Range(0, LegList.Count);
         randomHead = Random.Range(0, HeadList.Count);
+    }
+
+    private void RefreshShopHud()
+    {
+        IsMenuActive = false;
+        Debug.Log("Reset");
+    }
+
+    public void DestroyOption(int i)
+    {
+        switch (i)
+        {
+
+            case 0:
+                ArmList[randomArm].gameObject.SetActive(false);
+                break;
+            case 1:
+                LegList[randomLeg].gameObject.SetActive(false);
+                break;
+            case 2:
+                HeadList[randomHead].gameObject.SetActive(false);
+                break;
+            case 3:
+                HealItem.gameObject.SetActive(false);
+                break;
+        }
     }
 
 }

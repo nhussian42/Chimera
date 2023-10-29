@@ -219,6 +219,8 @@ public class PlayerController : Singleton<PlayerController>
 
         _mainCamera = Camera.main;
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
+
+        
     }
 
     // Debug
@@ -626,8 +628,6 @@ public class PlayerController : Singleton<PlayerController>
         {
             totalBones += amount;
         }
-        
-        Debug.Log(totalBones.ToString("F2"));
     }
 
     private void Deactivate()

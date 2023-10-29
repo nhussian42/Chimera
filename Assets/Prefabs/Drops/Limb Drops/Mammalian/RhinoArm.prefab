@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6033166919025011105
 Transform:
   m_ObjectHideFlags: 0
@@ -148,10 +148,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87c9ac2874b0a6459787f240b6f73fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 36
-  defaultLimb: 0
   classification: 0
-  AttackDamage: 11
+  weight: 0
+  startingHealth: 100
+  limbDropPrefab: {fileID: 0}
+  attackDamage: 0
   attackSpeed: 1
+  side: 0
   attackRangePrefab: {fileID: 5182243123753938400, guid: 1b9bd96893d9faf47813738e5483a4cc,
     type: 3}

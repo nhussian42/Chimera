@@ -374,7 +374,7 @@ GameObject:
   - component: {fileID: 6558539662341965974}
   - component: {fileID: 286390644391324582}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Item 1 Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -619,7 +619,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2449981731871324877}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8672320228135486295}
+        m_TargetAssemblyTypeName: BodyShopMenu, Assembly-CSharp
+        m_MethodName: PurchaseOption
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2105436964929041002
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,7 +754,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 710852968885782331}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8672320228135486295}
+        m_TargetAssemblyTypeName: BodyShopMenu, Assembly-CSharp
+        m_MethodName: PurchaseOption
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2324592188663797293
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,7 +779,7 @@ GameObject:
   - component: {fileID: 3325251068287550637}
   - component: {fileID: 1758670154551694967}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Item 2 Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1274,7 +1298,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 371590202658221310}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8672320228135486295}
+        m_TargetAssemblyTypeName: BodyShopMenu, Assembly-CSharp
+        m_MethodName: PurchaseOption
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4571257434265452507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,7 +1323,7 @@ GameObject:
   - component: {fileID: 516685653243963972}
   - component: {fileID: 4804702539417915870}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Item 3 Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1604,13 +1640,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41dabd07c9574bf4295ca4d83e297f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ArmList: []
+  LegList: []
+  HeadList: []
+  ItemLocations: []
+  ShopMenu: {fileID: 0}
+  IsMenuActive: 0
+  HealItem: {fileID: 0}
   ItemButtonList:
   - {fileID: 4713463792608499802}
   - {fileID: 7968748038385837360}
   - {fileID: 5630548823135341455}
-  HealItem: {fileID: 4088607573111034664}
+  ItemCostList:
+  - 0
+  - 0
+  - 0
+  HealItemButton: {fileID: 4088607573111034664}
+  HealCost: 70
   ExitButton: {fileID: 2413504797739222889}
-  ItemTextList: []
+  ItemTextList:
+  - {fileID: 286390644391324582}
+  - {fileID: 1758670154551694967}
+  - {fileID: 4804702539417915870}
   HealItemText: {fileID: 7518442592157220344}
   CurrentBones: {fileID: 2227225658444805966}
 --- !u!1 &7337342692145809067
@@ -1735,7 +1786,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4525306877469306297}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8672320228135486295}
+        m_TargetAssemblyTypeName: BodyShopMenu, Assembly-CSharp
+        m_MethodName: PurchaseHeal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7383204967086759601
 GameObject:
   m_ObjectHideFlags: 0
