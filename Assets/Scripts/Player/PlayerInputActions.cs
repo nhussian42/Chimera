@@ -37,6 +37,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""OpenEM"",
+                    ""type"": ""Button"",
+                    ""id"": ""645fdc19-295b-411a-a7ba-e20a2ce188d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Look"",
                     ""type"": ""Value"",
                     ""id"": ""15b3c20a-221c-4db4-8b8a-b3096160d433"",
@@ -267,6 +276,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""LegsAbility"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d00f5039-296c-48a0-99c2-7da7e08fc017"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenEM"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""324a1576-d99f-4746-934b-a61f92f60780"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenEM"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -284,7 +315,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""OpenEquipMenu"",
+                    ""name"": ""CloseEM"",
                     ""type"": ""Button"",
                     ""id"": ""b08b0f06-5429-4719-a6a6-4ed79a5ff45c"",
                     ""expectedControlType"": ""Button"",
@@ -323,7 +354,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""OpenEquipMenu"",
+                    ""action"": ""CloseEM"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -334,7 +365,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""OpenEquipMenu"",
+                    ""action"": ""CloseEM"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -374,6 +405,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // DefaultControls
         m_DefaultControls = asset.FindActionMap("DefaultControls", throwIfNotFound: true);
         m_DefaultControls_Movement = m_DefaultControls.FindAction("Movement", throwIfNotFound: true);
+        m_DefaultControls_OpenEM = m_DefaultControls.FindAction("OpenEM", throwIfNotFound: true);
         m_DefaultControls_Look = m_DefaultControls.FindAction("Look", throwIfNotFound: true);
         m_DefaultControls_AttackRight = m_DefaultControls.FindAction("AttackRight", throwIfNotFound: true);
         m_DefaultControls_AttackLeft = m_DefaultControls.FindAction("AttackLeft", throwIfNotFound: true);
@@ -383,7 +415,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_UnPause = m_UI.FindAction("UnPause", throwIfNotFound: true);
-        m_UI_OpenEquipMenu = m_UI.FindAction("OpenEquipMenu", throwIfNotFound: true);
+        m_UI_CloseEM = m_UI.FindAction("CloseEM", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -446,6 +478,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_DefaultControls;
     private List<IDefaultControlsActions> m_DefaultControlsActionsCallbackInterfaces = new List<IDefaultControlsActions>();
     private readonly InputAction m_DefaultControls_Movement;
+    private readonly InputAction m_DefaultControls_OpenEM;
     private readonly InputAction m_DefaultControls_Look;
     private readonly InputAction m_DefaultControls_AttackRight;
     private readonly InputAction m_DefaultControls_AttackLeft;
@@ -457,6 +490,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         private @PlayerInputActions m_Wrapper;
         public DefaultControlsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_DefaultControls_Movement;
+        public InputAction @OpenEM => m_Wrapper.m_DefaultControls_OpenEM;
         public InputAction @Look => m_Wrapper.m_DefaultControls_Look;
         public InputAction @AttackRight => m_Wrapper.m_DefaultControls_AttackRight;
         public InputAction @AttackLeft => m_Wrapper.m_DefaultControls_AttackLeft;
@@ -475,6 +509,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @OpenEM.started += instance.OnOpenEM;
+            @OpenEM.performed += instance.OnOpenEM;
+            @OpenEM.canceled += instance.OnOpenEM;
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
@@ -500,6 +537,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @OpenEM.started -= instance.OnOpenEM;
+            @OpenEM.performed -= instance.OnOpenEM;
+            @OpenEM.canceled -= instance.OnOpenEM;
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
@@ -540,13 +580,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_UnPause;
-    private readonly InputAction m_UI_OpenEquipMenu;
+    private readonly InputAction m_UI_CloseEM;
     public struct UIActions
     {
         private @PlayerInputActions m_Wrapper;
         public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @UnPause => m_Wrapper.m_UI_UnPause;
-        public InputAction @OpenEquipMenu => m_Wrapper.m_UI_OpenEquipMenu;
+        public InputAction @CloseEM => m_Wrapper.m_UI_CloseEM;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -559,9 +599,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @UnPause.started += instance.OnUnPause;
             @UnPause.performed += instance.OnUnPause;
             @UnPause.canceled += instance.OnUnPause;
-            @OpenEquipMenu.started += instance.OnOpenEquipMenu;
-            @OpenEquipMenu.performed += instance.OnOpenEquipMenu;
-            @OpenEquipMenu.canceled += instance.OnOpenEquipMenu;
+            @CloseEM.started += instance.OnCloseEM;
+            @CloseEM.performed += instance.OnCloseEM;
+            @CloseEM.canceled += instance.OnCloseEM;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -569,9 +609,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @UnPause.started -= instance.OnUnPause;
             @UnPause.performed -= instance.OnUnPause;
             @UnPause.canceled -= instance.OnUnPause;
-            @OpenEquipMenu.started -= instance.OnOpenEquipMenu;
-            @OpenEquipMenu.performed -= instance.OnOpenEquipMenu;
-            @OpenEquipMenu.canceled -= instance.OnOpenEquipMenu;
+            @CloseEM.started -= instance.OnCloseEM;
+            @CloseEM.performed -= instance.OnCloseEM;
+            @CloseEM.canceled -= instance.OnCloseEM;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -610,6 +650,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IDefaultControlsActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnOpenEM(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnAttackRight(InputAction.CallbackContext context);
         void OnAttackLeft(InputAction.CallbackContext context);
@@ -620,6 +661,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnUnPause(InputAction.CallbackContext context);
-        void OnOpenEquipMenu(InputAction.CallbackContext context);
+        void OnCloseEM(InputAction.CallbackContext context);
     }
 }

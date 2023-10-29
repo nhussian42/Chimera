@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "OpenEM",
+                    "type": "Button",
+                    "id": "645fdc19-295b-411a-a7ba-e20a2ce188d7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Look",
                     "type": "Value",
                     "id": "15b3c20a-221c-4db4-8b8a-b3096160d433",
@@ -245,6 +254,28 @@
                     "action": "LegsAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d00f5039-296c-48a0-99c2-7da7e08fc017",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenEM",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "324a1576-d99f-4746-934b-a61f92f60780",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenEM",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -262,7 +293,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "OpenEquipMenu",
+                    "name": "CloseEM",
                     "type": "Button",
                     "id": "b08b0f06-5429-4719-a6a6-4ed79a5ff45c",
                     "expectedControlType": "Button",
@@ -301,7 +332,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "OpenEquipMenu",
+                    "action": "CloseEM",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -312,7 +343,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "OpenEquipMenu",
+                    "action": "CloseEM",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
