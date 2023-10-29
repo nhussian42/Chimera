@@ -16,7 +16,7 @@ public class EMScript : MonoBehaviour
         for (int i = 0; i < invSize; i++)
         {
             TrinketInvSlot trinkety = Instantiate(trinketSlot, Vector3.zero, Quaternion.identity) as TrinketInvSlot;
-            trinketSlot.transform.SetParent(contentPanel);
+            trinkety.transform.SetParent(contentPanel, false);
             listOfTrinkets.Add(trinkety);
         }
     }
