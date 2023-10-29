@@ -68,6 +68,7 @@ public class ModifiedStatsSO : ScriptableObject
 
         rightArmMaxHealth.Write(rightArmMaxHealth.value + currentBaseStats.rightArmMaxHealth.value);
         rightArmHealth.Write(rightArmHealth.value + currentBaseStats.rightArmHealth.value);
+        Debug.Log("rightArmAttackDamage.value = " + rightArmAttackDamage.value + " currentBaseStats.rightArmAttackDamage.value = " + currentBaseStats.rightArmAttackDamage.value);
         rightArmAttackDamage.Write(rightArmAttackDamage.value + currentBaseStats.rightArmAttackDamage.value);
         rightArmAttackSpeed.Write(rightArmAttackSpeed.value + currentBaseStats.rightArmAttackSpeed.value);
 
@@ -78,7 +79,7 @@ public class ModifiedStatsSO : ScriptableObject
 
         if(debug == true)
         {
-            Debug.Log("////////// BASE STATS ////////// ");
+            Debug.Log("////////// BUFFED STATS ////////// ");
             Debug.Log("coreMaxHealth: " + coreMaxHealth.value);
             Debug.Log("coreHealth: " + coreHealth.value);
             

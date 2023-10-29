@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.LowLevel;
 [CreateAssetMenu(fileName = "Scriptable Objects", menuName = "Scriptable Objects/Player Data/MasterTrinketList", order = 1)]
 public class MasterTrinketList : ScriptableObject
 {
-    [SerializeField] List<Trinket> masterList; // a general list of all trinkets in the game (trinkets are NEVER added/removed from this list)
+    [SerializeField] List<Trinket> masterList; // a general list of all trinkets in the game (trinkets are NEVER added/removed from this list at runtime)
     [SerializeField] List<Trinket> playerInventory; // a list of all trinkets that the player has picked up (trinkets are added to here when the player selects them)
     [SerializeField] List<Trinket> gameInventory; // a list of trinkets that are in the current run (initialized at start, trinkets that are OneTime trinkets are removed from here at runtime)
     [SerializeField] List<Trinket> bagInventory; // the list of 3 unique, random trinkets that a trinket bag contains.
@@ -20,6 +20,8 @@ public class MasterTrinketList : ScriptableObject
         foreach(Trinket trinket in gameInventory) { trinket.Disable(); }
         gameInventory.Clear();
         foreach (Trinket trinket in masterList) { trinket.Disable(); }
+        foreach(Trinket trinket in bagInventory) { trinket.Disable(); }
+        bagInventory.Clear();
 
         // Game inventory copies master list, this serves as the pool from which trinkets will be pulled from in-game
         foreach (Trinket trinket in masterList) { gameInventory.Add(trinket); }
@@ -83,10 +85,16 @@ public class MasterTrinketList : ScriptableObject
     // Clears trinket bag for next pickup
     private void ResetTrinketBag()
     {
-        foreach(Trinket trinket in bagInventory)
+        for(int i = 0; i < bagInventory.Count; i++)
         {
-            bagInventory.Remove(trinket);
-            gameInventory.Add(trinket);
+            gameInventory.Add(bagInventory[i]);
+            bagInventory.Remove(bagInventory[i]);
+            
+        }
+        if(bagInventory != null)
+        {
+            gameInventory.Add(bagInventory[0]);
+            bagInventory.Remove(bagInventory[0]);
         }
     }
 

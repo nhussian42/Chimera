@@ -24,12 +24,14 @@ public class ConditionalTrinket : Trinket
     public override void Enable()
     {
         activated = false;
+        amount = 0;
         base.Enable();
     }
 
     public override void Activate()
     {
-        if(activated == false)
+        Debug.Log(amount);
+        if (activated == false)
         {
             trueConditions = 0;
             foreach (Conditional condition in onlyModifyIf)
@@ -92,7 +94,6 @@ public class ConditionalTrinket : Trinket
                     modifiedValue /= thisValueDup;
                     break;
             }
-
             returnTo.Write(returnTo.value + (modifiedValue - modify.value));
         }
     }
