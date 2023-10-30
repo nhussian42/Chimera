@@ -30,7 +30,7 @@ public class ConditionalTrinket : Trinket
 
     public override void Activate()
     {
-        Debug.Log(amount);
+        //Debug.Log(amount);
         if (activated == false)
         {
             trueConditions = 0;
