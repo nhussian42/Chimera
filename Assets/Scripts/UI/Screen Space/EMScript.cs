@@ -10,8 +10,17 @@ public class EMScript : MonoBehaviour
 
     [SerializeField] private RectTransform contentPanel;
 
+    [SerializeField] private SelectedDescription selectedDesc;
+
     List<TrinketInvSlot> listOfTrinkets = new List<TrinketInvSlot>();
  
+    private void Awake()
+    {
+        Hide();
+        selectedDesc.ResetDescription();
+    }
+
+
     public void InitializeTrinketInv (int invSize)
     {
         for (int i = 0; i < invSize; i++)
@@ -27,5 +36,10 @@ public class EMScript : MonoBehaviour
     private void HandleTrinketSelection(TrinketInvSlot obj)
     {
         UnityEngine.Debug.Log(obj.name);
+    }
+
+    private void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

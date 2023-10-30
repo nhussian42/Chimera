@@ -626,6 +626,7 @@ MonoBehaviour:
   trinketSlot: {fileID: 8391122649305961869, guid: 9372cf853b6a2bd4e93fafcaa81ff40d,
     type: 3}
   contentPanel: {fileID: 3492972762525301463}
+  selectedDesc: {fileID: 5867581652750708312}
 --- !u!1 &3427353578764133914
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,6 +791,7 @@ GameObject:
   - component: {fileID: 8058738971788987583}
   - component: {fileID: 3996787568210661346}
   - component: {fileID: 6042162683924695052}
+  - component: {fileID: 5867581652750708312}
   m_Layer: 5
   m_Name: ItemDesc
   m_TagString: Untagged
@@ -883,6 +885,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5867581652750708312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566116626432451525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0726de6276d6044d954ed638e4da38d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedImg: {fileID: 7607299208918041016}
+  selectedName: {fileID: 3422401540176930338}
+  selectedDesc: {fileID: 8156578113084159037}
 --- !u!1 &3850311297393025239
 GameObject:
   m_ObjectHideFlags: 0
