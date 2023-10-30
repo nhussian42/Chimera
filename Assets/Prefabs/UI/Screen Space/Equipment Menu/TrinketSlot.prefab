@@ -193,6 +193,8 @@ GameObject:
   - component: {fileID: 830874434929298402}
   - component: {fileID: 2588837182392830649}
   - component: {fileID: 8391122649305961869}
+  - component: {fileID: 5395906446091485708}
+  - component: {fileID: 7573466306388172889}
   m_Layer: 5
   m_Name: TrinketSlot
   m_TagString: Untagged
@@ -271,6 +273,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbeec24066e358247843489ac2448077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trinketImg: {fileID: 0}
+  qtyTxt: {fileID: 0}
+  borderImage: {fileID: 0}
+--- !u!114 &5395906446091485708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7749042018028193875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbeec24066e358247843489ac2448077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trinketImg: {fileID: 7719938107104089164}
+  qtyTxt: {fileID: 3860277969700925649}
+  borderImage: {fileID: 4402811888298675709}
+--- !u!114 &7573466306388172889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7749042018028193875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8391122649305961869}
+          m_TargetAssemblyTypeName: TrinketInvSlot, Assembly-CSharp
+          m_MethodName: OnPointerClick
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &8937954951066105053
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,9 +457,9 @@ RectTransform:
   m_Father: {fileID: 329164900848379858}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 41.3301, y: -25.4564}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 41.3301, y: 25}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &6706727727868387863

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 
@@ -18,6 +19,13 @@ public class EMScript : MonoBehaviour
             TrinketInvSlot trinkety = Instantiate(trinketSlot, Vector3.zero, Quaternion.identity) as TrinketInvSlot;
             trinkety.transform.SetParent(contentPanel, false);
             listOfTrinkets.Add(trinkety);
+
+            trinketSlot.OnTrinketClicked += HandleTrinketSelection;
         }
+    }
+
+    private void HandleTrinketSelection(TrinketInvSlot obj)
+    {
+        UnityEngine.Debug.Log(obj.name);
     }
 }
