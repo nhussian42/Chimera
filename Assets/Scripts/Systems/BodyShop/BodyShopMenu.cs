@@ -12,6 +12,7 @@ public class BodyShopMenu : MonoBehaviour
     public Button HealItemButton;
     public float HealCost;
     public Button ExitButton;
+    public GameObject self;
 
 
     public List<TextMeshProUGUI> ItemTextList;
@@ -34,7 +35,7 @@ public class BodyShopMenu : MonoBehaviour
 
     public void ExitMenu()
     {
-        DestroyImmediate(gameObject, true);
+        self.SetActive(false);
     }
 
     private void UpdateBoneCount()
@@ -59,7 +60,7 @@ public class BodyShopMenu : MonoBehaviour
         if (ItemCostList[i] < PlayerController.Instance.totalBones)
         {
             PlayerController.Instance.totalBones -= ItemCostList[i];
-            //BodyShop.Instance.DestroyOption(i);
+            BodyShop.Instance.DestroyOption(i);
             DestroyButton(i);
         }
     }
@@ -73,7 +74,7 @@ public class BodyShopMenu : MonoBehaviour
             PlayerController.Instance.currentRightArm.UpdateCurrentHealth(5);
             PlayerController.Instance.UpdateCoreHealth(5);
             HealItemButton.gameObject.SetActive(false);
-            //BodyShop.Instance.DestroyOption(3);
+            BodyShop.Instance.DestroyOption(3);
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Runtime.CompilerServices;
 
-public class BodyShop : MonoBehaviour
+public class BodyShop : Singleton<BodyShop>
 {
     
     public List<GameObject> ArmList;
@@ -13,12 +13,19 @@ public class BodyShop : MonoBehaviour
     public List<GameObject> HeadList;
     public List<GameObject> ItemLocations;
 
+    public GameObject SpawnedArm;
+    public GameObject SpawnedLeg;
+    public GameObject SpawnedHead;
+    public GameObject SpawnedHealItem;
+
     public GameObject ShopMenu;
     public bool IsMenuActive;
 
     int randomArm;
     int randomLeg;
     int randomHead;
+
+
 
 
     public GameObject HealItem;
@@ -29,10 +36,12 @@ public class BodyShop : MonoBehaviour
 
         RandomizeOptions();
 
-        Instantiate(ArmList[randomArm], ItemLocations[0].transform.position, Quaternion.identity);
-        Instantiate(LegList[randomLeg], ItemLocations[1].transform.position, Quaternion.identity);
-        Instantiate(HeadList[randomHead], ItemLocations[2].transform.position, Quaternion.identity);
-        Instantiate(HealItem, ItemLocations[3].transform.position, Quaternion.identity);
+        ShopMenu = Instantiate(ShopMenu, new Vector3(0, 0, 0), Quaternion.identity);
+        ShopMenu.SetActive(false);
+        SpawnedArm = Instantiate(ArmList[randomArm], ItemLocations[0].transform.position, Quaternion.identity);
+        SpawnedLeg = Instantiate(LegList[randomLeg], ItemLocations[1].transform.position, Quaternion.identity);
+        SpawnedHead = Instantiate(HeadList[randomHead], ItemLocations[2].transform.position, Quaternion.identity);
+        SpawnedHealItem = Instantiate(HealItem, ItemLocations[3].transform.position, Quaternion.identity);
 
 
 
@@ -45,7 +54,7 @@ public class BodyShop : MonoBehaviour
     {
         if (other.CompareTag("Player") && (IsMenuActive == false)) 
         {
-            Instantiate(ShopMenu, new Vector3(0, 0, 0), Quaternion.identity);
+            ShopMenu.SetActive(true);
             IsMenuActive = true;
             Invoke("RefreshShopHud", 3);
         }
@@ -71,16 +80,16 @@ public class BodyShop : MonoBehaviour
         {
 
             case 0:
-                ArmList[randomArm].gameObject.SetActive(false);
+                SpawnedArm.gameObject.SetActive(false);
                 break;
             case 1:
-                LegList[randomLeg].gameObject.SetActive(false);
+                SpawnedLeg.gameObject.SetActive(false);
                 break;
             case 2:
-                HeadList[randomHead].gameObject.SetActive(false);
+                SpawnedHead.gameObject.SetActive(false);
                 break;
             case 3:
-                HealItem.gameObject.SetActive(false);
+                SpawnedHealItem.gameObject.SetActive(false);
                 break;
         }
     }
