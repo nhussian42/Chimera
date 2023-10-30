@@ -14,6 +14,7 @@ public class CompoundTrinket : Trinket
         activated = false;
         foreach (Trinket trinket in trinketsToActivate)
         {
+            trinket.amount = 0;
             trinket.Add(1);
             trinket.ResetTrinket();
         }
