@@ -12,6 +12,7 @@ public class CompoundTrinket : Trinket
     public override void Enable()
     {
         activated = false;
+        amount = 0;
         foreach (Trinket trinket in trinketsToActivate)
         {
             trinket.amount = 0;
@@ -25,9 +26,13 @@ public class CompoundTrinket : Trinket
     {
         if (activated == false)
         {
-            foreach (Trinket trinket in trinketsToActivate)
+            for(int i = 0; i < amount; i++)
             {
-                trinket.Activate();
+                foreach (Trinket trinket in trinketsToActivate)
+                {
+                    trinket.Activate();
+                    trinket.ResetTrinket();
+                }
             }
             activated = true;
         }

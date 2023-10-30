@@ -8,7 +8,7 @@ public class Trinket : EventListener
     [SerializeField] string description;
     [SerializeField] Sprite icon;
     [SerializeField] TrinketType type;
-    public int amount;
+    [HideInInspector]public int amount;
 
     public string TrinketName { get { return trinketName; } }
     public string Description { get { return description; } }
@@ -22,8 +22,6 @@ public class Trinket : EventListener
     {
         amount += number;
     }
-
-    public virtual void ResetAmount() { amount = 0; }
 
     public virtual void ResetTrinket() { }
     

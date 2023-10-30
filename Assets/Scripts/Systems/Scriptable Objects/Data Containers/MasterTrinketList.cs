@@ -59,6 +59,7 @@ public class MasterTrinketList : ScriptableObject
                 // If player already has trinket, just add how many they picked up to that instance
                 hasTrinket = true;
                 playersTrinket.Add(amount);
+                Debug.Log(playersTrinket.TrinketName + " " + playersTrinket.amount);
             }
         }
 

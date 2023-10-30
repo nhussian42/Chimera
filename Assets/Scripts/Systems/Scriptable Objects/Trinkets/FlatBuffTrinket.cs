@@ -20,6 +20,7 @@ public class FlatBuffTrinket : Trinket
     public override void Enable()
     {
         activated = false;
+        amount = 0;
         base.Enable();
     }
 
