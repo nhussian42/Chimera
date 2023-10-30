@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,19 +9,21 @@ using UnityEngine.UI;
 public abstract class Creature : MonoBehaviour
 {
     [Header("Creature Stats")]
+
     [SerializeField] protected float health;
     [SerializeField] protected float attackRange = 5f;
     [SerializeField] protected float currentHealth;
     [SerializeField] protected float attackDamage = 5f;
 
-    public enum Classification
+    [field: SerializeField] public CreatureSO CreatureInfo { get; private set; }
+
+    protected virtual void InitializeStats(float percentDamageIncrease, float percentHealthIncrease)
     {
-        Mammal,
-        Reptile,
-        Aquatic
+        attackDamage += attackDamage * percentDamageIncrease * 0.01f;
+        currentHealth += currentHealth * percentHealthIncrease * 0.01f;
     }
 
-    [SerializeField] private Classification classification;
+    [field: SerializeField] public Classification classification { get; private set; }
 
     public enum CreatureType
     {
@@ -30,7 +33,7 @@ public abstract class Creature : MonoBehaviour
 
     [SerializeField] private CreatureType creatureType;
 
-    [SerializeField] List<GameObject> drops;
+    //[SerializeField] List<GameObject> drops;
 
     protected Animator animator;
     protected NavMeshAgent agent;
@@ -44,7 +47,7 @@ public abstract class Creature : MonoBehaviour
 
     public void OnEnable()
     {
-       DebugControls.DamageAllCreatures += TakeDamage;
+        DebugControls.DamageAllCreatures += TakeDamage;
     }
 
     public void OnDisable()
@@ -80,24 +83,25 @@ public abstract class Creature : MonoBehaviour
 
     protected virtual void Die()
     {
-        SpawnDrop();
+        // SpawnDrop();
         AudioManager.Instance.PlayMinEnemySFX("HedgehogDie");
         animator.Play("Death");
         agent.isStopped = true;
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         alive = false;
+        CreatureManager.AnyCreatureDied?.Invoke();
         Destroy(this.gameObject, 1f);
         StopAllCoroutines();
         //Something happens
         //Death
     }
 
-    protected void SpawnDrop()
-    {
-       foreach(GameObject drop in drops)
-        {
-            Instantiate(drop, transform.position, Quaternion.identity);
-        }
-    }
+    // protected void SpawnDrop()
+    // {
+    //    foreach(GameObject drop in drops)
+    //     {
+    //         Instantiate(drop, transform.position, Quaternion.identity);
+    //     }
+    // }
 }
