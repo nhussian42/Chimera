@@ -6,7 +6,9 @@ using UnityEngine;
 public class DebugControls : MonoBehaviour
 {
     public static Action<int> DamageAllCreatures;
+    public static Action SpawnDebugCreature;
 
+    #if DEVELOPMENT_BUILD || UNITY_EDITOR
     private void Update()
     {
         // A = PlayerInputActions Move
@@ -22,7 +24,8 @@ public class DebugControls : MonoBehaviour
         // G
         // H
         // I
-        // J
+        if (Input.GetKeyDown(KeyCode.J))
+            SpawnDebugCreature?.Invoke();
 
         // K = PlayerController Scrap Limb Debug
 
@@ -55,4 +58,8 @@ public class DebugControls : MonoBehaviour
         // Y
         // Z
     }
+    #else
+    #endif
 }
+
+

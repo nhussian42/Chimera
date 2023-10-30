@@ -5,13 +5,38 @@ using UnityEngine;
 public class LeaveRoomTrigger : MonoBehaviour
 {
     private bool _triggered;
-    [SerializeField] private RoomSide _exitRoomSide;
+    [field: SerializeField] public RoomSide ExitRoomSide { get; private set; }
+
+    [HideInInspector] public Room _nextRoom;
+
+    private Collider roomTrigger;
+
+    private void Awake()
+    {
+        roomTrigger = GetComponent<BoxCollider>();
+    }
+    private void OnEnable()
+    {
+       FloorManager.AllCreaturesDefeated += EnableRoomTrigger;
+    }
+
+    private void OnDisable()
+    {
+        FloorManager.AllCreaturesDefeated -= EnableRoomTrigger;
+    }
+
+    public void EnableRoomTrigger()
+    {
+        roomTrigger.enabled = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!_triggered && other.gameObject.GetComponent<PlayerController>() != null)
         {
             _triggered = true;
-            FloorManager.lastExitRoomSide = _exitRoomSide;
+            FloorManager.lastExitRoomSide = ExitRoomSide;
+            FloorManager.StoredNextRoom = _nextRoom;
             FloorManager.LeaveRoom?.Invoke();
         }
     }
