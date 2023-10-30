@@ -4,22 +4,35 @@ using UnityEngine;
 
 public class LimbDissolve : MonoBehaviour
 {
-    [SerializeField] float top;
-    [SerializeField] float bottom;
+    float lerpDuration = 3; 
+    [SerializeField] float startValue = 0; 
+    [SerializeField] float endValue = 10; 
+    float valueToLerp;
 
-    private void Start()
+    Material mat;
+
+    void Start()
     {
-        InvokeRepeating(nameof(DissolveDown), 0, 3f);
+        
+        mat = GetComponent<SkinnedMeshRenderer>().material;
+        StartCoroutine(Lerp());
+    }
+    IEnumerator Lerp()
+    {
+        float timeElapsed = 0;
+        while (timeElapsed < lerpDuration)
+        {
+            valueToLerp = Mathf.Lerp(startValue, endValue, timeElapsed / lerpDuration);
+            timeElapsed += Time.deltaTime;
+            mat.SetFloat("_DissolveHeight", valueToLerp);
+            yield return null;
+        }
+        valueToLerp = endValue;
+        float temp = startValue;
+        startValue = endValue;
+        endValue = temp;
+
+        StartCoroutine(Lerp());
     }
 
-    private void DissolveDown()
-    {
-
-    }
-
-    // private IEnumerator DissolveDownwards()
-    // {
-    //     float value = top;
-    //     while (value )
-    // }
 }
