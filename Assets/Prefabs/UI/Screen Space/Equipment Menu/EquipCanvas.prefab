@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5435363674473931401}
   - component: {fileID: 1317818197096816556}
   - component: {fileID: 5333724759329906659}
+  - component: {fileID: 6655831527409779278}
+  - component: {fileID: 3009436263727203509}
   m_Layer: 5
   m_Name: PlayerEquipped
   m_TagString: Untagged
@@ -108,6 +110,55 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6655831527409779278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21079034589797961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a3b72e2ecc99a48925ff54c8dc255f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 5875013255506252470}
+  armL: {fileID: 3427353578764133914}
+  armR: {fileID: 3947925342023931396}
+  core: {fileID: 7769903108967430466}
+  legs: {fileID: 8951236115481822314}
+  relic: {fileID: 0}
+  limbName: {fileID: 3422401540176930338}
+  limbDesc: {fileID: 8156578113084159037}
+--- !u!114 &3009436263727203509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21079034589797961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6655831527409779278}
+          m_TargetAssemblyTypeName: PlayerInvSlot, Assembly-CSharp
+          m_MethodName: OnPointerClick
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &332806902927187593
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,10 +674,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92803d12ba435ce48aad10e28d393028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trinketSlot: {fileID: 8391122649305961869, guid: 9372cf853b6a2bd4e93fafcaa81ff40d,
+  trinketSlot: {fileID: 5395906446091485708, guid: 9372cf853b6a2bd4e93fafcaa81ff40d,
     type: 3}
   contentPanel: {fileID: 3492972762525301463}
   selectedDesc: {fileID: 5867581652750708312}
+  playerInv: {fileID: 6655831527409779278}
 --- !u!1 &3427353578764133914
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,7 +691,7 @@ GameObject:
   - component: {fileID: 4368431749742585398}
   - component: {fileID: 2668108777725996788}
   m_Layer: 5
-  m_Name: Arm_LPanel
+  m_Name: Arm_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -715,7 +767,7 @@ GameObject:
   - component: {fileID: 1782434643502070618}
   - component: {fileID: 7210285539126916987}
   m_Layer: 5
-  m_Name: ArtifactPanel
+  m_Name: Relic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -989,7 +1041,7 @@ GameObject:
   - component: {fileID: 1704700515408030254}
   - component: {fileID: 7996358337379721665}
   m_Layer: 5
-  m_Name: Arm_RPanel
+  m_Name: Arm_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1367,7 +1419,7 @@ GameObject:
   - component: {fileID: 2884923108085365978}
   - component: {fileID: 4481196716227749696}
   m_Layer: 5
-  m_Name: HeadPanel
+  m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1684,7 +1736,7 @@ GameObject:
   - component: {fileID: 1894825615587679662}
   - component: {fileID: 3756810981620250724}
   m_Layer: 5
-  m_Name: CorePanel
+  m_Name: Core
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1919,7 +1971,7 @@ GameObject:
   - component: {fileID: 8009038025956016390}
   - component: {fileID: 9117404505727065255}
   m_Layer: 5
-  m_Name: LegsPanel
+  m_Name: Legs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

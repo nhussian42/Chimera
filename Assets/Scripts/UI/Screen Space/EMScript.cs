@@ -12,6 +12,9 @@ public class EMScript : MonoBehaviour
 
     [SerializeField] private SelectedDescription selectedDesc;
 
+    [SerializeField] private PlayerInvSlot playerInv;
+
+
     List<TrinketInvSlot> listOfTrinkets = new List<TrinketInvSlot>();
  
     private void Awake()
@@ -36,7 +39,9 @@ public class EMScript : MonoBehaviour
     private void HandleTrinketSelection(TrinketInvSlot obj)
     {
         UnityEngine.Debug.Log(obj.name);
+        listOfTrinkets[0].Select();
     }
+
 
     private void Hide()
     {
