@@ -26,43 +26,58 @@ public class FlatBuffTrinket : Trinket
 
     public override void Activate()
     {
-        if(activated == false)
+        Debug.Log(amount);
+        if (activated == false)
         {
+            float thisValueDup = 0f;
+            
             if (treatAsPercent == true)
             {
-                thisValue /= 100f;
+                thisValueDup = thisValue / 100f;
             }
-
-            float modifiedValue = modify.value;
+            else
+            {
+                thisValueDup = thisValue;
+            }
 
             for (int i = 0; i < amount; i++)
             {
+                float modifiedValue = modify.value;
+
                 switch (by)
                 {
                     case MathOperation.Adding:
-                        if (treatAsPercent == true) { modifiedValue = modifiedValue + (modifiedValue * thisValue); }
-                        else { modifiedValue += thisValue; }
+                        if (treatAsPercent == true)
+                        {
+                            modifiedValue = modifiedValue + (modifiedValue * thisValueDup);
+                        }
+                        else { modifiedValue += thisValueDup; }
                         break;
                     case MathOperation.Subtracting:
-                        if (treatAsPercent == true) { modifiedValue = modifiedValue - (modifiedValue * thisValue); }
-                        else { modifiedValue -= thisValue; }
+                        if (treatAsPercent == true)
+                        {
+                            modifiedValue = modifiedValue - (modifiedValue * thisValueDup);
+                        }
+                        else { modifiedValue -= thisValueDup; }
                         break;
                     case MathOperation.Multiplying:
-                        modifiedValue *= thisValue;
+                        modifiedValue *= thisValueDup;
                         break;
                     case MathOperation.Dividing:
-                        modifiedValue /= thisValue;
+                        modifiedValue /= thisValueDup;
                         break;
                 }
-
-                returnTo.Write(returnTo.value + (modifiedValue - modify.value)); //Debug here
+                returnTo.Write(returnTo.value + (modifiedValue - modify.value));
+                
             }
-            activated = true;
-            if(debug == true) { Debug.Log("IN: " + modify.name + " value: " + modify.value + " | " + "OUT: " + returnTo.name + " value: " + returnTo.value); }
-        }
-        
-    }
 
+            if (debug == true)
+            {
+                Debug.Log("IN: " + modify.name + " value: " + modify.value + " | " + "OUT: " + returnTo.name + " value: " + returnTo.value);
+            }
+
+        }
+    }
     public override void ResetTrinket()
     {
         activated = false;

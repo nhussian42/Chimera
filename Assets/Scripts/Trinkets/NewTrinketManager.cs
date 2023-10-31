@@ -17,7 +17,7 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
     [HideInInspector] public Trinket trinketTwo { get; private set; }
     [HideInInspector] public Trinket trinketThree { get; private set; }
 
-    private void Start()
+    protected override void Init()
     {
         masterTrinketList.FullReset();
         gameObject.SetActive(false);

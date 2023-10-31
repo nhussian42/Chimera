@@ -39,7 +39,6 @@ public class ConditionalTrinket : Trinket
                 if (condition.Check() == true)
                 {
                     trueConditions++;
-                    
                 } 
             }
             if (trueConditions >= trueReturnsNeeded) 
@@ -59,7 +58,7 @@ public class ConditionalTrinket : Trinket
     private void Calculate()
     {
         float thisValueDup = 0f;
-        float modifiedValue = modify.value;
+        
         if (treatAsPercent == true)
         {
             thisValueDup = thisValue/100f;
@@ -71,6 +70,7 @@ public class ConditionalTrinket : Trinket
 
         for (int i = 0; i < amount; i++)
         {
+            float modifiedValue = modify.value;
             switch (by)
             {
                 case MathOperation.Adding:
