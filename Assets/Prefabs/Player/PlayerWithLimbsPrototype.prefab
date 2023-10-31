@@ -746,6 +746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758c0a12565383d48bbaba5941553743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 0}
   _movementSpeed: 10
   _turnSpeed: 1300
   smoothMovementEnabled: 0
@@ -767,6 +768,18 @@ MonoBehaviour:
       - m_Target: {fileID: 11400000, guid: 6aaf617d18b56224cb859d3ca8b0b1c4, type: 2}
         m_TargetAssemblyTypeName: GameEvent, Assembly-CSharp
         m_MethodName: Invoke
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b, type: 2}
+        m_TargetAssemblyTypeName: ModifiedStatsSO, Assembly-CSharp
+        m_MethodName: CalculateFinalValues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -803,6 +816,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b, type: 2}
+        m_TargetAssemblyTypeName: ModifiedStatsSO, Assembly-CSharp
+        m_MethodName: ResetValues
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls:
@@ -830,9 +855,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b, type: 2}
+        m_TargetAssemblyTypeName: ModifiedStatsSO, Assembly-CSharp
+        m_MethodName: CalculateFinalValues
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnSwapLimbs:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b, type: 2}
+        m_TargetAssemblyTypeName: ModifiedStatsSO, Assembly-CSharp
+        m_MethodName: ResetValues
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 11400000, guid: 33b2419e5fd22424fabcb3347cdccfd2, type: 2}
         m_TargetAssemblyTypeName: MasterTrinketList, Assembly-CSharp
         m_MethodName: InitializeTrinkets
@@ -845,9 +894,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: 2cd55163c6d367c449e3d01d18468e4b, type: 2}
+      - m_Target: {fileID: 11400000, guid: b947a4570a92c954889f09bdf5654687, type: 2}
         m_TargetAssemblyTypeName: GameEvent, Assembly-CSharp
         m_MethodName: Invoke
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b, type: 2}
+        m_TargetAssemblyTypeName: ModifiedStatsSO, Assembly-CSharp
+        m_MethodName: CalculateFinalValues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2367,7 +2428,7 @@ Transform:
   m_Children:
   - {fileID: 7025720214789773838}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8653030611444328702
 GameObject:

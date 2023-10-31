@@ -97,14 +97,12 @@ public class PlayerController : Singleton<PlayerController>
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
         _controller = GetComponent<CharacterController>();
-
+        
     }
 
     // Enable new player input actions in this method
     private void OnEnable()
     {
-        saveManager = SaveManager.Instance;
-        
         _playerInput.onControlsChanged += ChangeControlSchemes;
         GameManager.OnUnpause += Unpause;
         FloorManager.LoadNextRoom += Deactivate;
@@ -133,7 +131,17 @@ public class PlayerController : Singleton<PlayerController>
         foreach (Legs legs in allLegs) legs.gameObject.SetActive(false);
        
 
-        if (saveManager.firstLoad == true)
+        if (saveManager != null)
+        {
+            // If not first load into scene, set limbs saved in SaveManager
+            LoadSavedLimb(saveManager.SavedLeftArm);
+            LoadSavedLimb(saveManager.SavedRightArm);
+            LoadSavedLimb(saveManager.SavedCore);
+            LoadSavedLimb(saveManager.SavedLegs);
+            currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+            OnSwapLimbs.Invoke();
+        }
+        else
         {
             // If first load into scene, set default limbs
             coreLeftArm.gameObject.SetActive(true);
@@ -145,19 +153,7 @@ public class PlayerController : Singleton<PlayerController>
             currentLeftArm.Initialize(this);
             currentRightArm.Initialize(this);
         }
-        else
-        {
-            // If not first load into scene, set limbs saved in SaveManager
-            LoadSavedLimb(saveManager.SavedLeftArm);
-            LoadSavedLimb(saveManager.SavedRightArm);
-            LoadSavedLimb(saveManager.SavedCore);
-            LoadSavedLimb(saveManager.SavedLegs);
-            
-        }
-        currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
-        modifiedStatsSO.ResetValues();
-        OnSwapLimbs.Invoke();
-        modifiedStatsSO.CalculateFinalValues();
+        
 
         #endregion
     }
@@ -229,7 +225,13 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Start()
     {
-        // Debug.Log(currentLegs.MovementSpeed);
+        // get reference to save manager here because it won't work in Init()
+        saveManager = SaveManager.Instance; 
+
+        // read default build to base stats SO on first load (done here because MasterTrinketList resets the list in Init())
+        currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+        OnSwapLimbs.Invoke();
+
         _movementSpeed = currentLegs.MovementSpeed;
         // _mainCamera = Camera.main;
 
@@ -447,9 +449,9 @@ public class PlayerController : Singleton<PlayerController>
         }
 
         currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
-        modifiedStatsSO.ResetValues();
+        //modifiedStatsSO.ResetValues();
         OnSwapLimbs.Invoke();
-        modifiedStatsSO.CalculateFinalValues();
+        //modifiedStatsSO.CalculateFinalValues();
         OnArmSwapped?.Invoke();
     }
 
@@ -517,9 +519,9 @@ public class PlayerController : Singleton<PlayerController>
                 break;
         }
         currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
-        modifiedStatsSO.ResetValues();
+        //modifiedStatsSO.ResetValues();
         OnSwapLimbs.Invoke();
-        modifiedStatsSO.CalculateFinalValues();
+        //modifiedStatsSO.CalculateFinalValues();
     }
 
     private void DropLimb(Limb droppedLimb)
