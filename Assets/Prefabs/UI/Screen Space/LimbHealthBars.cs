@@ -7,23 +7,30 @@ using UnityEngine.UI;
 public class LimbHealthBars : MonoBehaviour
 {
 
-    public Slider slider;
+    public List<Slider> sliderList;
     public Gradient gradient;
-    public Image fill;
+    public List<Image> fillList;
 
     public void SetHealth(float health)
     {
-        slider.value += health;
+        for (int i = 0; i < sliderList.Count; i++)
+        {
+            sliderList[i].value += (health / 2);
 
-        fill.color = gradient.Evaluate(slider.normalizedValue);
+            fillList[i].color = gradient.Evaluate(sliderList[i].normalizedValue);
+        }
     }
 
     public void SetMaxHealth(float health)
     {
-        slider.maxValue = health;
-        slider.value = health;
+        for (int i = 0; i < sliderList.Count; i++)
+        {
+            sliderList[i].maxValue = health;
+            sliderList[i].value = health;
 
-        fill.color = gradient.Evaluate(1f);
+            fillList[i].color = gradient.Evaluate(1f);
+        }
+
     }
 
 
