@@ -21,6 +21,8 @@ public class PlayerController : Singleton<PlayerController>
     private InputAction _swapLimbs;
     private InputAction _pause;
     private InputAction _unpause;
+    private InputAction _openEM;
+    private InputAction _closeEM;
     // Put new actions here
     private CharacterController _controller;
 
@@ -29,7 +31,9 @@ public class PlayerController : Singleton<PlayerController>
 
     private string previousScheme = "";
     private const string gamepadScheme = "Gamepad";
-    private const string mouseScheme = "Keyboard&Mouse";
+    private const string mouseScheme = "Keyboard&Mouse"; 
+
+    [SerializeField] private GameObject EquipMenu;
 
     [SerializeField] private float _movementSpeed = 10f; // reference to current legs later
     [SerializeField] private float _turnSpeed = 360f;
@@ -110,11 +114,13 @@ public class PlayerController : Singleton<PlayerController>
         _legsAbility = _playerInputActions.DefaultControls.LegsAbility;
         _swapLimbs = _playerInputActions.DefaultControls.SwapLimbs;
         _pause = _playerInputActions.DefaultControls.Pause;
+        _openEM = _playerInputActions.DefaultControls.OpenEM;
 
         EnableAllDefaultControls();
 
         // Assign UI controls
         _unpause = _playerInputActions.UI.UnPause;
+        _closeEM = _playerInputActions.UI.CloseEM;
 
         // Instantiate Limbs
         #region
@@ -177,6 +183,7 @@ public class PlayerController : Singleton<PlayerController>
         _legsAbility.Enable();
         _swapLimbs.Enable();
         _pause.Enable();
+        _openEM.Enable();
     }
 
     private void DisableAllDefaultControls()
@@ -188,11 +195,13 @@ public class PlayerController : Singleton<PlayerController>
         _legsAbility.Disable();
         _swapLimbs.Disable();
         _pause.Disable();
+        _openEM.Disable();
     }
 
     private void DisableAllUIControls()
     {
         _unpause.Disable();
+        _closeEM.Disable();
     }
 
     private void ChangeControlSchemes(PlayerInput input)
@@ -290,9 +299,16 @@ public class PlayerController : Singleton<PlayerController>
         if (_pause.triggered == true)
             Pause();
         
-        if (_unpause.triggered == true)
+        if (_unpause.triggered == true || _closeEM.triggered == true)
         {
             UIManager.ResumePressed?.Invoke();
+            EquipMenu.SetActive(false);
+        }
+
+        if (_openEM.triggered == true)
+        {
+            Pause();
+            EquipMenu.SetActive(true);
         }
     }
 
@@ -609,6 +625,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         DisableAllDefaultControls();
         _unpause.Enable();
+        _closeEM.Enable();
         OnGamePaused?.Invoke();
     }
 
@@ -616,6 +633,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         EnableAllDefaultControls();
         _unpause.Disable();
+        _closeEM.Disable();
     }
 
     public void AddBones(float amount)
