@@ -26,5 +26,11 @@ public class Trinket : EventListener
     }
 
     public virtual void ResetTrinket() { }
-    
+
+    public override void Disable()
+    {
+        amount = 0;
+        base.Disable();
+    }
+
 }
