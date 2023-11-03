@@ -29,13 +29,13 @@ public class TrinketBuffsDebugger : MonoBehaviour
 
     bool isActive = false;
 
+    private void OnEnable()
+    {
+        DebugControls.toggleTrinketBuffMenu += Toggle;
+    }
+
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            if (isActive == true) { gameObject.SetActive(false); }
-            else { gameObject.SetActive(true); }
-        }
 
         lArmClassText.text = "L ARM CLASS: " + currentBaseStats.leftArmClass.value;
         rArmClassText.text = "R ARM CLASS: " + currentBaseStats.rightArmClass.value;
@@ -56,6 +56,20 @@ public class TrinketBuffsDebugger : MonoBehaviour
         legsMaxHPText.text = "LEGS MAX HP: +" + (modifiedStats.legsMaxHealth.value - currentBaseStats.legsMaxHealth.value);
         legsHPText.text = "LEGS HP: +" + (modifiedStats.legsHealth.value - currentBaseStats.legsHealth.value);
 
+    }
+
+    private void Toggle()
+    {
+        if(isActive == true)
+        {
+            gameObject.SetActive(false);
+            isActive = false;
+        }
+        else
+        {
+            gameObject.SetActive(true);
+            isActive = true;
+        }
     }
 
 

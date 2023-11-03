@@ -5,38 +5,44 @@ using UnityEngine;
 
 public abstract class Arm : Limb
 {
-    //Exposed properties
-    [SerializeField] private float attackDamage;
-    [SerializeField] private float attackSpeed;
+    //Defaults
+    [SerializeField] private float defaultAttackDamage;
+    [SerializeField] private float defaultAttackSpeed;
     [SerializeField] private SideOfPlayer side;
-    //[SerializeField] private ArmDrop dropPrefab;
     [SerializeField] private AttackRange attackRangePrefab;
 
+    //Exposed properties
+    private float attackDamage;
+    private float attackSpeed;
+    
     //Hidden properties
     private AttackRange attackRange;
     private bool canAttack = true;
 
     //Public getters
     public SideOfPlayer Side { get { return side; } }
-    //public ArmDrop DropPrefab { get { return dropPrefab; } }
     public float AttackDamage { get { return attackDamage; } }
     
     public float AttackSpeed { get { return attackSpeed; }  }
 
     public bool CanAttack { get { return canAttack; } }
+    public float DefaultAttackDamage { get { return defaultAttackDamage; } }
+    public float DefaultAttackSpeed { get { return defaultAttackSpeed; } }
 
     
-
+    // Called by Player Controller on trigger 
     public virtual void Attack()
     {
         StartCoroutine(ActivateAttackRange());
     }
 
-    public virtual void PauseInput()
-    {
-        canAttack = false;
-    }
+    // Was used to prevent extra inputs after attacking, but does not seem to be needed anymore
+    //public virtual void PauseInput()
+    //{
+    //    canAttack = false;
+    //}
 
+    // Must be called when swapping an arm, makes sure the arm has an attack collider that pops up when attacking
     public virtual void Initialize(PlayerController player)
     {
         // Instantiates and sets the arm's attack collider on the player's attack origin
@@ -47,6 +53,7 @@ public abstract class Arm : Limb
         
     }
 
+    // Must be called when swapping an arm, destroys the previously instantiated attack collider so a new one can be made
     public virtual void Terminate()
     {
         // Destroys the instantiated attack collider
@@ -54,6 +61,7 @@ public abstract class Arm : Limb
         
     }
 
+    // Internal attack coroutine that is called by Attack()
     private IEnumerator ActivateAttackRange()
     {
         canAttack = false;
@@ -63,18 +71,21 @@ public abstract class Arm : Limb
         StartCoroutine(Cooldown());
     }
 
+    // Called after attacking
     private IEnumerator Cooldown()
     {
         yield return new WaitForSeconds(attackSpeed);
         canAttack = true;
     }
 
+    // These functions are obsolete - Amon
     public void UpdateAttackDamage(float amount) => attackDamage += amount;
 
     public void UpdateAttackSpeed(float amount) => attackSpeed -= amount;
 
     public void UpdateMaxHealth(float amount) => maxHealth += amount;
 
+    // I think this function is obsolete? - Amon
     public void UpdateCurrentHealth(float amount)
     {
         if ((currentHealth + amount) > maxHealth)
@@ -83,13 +94,21 @@ public abstract class Arm : Limb
         }
         else currentHealth += amount;
     }
-      
+    
+    // Called by PlayerController after equipping new trinket buff, loading new scene, etc.
     public void LoadStats(float atkDmg, float atkSpd, float maxHP, float currentHP)
     {
         attackDamage = atkDmg;
         attackSpeed = atkSpd;
         maxHealth = maxHP;
         Health = currentHP;
+    }
+
+    public override void LoadDefaultStats()
+    {
+        base.LoadDefaultStats();
+        attackDamage = defaultAttackDamage;
+        attackSpeed = defaultAttackSpeed;
     }
 
 

@@ -485,10 +485,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
-  attackDamage: 5
-  attackSpeed: 1
+  defaultHealth: 100
+  defaultMaxHealth: 100
+  defaultAttackDamage: 5
+  defaultAttackSpeed: 1
   side: 1
   attackRangePrefab: {fileID: 5182243123753938400, guid: 1b9bd96893d9faf47813738e5483a4cc,
     type: 3}
@@ -603,10 +603,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 0
   weight: 2
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
-  attackDamage: 7
-  attackSpeed: 0.5
+  defaultHealth: 24
+  defaultMaxHealth: 24
+  defaultAttackDamage: 7
+  defaultAttackSpeed: 0.5
   side: 0
   attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
     type: 3}
@@ -746,8 +746,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758c0a12565383d48bbaba5941553743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EquipMenu: {fileID: 3346927322668887821, guid: ca9034841ed887d408b0411cb8a7bd27,
+    type: 3}
   _mainCamera: {fileID: 0}
-  _movementSpeed: 10
   _turnSpeed: 1300
   smoothMovementEnabled: 1
   OnAttack:
@@ -789,12 +790,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnDash:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b, type: 2}
-        m_TargetAssemblyTypeName: ModifiedStatsSO, Assembly-CSharp
-        m_MethodName: ResetValues
+      - m_Target: {fileID: 11400000, guid: 0f4d75e79e2d23f4f913dca15a1c7691, type: 2}
+        m_TargetAssemblyTypeName: PublicClassesSO, Assembly-CSharp
+        m_MethodName: UpdatePlayerStats
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -804,6 +802,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnDash:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 11400000, guid: 33b2419e5fd22424fabcb3347cdccfd2, type: 2}
         m_TargetAssemblyTypeName: MasterTrinketList, Assembly-CSharp
         m_MethodName: InitializeTrinkets
@@ -831,6 +832,18 @@ MonoBehaviour:
       - m_Target: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b, type: 2}
         m_TargetAssemblyTypeName: ModifiedStatsSO, Assembly-CSharp
         m_MethodName: CalculateFinalValues
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 0f4d75e79e2d23f4f913dca15a1c7691, type: 2}
+        m_TargetAssemblyTypeName: PublicClassesSO, Assembly-CSharp
+        m_MethodName: UpdatePlayerStats
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -870,6 +883,18 @@ MonoBehaviour:
       - m_Target: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b, type: 2}
         m_TargetAssemblyTypeName: ModifiedStatsSO, Assembly-CSharp
         m_MethodName: CalculateFinalValues
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 0f4d75e79e2d23f4f913dca15a1c7691, type: 2}
+        m_TargetAssemblyTypeName: PublicClassesSO, Assembly-CSharp
+        m_MethodName: UpdatePlayerStats
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -930,6 +955,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 0f4d75e79e2d23f4f913dca15a1c7691, type: 2}
+        m_TargetAssemblyTypeName: PublicClassesSO, Assembly-CSharp
+        m_MethodName: UpdatePlayerStats
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   allArms:
   - {fileID: 1274927470945686995}
   - {fileID: 8117947246504529752}
@@ -937,6 +974,7 @@ MonoBehaviour:
   - {fileID: 711907873266451140}
   allLegs:
   - {fileID: 6663742044956427038}
+  publicClassesSO: {fileID: 11400000, guid: 0f4d75e79e2d23f4f913dca15a1c7691, type: 2}
   currentBaseStatsSO: {fileID: 11400000, guid: 0170559690b19234cad4fb247a96fac2, type: 2}
   modifiedStatsSO: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b, type: 2}
   core: {fileID: 204510197313625730}
@@ -1056,10 +1094,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
-  attackDamage: 5
-  attackSpeed: 1
+  defaultHealth: 100
+  defaultMaxHealth: 100
+  defaultAttackDamage: 5
+  defaultAttackSpeed: 1
   side: 0
   attackRangePrefab: {fileID: 5182243123753938400, guid: 1b9bd96893d9faf47813738e5483a4cc,
     type: 3}
@@ -1327,10 +1365,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
-  movementSpeed: 10
-  cooldownTime: 10
+  defaultHealth: 100
+  defaultMaxHealth: 100
+  defaultMovementSpeed: 10
+  defaultCooldownTime: 0
 --- !u!1 &3814575987847669832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1544,8 +1582,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
+  defaultHealth: 100
+  defaultMaxHealth: 100
 --- !u!1 &4716431569939567702
 GameObject:
   m_ObjectHideFlags: 0
@@ -2122,10 +2160,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 0
   weight: 2
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
-  attackDamage: 7
-  attackSpeed: 0.5
+  defaultHealth: 24
+  defaultMaxHealth: 24
+  defaultAttackDamage: 7
+  defaultAttackSpeed: 0.5
   side: 1
   attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
     type: 3}

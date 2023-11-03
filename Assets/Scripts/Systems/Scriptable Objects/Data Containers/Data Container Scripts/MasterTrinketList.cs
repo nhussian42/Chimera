@@ -6,10 +6,19 @@ using UnityEngine.InputSystem.LowLevel;
 [CreateAssetMenu(fileName = "Scriptable Objects", menuName = "Scriptable Objects/Player Data/MasterTrinketList", order = 1)]
 public class MasterTrinketList : ScriptableObject
 {
-    [SerializeField] List<Trinket> masterList; // a general list of all trinkets in the game (trinkets are NEVER added/removed from this list at runtime)
-    [SerializeField] List<Trinket> playerInventory; // a list of all trinkets that the player has picked up (trinkets are added to here when the player selects them)
-    [SerializeField] List<Trinket> gameInventory; // a list of trinkets that are in the current run (initialized at start, trinkets that are OneTime trinkets are removed from here at runtime)
-    [SerializeField] List<Trinket> bagInventory; // the list of 3 unique, random trinkets that a trinket bag contains.
+    [SerializeField][Tooltip("A list of all trinkets in the game (ADD NEW TRINKETS HERE)")]
+    List<Trinket> masterList; //(trinkets are NEVER added/removed from this list at runtime)
+
+    [SerializeField][Tooltip("A list of all trinkets that the player has picked up (DO NOT ADD TRINKETS TO THIS LIST)")]
+    List<Trinket> playerInventory;
+
+    [SerializeField][Tooltip("A list of trinkets that are in the current run (DO NOT ADD TRINKETS TO THIS LIST)")]
+    List<Trinket> gameInventory; // (initialized at start, trinkets that are OneTime trinkets are removed from here at runtime)
+
+    [SerializeField][Tooltip("The list of 3 unique, random trinkets that the current trinket bag contains (DO NOT ADD TRINKETS TO THIS LIST)")]
+    List<Trinket> bagInventory; 
+
+    List<Trinket> rarityInventory; // this list is used to store all trinkets of a specified rarity so the manager can pick from them
 
     // Call before starting a new session (a new run)
     public void FullReset()
