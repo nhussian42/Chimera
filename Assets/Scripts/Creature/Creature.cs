@@ -72,7 +72,7 @@ public abstract class Creature : MonoBehaviour
         if (currentHealth <= 0 && alive == true)
         {
             Die();
-            TrinketManager.Instance.StartKillSkills();
+            //TrinketManager.Instance.StartKillSkills();  - commented this out temporarily - Amon
 
         }
         else if (alive == true)

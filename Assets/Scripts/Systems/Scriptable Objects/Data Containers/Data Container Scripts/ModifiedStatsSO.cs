@@ -59,6 +59,7 @@ public class ModifiedStatsSO : ScriptableObject
     {
         // Adds buff value calculate by trinkets to the current base value of respective limb to produce final value
         coreMaxHealth.Write(coreMaxHealth.value + currentBaseStats.coreMaxHealth.value);
+        //Debug.Log("coreHealth.value = " + coreHealth.value + " currentBaseStats.coreHealth.value = " + currentBaseStats.coreHealth.value);
         coreHealth.Write(coreHealth.value + currentBaseStats.coreHealth.value);
 
         leftArmMaxHealth.Write(leftArmMaxHealth.value + currentBaseStats.leftArmMaxHealth.value);
@@ -68,7 +69,6 @@ public class ModifiedStatsSO : ScriptableObject
 
         rightArmMaxHealth.Write(rightArmMaxHealth.value + currentBaseStats.rightArmMaxHealth.value);
         rightArmHealth.Write(rightArmHealth.value + currentBaseStats.rightArmHealth.value);
-        //Debug.Log("rightArmAttackDamage.value = " + rightArmAttackDamage.value + " currentBaseStats.rightArmAttackDamage.value = " + currentBaseStats.rightArmAttackDamage.value);
         rightArmAttackDamage.Write(rightArmAttackDamage.value + currentBaseStats.rightArmAttackDamage.value);
         rightArmAttackSpeed.Write(rightArmAttackSpeed.value + currentBaseStats.rightArmAttackSpeed.value);
 

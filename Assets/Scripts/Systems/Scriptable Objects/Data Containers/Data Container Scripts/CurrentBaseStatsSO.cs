@@ -85,34 +85,34 @@ public class CurrentBaseStatsSO : ScriptableObject
 
     private void UpdateCore()
     {
-        coreMaxHealth.Write(core.MaxHealth);
+        coreMaxHealth.Write(core.DefaultMaxHealth);
         coreHealth.Write(core.Health);
     }
 
     private void UpdateLeftArm()
     {
         leftArmClass.Write(leftArm.Classification);
-        leftArmMaxHealth.Write(leftArm.MaxHealth);
+        leftArmMaxHealth.Write(leftArm.DefaultMaxHealth);
         leftArmHealth.Write(leftArm.Health);
-        leftArmAttackDamage.Write(leftArm.AttackDamage);
-        leftArmAttackSpeed.Write(leftArm.AttackSpeed);
+        leftArmAttackDamage.Write(leftArm.DefaultAttackDamage);
+        leftArmAttackSpeed.Write(leftArm.DefaultAttackSpeed);
     }
 
     private void UpdateRightArm()
     {
         rightArmClass.Write(rightArm.Classification);
-        rightArmMaxHealth.Write(rightArm.MaxHealth);
+        rightArmMaxHealth.Write(rightArm.DefaultMaxHealth);
         rightArmHealth.Write(rightArm.Health);
-        rightArmAttackDamage.Write(rightArm.AttackDamage);
-        rightArmAttackSpeed.Write(rightArm.AttackSpeed); 
+        rightArmAttackDamage.Write(rightArm.DefaultAttackDamage);
+        rightArmAttackSpeed.Write(rightArm.DefaultAttackSpeed); 
     }
 
     private void UpdateLegs()
     {
         legsClass.Write(legs.Classification);
-        legsMaxHealth.Write(legs.MaxHealth);
+        legsMaxHealth.Write(legs.DefaultMaxHealth);
         legsHealth.Write(legs.Health);
-        legsMovementSpeed.Write(legs.MovementSpeed);
-        legsCooldown.Write(legs.CooldownTime);
+        legsMovementSpeed.Write(legs.DefaultMovementSpeed);
+        legsCooldown.Write(legs.DefaultCooldownTime);
     }
 }

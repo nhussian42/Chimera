@@ -26,7 +26,7 @@ public class FlatBuffTrinket : Trinket
 
     public override void Activate()
     {
-        Debug.Log(amount);
+        //Debug.Log(amount);
         if (activated == false)
         {
             float thisValueDup = 0f;
