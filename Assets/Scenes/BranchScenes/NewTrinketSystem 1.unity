@@ -278,7 +278,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7857498733618933282, guid: ed9cb01f51f81074b963124a464317ee, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -489,6 +490,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 456cf67adcb8c0a4d92ec4a6afe8378d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &444801615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 444801616}
+  - component: {fileID: 444801617}
+  m_Layer: 0
+  m_Name: SaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &444801616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444801615}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2115084494}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &444801617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444801615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 949b7cb0baa255c42900eb16a3400d8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &520747786 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7292895453198343033, guid: 82d71a54e57a1ff49a43690c93ad7a17,
@@ -599,59 +644,6 @@ PrefabInstance:
       propertyPath: _mainCamera
       value: 
       objectReference: {fileID: 1533590660}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnDash.m_PersistentCalls.m_Calls.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnDash.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 11400000, guid: 33b2419e5fd22424fabcb3347cdccfd2,
-        type: 2}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnDash.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 11400000, guid: ad674d430522d78409cc973ef761947c,
-        type: 2}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnDash.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b,
-        type: 2}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnDash.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: InitializeTrinkets
-      objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnDash.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: Invoke
-      objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnDash.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: CalculateFinalValues
-      objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnDash.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MasterTrinketList, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnDash.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: GameEvent, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 7924977597692346914, guid: 82d71a54e57a1ff49a43690c93ad7a17,
-        type: 3}
-      propertyPath: OnDash.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: ModifiedStatsSO, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 8651667776403588921, guid: 82d71a54e57a1ff49a43690c93ad7a17,
         type: 3}
       propertyPath: m_Name
@@ -1782,6 +1774,7 @@ Transform:
   - {fileID: 702265862}
   - {fileID: 866839172}
   - {fileID: 1090376821}
+  - {fileID: 444801616}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

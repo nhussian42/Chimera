@@ -19,7 +19,7 @@ public class SaveManager : Singleton<SaveManager>
 
     protected override void Init()
     {
-        firstLoad = false;
+        firstLoad = true;
         DontDestroyOnLoad(this);
     }
 

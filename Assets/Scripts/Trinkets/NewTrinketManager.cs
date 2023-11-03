@@ -17,10 +17,16 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
     [HideInInspector] public Trinket trinketTwo { get; private set; }
     [HideInInspector] public Trinket trinketThree { get; private set; }
 
+    static bool called = false;
+
     protected override void Init()
     {
-        masterTrinketList.FullReset();
-        gameObject.SetActive(false);
+        if(called == false)
+        {
+            called = true;
+            masterTrinketList.FullReset();
+            gameObject.SetActive(false);
+        }
     }
 
     private void OnEnable()
