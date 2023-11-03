@@ -81,13 +81,14 @@ public abstract class Creature : MonoBehaviour
         {
             iFrame = true;
             Invoke("IFrame", iFrameDuration);
-            animator.Play("Take Damage");
+            animator.SetTrigger("TakeDamage");
         }
 
     }
 
     private void IFrame()
     {
+        animator.ResetTrigger("TakeDamage");
         iFrame = false;
     }
 
