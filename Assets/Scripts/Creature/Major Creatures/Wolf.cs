@@ -10,6 +10,7 @@ public class Wolf : NotBossAI
 {
     [SerializeField, Tooltip("How long it stops once in range before beginning the charge")] private float chargeDelay = 0.75f;
     [SerializeField, Tooltip("How long it charges for")] private float chargeTime = 0.5f;
+    [SerializeField, Tooltip("Multiplier to how fast the wolf charges")] private float chargeMultiplier;
     [SerializeField] private GameObject attackCollider;
 
 
@@ -49,7 +50,7 @@ public class Wolf : NotBossAI
                 }
 
                 agent.FindClosestEdge(out NavMeshHit hit);
-                if (Vector3.Distance(transform.position, hit.position) < 0.75f)
+                if (Vector3.Distance(transform.position, hit.position) < 0.75f && Vector3.Distance(transform.position, player.transform.position) < 5f)
                 {
                     agentNearEdge = true;
                 }
@@ -100,7 +101,7 @@ public class Wolf : NotBossAI
 
         attackCollider.SetActive(true);
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.AddForce(gameObject.transform.forward * 15, ForceMode.Impulse);
+        rb.AddForce(gameObject.transform.forward * (Vector3.Distance(transform.position, player.transform.position) * chargeMultiplier), ForceMode.Impulse);
         yield return new WaitForSeconds(chargeTime);
 
         attackCollider.SetActive(false);

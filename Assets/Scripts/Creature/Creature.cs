@@ -14,6 +14,8 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected float attackRange = 5f;
     [SerializeField] protected float currentHealth;
     [SerializeField] protected float attackDamage = 5f;
+    [SerializeField] protected float iFrameDuration = 1f; //iFrame for creatures ONLY controls animations
+    private bool iFrame = false;
 
     [field: SerializeField] public CreatureSO CreatureInfo { get; private set; }
 
@@ -39,7 +41,7 @@ public abstract class Creature : MonoBehaviour
     protected NavMeshAgent agent;
     protected bool alive = true;
     [SerializeField] protected EnemyHealthBar healthbar;
-    
+
     // private void Awake()
     // {
     //     //Sets current room
@@ -65,7 +67,7 @@ public abstract class Creature : MonoBehaviour
         //Pulls stats from FloorManager based on CreatureType enum
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         currentHealth -= damage;
         healthbar.UpdateHealthBar(currentHealth, health);
@@ -75,10 +77,18 @@ public abstract class Creature : MonoBehaviour
             TrinketManager.Instance.StartKillSkills();
 
         }
-        else if (alive == true)
+        else if (alive == true && iFrame == false)
         {
+            iFrame = true;
+            Invoke("IFrame", iFrameDuration);
             animator.Play("Take Damage");
         }
+
+    }
+
+    private void IFrame()
+    {
+        iFrame = false;
     }
 
     protected virtual void Die()

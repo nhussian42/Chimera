@@ -8,14 +8,14 @@ using UnityEngine.AI;
 public class NotBossAI : Creature
 {
     protected GameObject player;
-    private bool iFrame = false;
+    private bool playerIFrame = false;
     [SerializeField] protected LayerMask playerLayerMask;    //Used to check distance from the player
 
     protected bool attacking = false;   //Keeps track of if the creature is currently attacking
 
     private void Start()
     {
-        
+
     }
     private void Awake()
     {
@@ -44,18 +44,18 @@ public class NotBossAI : Creature
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<CharacterController>() != null && attacking == true && iFrame == false)
+        if (other.gameObject.GetComponent<CharacterController>() != null && attacking == true && playerIFrame == false)
         {
-            iFrame = true;
-            Invoke("IFrame", 0.5f);
+            playerIFrame = true;
+            Invoke("PlayerIFrame", 0.5f);
             Debug.Log("Dealt damage to player");
-            PlayerController.Instance.DistributeDamage(attackDamage);     
+            PlayerController.Instance.DistributeDamage(attackDamage);
         }
     }
 
-    void IFrame()
+    void PlayerIFrame()
     {
-        iFrame = false;
+        playerIFrame = false;
     }
 
     public virtual IEnumerator Attack()

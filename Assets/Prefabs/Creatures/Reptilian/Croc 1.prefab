@@ -290,11 +290,11 @@ NavMeshAgent:
   m_GameObject: {fileID: 4295455712857961172}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.1
+  m_Radius: 1
   m_Speed: 7
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -302,7 +302,7 @@ NavMeshAgent:
   m_Height: 3
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 3
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &4657480879019292169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,15 +319,17 @@ MonoBehaviour:
   attackRange: 10
   currentHealth: 0
   attackDamage: 5
+  iFrameDuration: 1
   <CreatureInfo>k__BackingField: {fileID: 11400000, guid: 39d666424d149754b897c7db600f34d1,
     type: 2}
-  classification: 1
+  <classification>k__BackingField: 0
   creatureType: 1
   healthbar: {fileID: 666927218347073458}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
   digCooldown: 10
+  burrowSpeed: 14
   attackCollider: {fileID: 3602909902812592745}
 --- !u!65 &4864286860562335292
 BoxCollider:

@@ -11,15 +11,18 @@ public class Crocodile : NotBossAI
     private Rigidbody rb;
 
     [SerializeField] private float digCooldown = 20f; //Cooldown between uses of dig
+    private float baseSpeed;
+    [SerializeField] private float burrowSpeed;
     private float remainingDigCooldown = 0f; //Actual value that track remaining dig cooldown
     [SerializeField] private MeshCollider attackCollider;
     BoxCollider boxCollider;
+    private bool burrowing;
 
     protected override void InitializeStats(float percentDamageIncrease, float percentHealthIncrease)
     {
         base.InitializeStats(percentDamageIncrease, percentHealthIncrease);
         // burrowAttackDamage += attackDamage * percentDamageIncrease * 0.01f + burrowFlatDamageIncrease;
-                                                                            // * burrowPercentDamageIncrease * 0.01f; or something
+        // * burrowPercentDamageIncrease * 0.01f; or something
     }
 
     private void Start()
@@ -29,6 +32,7 @@ public class Crocodile : NotBossAI
         rb = GetComponent<Rigidbody>();
         agent.destination = player.transform.position;
         animator = GetComponentInChildren<Animator>();
+        baseSpeed = agent.speed;
     }
 
     public override IEnumerator Attack()
@@ -50,8 +54,8 @@ public class Crocodile : NotBossAI
         //Walks up to the player and attacks in a small cone
         agent.stoppingDistance = 7;
         yield return new WaitUntil(() => agent.remainingDistance < 10f);
-    
-        rb.AddForce((gameObject.transform.forward * agent.remainingDistance)/2, ForceMode.Impulse);
+
+        rb.AddForce(gameObject.transform.forward * agent.remainingDistance / 2, ForceMode.Impulse);
         animator.SetBool("Charge", true);
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);
@@ -72,14 +76,16 @@ public class Crocodile : NotBossAI
     {
         //Dig animation goes here
         animator.SetBool("Burrow", true);
+        burrowing = true;
         boxCollider.enabled = false;
         agent.stoppingDistance = 2;
         agent.isStopped = true;
+        agent.speed = burrowSpeed;
         yield return new WaitForSeconds(1f);
 
         //Enemy is invisible moving behind player
         //Maybe put particle effect here?
-        GetComponentInChildren<Canvas>().enabled = false; 
+        GetComponentInChildren<Canvas>().enabled = false;
         yield return new WaitForSeconds(1f);
         agent.isStopped = false;
         yield return new WaitUntil(() => agent.remainingDistance < 2f);
@@ -90,18 +96,20 @@ public class Crocodile : NotBossAI
         animator.SetBool("Burrow", false);
         agent.isStopped = true;
         agent.updateRotation = false;
-        gameObject.transform.LookAt(player.transform.position);   
+        agent.speed = baseSpeed;
+        gameObject.transform.LookAt(player.transform.position);
         yield return new WaitForSeconds(0.5f);
 
         //Charges forward
         //Charging animation goes here
         animator.SetBool("BurrowResurface", false);
-        boxCollider.enabled = true; 
         gameObject.transform.LookAt(player.transform.position);
+        boxCollider.enabled = true;
         yield return new WaitForSeconds(0.75f);
 
         //Resets speed, puts dig on cooldown
         GetComponentInChildren<Canvas>().enabled = true;
+        burrowing = false;
         agent.isStopped = false;
         agent.updateRotation = true;
         remainingDigCooldown = digCooldown;
@@ -115,14 +123,14 @@ public class Crocodile : NotBossAI
 
         if (alive == true)
         {
-                FaceTarget(agent.destination);
-                agent.destination = player.transform.position;
+            FaceTarget(agent.destination);
+            agent.destination = player.transform.position;
 
-                if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
-                {
-                    StartCoroutine(Attack());
-                    attacking = true;
-                }      
+            if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
+            {
+                StartCoroutine(Attack());
+                attacking = true;
+            }
         }
 
         remainingDigCooldown -= Time.deltaTime;
@@ -132,12 +140,20 @@ public class Crocodile : NotBossAI
     {
         Vector3 lookPos = destination - transform.position;
         Quaternion rotation = Quaternion.LookRotation(lookPos);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 2);  
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 2);
     }
 
     protected override void Die()
     {
         base.Die();
         animator.Play("Death");
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        if (burrowing == false)
+        {
+            base.TakeDamage(damage);
+        }
     }
 }
