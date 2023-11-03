@@ -17,9 +17,11 @@ public class Wolf : NotBossAI
     private bool inAttackRange = false; //Keeps track of if the wolf is in attack range
     private Vector3 dir;    //Stores direction towards the player
     private float angle;    //Stores the angle around the player
-    private int randomPositiveNegative; //Determines if the wolf runs clockwise or counterclockwise
+    private bool randomPositiveNegative; //Determines if the wolf runs clockwise or counterclockwise
     bool agentNearEdge = false; //Keeps track of if the wolf is near the edge of the navmesh
     float attackResetTime = 2f; //How long the wolf runs away before engaging again
+    bool changeDirectionCooldown = false;
+    private bool circling = false;
 
     private void Start()
     {
@@ -37,42 +39,66 @@ public class Wolf : NotBossAI
 
         if (alive == true)
         {
-            if (inAttackRange == false)
+            if (inAttackRange == false && circling == false)
             {
                 agent.destination = player.transform.position;
             }
             else if (inAttackRange == true)
             {
-                if (attacking == false)
+                if (circling == false)
                 {
                     StartCoroutine(Attack());
-                    attacking = true;
+                    circling = true;
                 }
+            }
 
-                agent.FindClosestEdge(out NavMeshHit hit);
-                if (Vector3.Distance(transform.position, hit.position) < 0.75f && Vector3.Distance(transform.position, player.transform.position) < 5f)
+            agent.FindClosestEdge(out NavMeshHit hit);
+            if (Vector3.Distance(transform.position, hit.position) < 1.5f)
+            {
+                agentNearEdge = true;
+            }
+            else
+            {
+                agentNearEdge = false;
+            }
+
+            if (agentNearEdge == true && changeDirectionCooldown == false)
+            {
+                changeDirectionCooldown = true;
+                Invoke("ResetCooldown", 1f);
+                randomPositiveNegative = !randomPositiveNegative;
+                if (randomPositiveNegative == true)
                 {
-                    agentNearEdge = true;
+                    angle += 30;
                 }
                 else
                 {
-                    agentNearEdge = false;
+                    angle -= 30;
                 }
+                agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
             }
         }
     }
 
+    private void ResetCooldown()
+    {
+        changeDirectionCooldown = !changeDirectionCooldown;
+    }
+
+
+
     public override IEnumerator Attack()
     {
         //Circle the player for a set period of time
-        int randomValue = Random.Range(6, 13);
-        randomPositiveNegative = Random.Range(0, 2);
+        randomPositiveNegative = Random.value > 0.5f;
+        int randomValue = Random.Range(10, 21);
+
         dir = (player.transform.position - transform.position).normalized;
         angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + 180;
 
         for (int i = 0; i < randomValue; i++)
         {
-            if (randomPositiveNegative == 0)
+            if (randomPositiveNegative == true)
             {
                 angle += 30;
             }
@@ -80,9 +106,16 @@ public class Wolf : NotBossAI
             {
                 angle -= 30;
             }
+
             agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
 
-            yield return new WaitUntil(() => agent.remainingDistance < 2.5f || (agentNearEdge == true && inAttackRange == true));
+            if (Vector3.Distance(player.transform.position, transform.position) < 8f)
+            {
+                StartCoroutine(Pounce());
+                yield break;
+            }
+
+            yield return new WaitUntil(() => agent.remainingDistance < 2f);
         }
 
         StartCoroutine(Pounce());
@@ -99,6 +132,7 @@ public class Wolf : NotBossAI
         StartCoroutine(RotateTowardsTarget(player.transform.position, chargeDelay));
         yield return new WaitForSeconds(chargeDelay);
 
+        attacking = true;
         attackCollider.SetActive(true);
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.AddForce(gameObject.transform.forward * (Vector3.Distance(transform.position, player.transform.position) * chargeMultiplier), ForceMode.Impulse);
@@ -108,12 +142,13 @@ public class Wolf : NotBossAI
         animator.SetBool("Attack", false);
         rb.velocity = Vector3.zero;
         agent.isStopped = false;
+        attacking = false;
 
         agent.destination = PointOnXZCircle(transform.position, attackRange * 2, Random.Range(-45, 46));
         attackResetTime = 3f;
         yield return new WaitUntil(() => Vector3.Distance(transform.position, player.transform.position) > attackRange * 1.5f || attackResetTime < 0f);
 
-        attacking = false;
+        circling = false;
         yield return null;
     }
 

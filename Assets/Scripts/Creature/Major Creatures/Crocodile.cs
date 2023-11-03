@@ -37,15 +37,6 @@ public class Crocodile : NotBossAI
 
     public override IEnumerator Attack()
     {
-        //Begins dig attack if off cooldown, otherwise perform regular attack
-        if (remainingDigCooldown < 0f)
-        {
-            StartCoroutine(Dig());
-        }
-        else
-        {
-            StartCoroutine(RegularAttack());
-        }
         yield return null;
     }
 
@@ -60,6 +51,7 @@ public class Crocodile : NotBossAI
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);
 
+        attacking = true;
         rb.velocity = Vector3.zero;
         attackCollider.enabled = false;
         animator.SetBool("Charge", false);
@@ -126,10 +118,13 @@ public class Crocodile : NotBossAI
             FaceTarget(agent.destination);
             agent.destination = player.transform.position;
 
-            if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
+            if (remainingDigCooldown < 0f)
             {
-                StartCoroutine(Attack());
-                attacking = true;
+                StartCoroutine(Dig());
+            }
+            else if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
+            {
+                StartCoroutine(RegularAttack());
             }
         }
 
