@@ -245,7 +245,7 @@ public class PlayerController : Singleton<PlayerController>
         }
 
         // read default build to base stats SO on first load
-        currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+        //currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
         OnSwapLimbs.Invoke();
 
         #endregion
@@ -288,7 +288,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             //currentRightArm.PauseInput();
 
-            //OnAttack.Invoke();
+            OnAttack.Invoke();
 
             animator.SetTrigger("RightAttack");
 
@@ -316,7 +316,7 @@ public class PlayerController : Singleton<PlayerController>
 
         if(_legsAbility.triggered == true && currentLegs.CanActivate == true)
         {
-            //OnDash.Invoke();
+            OnDash.Invoke();
 
             // This will need refactoring for special leg animations, the line below will probably
             // be called by an animation event like the triggers above.
@@ -481,7 +481,7 @@ public class PlayerController : Singleton<PlayerController>
             }
         }
 
-        currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+        //currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
         //modifiedStatsSO.ResetValues();
         OnSwapLimbs.Invoke();
         //modifiedStatsSO.CalculateFinalValues();
@@ -552,7 +552,7 @@ public class PlayerController : Singleton<PlayerController>
                 else { Debug.Log("Limb type mismatch"); }
                 break;
         }
-        currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+        //currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
         //modifiedStatsSO.ResetValues();
         OnSwapLimbs.Invoke();
         //modifiedStatsSO.CalculateFinalValues();
@@ -675,7 +675,8 @@ public class PlayerController : Singleton<PlayerController>
             float caclulatedDamage = -1 * (damage / (damagedLimbs.Count + 1));
             limb.UpdateHealth(caclulatedDamage);
         }
-        //OnTakeDamage.Invoke();
+        Debug.Log(core.Health);
+        OnTakeDamage.Invoke();
         OnDamageReceived?.Invoke();
     }
 
