@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerObstructionsController : MonoBehaviour
+public class PlayerObstructionsMaterialUpdater : MonoBehaviour
 {
     private PlayerController player;
     private Material mat;
@@ -12,7 +12,6 @@ public class PlayerObstructionsController : MonoBehaviour
     private void Awake()
     {
         mat = GetComponent<MeshRenderer>().material;
-        //playerPosProperty = mat.GetVector()
     }
 
     private void Start()
