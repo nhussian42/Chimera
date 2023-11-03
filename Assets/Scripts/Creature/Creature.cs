@@ -83,7 +83,6 @@ public abstract class Creature : MonoBehaviour
             Invoke("IFrame", iFrameDuration);
             animator.SetTrigger("TakeDamage");
         }
-
     }
 
     private void IFrame()
@@ -99,13 +98,33 @@ public abstract class Creature : MonoBehaviour
         animator.Play("Death");
         agent.isStopped = true;
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
+        //rb.isKinematic = true;
         alive = false;
         CreatureManager.AnyCreatureDied?.Invoke();
         Destroy(this.gameObject, 1f);
         StopAllCoroutines();
         //Something happens
         //Death
+    }
+
+    public void Knockback(Vector3 knockbackDir, float knockbackForce, float knockbackDuration)
+    {
+        Rigidbody rb = this.GetComponent<Rigidbody>();
+        Debug.Log("Knocking back");
+        if (this.GetComponent<Rigidbody>() != null)
+        {
+            rb.AddForce(knockbackDir * knockbackForce, ForceMode.Impulse);
+        }
+
+        // float timer = knockbackDuration;
+        // while (timer > 0)
+        // {
+        //     timer -= Time.deltaTime;
+        // }
+        // if (timer < 0 && rb != null)
+        // {
+        //     rb.velocity = Vector3.zero;
+        // }
     }
 
     // protected void SpawnDrop()

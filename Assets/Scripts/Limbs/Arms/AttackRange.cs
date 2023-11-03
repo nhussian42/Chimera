@@ -15,9 +15,10 @@ public class AttackRange : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<Creature>(out Creature creature) == true)
+        if (other.TryGetComponent<Creature>(out Creature creature) == true)
         {
             creature.TakeDamage((int)arm.AttackDamage);
+            creature.Knockback((creature.transform.position - transform.position), 5, 0.5f);
         }
     }
 
