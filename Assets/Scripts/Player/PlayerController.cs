@@ -128,6 +128,7 @@ public class PlayerController : Singleton<PlayerController>
 
         // Assign UI controls
         _unpause = _playerInputActions.UI.UnPause;
+<<<<<<< Updated upstream
         _closeEM = _playerInputActions.UI.CloseEM;
 
         // Instantiate Limbs
@@ -162,6 +163,8 @@ public class PlayerController : Singleton<PlayerController>
         
 
         #endregion
+=======
+>>>>>>> Stashed changes
     }
 
     // Disable new player input actions in this method
@@ -235,7 +238,39 @@ public class PlayerController : Singleton<PlayerController>
     private void Start()
     {
         // get reference to save manager here because it won't work in Init()
-        saveManager = SaveManager.Instance; 
+        saveManager = SaveManager.Instance;
+
+        // Instantiate Limbs
+        #region
+        // Deactivate all limbs first
+        foreach (Arm arm in allArms) arm.gameObject.SetActive(false);
+        foreach (Legs legs in allLegs) legs.gameObject.SetActive(false);
+
+        if (saveManager.firstLoad == false)
+        {
+            // If not first load into scene, set limbs saved in SaveManager
+            LoadSavedLimb(saveManager.SavedLeftArm);
+            LoadSavedLimb(saveManager.SavedRightArm);
+            LoadSavedLimb(saveManager.SavedCore);
+            LoadSavedLimb(saveManager.SavedLegs);
+            currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+            OnSwapLimbs.Invoke();
+        }
+        else
+        {
+            // If first load into scene, set default limbs
+            coreLeftArm.gameObject.SetActive(true);
+            coreRightArm.gameObject.SetActive(true);
+            coreLegs.gameObject.SetActive(true);
+            currentLegs = coreLegs;
+            currentLeftArm = coreLeftArm;
+            currentRightArm = coreRightArm;
+            currentLeftArm.Initialize(this);
+            currentRightArm.Initialize(this);
+        }
+
+
+        #endregion
 
         // read default build to base stats SO on first load (done here because MasterTrinketList resets the list in Init())
         currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
