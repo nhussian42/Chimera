@@ -129,6 +129,19 @@ public abstract class Creature : MonoBehaviour
         }
     }
 
+    public IEnumerator PlayerKnockback(Vector3 knockbackDir, float knockbackForce, float knockbackDuration)
+    {
+        float timer = knockbackDuration;
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            float knockbackDistance = Mathf.Lerp(0, knockbackForce / 2, timer);
+            PlayerController.Instance._controller.Move(knockbackDir * knockbackDistance * Time.deltaTime);
+            yield return null;
+        }
+        yield return null;
+    }
+
     // protected void SpawnDrop()
     // {
     //    foreach(GameObject drop in drops)

@@ -292,7 +292,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 1
   m_Speed: 7
-  m_Acceleration: 13
+  m_Acceleration: 9
   avoidancePriority: 50
   m_AngularSpeed: 360
   m_StoppingDistance: 5
@@ -318,7 +318,7 @@ MonoBehaviour:
   health: 60
   attackRange: 10
   currentHealth: 0
-  attackDamage: 5
+  attackDamage: 10
   iFrameDuration: 1
   <CreatureInfo>k__BackingField: {fileID: 11400000, guid: 39d666424d149754b897c7db600f34d1,
     type: 2}
@@ -331,6 +331,7 @@ MonoBehaviour:
   digCooldown: 10
   burrowSpeed: 14
   attackCollider: {fileID: 3602909902812592745}
+  burrowAttackDamage: 25
 --- !u!65 &4864286860562335292
 BoxCollider:
   m_ObjectHideFlags: 0

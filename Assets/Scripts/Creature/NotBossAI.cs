@@ -11,7 +11,7 @@ public class NotBossAI : Creature
     private bool playerIFrame = false;
     [SerializeField] protected LayerMask playerLayerMask;    //Used to check distance from the player
 
-    protected bool attacking = false;   //Keeps track of if the creature is currently attacking
+    [SerializeField] protected bool attacking = false;   //Keeps track of if the creature is currently attacking
 
     private void Start()
     {
@@ -50,6 +50,7 @@ public class NotBossAI : Creature
             Invoke("PlayerIFrame", 0.5f);
             Debug.Log("Dealt damage to player");
             PlayerController.Instance.DistributeDamage(attackDamage);
+            StartCoroutine(PlayerKnockback(player.transform.position - transform.position, attackDamage, 0.4f));
         }
     }
 
