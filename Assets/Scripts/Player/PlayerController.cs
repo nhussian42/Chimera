@@ -278,7 +278,7 @@ public class PlayerController : Singleton<PlayerController>
             SetPlayerPosition(new Vector3(transform.position.x, 1.5f, transform.position.z));
             Debug.Log("Artifical Gravity activated");
         }
-        animator.SetFloat("Speed", movementValues.magnitude * _movementSpeed / 10f);
+        animator.SetFloat("Speed", movementValues.magnitude);
         
         if (movementVector != Vector3.zero)
             RotatePlayer(movementVector); 
@@ -306,6 +306,7 @@ public class PlayerController : Singleton<PlayerController>
             //OnAttack.Invoke();
 
             animator.SetTrigger("LeftAttack");
+            AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
 
             if (isLeftWolfArm)
                 AudioManager.Instance.PlayPlayerSFX("WolfArm");
