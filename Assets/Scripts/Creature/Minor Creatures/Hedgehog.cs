@@ -45,5 +45,9 @@ public class Hedgehog : NotBossAI
         yield return null;
     }
 
-
+    protected override void Die()
+    {
+        base.Die();
+        AudioManager.Instance.PlayMinEnemySFX("HedgehogDie");
+    }
 }

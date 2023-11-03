@@ -94,14 +94,13 @@ public abstract class Creature : MonoBehaviour
     protected virtual void Die()
     {
         // SpawnDrop();
-        AudioManager.Instance.PlayMinEnemySFX("HedgehogDie");
         animator.Play("Death");
         agent.isStopped = true;
         Rigidbody rb = GetComponent<Rigidbody>();
         //rb.isKinematic = true;
         alive = false;
         CreatureManager.AnyCreatureDied?.Invoke();
-        Destroy(this.gameObject, 1f);
+        Destroy(this.gameObject, 1.5f);
         StopAllCoroutines();
         //Something happens
         //Death
@@ -116,15 +115,18 @@ public abstract class Creature : MonoBehaviour
             rb.AddForce(knockbackDir * knockbackForce, ForceMode.Impulse);
         }
 
-        // float timer = knockbackDuration;
-        // while (timer > 0)
-        // {
-        //     timer -= Time.deltaTime;
-        // }
-        // if (timer < 0 && rb != null)
-        // {
-        //     rb.velocity = Vector3.zero;
-        // }
+        float timer = knockbackDuration;
+        agent.isStopped = true;
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+        if (timer <= 0 && rb != null)
+        {
+            Debug.Log("Knockback stopped");
+            rb.velocity = Vector3.zero;
+            agent.isStopped = false;
+        }
     }
 
     // protected void SpawnDrop()

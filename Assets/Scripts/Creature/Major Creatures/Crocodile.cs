@@ -55,7 +55,7 @@ public class Crocodile : NotBossAI
         agent.stoppingDistance = 7;
         yield return new WaitUntil(() => agent.remainingDistance < 10f);
 
-        rb.AddForce(gameObject.transform.forward * agent.remainingDistance / 2, ForceMode.Impulse);
+        rb.AddForce(gameObject.transform.forward * agent.remainingDistance, ForceMode.Impulse);
         animator.SetBool("Charge", true);
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);

@@ -18,7 +18,7 @@ public class AttackRange : MonoBehaviour
         if (other.TryGetComponent<Creature>(out Creature creature) == true)
         {
             creature.TakeDamage((int)arm.AttackDamage);
-            creature.Knockback((creature.transform.position - transform.position), 5, 0.5f);
+            creature.Knockback(creature.transform.position - transform.position, 8, 0.05f);
         }
     }
 
