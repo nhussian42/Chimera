@@ -681,7 +681,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             float caclulatedDamage = -1 * (damage / (damagedLimbs.Count + 1));
             limb.UpdateHealth(caclulatedDamage);
-            if(limb.Health <= 0 ) { limb.Disintegrate(); }
+            if(limb.Health <= 0 && limb != core ) { limb.Disintegrate(); }
         }
         Debug.Log(core.Health);
         OnTakeDamage.Invoke();
