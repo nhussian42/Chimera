@@ -22,7 +22,7 @@ public class SaveManager : Singleton<SaveManager>
         firstLoad = true;
         DontDestroyOnLoad(this);
     }
-    
+
     public void SaveLimbData(Arm leftArm, Arm rightArm, Core core, Legs legs)
     {
         // Add legs and head data here and in parameters later

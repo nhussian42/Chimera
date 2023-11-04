@@ -5,29 +5,48 @@ using UnityEngine;
 
 public abstract class Legs : Limb
 {
-    [SerializeField] float movementSpeed;
-    [SerializeField] float cooldownTime;
+    //Defaults
+    [SerializeField] float defaultMovementSpeed;
+    [SerializeField] float defaultCooldownTime;
+
+    float movementSpeed;
+    float cooldownTime;
     protected bool canActivate = true;
 
     public bool CanActivate { get { return canActivate; } }
     public float MovementSpeed { get { return movementSpeed; } }
+    public float CooldownTime { get { return cooldownTime; } }
+    public float DefaultMovementSpeed { get { return defaultMovementSpeed; } }
+    public float DefaultCooldownTime { get { return cooldownTime; } }
 
     // Refs
     private PlayerController player; // needed to manipulate player visibility and movement
 
+    // Called by PlayerController on input trigger
     public abstract void ActivateAbility();
 
-    protected virtual IEnumerator Cooldown(bool conditional)
+    // Cooldown called after activating ability
+    protected virtual IEnumerator Cooldown()
     {
-        conditional = false;
+        canActivate= false;
         yield return new WaitForSeconds(cooldownTime);
-        conditional = true;
+        canActivate = true;
     }
 
-    public virtual void LoadStats(float health, float moveSpd)
+    // Called to update stats after applying a trinket buff, loading a new scene, etc.
+    public virtual void LoadStats(float moveSpd, float cldwn, float maxHP, float currentHP)
     {
-        Health = health;
+        maxHealth = maxHP;
+        Health = currentHP;
         movementSpeed = moveSpd;
+        cooldownTime = cldwn;
+    }
+
+    public override void LoadDefaultStats()
+    {
+        base.LoadDefaultStats();
+        movementSpeed = defaultMovementSpeed;
+        cooldownTime = defaultCooldownTime;
     }
 
 

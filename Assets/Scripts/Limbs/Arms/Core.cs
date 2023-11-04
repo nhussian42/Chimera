@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class Core : Limb
 {
-
+    public void LoadStats(float maxHP, float currentHP)
+    {
+        maxHealth = maxHP;
+        currentHealth = currentHP;
+    }
 }
