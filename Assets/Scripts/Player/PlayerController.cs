@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 
+using UnityEngine.Events;
+
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
 {
@@ -35,18 +37,27 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private GameObject EquipMenu;
 
     [SerializeField] private Camera _mainCamera;
-    [SerializeField] private float _movementSpeed = 10f; // reference to current legs later
+    private float _movementSpeed; // references current legs
     [SerializeField] private float _turnSpeed = 360f;
     [SerializeField] private bool smoothMovementEnabled;
 
     // Reference to SaveManager
     SaveManager saveManager;
 
+    // Unity Events for Scriptable Object events (GameEvents class)
+    [SerializeField] UnityEvent OnAttack;
+    [SerializeField] UnityEvent OnDash;
+    [SerializeField] UnityEvent OnTakeDamage;
+    [SerializeField] UnityEvent OnSwapLimbs;
+
     // Limb References
     //public List<Heads> allHeads;
     public List<Arm> allArms;
     public List<Legs> allLegs;
 
+    [SerializeField] PublicClassesSO publicClassesSO;
+    [SerializeField] CurrentBaseStatsSO currentBaseStatsSO;
+    [SerializeField] ModifiedStatsSO modifiedStatsSO;
     [SerializeField] Core core;
     public Core Core { get { return core; } }
     [SerializeField] Arm coreLeftArm;
@@ -91,14 +102,12 @@ public class PlayerController : Singleton<PlayerController>
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
         _controller = GetComponent<CharacterController>();
-
+        
     }
 
     // Enable new player input actions in this method
     private void OnEnable()
     {
-        saveManager = SaveManager.Instance;
-        
         _playerInput.onControlsChanged += ChangeControlSchemes;
         GameManager.OnUnpause += Unpause;
         FloorManager.LoadNextRoom += Deactivate;
@@ -121,36 +130,6 @@ public class PlayerController : Singleton<PlayerController>
         // Assign UI controls
         _unpause = _playerInputActions.UI.UnPause;
         _closeEM = _playerInputActions.UI.CloseEM;
-
-        // Instantiate Limbs
-        #region
-        // Deactivate all limbs first
-        foreach (Arm arm in allArms) arm.gameObject.SetActive(false);
-        foreach (Legs legs in allLegs) legs.gameObject.SetActive(false);
-       
-
-        if (saveManager.firstLoad == true)
-        {
-            // If first load into scene, set default limbs
-            coreLeftArm.gameObject.SetActive(true);
-            coreRightArm.gameObject.SetActive(true);
-            coreLegs.gameObject.SetActive(true);
-            currentLegs = coreLegs;
-            currentLeftArm = coreLeftArm;
-            currentRightArm = coreRightArm;
-            currentLeftArm.Initialize(this);
-            currentRightArm.Initialize(this);
-        }
-        else
-        {
-            // If not first load into scene, set limbs saved in SaveManager
-            LoadSavedLimb(saveManager.SavedLeftArm);
-            LoadSavedLimb(saveManager.SavedRightArm);
-            LoadSavedLimb(saveManager.SavedCore);
-            LoadSavedLimb(saveManager.SavedLegs);
-        }
-       
-        #endregion
     }
 
     // Disable new player input actions in this method
@@ -223,8 +202,55 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Start()
     {
-        // Debug.Log(currentLegs.MovementSpeed);
+        // get reference to save manager here because it won't work in Init()
+        saveManager = SaveManager.Instance;
+
+        // pass reference of self to the PublicClassesSO class (so other UnityEvents can easily call UpdateStats())
+        publicClassesSO.AddPlayerController(this);
+
+        // Instantiate Limbs
+        #region
+        // Set all limbs' stats to default, then hide them
+        foreach (Arm arm in allArms)
+        {
+            if(saveManager.firstLoad == true) { arm.LoadDefaultStats(); }
+            arm.gameObject.SetActive(false);
+        }
+        foreach (Legs legs in allLegs)
+        {
+            if(saveManager.firstLoad == true) { legs.LoadDefaultStats(); }
+            legs.gameObject.SetActive(false);
+        }
+
+        if (saveManager.firstLoad == false)
+        {
+            // If not first load into scene, set limbs saved in SaveManager
+            LoadSavedLimb(saveManager.SavedLeftArm);
+            LoadSavedLimb(saveManager.SavedRightArm);
+            LoadSavedLimb(saveManager.SavedCore);
+            LoadSavedLimb(saveManager.SavedLegs);
+        }
+        else
+        {
+            // If first load into scene, set default limbs
+            coreLeftArm.gameObject.SetActive(true);
+            coreRightArm.gameObject.SetActive(true);
+            coreLegs.gameObject.SetActive(true);
+            currentLegs = coreLegs;
+            currentLeftArm = coreLeftArm;
+            currentRightArm = coreRightArm;
+            currentLeftArm.Initialize(this);
+            currentRightArm.Initialize(this);
+            core.LoadDefaultStats();
+        }
+
+        // read default build to base stats SO on first load
+        //currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+        OnSwapLimbs.Invoke();
+
+        #endregion
         _movementSpeed = currentLegs.MovementSpeed;
+
         // _mainCamera = Camera.main;
 
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
@@ -262,6 +288,8 @@ public class PlayerController : Singleton<PlayerController>
         {
             //currentRightArm.PauseInput();
 
+            OnAttack.Invoke();
+
             animator.SetTrigger("RightAttack");
 
             if (isRightWolfArm)
@@ -275,6 +303,8 @@ public class PlayerController : Singleton<PlayerController>
         {
             //currentRightArm.PauseInput();
 
+            //OnAttack.Invoke();
+
             animator.SetTrigger("LeftAttack");
 
             if (isLeftWolfArm)
@@ -285,9 +315,12 @@ public class PlayerController : Singleton<PlayerController>
 
         if(_legsAbility.triggered == true && currentLegs.CanActivate == true)
         {
+            OnDash.Invoke();
+
             // This will need refactoring for special leg animations, the line below will probably
             // be called by an animation event like the triggers above.
             currentLegs.ActivateAbility();
+            
         }
 
         if (_swapLimbs.triggered == true)
@@ -383,6 +416,7 @@ public class PlayerController : Singleton<PlayerController>
         currentLegs.ActivateAbility();
     }
 
+    // Called to switch left and right arm positions
     private void SwitchArms()
     {
         // Store all relevant data about current left arm in these variables, to use later
@@ -446,10 +480,15 @@ public class PlayerController : Singleton<PlayerController>
             }
         }
 
+        //currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+        //modifiedStatsSO.ResetValues();
+        OnSwapLimbs.Invoke();
+        //modifiedStatsSO.CalculateFinalValues();
         OnArmSwapped?.Invoke();
     }
 
-    private void SwapLimb(Limb originalLimb, LimbDrop newLimb) // Used to universally swap limbs from the ground
+    // Called to universally swap limbs from the ground (refactor into three overloaded functions later) - Amon
+    private void SwapLimb(Limb originalLimb, LimbDrop newLimb) 
     {
         switch (newLimb.LimbType)
         {
@@ -512,14 +551,19 @@ public class PlayerController : Singleton<PlayerController>
                 else { Debug.Log("Limb type mismatch"); }
                 break;
         }
-
+        //currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
+        //modifiedStatsSO.ResetValues();
+        OnSwapLimbs.Invoke();
+        //modifiedStatsSO.CalculateFinalValues();
     }
 
+    // Called to instantiate a limb drop after swapping it
     private void DropLimb(Limb droppedLimb)
     {
         // call after swap limb to drop your current limb on the ground
     }
 
+    // Called to load saved data into limbs after loading a new scene (add heads here later)
     private void LoadSavedLimb(Arm savedArm)
     {
         foreach (Arm arm in allArms)
@@ -574,13 +618,43 @@ public class PlayerController : Singleton<PlayerController>
                 }
                 legs.gameObject.SetActive(true);
                 currentLegs = legs;
-                currentLegs.LoadStats(savedLegs.Health, savedLegs.MovementSpeed);
+                currentLegs.LoadStats(savedLegs.MovementSpeed, savedLegs.CooldownTime, savedLegs.MaxHealth, savedLegs.Health);
             }
         }
     } 
     private void LoadSavedLimb(Core savedCore) 
     {
-        core.Health = savedCore.Health;
+        core.LoadStats(savedCore.MaxHealth, savedCore.Health);  
+    }
+
+    // Called to update the stats of all limbs after modifying equipment (picking up trinkets or swapping limbs)
+    public void UpdateStats()
+    {
+        // head here     
+        core.LoadStats(
+            modifiedStatsSO.coreMaxHealth.value, 
+            modifiedStatsSO.coreHealth.value);
+        currentLeftArm.LoadStats(
+            modifiedStatsSO.leftArmAttackDamage.value,
+            modifiedStatsSO.leftArmAttackSpeed.value,
+            modifiedStatsSO.leftArmMaxHealth.value,
+            modifiedStatsSO.leftArmHealth.value);
+        currentRightArm.LoadStats(
+            modifiedStatsSO.rightArmAttackDamage.value,
+            modifiedStatsSO.rightArmAttackSpeed.value,
+            modifiedStatsSO.rightArmMaxHealth.value,
+            modifiedStatsSO.rightArmHealth.value);
+        currentLegs.LoadStats(
+            modifiedStatsSO.legsMovementSpeed.value,
+            modifiedStatsSO.legsCooldown.value,
+            modifiedStatsSO.legsMaxHealth.value,
+            modifiedStatsSO.legsHealth.value);
+    }
+
+    // Called when player picks up a trinket or swaps a limb, sends stats to the base stats SO for calculation
+    public void UpdateBaseStats()
+    {
+        currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
     }
 
     public void DistributeDamage(float damage)
@@ -600,11 +674,12 @@ public class PlayerController : Singleton<PlayerController>
             float caclulatedDamage = -1 * (damage / (damagedLimbs.Count + 1));
             limb.UpdateHealth(caclulatedDamage);
         }
+        Debug.Log(core.Health);
+        OnTakeDamage.Invoke();
         OnDamageReceived?.Invoke();
     }
 
-    // temporary function to update core health, but we should make it its own limb
-    // and then set that limb as a reference in playercontroller
+    // This function is obsolete, delete later when other scripts refactor 
     public void UpdateCoreHealth(float amount)
     {
         core.Health = Mathf.Clamp(core.Health + amount, 0, 100);
