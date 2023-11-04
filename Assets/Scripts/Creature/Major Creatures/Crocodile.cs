@@ -121,7 +121,6 @@ public class Crocodile : NotBossAI
 
     protected override void Update()
     {
-
         if (alive == true)
         {
             FaceTarget(agent.destination);

@@ -108,25 +108,27 @@ public abstract class Creature : MonoBehaviour
 
     public void Knockback(Vector3 knockbackDir, float knockbackForce, float knockbackDuration)
     {
-        Rigidbody rb = this.GetComponent<Rigidbody>();
-        Debug.Log("Knocking back");
-        if (this.GetComponent<Rigidbody>() != null)
+        if (alive == true)
         {
-            rb.AddForce(knockbackDir.normalized * knockbackForce, ForceMode.Impulse);
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (GetComponent<Rigidbody>() != null)
+            {
+                rb.AddForce(knockbackDir.normalized * knockbackForce, ForceMode.Impulse);
+            }
+
+            float timer = knockbackDuration;
+            agent.isStopped = true;
+            while (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            if (timer <= 0 && rb != null)
+            {
+                rb.velocity = Vector3.zero;
+                agent.isStopped = false;
+            }
         }
 
-        float timer = knockbackDuration;
-        agent.isStopped = true;
-        while (timer > 0)
-        {
-            timer -= Time.deltaTime;
-        }
-        if (timer <= 0 && rb != null)
-        {
-            Debug.Log("Knockback stopped");
-            rb.velocity = Vector3.zero;
-            agent.isStopped = false;
-        }
     }
 
     public IEnumerator PlayerKnockback(Vector3 knockbackDir, float knockbackForce, float knockbackDuration)
