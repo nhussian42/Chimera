@@ -319,10 +319,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
-  attackDamage: 5
-  attackSpeed: 1
+  defaultHealth: 100
+  defaultMaxHealth: 100
+  defaultAttackDamage: 10
+  defaultAttackSpeed: 0.5
   side: 1
   attackRangePrefab: {fileID: 5182243123753938400, guid: 1b9bd96893d9faf47813738e5483a4cc,
     type: 3}
@@ -1936,10 +1936,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 0
   weight: 2
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
-  attackDamage: 7
-  attackSpeed: 0.5
+  defaultHealth: 0
+  defaultMaxHealth: 0
+  defaultAttackDamage: 0
+  defaultAttackSpeed: 0
   side: 0
   attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
     type: 3}
@@ -2598,7 +2598,7 @@ Transform:
   - {fileID: 2766048086186284376}
   - {fileID: 7942340981511901775}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &901203064135215410
 Animator:
@@ -2698,11 +2698,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758c0a12565383d48bbaba5941553743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controller: {fileID: 1997423820022429324}
   EquipMenu: {fileID: 0}
   _mainCamera: {fileID: 0}
-  _movementSpeed: 10
   _turnSpeed: 1300
   smoothMovementEnabled: 1
+  OnAttack:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDash:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSwapLimbs:
+    m_PersistentCalls:
+      m_Calls: []
   allArms:
   - {fileID: 5034838254499669939}
   - {fileID: 2775253211360001486}
@@ -2710,6 +2722,9 @@ MonoBehaviour:
   - {fileID: 502050359024843760}
   allLegs:
   - {fileID: 333368916940018505}
+  publicClassesSO: {fileID: 11400000, guid: 0f4d75e79e2d23f4f913dca15a1c7691, type: 2}
+  currentBaseStatsSO: {fileID: 11400000, guid: 0170559690b19234cad4fb247a96fac2, type: 2}
+  modifiedStatsSO: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b, type: 2}
   core: {fileID: 338917914945708}
   coreLeftArm: {fileID: 5034838254499669939}
   coreRightArm: {fileID: 2775253211360001486}
@@ -2996,8 +3011,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
+  defaultHealth: 100
+  defaultMaxHealth: 100
 --- !u!1 &4917931796962490197
 GameObject:
   m_ObjectHideFlags: 0
@@ -4556,10 +4571,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
-  attackDamage: 5
-  attackSpeed: 1
+  defaultHealth: 100
+  defaultMaxHealth: 100
+  defaultAttackDamage: 10
+  defaultAttackSpeed: 0.5
   side: 0
   attackRangePrefab: {fileID: 5182243123753938400, guid: 1b9bd96893d9faf47813738e5483a4cc,
     type: 3}
@@ -4611,10 +4626,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
-  movementSpeed: 10
-  cooldownTime: 0
+  defaultHealth: 100
+  defaultMaxHealth: 100
+  defaultMovementSpeed: 10
+  defaultCooldownTime: 0
 --- !u!1 &7875862720353792673
 GameObject:
   m_ObjectHideFlags: 0
@@ -5420,10 +5435,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 0
   weight: 2
-  startingHealth: 100
-  limbDropPrefab: {fileID: 0}
-  attackDamage: 7
-  attackSpeed: 0.5
+  defaultHealth: 0
+  defaultMaxHealth: 0
+  defaultAttackDamage: 0
+  defaultAttackSpeed: 0
   side: 1
   attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
     type: 3}
