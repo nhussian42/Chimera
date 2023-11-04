@@ -26,7 +26,7 @@ public class PlayerController : Singleton<PlayerController>
     private InputAction _openEM;
     private InputAction _closeEM;
     // Put new actions here
-    private CharacterController _controller;
+    public CharacterController _controller;
 
     private Matrix4x4 _isoMatrix;
 

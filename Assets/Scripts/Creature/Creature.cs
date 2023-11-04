@@ -14,6 +14,8 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected float attackRange = 5f;
     [SerializeField] protected float currentHealth;
     [SerializeField] protected float attackDamage = 5f;
+    [SerializeField] protected float iFrameDuration = 1f; //iFrame for creatures ONLY controls animations
+    private bool iFrame = false;
 
     [field: SerializeField] public CreatureSO CreatureInfo { get; private set; }
 
@@ -39,7 +41,7 @@ public abstract class Creature : MonoBehaviour
     protected NavMeshAgent agent;
     protected bool alive = true;
     [SerializeField] protected EnemyHealthBar healthbar;
-    
+
     // private void Awake()
     // {
     //     //Sets current room
@@ -65,7 +67,7 @@ public abstract class Creature : MonoBehaviour
         //Pulls stats from FloorManager based on CreatureType enum
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         currentHealth -= damage;
         healthbar.UpdateHealthBar(currentHealth, health);
@@ -75,26 +77,71 @@ public abstract class Creature : MonoBehaviour
             //TrinketManager.Instance.StartKillSkills();  - commented this out temporarily - Amon
 
         }
-        else if (alive == true)
+        else if (alive == true && iFrame == false)
         {
-            animator.Play("Take Damage");
+            iFrame = true;
+            Invoke("IFrame", iFrameDuration);
+            animator.SetTrigger("TakeDamage");
         }
+    }
+
+    private void IFrame()
+    {
+        animator.ResetTrigger("TakeDamage");
+        iFrame = false;
     }
 
     protected virtual void Die()
     {
         // SpawnDrop();
-        AudioManager.Instance.PlayMinEnemySFX("HedgehogDie");
         animator.Play("Death");
         agent.isStopped = true;
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
+        //rb.isKinematic = true;
         alive = false;
         CreatureManager.AnyCreatureDied?.Invoke();
-        Destroy(this.gameObject, 1f);
+        Destroy(this.gameObject, 1.5f);
         StopAllCoroutines();
         //Something happens
         //Death
+    }
+
+    public void Knockback(Vector3 knockbackDir, float knockbackForce, float knockbackDuration)
+    {
+        if (alive == true)
+        {
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (GetComponent<Rigidbody>() != null)
+            {
+                rb.AddForce(knockbackDir.normalized * knockbackForce, ForceMode.Impulse);
+            }
+
+            float timer = knockbackDuration;
+            agent.isStopped = true;
+            while (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            if (timer <= 0 && rb != null)
+            {
+                rb.velocity = Vector3.zero;
+                agent.isStopped = false;
+            }
+        }
+
+    }
+
+    public IEnumerator PlayerKnockback(Vector3 knockbackDir, float knockbackForce, float knockbackDuration)
+    {
+        float timer = knockbackDuration;
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            float knockbackDistance = Mathf.Lerp(0, knockbackForce * 2, timer);
+            PlayerController.Instance._controller.Move(knockbackDir.normalized * knockbackDistance * Time.deltaTime);
+            yield return null;
+        }
+        yield return null;
     }
 
     // protected void SpawnDrop()
