@@ -17,7 +17,8 @@ public class Crocodile : NotBossAI
     [SerializeField] private MeshCollider attackCollider;
     [SerializeField] private float burrowAttackDamage;
     private float regularAttackDamage;
-    MeshCollider meshCollider;
+    [SerializeField] private BoxCollider burrowAttackCollider;
+    [SerializeField] private BoxCollider crocBodyCollider;
     private bool burrowing;
 
     protected override void InitializeStats(float percentDamageIncrease, float percentHealthIncrease)
@@ -30,7 +31,6 @@ public class Crocodile : NotBossAI
     protected void Start()
     {
         regularAttackDamage = attackDamage;
-        meshCollider = GetComponentInChildren<MeshCollider>();
         transform.position = new Vector3(transform.position.x, 1, transform.position.z);
         rb = GetComponent<Rigidbody>();
         agent.destination = player.transform.position;
@@ -79,40 +79,35 @@ public class Crocodile : NotBossAI
     }
     protected IEnumerator Dig()
     {
-        //Dig animation goes here
+        //Disables collider, increases speed, makes the croc burrow
         animator.SetBool("Burrow", true);
         burrowing = true;
-        meshCollider.enabled = false;
+        crocBodyCollider.enabled = false;
         agent.stoppingDistance = 2;
         agent.isStopped = true;
         agent.speed = burrowSpeed;
-        yield return new WaitForSeconds(1f);
-
-        //Enemy is invisible moving behind player
-        //Maybe put particle effect here?
         GetComponentInChildren<Canvas>().enabled = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
+
+        //Allows the croc to start chasing until within range
         agent.isStopped = false;
         yield return new WaitUntil(() => agent.remainingDistance < 4f);
 
-        //Enemy appears behind the player
-        //Surfacing animation goes here
+        //When in range, unburrows and resets speed
         animator.SetBool("BurrowResurface", true);
         animator.SetBool("Burrow", false);
         agent.isStopped = true;
-        agent.updateRotation = false;
         agent.speed = baseSpeed;
-        gameObject.transform.LookAt(player.transform.position);
         yield return new WaitForSeconds(0.5f);
 
-        //Charges forward
-        //Charging animation goes here
+        //Damage gets dealt here
         animator.SetBool("BurrowResurface", false);
-        gameObject.transform.LookAt(player.transform.position);
-        meshCollider.enabled = true;
+        burrowAttackCollider.enabled = true;
         yield return new WaitForSeconds(0.75f);
 
-        //Resets speed, puts dig on cooldown
+        //Burrow attack collider disabled, croc can take damage again, attack damage reset, goes back to chasing
+        burrowAttackCollider.enabled = false;
+        crocBodyCollider.enabled = true;
         attackDamage = regularAttackDamage;
         GetComponentInChildren<Canvas>().enabled = true;
         burrowing = false;
