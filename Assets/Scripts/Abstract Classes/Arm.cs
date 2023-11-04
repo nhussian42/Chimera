@@ -111,6 +111,10 @@ public abstract class Arm : Limb
         attackSpeed = defaultAttackSpeed;
     }
 
+    public override void Disintegrate()
+    {
+        PlayerController.Instance.RevertToDefault(this);
+    }
 
     public void DebugLog()
     {

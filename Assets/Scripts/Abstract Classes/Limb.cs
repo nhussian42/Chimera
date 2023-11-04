@@ -35,4 +35,10 @@ public abstract class Limb : MonoBehaviour
         maxHealth = defaultMaxHealth;
         currentHealth = Mathf.Clamp(defaultHealth, minHealth, maxHealth);
     }
+
+    public virtual void Disintegrate()
+    {
+        // shader dissolve thing here maybe?
+        
+    }
 }

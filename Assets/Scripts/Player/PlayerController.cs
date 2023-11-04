@@ -488,74 +488,58 @@ public class PlayerController : Singleton<PlayerController>
         OnArmSwapped?.Invoke();
     }
 
-    // Called to universally swap limbs from the ground (refactor into three overloaded functions later) - Amon
-    private void SwapLimb(Limb originalLimb, LimbDrop newLimb) 
+    // Called to swap a current limb with a limb drop
+    //private void SwapLimb(Head originalHead, LimbDrop newHead)
+    private void SwapLimb(Legs originalLegs, LimbDrop newLegs)
     {
-        switch (newLimb.LimbType)
+        foreach (Legs legs in allLegs)
         {
-            case LimbType.Head:
-                Debug.Log("Heads are not implemented yet!");
-                break;
-            case LimbType.Arm:
-                if(originalLimb.gameObject.TryGetComponent<Arm>(out Arm originalArm) != false)
-                {
-                    foreach (Arm arm in allArms)
-                    {
-                        if (arm.Weight == newLimb.Weight && arm.Classification == newLimb.Classification && arm.Side == originalArm.Side)
-                        {
-                            if (originalArm.Side == SideOfPlayer.Right)
-                            {
-                                isRightWolfArm = true; // Refactor later to be have sounds play for all limbs
-                                if (currentRightArm != null)
-                                {
-                                    currentRightArm.Terminate();
-                                    currentRightArm.gameObject.SetActive(false);
-                                }
-                                arm.gameObject.SetActive(true);
-                                currentRightArm = arm;
-                                currentRightArm.Initialize(this);
-                                currentRightArm.Health = newLimb.LimbHealth;
-
-                            }
-                            else if (originalArm.Side == SideOfPlayer.Left)
-                            {
-                                isLeftWolfArm = true; // Refactor later to be have sounds play for all limbs
-                                if (currentLeftArm != null)
-                                {
-                                    currentLeftArm.Terminate();
-                                    currentLeftArm.gameObject.SetActive(false);
-                                }
-                                arm.gameObject.SetActive(true);
-                                currentLeftArm = arm;
-                                currentLeftArm.Initialize(this);
-                                currentLeftArm.Health = newLimb.LimbHealth;
-                            }
-                        }
-                    }
-                }
-                else { Debug.Log("Limb type mismatch,"); }
-                break;
-            case LimbType.Legs:
-                if (originalLimb.gameObject.TryGetComponent<Legs>(out Legs originalLegs) != false)
-                {
-                    foreach (Legs legs in allLegs)
-                    {
-                        if (legs.Weight == newLimb.Weight && legs.Classification == newLimb.Classification)
-                        {
-                            originalLegs.gameObject.SetActive(false);
-                            legs.gameObject.SetActive(true);
-                            currentLegs = legs;
-                            // add function here for overwriting current health of equipped legs to match the stored health of the pickup
-                        }
-                    }
-                }
-                else { Debug.Log("Limb type mismatch"); }
-                break;
+            if (legs.Weight == newLegs.Weight && legs.Classification == newLegs.Classification)
+            {
+                originalLegs.gameObject.SetActive(false);
+                legs.gameObject.SetActive(true);
+                currentLegs = legs;
+                // add function here for overwriting current health of equipped legs to match the stored health of the pickup
+            }
         }
-        //currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
-        //modifiedStatsSO.ResetValues();
         OnSwapLimbs.Invoke();
-        //modifiedStatsSO.CalculateFinalValues();
+    }
+    private void SwapLimb(Arm originalArm, LimbDrop newArm)
+    {
+        foreach (Arm arm in allArms)
+        {
+            if (arm.Weight == newArm.Weight && arm.Classification == newArm.Classification && arm.Side == originalArm.Side)
+            {
+                if (originalArm.Side == SideOfPlayer.Right)
+                {
+                    isRightWolfArm = true; // Refactor later to be have sounds play for all limbs
+                    if (currentRightArm != null)
+                    {
+                        currentRightArm.Terminate();
+                        currentRightArm.gameObject.SetActive(false);
+                    }
+                    arm.gameObject.SetActive(true);
+                    currentRightArm = arm;
+                    currentRightArm.Initialize(this);
+                    currentRightArm.Health = newArm.LimbHealth;
+
+                }
+                else if (originalArm.Side == SideOfPlayer.Left)
+                {
+                    isLeftWolfArm = true; // Refactor later to be have sounds play for all limbs
+                    if (currentLeftArm != null)
+                    {
+                        currentLeftArm.Terminate();
+                        currentLeftArm.gameObject.SetActive(false);
+                    }
+                    arm.gameObject.SetActive(true);
+                    currentLeftArm = arm;
+                    currentLeftArm.Initialize(this);
+                    currentLeftArm.Health = newArm.LimbHealth;
+                }
+            }
+        }
+        OnSwapLimbs.Invoke();
     }
 
     // Called to instantiate a limb drop after swapping it
@@ -564,7 +548,8 @@ public class PlayerController : Singleton<PlayerController>
         // call after swap limb to drop your current limb on the ground
     }
 
-    // Called to load saved data into limbs after loading a new scene (add heads here later)
+    // Called to load saved data into limbs after loading a new scene
+    //private void LoadSavedLimb(Head savedHead)
     private void LoadSavedLimb(Arm savedArm)
     {
         foreach (Arm arm in allArms)
@@ -626,6 +611,29 @@ public class PlayerController : Singleton<PlayerController>
     private void LoadSavedLimb(Core savedCore) 
     {
         core.LoadStats(savedCore.MaxHealth, savedCore.Health);  
+    }
+
+    // Called when a limb is disintegrated (no health)
+    public void RevertToDefault(Arm currentArm)
+    {
+        if(currentArm.Side == SideOfPlayer.Right)
+        {
+            currentRightArm.Terminate();
+            currentRightArm.LoadDefaultStats();
+            currentRightArm.gameObject.SetActive(false);
+            coreRightArm.gameObject.SetActive(true);
+            currentRightArm = coreRightArm;
+            currentRightArm.Initialize(this);
+        }
+        else
+        {
+            currentLeftArm.Terminate();
+            currentLeftArm.LoadDefaultStats();
+            currentLeftArm.gameObject.SetActive(false);
+            coreLeftArm.gameObject.SetActive(true);
+            currentLeftArm = coreRightArm;
+            currentLeftArm.Initialize(this);
+        }
     }
 
     // Called to update the stats of all limbs after modifying equipment (picking up trinkets or swapping limbs)
