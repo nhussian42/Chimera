@@ -50,7 +50,8 @@ public class NotBossAI : Creature
             Invoke("PlayerIFrame", 0.5f);
             Debug.Log("Dealt damage to player");
             PlayerController.Instance.DistributeDamage(attackDamage);
-            StartCoroutine(PlayerKnockback(player.transform.position - transform.position, attackDamage, 0.4f));
+
+            StartCoroutine(PlayerKnockback(transform.forward, attackDamage, 0.4f));
         }
     }
 

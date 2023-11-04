@@ -15,6 +15,8 @@ public class Crocodile : NotBossAI
     [SerializeField] private float burrowSpeed;
     private float remainingDigCooldown = 0f; //Actual value that track remaining dig cooldown
     [SerializeField] private MeshCollider attackCollider;
+    [SerializeField] private float burrowAttackDamage;
+    private float regularAttackDamage;
     BoxCollider boxCollider;
     private bool burrowing;
 
@@ -25,8 +27,9 @@ public class Crocodile : NotBossAI
         // * burrowPercentDamageIncrease * 0.01f; or something
     }
 
-    private void Start()
+    protected void Start()
     {
+        regularAttackDamage = attackDamage;
         boxCollider = GetComponent<BoxCollider>();
         transform.position = new Vector3(transform.position.x, 1, transform.position.z);
         rb = GetComponent<Rigidbody>();
@@ -37,6 +40,17 @@ public class Crocodile : NotBossAI
 
     public override IEnumerator Attack()
     {
+        //Begins dig attack if off cooldown, otherwise perform regular attack
+        if (remainingDigCooldown < 0f)
+        {
+            attackDamage = burrowAttackDamage;
+            StartCoroutine(Dig());
+        }
+        else
+        {
+            attackDamage = regularAttackDamage;
+            StartCoroutine(RegularAttack());
+        }
         yield return null;
     }
 
@@ -51,7 +65,6 @@ public class Crocodile : NotBossAI
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);
 
-        attacking = true;
         rb.velocity = Vector3.zero;
         attackCollider.enabled = false;
         animator.SetBool("Charge", false);
@@ -80,7 +93,7 @@ public class Crocodile : NotBossAI
         GetComponentInChildren<Canvas>().enabled = false;
         yield return new WaitForSeconds(1f);
         agent.isStopped = false;
-        yield return new WaitUntil(() => agent.remainingDistance < 2f);
+        yield return new WaitUntil(() => agent.remainingDistance < 4f);
 
         //Enemy appears behind the player
         //Surfacing animation goes here
@@ -118,13 +131,10 @@ public class Crocodile : NotBossAI
             FaceTarget(agent.destination);
             agent.destination = player.transform.position;
 
-            if (remainingDigCooldown < 0f)
+            if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
             {
-                StartCoroutine(Dig());
-            }
-            else if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
-            {
-                StartCoroutine(RegularAttack());
+                StartCoroutine(Attack());
+                attacking = true;
             }
         }
 

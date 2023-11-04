@@ -112,7 +112,7 @@ public abstract class Creature : MonoBehaviour
         Debug.Log("Knocking back");
         if (this.GetComponent<Rigidbody>() != null)
         {
-            rb.AddForce(knockbackDir * knockbackForce, ForceMode.Impulse);
+            rb.AddForce(knockbackDir.normalized * knockbackForce, ForceMode.Impulse);
         }
 
         float timer = knockbackDuration;
@@ -135,8 +135,8 @@ public abstract class Creature : MonoBehaviour
         while (timer > 0)
         {
             timer -= Time.deltaTime;
-            float knockbackDistance = Mathf.Lerp(0, knockbackForce / 2, timer);
-            PlayerController.Instance._controller.Move(knockbackDir * knockbackDistance * Time.deltaTime);
+            float knockbackDistance = Mathf.Lerp(0, knockbackForce * 2, timer);
+            PlayerController.Instance._controller.Move(knockbackDir.normalized * knockbackDistance * Time.deltaTime);
             yield return null;
         }
         yield return null;
