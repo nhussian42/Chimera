@@ -27,7 +27,7 @@ public class Rhino : NotBossAI
 
     private Rigidbody rb;
 
-    private void Awake()
+    private void Start()
     {
         initialTurnSpeed = agent.angularSpeed;
         initialMovementSpeed = agent.speed;
