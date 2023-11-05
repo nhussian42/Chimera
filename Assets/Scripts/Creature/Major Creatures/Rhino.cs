@@ -23,17 +23,21 @@ public class Rhino : NotBossAI
 
     [SerializeField, Tooltip("Range it begins slam attack")] private float slamAttackRange = 2f;
 
+    [SerializeField, Tooltip("How long it takes for the slam attack to deal damage")] private float slamDelay = 1f;
+
     [SerializeField] private CapsuleCollider attackCollider;
 
     private Rigidbody rb;
 
-    private void Awake()
+    private void Start()
     {
         initialTurnSpeed = agent.angularSpeed;
         initialMovementSpeed = agent.speed;
         initialAcceleration = agent.acceleration;
 
         rb = GetComponent<Rigidbody>();
+
+        animator = GetComponentInChildren<Animator>();
     }
 
     public override IEnumerator Attack()
@@ -43,6 +47,7 @@ public class Rhino : NotBossAI
         agent.speed = chargeSpeed;
         agent.angularSpeed = chargingTurnSpeed;
         agent.acceleration = chargeAcceleration;
+        animator.SetBool("Charge", true);
         yield return new WaitForSeconds(chargeDelay);
 
         //Rhino runs towards player until within slam attack range
@@ -63,6 +68,7 @@ public class Rhino : NotBossAI
         }
 
         //Starts slam attack
+        animator.SetBool("Charge", false);
         StartCoroutine(SlamAttack());
         yield break;
     }
@@ -71,22 +77,24 @@ public class Rhino : NotBossAI
     {
         //Stops the rhino
         agent.isStopped = true;
-        yield return new WaitForSeconds(0.5f);
+        animator.SetBool("Slam", true);
+        yield return new WaitForSeconds(slamDelay);
 
         //Attack is performed
         agent.velocity = Vector3.zero;
         attackCollider.enabled = true;
+        agent.isStopped = false;
         yield return new WaitForSeconds(0.5f);
 
         //Attack ends, resets rhino to normal movement
         attackCollider.enabled = false;
-        agent.isStopped = false;
         agent.angularSpeed = initialTurnSpeed;
         agent.speed = initialMovementSpeed;
         agent.acceleration = initialAcceleration;
+        animator.SetBool("Slam", false);
 
         //Resets attack cooldown
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.0f);
         attacking = false;
 
         yield return null;
