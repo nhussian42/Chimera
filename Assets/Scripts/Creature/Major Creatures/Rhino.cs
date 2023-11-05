@@ -102,7 +102,7 @@ public class Rhino : NotBossAI
         //Starts slam attack
         animator.SetBool("Charge", false);
         StartCoroutine(SlamAttack());
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         chargeAttackCollider.enabled = false;
         yield break;
     }
@@ -172,6 +172,17 @@ public class Rhino : NotBossAI
         }
         result = Vector3.zero;
         return false;
+    }
+
+    protected override void Die()
+    {
+        animator.Play("Death");
+        agent.isStopped = true;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        alive = false;
+        CreatureManager.AnyCreatureDied?.Invoke();
+        Destroy(this.gameObject, 3.5f);
+        StopAllCoroutines();
     }
 
 }
