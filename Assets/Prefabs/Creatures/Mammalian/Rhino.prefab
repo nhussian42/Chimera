@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 347248332118851748}
   - component: {fileID: 5045467928891353712}
   - component: {fileID: 5409585568701026752}
+  - component: {fileID: 146867853561697142}
   m_Layer: 7
   m_Name: Rhino
   m_TagString: Enemy
@@ -236,8 +237,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 5726579342250417833}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 2.5
-  m_Speed: 3.5
+  m_Radius: 2
+  m_Speed: 10
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -257,7 +258,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5726579342250417833}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -272,9 +273,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 14
   m_CollisionDetection: 2
 --- !u!114 &5045467928891353712
 MonoBehaviour:
@@ -288,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f106fffbcc5742643946f032d9bfb132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 250
   attackRange: 20
   currentHealth: 0
   attackDamage: 5
@@ -322,7 +323,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 192
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -330,6 +331,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5895672, y: 3.2161582, z: 4.4839206}
   m_Center: {x: -0.038012028, y: 1.6068877, z: 0.4966638}
+--- !u!65 &146867853561697142
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5726579342250417833}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.5, y: 1.5, z: 1.5}
+  m_Center: {x: 0, y: 2, z: 2.5}
 --- !u!1 &6242412216532888825
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,13 +434,13 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 2.5
+  m_Radius: 3.5
   m_Height: 0
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -816,6 +838,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1941585046833313312, guid: 1a75810f0c04685498c4b47f9ec25677,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f7085d1f882d75c43950678ed6023ab1, type: 2}
     - target: {fileID: 919132149155446097, guid: 1a75810f0c04685498c4b47f9ec25677,
         type: 3}
       propertyPath: m_Name

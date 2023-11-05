@@ -28,9 +28,11 @@ public class Rhino : NotBossAI
     [SerializeField] private CapsuleCollider attackCollider;
 
     private Rigidbody rb;
+    private float baseAttackDamage;
 
     private void Start()
     {
+        baseAttackDamage = attackDamage;
         initialTurnSpeed = agent.angularSpeed;
         initialMovementSpeed = agent.speed;
         initialAcceleration = agent.acceleration;
@@ -40,9 +42,31 @@ public class Rhino : NotBossAI
         animator = GetComponentInChildren<Animator>();
     }
 
+    protected override void Update()
+    {
+
+        if (alive == true)
+        {
+            if (attacking == false)
+            {
+                agent.destination = player.transform.position;
+                if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
+                {
+                    //Player is in range
+                    //Perform attack coroutine
+                    StartCoroutine(Attack());
+                    attacking = true;
+                }
+            }
+        }
+    }
+
     public override IEnumerator Attack()
     {
         //Rhino stops
+        StartCoroutine(FacePlayer());
+        yield return new WaitForSeconds(1f);
+
         agent.isStopped = true;
         agent.speed = chargeSpeed;
         agent.angularSpeed = chargingTurnSpeed;
@@ -55,6 +79,7 @@ public class Rhino : NotBossAI
         float timer = 1f;
         while (Physics.CheckSphere(transform.position, slamAttackRange, playerLayerMask) == false)
         {
+            agent.destination = player.transform.position;
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.steeringTarget - transform.position), Time.deltaTime);
             timer -= Time.deltaTime;
             if (timer < 0)
@@ -63,10 +88,12 @@ public class Rhino : NotBossAI
                 agent.angularSpeed += 1;
                 agent.acceleration += 1;
                 timer = 2f;
+                attackDamage = Mathf.RoundToInt(agent.velocity.magnitude);
             }
             yield return null;
         }
 
+        attackDamage = baseAttackDamage;
         //Starts slam attack
         animator.SetBool("Charge", false);
         StartCoroutine(SlamAttack());
@@ -94,19 +121,53 @@ public class Rhino : NotBossAI
         animator.SetBool("Slam", false);
 
         //Resets attack cooldown
-        yield return new WaitForSeconds(1.0f);
+        Vector3 targetPos;
+        if (RandomPoint(player.transform.position, attackRange, out targetPos))
+        {
+            Debug.Log(targetPos);
+            agent.destination = new Vector3(targetPos.x, transform.position.y, targetPos.z);
+            yield return new WaitForSeconds(1);
+            yield return null;
+        }
+
+        yield return new WaitUntil(() => agent.remainingDistance < 4f);
         attacking = false;
 
         yield return null;
     }
 
-    void FaceTarget()
+    private IEnumerator FacePlayer()
     {
-        var turnTowardNavSteeringTarget = agent.steeringTarget;
+        float timer = 3f;
+        while (timer > 0f)
+        {
+            timer -= Time.deltaTime;
+            Vector3 targetDirection = player.transform.position - transform.position;
+            float singleStep = 2.5f * Time.deltaTime;
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+            transform.rotation = Quaternion.LookRotation(newDirection);
+            yield return null;
+        }
+    }
 
-        Vector3 direction = (turnTowardNavSteeringTarget - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
+
+
+    private bool RandomPoint(Vector3 center, float range, out Vector3 result)
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            Debug.Log("Picking a random point");
+            Vector3 randomPoint = center + Random.onUnitSphere * range;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                Debug.Log(hit.position);
+                return true;
+            }
+        }
+        result = Vector3.zero;
+        return false;
     }
 
 }
