@@ -24,8 +24,11 @@ public class Rhino : NotBossAI
     [SerializeField, Tooltip("Range it begins slam attack")] private float slamAttackRange = 2f;
 
     [SerializeField, Tooltip("How long it takes for the slam attack to deal damage")] private float slamDelay = 1f;
+    [SerializeField] private float chargeKnockback;
+    [SerializeField] private float slamKnockback;
 
     [SerializeField] private CapsuleCollider attackCollider;
+    [SerializeField] private BoxCollider chargeAttackCollider;
 
     private Rigidbody rb;
     private float baseAttackDamage;
@@ -75,6 +78,7 @@ public class Rhino : NotBossAI
         yield return new WaitForSeconds(chargeDelay);
 
         //Rhino runs towards player until within slam attack range
+        chargeAttackCollider.enabled = true;
         agent.isStopped = false;
         float timer = 1f;
         while (Physics.CheckSphere(transform.position, slamAttackRange, playerLayerMask) == false)
@@ -89,6 +93,7 @@ public class Rhino : NotBossAI
                 agent.acceleration += 1;
                 timer = 2f;
                 attackDamage = Mathf.RoundToInt(agent.velocity.magnitude);
+                knockbackForce = Mathf.Clamp(knockbackForce, Mathf.RoundToInt(agent.velocity.magnitude), 50f);
             }
             yield return null;
         }
@@ -97,12 +102,15 @@ public class Rhino : NotBossAI
         //Starts slam attack
         animator.SetBool("Charge", false);
         StartCoroutine(SlamAttack());
+        yield return new WaitForSeconds(0.1f);
+        chargeAttackCollider.enabled = false;
         yield break;
     }
 
     public IEnumerator SlamAttack()
     {
         //Stops the rhino
+        knockbackForce = slamKnockback;
         agent.isStopped = true;
         animator.SetBool("Slam", true);
         yield return new WaitForSeconds(slamDelay);
@@ -150,19 +158,15 @@ public class Rhino : NotBossAI
         }
     }
 
-
-
     private bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
         for (int i = 0; i < 100; i++)
         {
-            Debug.Log("Picking a random point");
             Vector3 randomPoint = center + Random.onUnitSphere * range;
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
             {
                 result = hit.position;
-                Debug.Log(hit.position);
                 return true;
             }
         }

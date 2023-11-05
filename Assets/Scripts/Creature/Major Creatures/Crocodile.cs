@@ -19,6 +19,8 @@ public class Crocodile : NotBossAI
     private float regularAttackDamage;
     [SerializeField] private BoxCollider burrowAttackCollider;
     [SerializeField] private BoxCollider crocBodyCollider;
+    [SerializeField] private float regularAttackKnockback;
+    [SerializeField] private float burrowAttackKnockback;
     private bool burrowing;
 
     protected override void InitializeStats(float percentDamageIncrease, float percentHealthIncrease)
@@ -57,6 +59,7 @@ public class Crocodile : NotBossAI
     protected IEnumerator RegularAttack()
     {
         //Walks up to the player and attacks in a small cone
+        knockbackForce = regularAttackKnockback;
         agent.stoppingDistance = 7;
         yield return new WaitUntil(() => agent.remainingDistance < 10f);
 
@@ -80,6 +83,7 @@ public class Crocodile : NotBossAI
     protected IEnumerator Dig()
     {
         //Disables collider, increases speed, makes the croc burrow
+        knockbackForce = burrowAttackKnockback;
         animator.SetBool("Burrow", true);
         burrowing = true;
         crocBodyCollider.enabled = false;

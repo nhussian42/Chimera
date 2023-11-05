@@ -249,7 +249,7 @@ NavMeshAgent:
   m_Height: 3.21
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!54 &347248332118851748
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -307,9 +307,12 @@ MonoBehaviour:
   chargeAcceleration: 12
   chargingTurnSpeed: 50
   chargeSpeed: 15
-  slamAttackRange: 3
-  slamDelay: 1.5
+  slamAttackRange: 6
+  slamDelay: 2.2
+  chargeKnockback: 1
+  slamKnockback: 50
   attackCollider: {fileID: 3535758051412530899}
+  chargeAttackCollider: {fileID: 146867853561697142}
 --- !u!65 &5409585568701026752
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -348,10 +351,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.5, y: 1.5, z: 1.5}
-  m_Center: {x: 0, y: 2, z: 2.5}
+  m_Center: {x: 0, y: 2, z: 1.5}
 --- !u!1 &6242412216532888825
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,7 +443,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 3.5
+  m_Radius: 5
   m_Height: 0
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
