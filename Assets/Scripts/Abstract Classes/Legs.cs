@@ -49,5 +49,10 @@ public abstract class Legs : Limb
         cooldownTime = defaultCooldownTime;
     }
 
+    public override void Disintegrate()
+    {
+        base.Disintegrate();
+        PlayerController.Instance.RevertToDefault(this);
+    }
 
 }

@@ -15,6 +15,7 @@ public class ChimeraSceneManager : Singleton<ChimeraSceneManager>
     {
         FloorManager.LeaveRoom += FadeOutToBlack;
         FloorManager.NextRoomLoaded += FadeInToBlack;
+        //PlayerController.OnDie += FadeOutToBlack;
     }
 
     private void OnDisable()

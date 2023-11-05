@@ -81,6 +81,7 @@ public class PlayerController : Singleton<PlayerController>
     public static Action OnDamageReceived;
     public static Action OnArmSwapped;
     public static Action OnGamePaused;
+    public static Action OnDie;
 
     public static Action<LimbDrop> OnLimbDropTriggerStay; // DEBUG
 
@@ -613,6 +614,7 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     // Called when a limb is disintegrated (no health)
+    //public void RevertToDefault (Head currentHead)
     public void RevertToDefault(Arm currentArm)
     {
         if(currentArm.Side == SideOfPlayer.Right)
@@ -633,6 +635,13 @@ public class PlayerController : Singleton<PlayerController>
             currentLeftArm = coreRightArm;
             currentLeftArm.Initialize(this);
         }
+    }
+    public void RevertToDefault(Legs currentLegs)
+    {
+        currentLegs.LoadDefaultStats();
+        currentLegs.gameObject.SetActive(false);
+        coreLegs.gameObject.SetActive(true);
+        currentLegs = coreLegs;
     }
 
     // Called to update the stats of all limbs after modifying equipment (picking up trinkets or swapping limbs)
@@ -681,11 +690,22 @@ public class PlayerController : Singleton<PlayerController>
         {
             float caclulatedDamage = -1 * (damage / (damagedLimbs.Count + 1));
             limb.UpdateHealth(caclulatedDamage);
-            if(limb.Health <= 0 && limb != core ) { limb.Disintegrate(); }
+            if(limb.Health <= 0) 
+            { 
+                if(limb == core) { Die(); }
+                else { limb.Disintegrate(); }
+            }
         }
         Debug.Log(core.Health);
         OnTakeDamage.Invoke();
         OnDamageReceived?.Invoke();
+    }
+
+    private void Die()
+    {
+        DisableAllDefaultControls();
+        ChimeraSceneManager.Instance.LoadScene(0);
+        //OnDie?.Invoke();
     }
 
     // This function is obsolete, delete later when other scripts refactor 
