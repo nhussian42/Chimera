@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class NewTrinketManager : Singleton<NewTrinketManager>
@@ -10,6 +11,8 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
 
     [SerializeField] private int amountPerPickup;
 
+    [SerializeField] private GameObject OptionOneGO;
+    [SerializeField] public Sprite buttonSprite;
     [SerializeField] private Button optionOne;
     [SerializeField] private Button optionTwo;
     [SerializeField] private Button optionThree;
@@ -30,7 +33,12 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
     }
 
     private void OnEnable()
-    {
+    {        
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(OptionOneGO);
+
+        
+
         trinketOne = masterTrinketList.GetRandomTrinket();
         trinketTwo = masterTrinketList.GetRandomTrinket();
         trinketThree = masterTrinketList.GetRandomTrinket();
@@ -41,6 +49,10 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
         optionTwo.GetComponentInChildren<TextMeshProUGUI>().text = trinketTwo.TrinketName;
         optionThree.image.sprite = trinketThree.Icon;
         optionThree.GetComponentInChildren<TextMeshProUGUI>().text = trinketThree.TrinketName;
+
+        optionOne.GetComponent<Image>().sprite = buttonSprite;
+        optionTwo.GetComponent<Image>().sprite = buttonSprite;
+        optionThree.GetComponent<Image>().sprite = buttonSprite;
     }
 
     public void PickupOptionOne()

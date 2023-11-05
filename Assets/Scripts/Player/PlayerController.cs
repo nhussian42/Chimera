@@ -544,6 +544,7 @@ public class PlayerController : Singleton<PlayerController>
                             originalLegs.gameObject.SetActive(false);
                             legs.gameObject.SetActive(true);
                             currentLegs = legs;
+                            currentLegs.Health = newLimb.LimbHealth;
                             // add function here for overwriting current health of equipped legs to match the stored health of the pickup
                         }
                     }
