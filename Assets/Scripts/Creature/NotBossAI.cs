@@ -51,7 +51,7 @@ public class NotBossAI : Creature
             Debug.Log("Dealt damage to player");
             PlayerController.Instance.DistributeDamage(attackDamage);
 
-            StartCoroutine(PlayerKnockback(transform.forward, attackDamage, 0.4f));
+            StartCoroutine(PlayerKnockback((player.transform.position - transform.position).normalized, knockbackForce, 0.4f));
         }
     }
 
