@@ -442,6 +442,8 @@ GameObject:
   - component: {fileID: 5126416605977770030}
   - component: {fileID: 9142033149534888582}
   - component: {fileID: 7284345833402874301}
+  - component: {fileID: 2978274545543960109}
+  - component: {fileID: 6368829804058502981}
   - component: {fileID: 3276741288151932870}
   m_Layer: 7
   m_Name: Wolf
@@ -555,6 +557,36 @@ MonoBehaviour:
   chargeMultiplier: 2.5
   attackCollider: {fileID: 4335156919353796320}
   pounceKnockback: 10
+--- !u!114 &2978274545543960109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362011193862050527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfca4f58197c34396438168a7f6131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPool:
+  - {fileID: 1991673379962358034, guid: 1c91199d63215984f9462610f791fbdd, type: 3}
+  _spawnCondition: 1
+--- !u!114 &6368829804058502981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8362011193862050527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfca4f58197c34396438168a7f6131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPool:
+  - {fileID: 8465967043707308671, guid: d6fcae7f3c1d6ff428a21ff15d19325a, type: 3}
+  _spawnCondition: 1
 --- !u!65 &3276741288151932870
 BoxCollider:
   m_ObjectHideFlags: 0
