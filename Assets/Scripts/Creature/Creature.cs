@@ -15,6 +15,7 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected float currentHealth;
     [SerializeField] protected float attackDamage = 5f;
     [SerializeField] protected float iFrameDuration = 1f; //iFrame for creatures ONLY controls animations
+    protected float knockbackForce = 5;
     private bool iFrame = false;
 
     [field: SerializeField] public CreatureSO CreatureInfo { get; private set; }
