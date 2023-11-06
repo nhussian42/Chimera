@@ -272,7 +272,9 @@ public class PlayerController : Singleton<PlayerController>
         movementValues = _movement.ReadValue<Vector2>();
         movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
+        _movementSpeed = 12f;
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
+        
         if(transform.position.y > 1.5f)
         {
             SetPlayerPosition(new Vector3(transform.position.x, 1.5f, transform.position.z));
@@ -290,7 +292,9 @@ public class PlayerController : Singleton<PlayerController>
 
             OnAttack.Invoke();
 
-            animator.SetTrigger("RightAttack");
+            animator.SetTrigger("BaseAttack");
+            animator.SetBool("LeftSide", false);
+            Debug.Log("R Attack");
 
             if (isRightWolfArm)
                 AudioManager.Instance.PlayPlayerSFX("WolfArm");
@@ -305,7 +309,9 @@ public class PlayerController : Singleton<PlayerController>
 
             //OnAttack.Invoke();
 
-            animator.SetTrigger("LeftAttack");
+            animator.SetTrigger("BaseAttack");
+            animator.SetBool("LeftSide", true);
+            Debug.Log("L Attack");
 
             if (isLeftWolfArm)
                 AudioManager.Instance.PlayPlayerSFX("WolfArm");
