@@ -150,8 +150,9 @@ public class PlayerController : Singleton<PlayerController>
     private void OnDestroy()
     {
         // Called when the player exits the room (loading a new scene destroys all current scene objects)
+        if (core.Health == 0) { saveManager.Reset(); }
+        else { saveManager.SaveLimbData(currentLeftArm, currentRightArm, core, currentLegs); }
         
-        saveManager.SaveLimbData(currentLeftArm, currentRightArm, core, currentLegs);
     }
 
     private void EnableAllDefaultControls()
