@@ -7,6 +7,7 @@ using UnityEngine.WSA;
 public class CompoundTrinket : Trinket
 {
     [SerializeField] List<Trinket> trinketsToActivate = new List<Trinket>();
+
     bool activated;
 
     public override void Enable()

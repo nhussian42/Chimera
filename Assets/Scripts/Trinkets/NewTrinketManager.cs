@@ -48,17 +48,20 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
         trinketTwo = masterTrinketList.GetRandomTrinket();
         trinketThree = masterTrinketList.GetRandomTrinket();
   
-        optionOne.GetComponentInChildren<TextMeshProUGUI>().text = trinketOne.TrinketName;
+        optionOne.GetComponentInChildren<TextMeshProUGUI>().text = trinketOne.TrinketName;  
         trinketDesc[0].text = trinketOne.Description.ToString();
         trinketSprite[0].sprite = trinketOne.Icon;
+        
 
         optionTwo.GetComponentInChildren<TextMeshProUGUI>().text = trinketTwo.TrinketName;
         trinketDesc[1].text = trinketTwo.Description.ToString();
         trinketSprite[1].sprite = trinketTwo.Icon;
+        
 
         optionThree.GetComponentInChildren<TextMeshProUGUI>().text = trinketThree.TrinketName;
         trinketDesc[2].text = trinketThree.Description.ToString();
         trinketSprite[2].sprite = trinketThree.Icon;
+        
 
         optionOne.GetComponent<Image>().sprite = buttonSprite;
         optionTwo.GetComponent<Image>().sprite = buttonSprite;
@@ -68,16 +71,19 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
     public void PickupOptionOne()
     {
         masterTrinketList.Pickup(trinketOne, amountPerPickup);
+        Debug.Log(trinketOne.TrinketName);
         gameObject.SetActive(false);
     }
     public void PickupOptionTwo()
     {
         masterTrinketList.Pickup(trinketTwo, amountPerPickup);
+        Debug.Log(trinketOne.TrinketName);
         gameObject.SetActive(false);
     }
     public void PickupOptionThree()
     {
         masterTrinketList.Pickup(trinketThree, amountPerPickup);
+        Debug.Log(trinketThree.TrinketName);
         gameObject.SetActive(false);
     }
 }
