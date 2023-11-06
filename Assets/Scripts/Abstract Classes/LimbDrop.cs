@@ -25,9 +25,21 @@ public class LimbDrop : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        Vector3 forceDirection = PointOnXZCircle(transform.position, 1f, Random.Range(0,360)).normalized * 20f + Vector3.up * 100f;
+        GetComponent<Rigidbody>().AddForce(forceDirection, ForceMode.Impulse);
+    }
+
     public void OverwriteLimbHealth(float newValue)
     {
         limbHealth = newValue;
+    }
+
+    private Vector3 PointOnXZCircle(Vector3 center, float radius, float angle)
+    {
+        float a = angle * Mathf.PI / 180f;
+        return center + new Vector3(Mathf.Sin(a), 0, Mathf.Cos(a)) * radius;
     }
 
     
