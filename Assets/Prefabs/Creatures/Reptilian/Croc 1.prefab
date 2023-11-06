@@ -230,6 +230,8 @@ GameObject:
   - component: {fileID: 4657480879019292169}
   - component: {fileID: 6221755424438387032}
   - component: {fileID: 5034604635225700840}
+  - component: {fileID: -3162664020276368412}
+  - component: {fileID: -4780591666261039741}
   m_Layer: 7
   m_Name: Croc 1
   m_TagString: Enemy
@@ -336,6 +338,8 @@ MonoBehaviour:
   burrowAttackDamage: 25
   burrowAttackCollider: {fileID: 6221755424438387032}
   crocBodyCollider: {fileID: 5034604635225700840}
+  regularAttackKnockback: 10
+  burrowAttackKnockback: 40
 --- !u!65 &6221755424438387032
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -378,6 +382,36 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4, y: 3, z: 8}
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &-3162664020276368412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4295455712857961172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfca4f58197c34396438168a7f6131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPool:
+  - {fileID: 1991673379962358034, guid: 54d36cfbd2e769f4ba14012ccd0896ea, type: 3}
+  _spawnCondition: 1
+--- !u!114 &-4780591666261039741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4295455712857961172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfca4f58197c34396438168a7f6131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPool:
+  - {fileID: 7937426487983829427, guid: dbcce601d3442aa438271b7491ae394c, type: 3}
+  _spawnCondition: 1
 --- !u!1 &5012345655589828247
 GameObject:
   m_ObjectHideFlags: 0

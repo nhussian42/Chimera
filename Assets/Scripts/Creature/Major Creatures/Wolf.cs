@@ -12,6 +12,7 @@ public class Wolf : NotBossAI
     [SerializeField, Tooltip("How long it charges for")] private float chargeTime = 0.5f;
     [SerializeField, Tooltip("Multiplier to how fast the wolf charges")] private float chargeMultiplier;
     [SerializeField] private GameObject attackCollider;
+    [SerializeField] private float pounceKnockback;
 
 
     private bool inAttackRange = false; //Keeps track of if the wolf is in attack range
@@ -125,6 +126,7 @@ public class Wolf : NotBossAI
 
     public IEnumerator Pounce()
     {
+        knockbackForce = pounceKnockback;
         animator.SetBool("Attack", true);
         AudioManager.Instance.PlayMajEnemySFX("WolfBark");
         agent.isStopped = true;

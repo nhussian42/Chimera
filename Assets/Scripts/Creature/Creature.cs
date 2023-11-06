@@ -15,6 +15,7 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected float currentHealth;
     [SerializeField] protected float attackDamage = 5f;
     [SerializeField] protected float iFrameDuration = 1f; //iFrame for creatures ONLY controls animations
+    protected float knockbackForce = 5;
     private bool iFrame = false;
 
     [field: SerializeField] public CreatureSO CreatureInfo { get; private set; }
@@ -35,7 +36,7 @@ public abstract class Creature : MonoBehaviour
 
     [SerializeField] private CreatureType creatureType;
 
-    //[SerializeField] List<GameObject> drops;
+    // [SerializeField] List<GameObject> drops;
 
     protected Animator animator;
     protected NavMeshAgent agent;
@@ -50,11 +51,13 @@ public abstract class Creature : MonoBehaviour
     public void OnEnable()
     {
         DebugControls.DamageAllCreatures += TakeDamage;
+        FloorManager.AllCreaturesDefeated += DestroyCreature;
     }
 
     public void OnDisable()
     {
         DebugControls.DamageAllCreatures -= TakeDamage;
+        FloorManager.AllCreaturesDefeated -= DestroyCreature;
     }
 
     private void SpawnDrop(GameObject objToSpawn)
@@ -99,11 +102,23 @@ public abstract class Creature : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         //rb.isKinematic = true;
         alive = false;
+
         CreatureManager.AnyCreatureDied?.Invoke();
-        Destroy(this.gameObject, 1.5f);
+        if (creatureType == CreatureType.Minor)
+            DestroyCreature();
+        
+        healthbar.gameObject.SetActive(false);
+
+        //Destroy(this.gameObject, 1.5f);
         StopAllCoroutines();
         //Something happens
         //Death
+    }
+
+    private void DestroyCreature()
+    {
+        // play the dissolve shader
+        Destroy(this.gameObject, 1.5f);
     }
 
     public void Knockback(Vector3 knockbackDir, float knockbackForce, float knockbackDuration)
@@ -143,12 +158,4 @@ public abstract class Creature : MonoBehaviour
         }
         yield return null;
     }
-
-    // protected void SpawnDrop()
-    // {
-    //    foreach(GameObject drop in drops)
-    //     {
-    //         Instantiate(drop, transform.position, Quaternion.identity);
-    //     }
-    // }
 }
