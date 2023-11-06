@@ -294,7 +294,6 @@ public class PlayerController : Singleton<PlayerController>
 
             animator.SetTrigger("BaseAttack");
             animator.SetBool("LeftSide", false);
-            Debug.Log("R Attack");
 
             if (isRightWolfArm)
                 AudioManager.Instance.PlayPlayerSFX("WolfArm");
@@ -311,7 +310,6 @@ public class PlayerController : Singleton<PlayerController>
 
             animator.SetTrigger("BaseAttack");
             animator.SetBool("LeftSide", true);
-            Debug.Log("L Attack");
 
             if (isLeftWolfArm)
                 AudioManager.Instance.PlayPlayerSFX("WolfArm");
