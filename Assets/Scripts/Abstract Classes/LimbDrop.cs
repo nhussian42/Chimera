@@ -22,6 +22,7 @@ public class LimbDrop : MonoBehaviour
         {
             limbHealth = 100f;
         }
+        //Debug.Log("limbHealth: " + limbHealth);
 
     }
 

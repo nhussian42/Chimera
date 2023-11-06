@@ -521,6 +521,7 @@ public class PlayerController : Singleton<PlayerController>
                     arm.gameObject.SetActive(true);
                     currentRightArm = arm;
                     currentRightArm.Initialize(this);
+                    currentRightArm.LoadDefaultStats();
                     currentRightArm.Health = newArm.LimbHealth;
 
                 }
@@ -535,6 +536,7 @@ public class PlayerController : Singleton<PlayerController>
                     arm.gameObject.SetActive(true);
                     currentLeftArm = arm;
                     currentLeftArm.Initialize(this);
+                    currentLeftArm.LoadDefaultStats();
                     currentLeftArm.Health = newArm.LimbHealth;
                 }
             }
@@ -571,7 +573,8 @@ public class PlayerController : Singleton<PlayerController>
                         savedArm.AttackSpeed,
                         savedArm.MaxHealth,
                         savedArm.Health);
-
+                    //Debug.Log("savedArm.Health: " + savedArm.Health);
+                    //Debug.Log("currentRightArm.Health: " + currentRightArm.Health);
                 }
                 else if (savedArm.Side == SideOfPlayer.Left)
                 {
@@ -588,6 +591,8 @@ public class PlayerController : Singleton<PlayerController>
                         savedArm.AttackSpeed,
                         savedArm.MaxHealth,
                         savedArm.Health);
+                    //Debug.Log("savedArm.Health: " + savedArm.Health);
+                    //Debug.Log("currentLeftArm.Health: " + currentLeftArm.Health);
                 }
             }
         } 
@@ -622,8 +627,8 @@ public class PlayerController : Singleton<PlayerController>
             currentRightArm.Terminate();
             currentRightArm.LoadDefaultStats();
             currentRightArm.gameObject.SetActive(false);
-            coreRightArm.gameObject.SetActive(true);
             currentRightArm = coreRightArm;
+            currentRightArm.gameObject.SetActive(true);
             currentRightArm.Initialize(this);
         }
         else
@@ -631,8 +636,8 @@ public class PlayerController : Singleton<PlayerController>
             currentLeftArm.Terminate();
             currentLeftArm.LoadDefaultStats();
             currentLeftArm.gameObject.SetActive(false);
-            coreLeftArm.gameObject.SetActive(true);
-            currentLeftArm = coreRightArm;
+            currentLeftArm = coreLeftArm;
+            currentLeftArm.gameObject.SetActive(true);
             currentLeftArm.Initialize(this);
         }
     }
@@ -696,7 +701,7 @@ public class PlayerController : Singleton<PlayerController>
                 else { limb.Disintegrate(); }
             }
         }
-        Debug.Log(core.Health);
+        //Debug.Log(core.Health);
         OnTakeDamage.Invoke();
         OnDamageReceived?.Invoke();
     }
