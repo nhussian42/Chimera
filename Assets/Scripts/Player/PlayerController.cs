@@ -306,7 +306,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             //currentRightArm.PauseInput();
 
-            //OnAttack.Invoke();
+            OnAttack.Invoke();
 
             animator.SetTrigger("BaseAttack");
             animator.SetBool("LeftSide", true);
