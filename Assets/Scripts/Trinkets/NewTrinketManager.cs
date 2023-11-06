@@ -13,9 +13,14 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
 
     [SerializeField] private GameObject OptionOneGO;
     [SerializeField] public Sprite buttonSprite;
+
     [SerializeField] private Button optionOne;
     [SerializeField] private Button optionTwo;
     [SerializeField] private Button optionThree;
+
+    [SerializeField] public List<TextMeshProUGUI> trinketDesc;
+    [SerializeField] public List<Image> trinketSprite;
+
     [HideInInspector] public Trinket trinketOne { get; private set; }
     [HideInInspector] public Trinket trinketTwo { get; private set; }
     [HideInInspector] public Trinket trinketThree { get; private set; }
@@ -42,13 +47,18 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
         trinketOne = masterTrinketList.GetRandomTrinket();
         trinketTwo = masterTrinketList.GetRandomTrinket();
         trinketThree = masterTrinketList.GetRandomTrinket();
-
-        optionOne.image.sprite = trinketOne.Icon;
+  
         optionOne.GetComponentInChildren<TextMeshProUGUI>().text = trinketOne.TrinketName;
-        optionTwo.image.sprite = trinketTwo.Icon;
+        trinketDesc[0].text = trinketOne.Description.ToString();
+        trinketSprite[0].sprite = trinketOne.Icon;
+
         optionTwo.GetComponentInChildren<TextMeshProUGUI>().text = trinketTwo.TrinketName;
-        optionThree.image.sprite = trinketThree.Icon;
+        trinketDesc[1].text = trinketTwo.Description.ToString();
+        trinketSprite[1].sprite = trinketTwo.Icon;
+
         optionThree.GetComponentInChildren<TextMeshProUGUI>().text = trinketThree.TrinketName;
+        trinketDesc[2].text = trinketThree.Description.ToString();
+        trinketSprite[2].sprite = trinketThree.Icon;
 
         optionOne.GetComponent<Image>().sprite = buttonSprite;
         optionTwo.GetComponent<Image>().sprite = buttonSprite;
