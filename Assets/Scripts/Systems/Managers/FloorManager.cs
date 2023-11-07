@@ -34,6 +34,14 @@ public class FloorManager : Singleton<FloorManager>
     {
         LoadNextRoom += LoadNextRoomIndex;
         AllCreaturesDefeated += GenerateNewCombatRooms;
+        PlayerController.OnDie += LoadMainMenu;
+    }
+
+    private void OnDisable()
+    {
+        LoadNextRoom -= LoadNextRoomIndex;
+        AllCreaturesDefeated -= GenerateNewCombatRooms;
+        PlayerController.OnDie -= LoadMainMenu;
     }
 
     private void Start()
@@ -42,21 +50,20 @@ public class FloorManager : Singleton<FloorManager>
         DetermineNextRoom();
     }
 
-    private void OnDisable()
-    {
-        LoadNextRoom -= LoadNextRoomIndex;
-        AllCreaturesDefeated -= GenerateNewCombatRooms;
-    }
-
     private void LoadNextRoomIndex()
     {
         if (_currentRoomIndex <= currentFloor.numCombatRooms)
             ChimeraSceneManager.Instance.LoadScene(combatRoomBuildIndex);
         else
         {
-            _currentRoomIndex = 0;
-            ChimeraSceneManager.Instance.LoadScene(0); // Loads main menu after boss room
+            LoadMainMenu(); // load main menu after boss room
         }
+    }
+
+    private void LoadMainMenu()
+    {
+        _currentRoomIndex = 0;
+        ChimeraSceneManager.Instance.LoadScene(0);
     }
 
     private void DetermineNextRoom()
