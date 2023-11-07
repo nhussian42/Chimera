@@ -274,12 +274,11 @@ public class PlayerController : Singleton<PlayerController>
         movementValues = _movement.ReadValue<Vector2>();
         movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
-        _movementSpeed = 12f;
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
         
         if(transform.position.y > 1.5f)
         {
-            SetPlayerPosition(new Vector3(transform.position.x, 1.5f, transform.position.z));
+            SetPlayerPosition(new Vector3(transform.position.x, 0, transform.position.z));
             Debug.Log("Artifical Gravity activated");
         }
         animator.SetFloat("Speed", movementValues.magnitude * _movementSpeed / 10f);
@@ -715,8 +714,7 @@ public class PlayerController : Singleton<PlayerController>
     private void Die()
     {
         DisableAllDefaultControls();
-        ChimeraSceneManager.Instance.LoadScene(0);
-        //OnDie?.Invoke();
+        OnDie?.Invoke();
     }
 
     // This function is obsolete, delete later when other scripts refactor 
