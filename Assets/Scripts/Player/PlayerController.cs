@@ -498,65 +498,52 @@ public class PlayerController : Singleton<PlayerController>
     {
         foreach (Legs legs in allLegs)
         {
-            case LimbType.Head:
-                Debug.Log("Heads are not implemented yet!");
-                break;
-            case LimbType.Arm:
-                if(originalLimb.gameObject.TryGetComponent<Arm>(out Arm originalArm) != false)
+            if (legs.Weight == newLegs.Weight && legs.Classification == newLegs.Classification)
+            {
+                originalLegs.gameObject.SetActive(false);
+                legs.gameObject.SetActive(true);
+                currentLegs = legs;
+                // add function here for overwriting current health of equipped legs to match the stored health of the pickup
+            }
+        }
+        OnSwapLimbs.Invoke();
+    }
+    private void SwapLimb(Arm originalArm, LimbDrop newArm)
+    {
+        foreach (Arm arm in allArms)
+        {
+            if (arm.Weight == newArm.Weight && arm.Classification == newArm.Classification && arm.Side == originalArm.Side)
+            {
+                if (originalArm.Side == SideOfPlayer.Right)
                 {
-                    foreach (Arm arm in allArms)
+                    isRightWolfArm = true; // Refactor later to be have sounds play for all limbs
+                    if (currentRightArm != null)
                     {
-                        if (arm.Weight == newLimb.Weight && arm.Classification == newLimb.Classification && arm.Side == originalArm.Side)
-                        {
-                            if (originalArm.Side == SideOfPlayer.Right)
-                            {
-                                isRightWolfArm = true; // Refactor later to be have sounds play for all limbs
-                                if (currentRightArm != null)
-                                {
-                                    currentRightArm.Terminate();
-                                    currentRightArm.gameObject.SetActive(false);
-                                }
-                                arm.gameObject.SetActive(true);
-                                currentRightArm = arm;
-                                currentRightArm.Initialize(this);
-                                currentRightArm.Health = newLimb.LimbHealth;
+                        currentRightArm.Terminate();
+                        currentRightArm.gameObject.SetActive(false);
+                    }
+                    arm.gameObject.SetActive(true);
+                    currentRightArm = arm;
+                    currentRightArm.Initialize(this);
+                    currentRightArm.LoadDefaultStats();
+                    currentRightArm.Health = newArm.LimbHealth;
 
-                            }
-                            else if (originalArm.Side == SideOfPlayer.Left)
-                            {
-                                isLeftWolfArm = true; // Refactor later to be have sounds play for all limbs
-                                if (currentLeftArm != null)
-                                {
-                                    currentLeftArm.Terminate();
-                                    currentLeftArm.gameObject.SetActive(false);
-                                }
-                                arm.gameObject.SetActive(true);
-                                currentLeftArm = arm;
-                                currentLeftArm.Initialize(this);
-                                currentLeftArm.Health = newLimb.LimbHealth;
-                            }
-                        }
-                    }
                 }
-                else { Debug.Log("Limb type mismatch,"); }
-                break;
-            case LimbType.Legs:
-                if (originalLimb.gameObject.TryGetComponent<Legs>(out Legs originalLegs) != false)
+                else if (originalArm.Side == SideOfPlayer.Left)
                 {
-                    foreach (Legs legs in allLegs)
+                    isLeftWolfArm = true; // Refactor later to be have sounds play for all limbs
+                    if (currentLeftArm != null)
                     {
-                        if (legs.Weight == newLimb.Weight && legs.Classification == newLimb.Classification)
-                        {
-                            originalLegs.gameObject.SetActive(false);
-                            legs.gameObject.SetActive(true);
-                            currentLegs = legs;
-                            currentLegs.Health = newLimb.LimbHealth;
-                            // add function here for overwriting current health of equipped legs to match the stored health of the pickup
-                        }
+                        currentLeftArm.Terminate();
+                        currentLeftArm.gameObject.SetActive(false);
                     }
+                    arm.gameObject.SetActive(true);
+                    currentLeftArm = arm;
+                    currentLeftArm.Initialize(this);
+                    currentLeftArm.LoadDefaultStats();
+                    currentLeftArm.Health = newArm.LimbHealth;
                 }
-                else { Debug.Log("Limb type mismatch"); }
-                break;
+            }
         }
         OnSwapLimbs.Invoke();
     }
