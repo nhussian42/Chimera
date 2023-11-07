@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Audio;
 using TMPro;
 
-public class OptionsController : MonoBehaviour
+public class SettingsController : MonoBehaviour
 {
     [SerializeField]
     private Slider _masterSlider, _musicSlider, _sfxSlider;
@@ -46,8 +46,11 @@ public class OptionsController : MonoBehaviour
     public void SFXVolume()
     {
         sfxPercent.text = Mathf.RoundToInt(_sfxSlider.value * 100) + "%";
-        AudioManager.Instance.SFXVolume(_sfxSlider.value); 
-        AudioManager.Instance.WorldVolume(_sfxSlider.value);
+        AudioManager.Instance.MenuSFXVolume(_sfxSlider.value); 
+        AudioManager.Instance.WorldSFXVolume(_sfxSlider.value);
+        AudioManager.Instance.MinEnemySFXVolume(_sfxSlider.value);
+        AudioManager.Instance.MajEnemySFXVolume(_sfxSlider.value);
+        AudioManager.Instance.PlayerSFXVolume(_sfxSlider.value);
         SaveValues.sfxVolume = _sfxSlider.value;
     }
 
