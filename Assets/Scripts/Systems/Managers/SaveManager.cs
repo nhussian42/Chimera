@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SaveManager : Singleton<SaveManager>
@@ -35,5 +36,10 @@ public class SaveManager : Singleton<SaveManager>
         //Debug.Log(savedLeftArm.AttackDamage);
         //Debug.Log(savedLeftArm.AttackSpeed);
         //Debug.Log(savedLeftArm.Health);
+    }
+
+    public void Reset()
+    {
+        firstLoad = true;
     }
 }

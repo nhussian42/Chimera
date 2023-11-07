@@ -27,6 +27,7 @@ public abstract class Limb : MonoBehaviour
     public void UpdateHealth(float amount)
     {
         currentHealth = Mathf.Clamp(currentHealth + amount, minHealth, maxHealth);
+        if(currentHealth <= minHealth) { Disintegrate(); }
     }
 
     // called by PlayerController at beginning of session for each limb
@@ -34,5 +35,11 @@ public abstract class Limb : MonoBehaviour
     {
         maxHealth = defaultMaxHealth;
         currentHealth = Mathf.Clamp(defaultHealth, minHealth, maxHealth);
+    }
+
+    public virtual void Disintegrate()
+    {
+        // shader dissolve thing here maybe?
+        
     }
 }

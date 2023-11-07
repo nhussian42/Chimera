@@ -81,6 +81,7 @@ public class PlayerController : Singleton<PlayerController>
     public static Action OnDamageReceived;
     public static Action OnArmSwapped;
     public static Action OnGamePaused;
+    public static Action OnDie;
 
     public static Action<LimbDrop> OnLimbDropTriggerStay; // DEBUG
 
@@ -149,8 +150,9 @@ public class PlayerController : Singleton<PlayerController>
     private void OnDestroy()
     {
         // Called when the player exits the room (loading a new scene destroys all current scene objects)
+        if (core.Health == 0) { saveManager.Reset(); }
+        else { saveManager.SaveLimbData(currentLeftArm, currentRightArm, core, currentLegs); }
         
-        saveManager.SaveLimbData(currentLeftArm, currentRightArm, core, currentLegs);
     }
 
     private void EnableAllDefaultControls()
@@ -273,9 +275,10 @@ public class PlayerController : Singleton<PlayerController>
         movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
+        
         if(transform.position.y > 1.5f)
         {
-            SetPlayerPosition(new Vector3(transform.position.x, 1.5f, transform.position.z));
+            SetPlayerPosition(new Vector3(transform.position.x, 0, transform.position.z));
             Debug.Log("Artifical Gravity activated");
         }
         animator.SetFloat("Speed", movementValues.magnitude * _movementSpeed / 10f);
@@ -290,7 +293,8 @@ public class PlayerController : Singleton<PlayerController>
 
             OnAttack.Invoke();
 
-            animator.SetTrigger("RightAttack");
+            animator.SetTrigger("BaseAttack");
+            animator.SetBool("LeftSide", false);
 
             if (isRightWolfArm)
                 AudioManager.Instance.PlayPlayerSFX("WolfArm");
@@ -303,9 +307,10 @@ public class PlayerController : Singleton<PlayerController>
         {
             //currentRightArm.PauseInput();
 
-            //OnAttack.Invoke();
+            OnAttack.Invoke();
 
-            animator.SetTrigger("LeftAttack");
+            animator.SetTrigger("BaseAttack");
+            animator.SetBool("LeftSide", true);
 
             if (isLeftWolfArm)
                 AudioManager.Instance.PlayPlayerSFX("WolfArm");
@@ -487,10 +492,11 @@ public class PlayerController : Singleton<PlayerController>
         OnArmSwapped?.Invoke();
     }
 
-    // Called to universally swap limbs from the ground (refactor into three overloaded functions later) - Amon
-    private void SwapLimb(Limb originalLimb, LimbDrop newLimb) 
+    // Called to swap a current limb with a limb drop
+    //private void SwapLimb(Head originalHead, LimbDrop newHead)
+    private void SwapLimb(Legs originalLegs, LimbDrop newLegs)
     {
-        switch (newLimb.LimbType)
+        foreach (Legs legs in allLegs)
         {
             case LimbType.Head:
                 Debug.Log("Heads are not implemented yet!");
@@ -552,10 +558,7 @@ public class PlayerController : Singleton<PlayerController>
                 else { Debug.Log("Limb type mismatch"); }
                 break;
         }
-        //currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
-        //modifiedStatsSO.ResetValues();
         OnSwapLimbs.Invoke();
-        //modifiedStatsSO.CalculateFinalValues();
     }
 
     // Called to instantiate a limb drop after swapping it
@@ -564,7 +567,8 @@ public class PlayerController : Singleton<PlayerController>
         // call after swap limb to drop your current limb on the ground
     }
 
-    // Called to load saved data into limbs after loading a new scene (add heads here later)
+    // Called to load saved data into limbs after loading a new scene
+    //private void LoadSavedLimb(Head savedHead)
     private void LoadSavedLimb(Arm savedArm)
     {
         foreach (Arm arm in allArms)
@@ -586,7 +590,8 @@ public class PlayerController : Singleton<PlayerController>
                         savedArm.AttackSpeed,
                         savedArm.MaxHealth,
                         savedArm.Health);
-
+                    //Debug.Log("savedArm.Health: " + savedArm.Health);
+                    //Debug.Log("currentRightArm.Health: " + currentRightArm.Health);
                 }
                 else if (savedArm.Side == SideOfPlayer.Left)
                 {
@@ -603,6 +608,8 @@ public class PlayerController : Singleton<PlayerController>
                         savedArm.AttackSpeed,
                         savedArm.MaxHealth,
                         savedArm.Health);
+                    //Debug.Log("savedArm.Health: " + savedArm.Health);
+                    //Debug.Log("currentLeftArm.Health: " + currentLeftArm.Health);
                 }
             }
         } 
@@ -626,6 +633,37 @@ public class PlayerController : Singleton<PlayerController>
     private void LoadSavedLimb(Core savedCore) 
     {
         core.LoadStats(savedCore.MaxHealth, savedCore.Health);  
+    }
+
+    // Called when a limb is disintegrated (no health)
+    //public void RevertToDefault (Head currentHead)
+    public void RevertToDefault(Arm currentArm)
+    {
+        if(currentArm.Side == SideOfPlayer.Right)
+        {
+            currentRightArm.Terminate();
+            currentRightArm.LoadDefaultStats();
+            currentRightArm.gameObject.SetActive(false);
+            currentRightArm = coreRightArm;
+            currentRightArm.gameObject.SetActive(true);
+            currentRightArm.Initialize(this);
+        }
+        else
+        {
+            currentLeftArm.Terminate();
+            currentLeftArm.LoadDefaultStats();
+            currentLeftArm.gameObject.SetActive(false);
+            currentLeftArm = coreLeftArm;
+            currentLeftArm.gameObject.SetActive(true);
+            currentLeftArm.Initialize(this);
+        }
+    }
+    public void RevertToDefault(Legs currentLegs)
+    {
+        currentLegs.LoadDefaultStats();
+        currentLegs.gameObject.SetActive(false);
+        coreLegs.gameObject.SetActive(true);
+        currentLegs = coreLegs;
     }
 
     // Called to update the stats of all limbs after modifying equipment (picking up trinkets or swapping limbs)
@@ -660,6 +698,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void DistributeDamage(float damage)
     {
+        animator.SetTrigger("TakeDamage");
         AudioManager.Instance.PlayPlayerSFX("MinHit");
         List<Limb> damagedLimbs = new List<Limb>();
 
@@ -674,10 +713,21 @@ public class PlayerController : Singleton<PlayerController>
         {
             float caclulatedDamage = -1 * (damage / (damagedLimbs.Count + 1));
             limb.UpdateHealth(caclulatedDamage);
+            if(limb.Health <= 0) 
+            { 
+                if(limb == core) { Die(); }
+                else { limb.Disintegrate(); }
+            }
         }
-        Debug.Log(core.Health);
+        //Debug.Log(core.Health);
         OnTakeDamage.Invoke();
         OnDamageReceived?.Invoke();
+    }
+
+    private void Die()
+    {
+        DisableAllDefaultControls();
+        OnDie?.Invoke();
     }
 
     // This function is obsolete, delete later when other scripts refactor 

@@ -11,11 +11,8 @@ GameObject:
   - component: {fileID: 1116198844490198364}
   - component: {fileID: 6422848831184760907}
   - component: {fileID: 2396686290583257146}
-  - component: {fileID: 3646309425986593480}
-  - component: {fileID: 270030145954540247}
-  - component: {fileID: 7763123203721146364}
   m_Layer: 0
-  m_Name: WolfArm_L
+  m_Name: Wolf_Arm_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,14 +25,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4473502658609642979}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 1, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.037560046, w: 0.99929446}
+  m_LocalPosition: {x: 1.84, y: 1.23, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 703859972947461443}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -4.305}
 --- !u!33 &6422848831184760907
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -86,68 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3646309425986593480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4473502658609642979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abae3f36736b58a42ae5a0f079f3b78e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  classification: 0
-  weight: 2
---- !u!135 &270030145954540247
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4473502658609642979}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 18.896406
-  m_Center: {x: -15.465383, y: -16.212645, z: -4.779261}
---- !u!54 &7763123203721146364
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4473502658609642979}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &8465967043707308671
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,6 +95,7 @@ GameObject:
   - component: {fileID: 6608880605014765258}
   - component: {fileID: 3244514245376401728}
   - component: {fileID: 7998381026548464130}
+  - component: {fileID: 6143212846419447494}
   m_Layer: 0
   m_Name: WolfArmDrop
   m_TagString: Untagged
@@ -181,7 +117,7 @@ Transform:
   m_Children:
   - {fileID: 1116198844490198364}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6608880605014765258
 Rigidbody:
@@ -191,7 +127,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8465967043707308671}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -208,7 +144,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &3244514245376401728
 BoxCollider:
@@ -229,8 +165,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.2048283, y: 5.665719, z: 3.1393337}
-  m_Center: {x: 0.096982, y: 0.3304032, z: -0.30268955}
+  m_Size: {x: 5, y: 7, z: 5}
+  m_Center: {x: 0, y: 1.6, z: 0}
 --- !u!114 &7998381026548464130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,3 +182,24 @@ MonoBehaviour:
   weight: 2
   classification: 0
   type: 1
+--- !u!65 &6143212846419447494
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8465967043707308671}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.71, y: 3.742715, z: 2.98}
+  m_Center: {x: 0, y: 0.0013577938, z: 0}
