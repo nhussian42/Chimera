@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.WSA;
 
 [CreateAssetMenu(fileName = "Scriptable Objects", menuName = "Scriptable Objects/Test/TestCoroutineSO", order = 1)]
 public class TestCoroutineSO : Trinket

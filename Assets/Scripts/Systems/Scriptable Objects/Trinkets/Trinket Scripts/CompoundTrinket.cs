@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.WSA;
 
 [CreateAssetMenu(fileName = "Scriptable Objects", menuName = "Scriptable Objects/Trinkets/CompoundTrinket", order = 1)]
 public class CompoundTrinket : Trinket
