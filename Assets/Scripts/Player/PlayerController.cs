@@ -686,6 +686,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void DistributeDamage(float damage)
     {
+        animator.SetTrigger("TakeDamage");
         AudioManager.Instance.PlayPlayerSFX("MinHit");
         List<Limb> damagedLimbs = new List<Limb>();
 
