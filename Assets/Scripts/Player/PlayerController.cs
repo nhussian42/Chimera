@@ -337,13 +337,13 @@ public class PlayerController : Singleton<PlayerController>
         if (_unpause.triggered == true || _closeEM.triggered == true)
         {
             UIManager.ResumePressed?.Invoke();
-            EquipMenu.SetActive(false);
+            //EquipMenu.SetActive(false);
         }
 
         if (_openEM.triggered == true)
         {
             Pause();
-            EquipMenu.SetActive(true);
+            //EquipMenu.SetActive(true);
         }
     }
 
