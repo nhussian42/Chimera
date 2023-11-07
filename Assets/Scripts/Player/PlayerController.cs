@@ -547,6 +547,7 @@ public class PlayerController : Singleton<PlayerController>
         }
         OnSwapLimbs.Invoke();
     }
+    
 
     // Called to instantiate a limb drop after swapping it
     private void DropLimb(Limb droppedLimb)
