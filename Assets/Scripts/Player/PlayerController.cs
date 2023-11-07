@@ -279,7 +279,7 @@ public class PlayerController : Singleton<PlayerController>
         
         if(transform.position.y > 1.5f)
         {
-            SetPlayerPosition(new Vector3(transform.position.x, 1.5f, transform.position.z));
+            SetPlayerPosition(new Vector3(transform.position.x, 0, transform.position.z));
             Debug.Log("Artifical Gravity activated");
         }
         animator.SetFloat("Speed", movementValues.magnitude * _movementSpeed / 10f);
