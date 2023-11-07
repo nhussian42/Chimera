@@ -60,15 +60,13 @@ public class Crocodile : NotBossAI
     {
         //Walks up to the player and attacks in a small cone
         knockbackForce = regularAttackKnockback;
-        agent.stoppingDistance = 15;
-        yield return new WaitUntil(() => agent.remainingDistance < agent.stoppingDistance);
+        agent.stoppingDistance = 6;
+        yield return new WaitUntil(() => agent.remainingDistance <= agent.stoppingDistance);
 
-        rb.AddForce(gameObject.transform.forward * agent.remainingDistance, ForceMode.Impulse);
         animator.SetBool("Charge", true);
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);
 
-        rb.velocity = Vector3.zero;
         attackCollider.enabled = false;
         animator.SetBool("Charge", false);
         agent.isStopped = true;

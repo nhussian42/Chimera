@@ -281,9 +281,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 14
+  m_Constraints: 4
   m_CollisionDetection: 2
 --- !u!195 &687515750917219629
 NavMeshAgent:
@@ -294,7 +294,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4295455712857961172}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 2.5
   m_Speed: 7
   m_Acceleration: 12
   avoidancePriority: 50
@@ -341,7 +341,7 @@ MonoBehaviour:
   burrowAttackCollider: {fileID: 6221755424438387032}
   crocBodyCollider: {fileID: 2223943163951464368}
   crocDamageCollider: {fileID: 5339096347612801011}
-  regularAttackKnockback: 10
+  regularAttackKnockback: 15
   burrowAttackKnockback: 40
 --- !u!65 &6221755424438387032
 BoxCollider:
