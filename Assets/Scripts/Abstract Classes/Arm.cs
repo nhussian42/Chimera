@@ -102,6 +102,7 @@ public abstract class Arm : Limb
         attackSpeed = atkSpd;
         maxHealth = maxHP;
         Health = currentHP;
+        //Debug.Log(this.name + "'s current health: " + Health);
     }
 
     public override void LoadDefaultStats()
@@ -111,6 +112,11 @@ public abstract class Arm : Limb
         attackSpeed = defaultAttackSpeed;
     }
 
+    public override void Disintegrate()
+    {
+        base.Disintegrate();
+        PlayerController.Instance.RevertToDefault(this);
+    }
 
     public void DebugLog()
     {
