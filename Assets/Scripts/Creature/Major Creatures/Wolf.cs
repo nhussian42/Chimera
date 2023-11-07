@@ -110,7 +110,7 @@ public class Wolf : NotBossAI
 
             agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
 
-            if (Vector3.Distance(player.transform.position, transform.position) < 8f)
+            if (Vector3.Distance(player.transform.position, transform.position) < 4f)
             {
                 StartCoroutine(Pounce());
                 yield break;

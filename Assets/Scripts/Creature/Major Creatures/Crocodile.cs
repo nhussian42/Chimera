@@ -16,9 +16,10 @@ public class Crocodile : NotBossAI
     private float remainingDigCooldown = 0f; //Actual value that track remaining dig cooldown
     [SerializeField] private MeshCollider attackCollider;
     [SerializeField] private float burrowAttackDamage;
-    private float regularAttackDamage;
+    [SerializeField] private float regularAttackDamage;
     [SerializeField] private BoxCollider burrowAttackCollider;
     [SerializeField] private BoxCollider crocBodyCollider;
+    [SerializeField] private CapsuleCollider crocDamageCollider;
     [SerializeField] private float regularAttackKnockback;
     [SerializeField] private float burrowAttackKnockback;
     private bool burrowing;
@@ -32,7 +33,6 @@ public class Crocodile : NotBossAI
 
     protected void Start()
     {
-        regularAttackDamage = attackDamage;
         transform.position = new Vector3(transform.position.x, 1, transform.position.z);
         rb = GetComponent<Rigidbody>();
         agent.destination = player.transform.position;
@@ -60,15 +60,13 @@ public class Crocodile : NotBossAI
     {
         //Walks up to the player and attacks in a small cone
         knockbackForce = regularAttackKnockback;
-        agent.stoppingDistance = 7;
-        yield return new WaitUntil(() => agent.remainingDistance < 10f);
+        agent.stoppingDistance = 6;
+        yield return new WaitUntil(() => agent.remainingDistance <= agent.stoppingDistance);
 
-        rb.AddForce(gameObject.transform.forward * agent.remainingDistance, ForceMode.Impulse);
         animator.SetBool("Charge", true);
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);
 
-        rb.velocity = Vector3.zero;
         attackCollider.enabled = false;
         animator.SetBool("Charge", false);
         agent.isStopped = true;
@@ -87,6 +85,7 @@ public class Crocodile : NotBossAI
         animator.SetBool("Burrow", true);
         burrowing = true;
         crocBodyCollider.enabled = false;
+        crocDamageCollider.enabled = false;
         agent.stoppingDistance = 2;
         agent.isStopped = true;
         agent.speed = burrowSpeed;
@@ -112,13 +111,13 @@ public class Crocodile : NotBossAI
         //Burrow attack collider disabled, croc can take damage again, attack damage reset, goes back to chasing
         burrowAttackCollider.enabled = false;
         crocBodyCollider.enabled = true;
+        crocDamageCollider.enabled = false;
         attackDamage = regularAttackDamage;
         GetComponentInChildren<Canvas>().enabled = true;
         burrowing = false;
         agent.isStopped = false;
         agent.updateRotation = true;
         remainingDigCooldown = digCooldown;
-        yield return new WaitForSeconds(1f);
         attacking = false;
         yield return null;
     }
@@ -160,4 +159,5 @@ public class Crocodile : NotBossAI
             base.TakeDamage(damage);
         }
     }
+
 }

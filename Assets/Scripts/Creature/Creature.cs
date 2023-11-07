@@ -106,7 +106,7 @@ public abstract class Creature : MonoBehaviour
         CreatureManager.AnyCreatureDied?.Invoke();
         if (creatureType == CreatureType.Minor)
             DestroyCreature();
-        
+
         healthbar.gameObject.SetActive(false);
 
         //Destroy(this.gameObject, 1.5f);
@@ -152,6 +152,7 @@ public abstract class Creature : MonoBehaviour
         while (timer > 0)
         {
             timer -= Time.deltaTime;
+            knockbackDir = new Vector3(knockbackDir.x, 0, knockbackDir.z);
             float knockbackDistance = Mathf.Lerp(0, knockbackForce * 2, timer);
             PlayerController.Instance._controller.Move(knockbackDir.normalized * knockbackDistance * Time.deltaTime);
             yield return null;
