@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SaveManager : Singleton<SaveManager>
@@ -22,7 +23,7 @@ public class SaveManager : Singleton<SaveManager>
         firstLoad = true;
         DontDestroyOnLoad(this);
     }
-    
+
     public void SaveLimbData(Arm leftArm, Arm rightArm, Core core, Legs legs)
     {
         // Add legs and head data here and in parameters later
@@ -35,5 +36,10 @@ public class SaveManager : Singleton<SaveManager>
         //Debug.Log(savedLeftArm.AttackDamage);
         //Debug.Log(savedLeftArm.AttackSpeed);
         //Debug.Log(savedLeftArm.Health);
+    }
+
+    public void Reset()
+    {
+        firstLoad = true;
     }
 }

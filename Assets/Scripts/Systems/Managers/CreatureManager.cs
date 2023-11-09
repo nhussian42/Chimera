@@ -6,4 +6,6 @@ using UnityEngine;
 public class CreatureManager : MonoBehaviour
 {
     public static Action AnyCreatureDied;
+    public static Action MajorCreatureDied;
+    public static Action MinorCreatureDied;
 }

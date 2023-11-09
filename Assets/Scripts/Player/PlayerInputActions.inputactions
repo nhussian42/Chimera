@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "OpenEM",
+                    "type": "Button",
+                    "id": "645fdc19-295b-411a-a7ba-e20a2ce188d7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Look",
                     "type": "Value",
                     "id": "15b3c20a-221c-4db4-8b8a-b3096160d433",
@@ -205,7 +214,7 @@
                 {
                     "name": "",
                     "id": "45cc22bf-91d9-40dd-ae49-3a3c741fa942",
-                    "path": "<Gamepad>/select",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -245,6 +254,17 @@
                     "action": "LegsAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d00f5039-296c-48a0-99c2-7da7e08fc017",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenEM",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -256,6 +276,15 @@
                     "name": "UnPause",
                     "type": "Button",
                     "id": "766ddcfd-2f22-40ff-8912-b1a64d25cc25",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CloseEM",
+                    "type": "Button",
+                    "id": "b08b0f06-5429-4719-a6a6-4ed79a5ff45c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -277,11 +306,33 @@
                 {
                     "name": "",
                     "id": "c979f680-9230-41f2-9c0a-15f741e2407b",
-                    "path": "<Gamepad>/select",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "UnPause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b4bd3823-a1aa-4eed-8741-afe2317b09a1",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseEM",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2e7f63d-9f75-435b-bc86-3c3e1100c942",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseEM",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

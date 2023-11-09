@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class DebugControls : MonoBehaviour
 {
     public static Action<int> DamageAllCreatures;
     public static Action SpawnDebugCreature;
+    public static Action toggleTrinketBuffMenu;
 
     #if DEVELOPMENT_BUILD || UNITY_EDITOR
     private void Update()
@@ -18,7 +20,8 @@ public class DebugControls : MonoBehaviour
 
         // D = PlayerInputActions Move
 
-        // E = AMON STUFF // TRINKET TIMER
+        // E = Pause Menu?
+        
 
         // F
         // G
@@ -44,6 +47,10 @@ public class DebugControls : MonoBehaviour
             DamageAllCreatures?.Invoke(10);
 
         // Q
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            toggleTrinketBuffMenu?.Invoke();
+        }
         // R
 
         // S = PlayerInputActions Move
@@ -53,7 +60,7 @@ public class DebugControls : MonoBehaviour
         // V
 
         // W = PlayerInputActions Move
-        
+
         // X
         // Y
         // Z

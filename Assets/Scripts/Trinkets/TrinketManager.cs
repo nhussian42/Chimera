@@ -38,10 +38,6 @@ public class TrinketManager : Singleton<TrinketManager>
         // Debug.Log(hyenaJaw + " in update");
 
 
-        if (Input.GetKeyDown(KeyCode.O)) PlayerController.Instance.UpdateCoreHealth(-10);
-        if (Input.GetKeyDown(KeyCode.L)) PlayerController.Instance.UpdateCoreHealth(+10);
-        if (Input.GetKeyDown(KeyCode.M)) PlayerController.Instance.AddBones(100);
-
     }
 
     public void LizardClaw() //Increases Attack Damage

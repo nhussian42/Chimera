@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327c6aa471bf82946a9d44dd89edeeb3, type: 3}
+  m_Name: Swift Swim
+  m_EditorClassIdentifier: 
+  subscribedEvents:
+  - {fileID: 11400000, guid: ad545505358a2a34c97b0cd388588f6f, type: 2}
+  trinketName: Swift Swim
+  description: While at least 2 Mammalian parts are attached, your leg abilities
+    have 25% shorter cooldowns
+  icon: {fileID: 0}
+  rarity: 2
+  type: 1
+  amount: 0
+  modify: {fileID: 11400000, guid: b381241ad232aac448efec0b0b5d84ad, type: 2}
+  by: 1
+  thisValue: 25
+  treatAsPercent: 1
+  returnTo: {fileID: 11400000, guid: ce2dc85511aa61541a7d11f193406ad8, type: 2}
+  onlyModifyIf:
+  - {fileID: 11400000, guid: bfb4a3e7609547a4d9a0d3e4bfefc15a, type: 2}
+  - {fileID: 11400000, guid: 1a493a74b64a59944b2993a7aa421ee2, type: 2}
+  - {fileID: 11400000, guid: e54afe0e194c74d4997eaf7b3d87b675, type: 2}
+  trueReturnsNeeded: 2
+  debug: 0
