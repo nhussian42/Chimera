@@ -9,7 +9,7 @@ public class BossAI : Creature
     protected GameObject player;
     private bool iFrame = false;
     [SerializeField] protected LayerMask playerLayerMask;
-    
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -25,7 +25,7 @@ public class BossAI : Creature
             iFrame = true;
             Invoke("IFrame", 0.5f);
             Debug.Log("Dealt damage to player");
-            PlayerController.Instance.DistributeDamage(attackDamage);     
+            PlayerController.Instance.DistributeDamage(attackDamage);
         }
     }
 

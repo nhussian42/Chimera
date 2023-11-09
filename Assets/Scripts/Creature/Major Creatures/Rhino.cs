@@ -117,12 +117,12 @@ public class Rhino : NotBossAI
 
         //Attack is performed
         agent.velocity = Vector3.zero;
-        attackCollider.enabled = true;
+        //attackCollider.enabled = true;
         agent.isStopped = false;
         yield return new WaitForSeconds(0.5f);
 
         //Attack ends, resets rhino to normal movement
-        attackCollider.enabled = false;
+        //attackCollider.enabled = false;
         agent.angularSpeed = initialTurnSpeed;
         agent.speed = initialMovementSpeed;
         agent.acceleration = initialAcceleration;
