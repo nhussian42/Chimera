@@ -341,6 +341,7 @@ MonoBehaviour:
   attackRange: 5
   currentHealth: 0
   attackDamage: 5
+  iFrameDuration: 1
   <CreatureInfo>k__BackingField: {fileID: 11400000, guid: 836467d6f3984544ea183dca92cff723,
     type: 2}
   <classification>k__BackingField: 0
@@ -349,10 +350,13 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  spikeAttackCooldown: 5
   numberOfSpikes: 15
   timeBetweenSpikes: 0.1
   spike: {fileID: 7992538046275668304, guid: e95dafa6e69e7b149b89ffead601b0fb, type: 3}
+  numberOfProjectiles: 6
+  timeBetweenProjectiles: 0.5
+  projectile: {fileID: 7992538046275668304, guid: 9df0a173dc0afa14d928ec572e9af16d,
+    type: 3}
   burrowCooldown: 5
   teleportRange: 10
 --- !u!1 &1564592701909237312

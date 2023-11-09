@@ -10,6 +10,11 @@ public class Grolfino : BossAI
     [SerializeField] private float timeBetweenSpikes;
     [SerializeField] private GameObject spike;
 
+    [Header("Ranged Attack")]
+    [SerializeField] private int numberOfProjectiles;
+    [SerializeField] private float timeBetweenProjectiles;
+    [SerializeField] private GameObject projectile;
+
 
     [SerializeField] private float burrowCooldown = 3f;
     private float currentBurrowCooldown = 3f;
@@ -47,6 +52,19 @@ public class Grolfino : BossAI
         yield return null;
     }
 
+    private IEnumerator StartRangedAttack(int numberOfProjectiles, float timeBetweenProjectiles)
+    {
+
+        for (int i = 0; i < numberOfProjectiles; i++)
+        {
+            GameObject s = Instantiate(projectile, transform.forward, Quaternion.AngleAxis(10 * i, Vector3.up));
+            s.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(700f, 0, 0));
+            yield return new WaitForSeconds(timeBetweenProjectiles);
+        }
+
+        yield return null;
+    }
+
     private IEnumerator Burrow()
     {
         Vector3 targetPos;
@@ -63,7 +81,8 @@ public class Grolfino : BossAI
 
             yield return new WaitForSeconds(1f);
 
-            StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes));
+            //StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes));
+            StartCoroutine(StartRangedAttack(numberOfProjectiles, timeBetweenProjectiles));
             yield return null;
         }
         yield return null;
