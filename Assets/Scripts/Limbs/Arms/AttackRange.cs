@@ -11,6 +11,12 @@ public class AttackRange : MonoBehaviour
     private void OnEnable()
     {
         //vfx.Play();
+
+        Animator spawnAnim = GetComponent<Animator>();
+
+        if (spawnAnim != null)
+            spawnAnim.SetTrigger("SpawnAttack");
+            
     }
 
     private void OnTriggerEnter(Collider other)

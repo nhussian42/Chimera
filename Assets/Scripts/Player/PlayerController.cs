@@ -287,15 +287,15 @@ public class PlayerController : Singleton<PlayerController>
             RotatePlayer(movementVector); 
 
         // Reads L and R mouse buttons 
-        if (_attackRight.triggered == true && currentRightArm.CanAttack == true)
+        if (_attackRight.triggered && currentRightArm.CanAttack)
         {
             //currentRightArm.PauseInput();
 
-            OnAttack.Invoke();
+            DetermineAttackAnimation(currentRightArm, SideOfPlayer.Right);
 
-            animator.SetTrigger("BaseAttack");
-            animator.SetBool("LeftSide", false);
+            OnAttack?.Invoke();
 
+            // Need new audio implementation
             if (isRightWolfArm)
                 AudioManager.Instance.PlayPlayerSFX("WolfArm");
             else
@@ -303,11 +303,11 @@ public class PlayerController : Singleton<PlayerController>
         }
 
 
-        if (_attackLeft.triggered == true && currentLeftArm.CanAttack == true)
+        if (_attackLeft.triggered && currentLeftArm.CanAttack)
         {
             //currentRightArm.PauseInput();
 
-            OnAttack.Invoke();
+            OnAttack?.Invoke();
 
             animator.SetTrigger("BaseAttack");
             animator.SetBool("LeftSide", true);
@@ -344,6 +344,28 @@ public class PlayerController : Singleton<PlayerController>
         {
             Pause();
             //EquipMenu.SetActive(true);
+        }
+    }
+
+    private void DetermineAttackAnimation(Arm arm, SideOfPlayer side)
+    {
+        animator.SetBool("LeftSide", side == SideOfPlayer.Left);
+
+        switch (arm.Weight)
+        {
+            case Weight.Core:
+                animator.SetTrigger("BaseAttack");
+                break;
+            case Weight.Heavy: // Covers croc + rhino, but not shark (may need to be a ground slam instead???)
+                animator.SetTrigger("HeavyAttack");
+                break;
+            case Weight.Medium:
+                // Potentially all the medium creatures can give "line" attacks with the push and pull functionality, we might need to rework how these attacks are
+                // If we had specific attacks for each creature it would cause us to have to rethink the rig
+                break;
+            case Weight.Light:
+                animator.SetTrigger("LightAttack");
+                break;
         }
     }
 
