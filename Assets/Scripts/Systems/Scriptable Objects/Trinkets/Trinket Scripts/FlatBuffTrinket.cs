@@ -12,6 +12,8 @@ public class FlatBuffTrinket : Trinket
     [SerializeField] MathOperation by;
     [SerializeField] float thisValue;
     [SerializeField] bool treatAsPercent;
+    [SerializeField] bool trackQuantity;
+    [SerializeField][HideInInspector] int quantity;
     [SerializeField] FloatVar returnTo;
 
     [SerializeField] bool debug;
@@ -26,7 +28,7 @@ public class FlatBuffTrinket : Trinket
 
     public override void Activate()
     {
-        Debug.Log(amount);
+        //Debug.Log(amount);
         if (activated == false)
         {
             float thisValueDup = 0f;
@@ -69,6 +71,11 @@ public class FlatBuffTrinket : Trinket
                 }
                 returnTo.Write(returnTo.value + (modifiedValue - modify.value));
                 
+            }
+
+            if(trackQuantity == true)
+            {
+                quantity++;
             }
 
             if (debug == true)
