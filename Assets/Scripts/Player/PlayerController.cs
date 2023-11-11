@@ -347,17 +347,6 @@ public class PlayerController : Singleton<PlayerController>
             EquipMenu.SetActive(false);
         }
 
-        if (_openEM.triggered == true)
-        {
-<<<<<<< Updated upstream
-            Pause();
-            EquipMenu.SetActive(true);
-=======
-            //EquipMenu.SetActive(true);
-            //Pause();
-        }
-
->>>>>>> Stashed changes
         }
 
     private void FixedUpdate()
