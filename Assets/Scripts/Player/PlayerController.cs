@@ -21,6 +21,7 @@ public class PlayerController : Singleton<PlayerController>
     private InputAction _attackLeft;
     private InputAction _legsAbility;
     private InputAction _swapLimbs;
+    private InputAction _interact;
     private InputAction _pause;
     private InputAction _unpause;
     private InputAction _openEM;
@@ -74,6 +75,7 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] GameObject attackRangeRotator;
 
     [SerializeField] Animator animator;
+    public Animator Animator { get { return animator; } }
     public Transform attackRangeOrigin { get { return AttackRangeOrigin; } }
 
     //public static Action PlayerSpawned;
@@ -92,7 +94,7 @@ public class PlayerController : Singleton<PlayerController>
     private bool isRightWolfArm = false;
 
     private Vector2 movementValues;
-    private Vector3 movementDir;
+    public Vector3 movementDir { get; private set; }
     private Vector3 movementVector;
 
     public float totalBones;
@@ -123,6 +125,7 @@ public class PlayerController : Singleton<PlayerController>
         _attackLeft = _playerInputActions.DefaultControls.AttackLeft;
         _legsAbility = _playerInputActions.DefaultControls.LegsAbility;
         _swapLimbs = _playerInputActions.DefaultControls.SwapLimbs;
+        _interact = _playerInputActions.DefaultControls.Interact;
         _pause = _playerInputActions.DefaultControls.Pause;
         _openEM = _playerInputActions.DefaultControls.OpenEM;
 
@@ -163,6 +166,7 @@ public class PlayerController : Singleton<PlayerController>
         _attackLeft.Enable();
         _legsAbility.Enable();
         _swapLimbs.Enable();
+        _interact.Enable();
         _pause.Enable();
         _openEM.Enable();
     }
@@ -175,6 +179,7 @@ public class PlayerController : Singleton<PlayerController>
         _attackLeft.Disable();
         _legsAbility.Disable();
         _swapLimbs.Disable();
+        _interact.Disable();
         _pause.Disable();
         _openEM.Disable();
     }
@@ -324,7 +329,18 @@ public class PlayerController : Singleton<PlayerController>
 
             // This will need refactoring for special leg animations, the line below will probably
             // be called by an animation event like the triggers above.
-            currentLegs.ActivateAbility();
+
+            // Temporary fix for using different animations for different limbs until we can implement a more complex solution - Amon
+            if (currentLegs.Classification == Classification.Mammalian && currentLegs.Weight == Weight.Light)
+            {
+                animator.SetTrigger("Pounce");
+            }
+            else
+            {
+                //animator.SetTrigger("Dash");
+                currentLegs.ActivateAbility();
+            }
+            
             
         }
 
@@ -362,6 +378,14 @@ public class PlayerController : Singleton<PlayerController>
                 Debug.Log("Scrapped Item");
                 Instance.AddBones(50);
                 Destroy(newLimb.gameObject);
+            }
+
+            //Interact button implementation - refactor whole section when limb swamp menu is implemented (Amon)
+            if(_interact.triggered == true)
+            {
+                SwapLimb(currentLegs, newLimb);
+                Destroy(newLimb.gameObject);
+                //OnLegsSwapped?.Invoke();
             }
 
             //Configure later for limb swap menu controls
@@ -502,7 +526,9 @@ public class PlayerController : Singleton<PlayerController>
             {
                 originalLegs.gameObject.SetActive(false);
                 legs.gameObject.SetActive(true);
+                legs.LoadDefaultStats();
                 currentLegs = legs;
+                _movementSpeed = currentLegs.MovementSpeed;
                 // add function here for overwriting current health of equipped legs to match the stored health of the pickup
             }
         }
