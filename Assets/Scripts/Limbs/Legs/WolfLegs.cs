@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefaultLegs : Legs
+public class WolfLegs : Legs
 {
     [SerializeField] float dashDistance;
     [SerializeField] float dashSpeed;
@@ -30,6 +30,6 @@ public class DefaultLegs : Legs
     {
         t = 0;
         activated = true;
+        StartCoroutine(Cooldown());
     }
-
 }
