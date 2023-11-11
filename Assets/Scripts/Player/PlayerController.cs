@@ -91,7 +91,7 @@ public class PlayerController : Singleton<PlayerController>
     //bool firstMove = false;
 
     // for when player should not be able to be damaged - Amon
-    private bool isInvincible = false;
+    public bool isInvincible { get; private set; } = false;
 
     private bool isLeftWolfArm = false;
     private bool isRightWolfArm = false;
@@ -759,15 +759,30 @@ public class PlayerController : Singleton<PlayerController>
         currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
     }
 
+    // Called when player needs to be invincible
     public void ToggleInvincibility()
     {
         if(isInvincible == false)
         {
+            //Debug.Log("invincible");
             isInvincible = true;
+            _attackLeft.Disable();
+            _attackRight.Disable();
+            _legsAbility.Disable();
+            _swapLimbs.Disable();
+            _interact.Disable();
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);            
         }
         else
         {
+            //Debug.Log("not invincible");
             isInvincible = false;
+            _attackLeft.Enable();
+            _attackRight.Enable();
+            _legsAbility.Enable();
+            _swapLimbs.Enable();
+            _interact.Enable();
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         }
     }
 
