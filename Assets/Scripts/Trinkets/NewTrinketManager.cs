@@ -29,11 +29,12 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
 
     protected override void Init()
     {
+        gameObject.SetActive(false);
         if(called == false)
         {
             called = true;
             masterTrinketList.FullReset();
-            gameObject.SetActive(false);
+            
         }
     }
 

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.WSA;
 
 [CreateAssetMenu(fileName = "Scriptable Objects", menuName = "Scriptable Objects/Trinkets/FlatBuffTrinket", order = 1)]
 public class FlatBuffTrinket : Trinket

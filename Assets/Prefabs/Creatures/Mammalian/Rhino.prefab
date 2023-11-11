@@ -195,6 +195,7 @@ GameObject:
   - component: {fileID: 5045467928891353712}
   - component: {fileID: 5409585568701026752}
   - component: {fileID: 146867853561697142}
+  - component: {fileID: 260096233365818866}
   m_Layer: 7
   m_Name: Rhino
   m_TagString: Enemy
@@ -273,7 +274,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 2
@@ -289,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f106fffbcc5742643946f032d9bfb132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 250
+  health: 100
   attackRange: 20
   currentHealth: 0
   attackDamage: 5
@@ -355,6 +356,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 1.5, z: 1.5}
   m_Center: {x: 0, y: 2, z: 1.5}
+--- !u!114 &260096233365818866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5726579342250417833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfca4f58197c34396438168a7f6131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPool:
+  - {fileID: 1991673379962358034, guid: 54d36cfbd2e769f4ba14012ccd0896ea, type: 3}
+  _spawnCondition: 1
 --- !u!1 &6242412216532888825
 GameObject:
   m_ObjectHideFlags: 0
