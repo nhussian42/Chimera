@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class BossAI : Creature
 {
     protected GameObject player;
-    private bool iFrame = false;
+    private bool playeriFrame = false;
     [SerializeField] protected LayerMask playerLayerMask;
 
     private void Awake()
@@ -20,9 +20,9 @@ public class BossAI : Creature
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<CharacterController>() != null && iFrame == false)
+        if (other.gameObject.GetComponent<CharacterController>() != null && playeriFrame == false)
         {
-            iFrame = true;
+            playeriFrame = true;
             Invoke("IFrame", 0.5f);
             Debug.Log("Dealt damage to player");
             PlayerController.Instance.DistributeDamage(attackDamage);
@@ -31,6 +31,6 @@ public class BossAI : Creature
 
     void IFrame()
     {
-        iFrame = false;
+        playeriFrame = false;
     }
 }
