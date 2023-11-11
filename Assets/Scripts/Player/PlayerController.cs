@@ -9,7 +9,6 @@ using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 
 using UnityEngine.Events;
-using System.Runtime.CompilerServices;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
@@ -334,13 +333,7 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_pause.triggered == true)
             Pause();
-
-        if (_openEM.triggered == true)
-        {
-            EquipMenu.gameObject.SetActive(!EquipMenu.gameObject.activeSelf);
-            EMScript.Instance.ListTrinkets();
-        }
-
+        
         if (_unpause.triggered == true || _closeEM.triggered == true)
         {
             UIManager.ResumePressed?.Invoke();
@@ -349,16 +342,10 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_openEM.triggered == true)
         {
-<<<<<<< Updated upstream
             Pause();
             EquipMenu.SetActive(true);
-=======
-            //EquipMenu.SetActive(true);
-            //Pause();
         }
-
->>>>>>> Stashed changes
-        }
+    }
 
     private void FixedUpdate()
     {
