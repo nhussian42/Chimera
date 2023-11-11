@@ -22,7 +22,7 @@ public class PlayerInvSlot : MonoBehaviour
     [SerializeField] private TMP_Text limbDesc;
 
 
-    public event Action<PlayerInvSlot> OnLimbClicked;
+    //public event Action<PlayerInvSlot> OnLimbClicked;
 
     public void OnPointerClick(BaseEventData data)
     {
@@ -30,7 +30,7 @@ public class PlayerInvSlot : MonoBehaviour
 
         if (pointerData.button == PointerEventData.InputButton.Left)
         {
-            OnLimbClicked?.Invoke(this);
+            //OnLimbClicked?.Invoke(this);
         }
 
         switch (pointerData.pointerCurrentRaycast.gameObject.name)

@@ -71,18 +71,21 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
     public void PickupOptionOne()
     {
         masterTrinketList.Pickup(trinketOne, amountPerPickup);
+        EMScript.Instance.AddTrinket(trinketOne);
         Debug.Log(trinketOne.TrinketName);
         gameObject.SetActive(false);
     }
     public void PickupOptionTwo()
     {
         masterTrinketList.Pickup(trinketTwo, amountPerPickup);
+        EMScript.Instance.AddTrinket(trinketTwo);
         Debug.Log(trinketOne.TrinketName);
         gameObject.SetActive(false);
     }
     public void PickupOptionThree()
     {
         masterTrinketList.Pickup(trinketThree, amountPerPickup);
+        EMScript.Instance.AddTrinket(trinketThree);
         Debug.Log(trinketThree.TrinketName);
         gameObject.SetActive(false);
     }
