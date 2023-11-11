@@ -403,17 +403,13 @@ public class PlayerController : Singleton<PlayerController>
             //EquipMenu.SetActive(false);
         }
 
-        if (_openEM.triggered == true)
-        {
-            Pause();
-            EquipMenu.SetActive(true);
-=======
             //EquipMenu.SetActive(true);
             //Pause();
         }
             //EquipMenu.SetActive(true);
-        }
     }
+        
+    
 
     private void DetermineAttackAnimation(Arm arm, SideOfPlayer side)
     {
