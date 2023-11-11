@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 
 using UnityEngine.Events;
+using System.Runtime.CompilerServices;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
@@ -333,14 +334,15 @@ public class PlayerController : Singleton<PlayerController>
             RotatePlayer(movementVector); 
 
         // Reads L and R mouse buttons 
-        if (_attackRight.triggered && CanAttack)
+        if (_attackRight.triggered == true && currentRightArm.CanAttack == true)
         {
             CanAttack = false;
             //currentRightArm.PauseInput();
             
             DetermineAttackAnimation(currentRightArm, SideOfPlayer.Right);
 
-            OnAttack?.Invoke();
+            animator.SetTrigger("BaseAttack");
+            animator.SetBool("LeftSide", false);
 
             // // Need new audio implementation
             // if (isRightWolfArm)
@@ -388,7 +390,13 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_pause.triggered == true)
             Pause();
-        
+
+        if (_openEM.triggered == true)
+        {
+            EquipMenu.gameObject.SetActive(!EquipMenu.gameObject.activeSelf);
+            EMScript.Instance.ListTrinkets();
+        }
+
         if (_unpause.triggered == true || _closeEM.triggered == true)
         {
             UIManager.ResumePressed?.Invoke();
@@ -398,6 +406,11 @@ public class PlayerController : Singleton<PlayerController>
         if (_openEM.triggered == true)
         {
             Pause();
+            EquipMenu.SetActive(true);
+=======
+            //EquipMenu.SetActive(true);
+            //Pause();
+        }
             //EquipMenu.SetActive(true);
         }
     }
