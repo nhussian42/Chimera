@@ -2,18 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class Grolfino : BossAI
 {
     [Header("Spike Attack")]
     [SerializeField] private int numberOfSpikes;
     [SerializeField] private float timeBetweenSpikes;
+    [SerializeField] private float spikeDamage;
     [SerializeField] private GameObject spike;
 
     [Header("Ranged Attack")]
     [SerializeField] private int numberOfProjectiles;
     [SerializeField] private float timeBetweenProjectiles;
+    [SerializeField] private float projectileDamage;
     [SerializeField] private GameObject projectile;
+    [SerializeField] private float angleBetweenProjectiles;
+    [SerializeField] private float projectileSpeed;
 
 
     [SerializeField] private float burrowCooldown = 3f;
@@ -47,6 +52,9 @@ public class Grolfino : BossAI
             GameObject s = Instantiate(spike, transform.position + (transform.forward * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
             GameObject s2 = Instantiate(spike, transform.position + (dir * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
             GameObject s3 = Instantiate(spike, transform.position + (dir2 * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
+            s.GetComponent<Spike>().spikeDamage = spikeDamage;
+            s2.GetComponent<Spike>().spikeDamage = spikeDamage;
+            s3.GetComponent<Spike>().spikeDamage = spikeDamage;
             yield return new WaitForSeconds(timeBetweenSpikes);
         }
         yield return null;
@@ -54,11 +62,15 @@ public class Grolfino : BossAI
 
     private IEnumerator StartRangedAttack(int numberOfProjectiles, float timeBetweenProjectiles)
     {
-
+        float yRot = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).y;
+        float maximumNegativeAngle = (numberOfProjectiles - 1) / 2 * angleBetweenProjectiles;
         for (int i = 0; i < numberOfProjectiles; i++)
         {
-            GameObject s = Instantiate(projectile, transform.forward, Quaternion.AngleAxis(10 * i, Vector3.up));
-            s.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(700f, 0, 0));
+            Vector3 angle = Quaternion.Euler(0, maximumNegativeAngle + (angleBetweenProjectiles * i), 0) * transform.forward;
+            GameObject s = Instantiate(projectile, transform.position + angle, Quaternion.Euler(0, yRot - maximumNegativeAngle + (angleBetweenProjectiles * i), 0));
+            s.GetComponent<GrolfinoProjectile>().projectileDamage = projectileDamage;
+            s.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, projectileSpeed));
+            Destroy(s, 2.5f);
             yield return new WaitForSeconds(timeBetweenProjectiles);
         }
 
@@ -74,15 +86,22 @@ public class Grolfino : BossAI
 
         if (RandomPoint(player.transform.position, teleportRange, out targetPos))
         {
-            Debug.Log(targetPos);
             transform.position = new Vector3(targetPos.x, transform.position.y, targetPos.z);
             meshRenderer.enabled = true;
             healthbar.enabled = true;
 
             yield return new WaitForSeconds(1f);
 
-            //StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes));
-            StartCoroutine(StartRangedAttack(numberOfProjectiles, timeBetweenProjectiles));
+
+            if (Random.Range(0, 2) == 0)
+            {
+                StartCoroutine(StartRangedAttack(numberOfProjectiles, timeBetweenProjectiles));
+            }
+            else
+            {
+                StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes));
+            }
+
             yield return null;
         }
         yield return null;

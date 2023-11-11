@@ -5,6 +5,7 @@ using UnityEngine;
 public class Spike : MonoBehaviour
 {
     [SerializeField] private float spikeSpeed = 0.1f;
+    public float spikeDamage;
     void Start()
     {
         StartCoroutine(SpikeRiseFall(spikeSpeed));
@@ -31,5 +32,14 @@ public class Spike : MonoBehaviour
         }
         Destroy(gameObject);
         yield return null;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<CharacterController>() != null)
+        {
+            Debug.Log("Dealt damage to player");
+            PlayerController.Instance.DistributeDamage(spikeDamage);
+        }
     }
 }
