@@ -132,7 +132,7 @@ public class Rhino : NotBossAI
         Vector3 targetPos;
         if (RandomPoint(player.transform.position, attackRange, out targetPos))
         {
-            Debug.Log(targetPos);
+            //Debug.Log(targetPos);
             agent.destination = new Vector3(targetPos.x, transform.position.y, targetPos.z);
             yield return new WaitForSeconds(1);
             yield return null;
