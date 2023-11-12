@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
@@ -12,6 +13,7 @@ public class Grolfino : BossAI
     [SerializeField] private float spikeDamage;
     [SerializeField] private GameObject spike;
 
+
     [Header("Ranged Attack")]
     [SerializeField] private int numberOfProjectiles;
     [SerializeField] private float timeBetweenProjectiles;
@@ -21,22 +23,33 @@ public class Grolfino : BossAI
     [SerializeField] private float projectileSpeed;
 
 
+    [Header("Sweep Attack")]
+    [SerializeField] private int sweepAngle;
+    [SerializeField] private float sweepDuration;
+    [SerializeField] private GameObject sweepAttackCollider;
+
+
+    [Header("Movement")]
     [SerializeField] private float burrowCooldown = 3f;
+    [SerializeField] private float teleportRange = 30f;
+
     private float currentBurrowCooldown = 0f;
     private MeshRenderer meshRenderer;
     private BoxCollider boxCollider;
-    [SerializeField] private float teleportRange = 30f;
+
 
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
         boxCollider = GetComponent<BoxCollider>();
+        agent.isStopped = true;
     }
     private void Update()
     {
-        transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
+        //This always makes the boss look at the player, can be disabled
         agent.destination = player.transform.position;
-        agent.updatePosition = false;
+
+        //Keeps track of when the boss burrows
         currentBurrowCooldown -= Time.deltaTime;
         if (currentBurrowCooldown < 0)
         {
@@ -45,22 +58,45 @@ public class Grolfino : BossAI
         }
     }
 
+    private IEnumerator StartSweepAttack(int angle, float duration)
+    {
+        //Makes collider active and sets the starting rotation
+        sweepAttackCollider.SetActive(true);
+        UnityEditor.TransformUtils.SetInspectorRotation(sweepAttackCollider.transform, new Vector3(0, -angle / 2, 0));
+
+        //Lerps the angle and sets the rotation
+        float timer = 0;
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float rotatedAngle = Mathf.Lerp(-angle / 2, angle / 2, timer / duration);
+            UnityEditor.TransformUtils.SetInspectorRotation(sweepAttackCollider.transform, new Vector3(0, rotatedAngle, 0));
+            yield return null;
+        }
+
+        //Makes the collider inactive
+        sweepAttackCollider.SetActive(false);
+        yield return null;
+    }
+
     private IEnumerator StartSpikeAttack(int numberOfSpikes, float timeBetweenSpikes)
     {
+        //Calculates forward direction for attacks
         Vector3 dir = Quaternion.AngleAxis(0, Vector3.up) * transform.forward;
         Vector3 dir2 = Quaternion.AngleAxis(15, Vector3.up) * transform.forward;
         Vector3 dir3 = Quaternion.AngleAxis(-15, Vector3.up) * transform.forward;
+
+        //Instantiates spikes in a straight line with slightly random rotation
         for (int i = 0; i < numberOfSpikes; i++)
         {
             GameObject s = Instantiate(spike, transform.position + (dir * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
             GameObject s2 = Instantiate(spike, transform.position + (dir2 * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
             GameObject s3 = Instantiate(spike, transform.position + (dir3 * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
-            // s.transform.localScale = s.transform.localScale * i / 5;
-            // s2.transform.localScale = s2.transform.localScale * i / 5;
-            // s3.transform.localScale = s3.transform.localScale * i / 5;
+
             s.GetComponent<Spike>().spikeDamage = spikeDamage;
             s2.GetComponent<Spike>().spikeDamage = spikeDamage;
             s3.GetComponent<Spike>().spikeDamage = spikeDamage;
+
             yield return new WaitForSeconds(timeBetweenSpikes);
         }
         yield return null;
@@ -68,6 +104,9 @@ public class Grolfino : BossAI
 
     private IEnumerator StartRangedAttack(int numberOfProjectiles, float timeBetweenProjectiles)
     {
+        //Creatures projectiles in an arc in front of the boss
+        //All projectiles are instantiated rotated away from the boss
+        //Projectiles are automatically destroyed after 2.5s   
         for (int i = 0; i < numberOfProjectiles; i++)
         {
             float yRot = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).y;
@@ -79,37 +118,47 @@ public class Grolfino : BossAI
             Destroy(s, 2.5f);
             yield return new WaitForSeconds(timeBetweenProjectiles);
         }
-
         yield return null;
     }
 
     private IEnumerator Burrow()
     {
+        //Disables mesh renderer and collider
         Vector3 targetPos;
         meshRenderer.enabled = false;
-        healthbar.enabled = false;
         boxCollider.enabled = false;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
+        //Teleports to the targeted position and enables renderer and collider
         if (RandomPoint(player.transform.position, teleportRange, out targetPos))
         {
             transform.position = new Vector3(targetPos.x, transform.position.y, targetPos.z);
+            transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
             meshRenderer.enabled = true;
-            healthbar.enabled = true;
             boxCollider.enabled = true;
 
-            yield return new WaitForSeconds(1f);
+            float timer = 0;
+            while (timer < 1)
+            {
+                timer += Time.deltaTime;
+                transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
+                yield return null;
+            }
 
-
-            if (Random.Range(0, 2) == 0)
+            //Randomly picks an attack to perform
+            int r = Random.Range(0, 3);
+            if (r == 0)
             {
                 StartCoroutine(StartRangedAttack(numberOfProjectiles, timeBetweenProjectiles));
             }
-            else
+            else if (r == 1)
             {
                 StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes));
             }
-
+            else if (r == 2)
+            {
+                StartCoroutine(StartSweepAttack(sweepAngle, sweepDuration));
+            }
             yield return null;
         }
         yield return null;
@@ -117,6 +166,12 @@ public class Grolfino : BossAI
 
     private bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
+        //Picks a random point on a unitsphere in a radius around the boss
+        //Runs SamplePosition to check if that point is valid
+        //If it is valid, returns the position
+        //If it is invalid, it runs again
+        //Currently runs 30 times, technically there's a chance it doesn't find a valid point in 30 tries
+        //If it doesn't, it currently sets the position to it's current location
         for (int i = 0; i < 30; i++)
         {
             Vector3 randomPoint = center + Random.onUnitSphere * range;
@@ -127,7 +182,7 @@ public class Grolfino : BossAI
                 return true;
             }
         }
-        result = Vector3.zero;
+        result = transform.position;
         return false;
     }
 }
