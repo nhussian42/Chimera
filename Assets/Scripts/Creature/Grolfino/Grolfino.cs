@@ -35,6 +35,7 @@ public class Grolfino : BossAI
 
     private float currentBurrowCooldown = 0f;
     private MeshRenderer meshRenderer;
+    [SerializeField] private GameObject bossMesh;
     private BoxCollider boxCollider;
 
 
@@ -125,8 +126,9 @@ public class Grolfino : BossAI
     {
         //Disables mesh renderer and collider
         Vector3 targetPos;
-        meshRenderer.enabled = false;
+        //meshRenderer.enabled = false;
         boxCollider.enabled = false;
+        bossMesh.SetActive(false);
         yield return new WaitForSeconds(1f);
 
         //Teleports to the targeted position and enables renderer and collider
@@ -134,8 +136,9 @@ public class Grolfino : BossAI
         {
             transform.position = new Vector3(targetPos.x, transform.position.y, targetPos.z);
             transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
-            meshRenderer.enabled = true;
+            //meshRenderer.enabled = true;
             boxCollider.enabled = true;
+            bossMesh.SetActive(true);
 
             float timer = 0;
             while (timer < 1)
