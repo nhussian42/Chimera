@@ -38,17 +38,16 @@ public class EMScript : MonoBehaviour
         Instance = this;
         Hide();
         ResetDescription();
-        
+
+        foreach(Trinket trinket in masterTrinketList.playerInventory)
+        {
+            trinketList.Add(trinket);
+        }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            selectedName.text = "this shit lame";
-            selectedImg.sprite = null;
-            selectedDescription.text = "bruh";
-        }
+      
     }
 
     private void Hide()
@@ -62,7 +61,10 @@ public class EMScript : MonoBehaviour
         {
             return;
         }
-        else trinketList.Add(trinket);
+        else
+        {
+            trinketList.Add(trinket);
+        }
     }
 
     public void ListTrinkets()
@@ -84,7 +86,12 @@ public class EMScript : MonoBehaviour
             trinketImage.sprite = Trinket.Icon;
             trinketDesc.text = Trinket.Description;
             trinketQuantity.text = Trinket.amount.ToString();
-            
+
+            if (Trinket.TrinketType.ToString() == "OneTime")
+            {
+                trinketQuantity.text = "U";
+            }
+
 
         }
 

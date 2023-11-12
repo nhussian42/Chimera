@@ -9,7 +9,7 @@ public class Trinket : EventListener
     [SerializeField] Sprite icon;
     [SerializeField] Rarity rarity;
     [SerializeField] TrinketType type;
-    [HideInInspector]public int amount;
+    [HideInInspector] public int amount;
 
     public string TrinketName { get { return trinketName; } }
     public string Description { get { return description; } }
