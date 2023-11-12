@@ -18,8 +18,8 @@ public class PlayerInvSlot : MonoBehaviour
     [SerializeField] private GameObject relic;
 
 
-    [SerializeField] private TMP_Text limbName;
-    [SerializeField] private TMP_Text limbDesc;
+    [SerializeField] private TMP_Text NameBox;
+    [SerializeField] private TMP_Text DescBox;
 
 
     //public event Action<PlayerInvSlot> OnLimbClicked;
@@ -37,33 +37,52 @@ public class PlayerInvSlot : MonoBehaviour
         {
             case "Arm_L":
                 UnityEngine.Debug.Log("ARM_L");
-                limbName.text = "Left Arm Name";
-                limbDesc.text = "Left Arm Desc";
-                break;
+                if (PlayerController.Instance.currentLeftArm.Classification.ToString() != "Core")
+                {
+                    NameBox.text = PlayerController.Instance.currentLeftArm.Classification.ToString();
+                    //DescBox.text = ;
+                    break;
+                }
+                else
+                {
+                    NameBox.text = "Left Arm Name";
+                    DescBox.text = "Left Arm Desc";
+                    break;
+                }
+                
             case "Arm_R":
                 UnityEngine.Debug.Log("ARM_R");
-                limbName.text = "Right Arm Name";
-                limbDesc.text = "Right Arm Desc";
+                if (PlayerController.Instance.currentRightArm.Classification.ToString() != "Core")
+                {
+                    NameBox.text = PlayerController.Instance.currentRightArm.Classification.ToString();
+                    //DescBox.text = ;
+                    break;
+                }
+                else
+                {
+                    NameBox.text = "Left Arm Name";
+                    DescBox.text = "Left Arm Desc";
+                }
                 break;
             case "Head":
                 UnityEngine.Debug.Log("Head");
-                limbName.text = "Head Name";
-                limbDesc.text = "Head Desc";
+                NameBox.text = "Head Name";
+                DescBox.text = "Head Desc";
                 break;
             case "Core":
                 UnityEngine.Debug.Log("Core");
-                limbName.text = "Core Name";
-                limbDesc.text = "Core Desc";
+                NameBox.text = "Core Name";
+                DescBox.text = "Core Desc";
                 break;
             case "Legs":
                 UnityEngine.Debug.Log("Legs");
-                limbName.text = "Legs Name";
-                limbDesc.text = "Legs Desc";
+                NameBox.text = "Legs Name";
+                DescBox.text = "Legs Desc";
                 break;
             case "Relic":
                 UnityEngine.Debug.Log("Relic");
-                limbName.text = "Relic Name";
-                limbDesc.text = "Relic Desc";
+                NameBox.text = "Relic Name";
+                DescBox.text = "Relic Desc";
                 break;
         }
     }
