@@ -23,7 +23,7 @@ public abstract class Legs : Limb
     // Refs
     protected PlayerController player; // needed to manipulate player visibility and movement
 
-    private void Start()
+    protected virtual void Start()
     {
         player = PlayerController.Instance;
     }

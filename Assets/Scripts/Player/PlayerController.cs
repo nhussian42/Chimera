@@ -17,11 +17,11 @@ public class PlayerController : Singleton<PlayerController>
     private PlayerInput _playerInput;
     private InputAction _movement;
     private InputAction _look; // for keyboard/mouse attack direction
-    private InputAction _attackRight;
-    private InputAction _attackLeft;
-    private InputAction _legsAbility;
-    private InputAction _swapLimbs;
-    private InputAction _interact;
+    public InputAction _attackRight { get; private set; } // get, set these controls so other scripts can control when player shouldn't be able to do stuff
+    public InputAction _attackLeft { get; private set; }
+    public InputAction _legsAbility { get; private set; }
+    public InputAction _swapLimbs { get; private set; }
+    public InputAction _interact { get; private set; }
     private InputAction _pause;
     private InputAction _unpause;
     private InputAction _openEM;
@@ -52,7 +52,7 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] UnityEvent OnSwapLimbs;
 
     // Limb References
-    //public List<Heads> allHeads;
+    public List<Head> allHeads;
     public List<Arm> allArms;
     public List<Legs> allLegs;
 
@@ -64,12 +64,12 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] Arm coreLeftArm;
     [SerializeField] Arm coreRightArm;
     [SerializeField] Legs coreLegs;
-    //Head coreHead;
+    [SerializeField] Head coreHead;
 
     public Arm currentLeftArm {get; private set;}
     public Arm currentRightArm {get; private set;}
     public Legs currentLegs { get; private set; }
-    //Head currentHead;
+    public Head currentHead { get; private set;}
 
     [SerializeField] Transform AttackRangeOrigin;
     [SerializeField] GameObject attackRangeRotator;
@@ -89,6 +89,9 @@ public class PlayerController : Singleton<PlayerController>
 
     //float startingYPos;  I don't think we need these anymore  - Amon
     //bool firstMove = false;
+
+    // for when player should not be able to be damaged - Amon
+    public bool isInvincible { get; private set; } = false;
 
     private bool isLeftWolfArm = false;
     private bool isRightWolfArm = false;
@@ -154,7 +157,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         // Called when the player exits the room (loading a new scene destroys all current scene objects)
         if (core.Health == 0) { saveManager.Reset(); }
-        else { saveManager.SaveLimbData(currentLeftArm, currentRightArm, core, currentLegs); }
+        else { saveManager.SaveLimbData(currentHead, currentLeftArm, currentRightArm, core, currentLegs); }
         
     }
 
@@ -228,10 +231,16 @@ public class PlayerController : Singleton<PlayerController>
             if(saveManager.firstLoad == true) { legs.LoadDefaultStats(); }
             legs.gameObject.SetActive(false);
         }
+        foreach (Head head in allHeads)
+        {
+            if (saveManager.firstLoad == true) { head.LoadDefaultStats(); }
+            head.gameObject.SetActive(false);
+        }
 
         if (saveManager.firstLoad == false)
         {
             // If not first load into scene, set limbs saved in SaveManager
+            LoadSavedLimb(saveManager.SavedHead);
             LoadSavedLimb(saveManager.SavedLeftArm);
             LoadSavedLimb(saveManager.SavedRightArm);
             LoadSavedLimb(saveManager.SavedCore);
@@ -240,9 +249,11 @@ public class PlayerController : Singleton<PlayerController>
         else
         {
             // If first load into scene, set default limbs
+            coreHead.gameObject.SetActive(true);
             coreLeftArm.gameObject.SetActive(true);
             coreRightArm.gameObject.SetActive(true);
             coreLegs.gameObject.SetActive(true);
+            currentHead = coreHead;
             currentLegs = coreLegs;
             currentLeftArm = coreLeftArm;
             currentRightArm = coreRightArm;
@@ -517,9 +528,25 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     // Called to swap a current limb with a limb drop
-    //private void SwapLimb(Head originalHead, LimbDrop newHead)
+    private void SwapLimb(Head originalHead, LimbDrop newHead)
+    {
+        if(newHead.LimbType == LimbType.Head)
+        foreach (Head head in allHeads)
+        {
+            if (head.Weight == newHead.Weight && head.Classification == newHead.Classification)
+            {
+                originalHead.gameObject.SetActive(false);
+                head.gameObject.SetActive(true);
+                head.LoadDefaultStats();
+                currentHead = head;
+                // add function here for overwriting current health of equipped head to match the stored health of the pickup
+            }
+        }
+        OnSwapLimbs.Invoke();
+    }
     private void SwapLimb(Legs originalLegs, LimbDrop newLegs)
     {
+        if(newLegs.LimbType == LimbType.Legs)
         foreach (Legs legs in allLegs)
         {
             if (legs.Weight == newLegs.Weight && legs.Classification == newLegs.Classification)
@@ -536,6 +563,7 @@ public class PlayerController : Singleton<PlayerController>
     }
     private void SwapLimb(Arm originalArm, LimbDrop newArm)
     {
+        if(newArm.LimbType == LimbType.Arm)
         foreach (Arm arm in allArms)
         {
             if (arm.Weight == newArm.Weight && arm.Classification == newArm.Classification && arm.Side == originalArm.Side)
@@ -582,7 +610,22 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     // Called to load saved data into limbs after loading a new scene
-    //private void LoadSavedLimb(Head savedHead)
+    private void LoadSavedLimb(Head savedHead)
+    {
+        foreach (Head head in allHeads)
+        {
+            if (head.Weight == savedHead.Weight && head.Classification == savedHead.Classification)
+            {
+                if (currentHead != null)
+                {
+                    currentHead.gameObject.SetActive(false);
+                }
+                head.gameObject.SetActive(true);
+                currentHead = head;
+                currentHead.LoadStats(savedHead.MaxHealth, savedHead.Health);
+            }
+        }
+    }
     private void LoadSavedLimb(Arm savedArm)
     {
         foreach (Arm arm in allArms)
@@ -650,10 +693,16 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     // Called when a limb is disintegrated (no health)
-    //public void RevertToDefault (Head currentHead)
-    public void RevertToDefault(Arm currentArm)
+    public void RevertToDefault (Head previousHead)
     {
-        if(currentArm.Side == SideOfPlayer.Right)
+        previousHead.LoadDefaultStats();
+        previousHead.gameObject.SetActive(false);
+        coreHead.gameObject.SetActive(true);
+        currentHead = coreHead;
+    }
+    public void RevertToDefault(Arm previousArm)
+    {
+        if(previousArm.Side == SideOfPlayer.Right)
         {
             currentRightArm.Terminate();
             currentRightArm.LoadDefaultStats();
@@ -672,10 +721,10 @@ public class PlayerController : Singleton<PlayerController>
             currentLeftArm.Initialize(this);
         }
     }
-    public void RevertToDefault(Legs currentLegs)
+    public void RevertToDefault(Legs previousLegs)
     {
-        currentLegs.LoadDefaultStats();
-        currentLegs.gameObject.SetActive(false);
+        previousLegs.LoadDefaultStats();
+        previousLegs.gameObject.SetActive(false);
         coreLegs.gameObject.SetActive(true);
         currentLegs = coreLegs;
     }
@@ -710,32 +759,62 @@ public class PlayerController : Singleton<PlayerController>
         currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
     }
 
+    // Called when player needs to be invincible
+    public void ToggleInvincibility()
+    {
+        if(isInvincible == false)
+        {
+            //Debug.Log("invincible");
+            isInvincible = true;
+            _attackLeft.Disable();
+            _attackRight.Disable();
+            _legsAbility.Disable();
+            _swapLimbs.Disable();
+            _interact.Disable();
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);            
+        }
+        else
+        {
+            //Debug.Log("not invincible");
+            isInvincible = false;
+            _attackLeft.Enable();
+            _attackRight.Enable();
+            _legsAbility.Enable();
+            _swapLimbs.Enable();
+            _interact.Enable();
+            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+        }
+    }
+
     public void DistributeDamage(float damage)
     {
-        animator.SetTrigger("TakeDamage");
-        AudioManager.Instance.PlayPlayerSFX("MinHit");
-        List<Limb> damagedLimbs = new List<Limb>();
-
-        damagedLimbs.Add(core);
-
-        if (currentLeftArm != coreLeftArm)
-            damagedLimbs.Add(currentLeftArm);
-        if (currentRightArm != coreRightArm)
-            damagedLimbs.Add(currentRightArm);
-
-        foreach (Limb limb in damagedLimbs)
+        if (isInvincible == false)
         {
-            float caclulatedDamage = -1 * (damage / (damagedLimbs.Count + 1));
-            limb.UpdateHealth(caclulatedDamage);
-            if(limb.Health <= 0) 
-            { 
-                if(limb == core) { Die(); }
-                else { limb.Disintegrate(); }
+            animator.SetTrigger("TakeDamage");
+            AudioManager.Instance.PlayPlayerSFX("MinHit");
+            List<Limb> damagedLimbs = new List<Limb>();
+
+            damagedLimbs.Add(core);
+
+            if (currentLeftArm != coreLeftArm)
+                damagedLimbs.Add(currentLeftArm);
+            if (currentRightArm != coreRightArm)
+                damagedLimbs.Add(currentRightArm);
+
+            foreach (Limb limb in damagedLimbs)
+            {
+                float caclulatedDamage = -1 * (damage / (damagedLimbs.Count + 1));
+                limb.UpdateHealth(caclulatedDamage);
+                if (limb.Health <= 0)
+                {
+                    if (limb == core) { Die(); }
+                    else { limb.Disintegrate(); }
+                }
             }
+            //Debug.Log(core.Health);
+            OnTakeDamage.Invoke();
+            OnDamageReceived?.Invoke();
         }
-        //Debug.Log(core.Health);
-        OnTakeDamage.Invoke();
-        OnDamageReceived?.Invoke();
     }
 
     private void Die()
