@@ -33,7 +33,11 @@ public abstract class Arm : Limb
     // Called by Player Controller on trigger 
     public virtual void Attack()
     {
-        StartCoroutine(ActivateAttackRange());
+        attackRange.transform.position = PlayerController.Instance.attackRangeOrigin.position;
+        attackRange.gameObject.SetActive(true);
+        attackRange.AnimateAttackRange();
+        
+        //StartCoroutine(ActivateAttackRange());
     }
 
     // Was used to prevent extra inputs after attacking, but does not seem to be needed anymore
@@ -46,7 +50,7 @@ public abstract class Arm : Limb
     public virtual void Initialize(PlayerController player)
     {
         // Instantiates and sets the arm's attack collider on the player's attack origin
-        attackRange = Instantiate(attackRangePrefab.gameObject, player.attackRangeOrigin.position, player.attackRangeOrigin.rotation, player.attackRangeOrigin).GetComponent<AttackRange>();
+        attackRange = Instantiate(attackRangePrefab.gameObject, player.attackRangeOrigin.position, player.attackRangeOrigin.rotation).GetComponent<AttackRange>();
         attackRange.InputArmReference(this);
         attackRange.gameObject.SetActive(false);
         StartCoroutine(Cooldown());
@@ -66,7 +70,7 @@ public abstract class Arm : Limb
     {
         canAttack = false;
         attackRange.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(5f);
         attackRange.gameObject.SetActive(false);
         StartCoroutine(Cooldown());
     }

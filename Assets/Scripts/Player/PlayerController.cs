@@ -300,11 +300,11 @@ public class PlayerController : Singleton<PlayerController>
 
             OnAttack?.Invoke();
 
-            // Need new audio implementation
-            if (isRightWolfArm)
-                AudioManager.Instance.PlayPlayerSFX("WolfArm");
-            else
-                AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
+            // // Need new audio implementation
+            // if (isRightWolfArm)
+            //     AudioManager.Instance.PlayPlayerSFX("WolfArm");
+            // else
+            //     AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
 
@@ -312,15 +312,14 @@ public class PlayerController : Singleton<PlayerController>
         {
             //currentRightArm.PauseInput();
 
+            DetermineAttackAnimation(currentLeftArm, SideOfPlayer.Left);
+
             OnAttack?.Invoke();
 
-            animator.SetTrigger("BaseAttack");
-            animator.SetBool("LeftSide", true);
-
-            if (isLeftWolfArm)
-                AudioManager.Instance.PlayPlayerSFX("WolfArm");
-            else
-                AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
+            // if (isLeftWolfArm)
+            //     AudioManager.Instance.PlayPlayerSFX("WolfArm");
+            // else
+            //     AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
         if(_legsAbility.triggered == true && currentLegs.CanActivate == true)
@@ -376,6 +375,7 @@ public class PlayerController : Singleton<PlayerController>
                 animator.SetTrigger("HeavyAttack");
                 break;
             case Weight.Medium:
+                // 11/8 Notes - Nick
                 // Potentially all the medium creatures can give "line" attacks with the push and pull functionality, we might need to rework how these attacks are
                 // If we had specific attacks for each creature it would cause us to have to rethink the rig
                 break;

@@ -7,25 +7,26 @@ public class AttackRange : MonoBehaviour
 {
     //[SerializeField] private ParticleSystem vfx;
     private Arm arm;
-
-    private void OnEnable()
-    {
-        //vfx.Play();
-
-        Animator spawnAnim = GetComponent<Animator>();
-
-        if (spawnAnim != null)
-            spawnAnim.SetTrigger("SpawnAttack");
-            
-    }
+    private Animator anim;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<Creature>(out Creature creature) == true)
+        if (other.TryGetComponent(out Creature creature))
         {
             creature.TakeDamage((int)arm.AttackDamage);
             creature.Knockback(creature.transform.position - transform.position, 4, 0.05f);
         }
+    }
+
+    public void AnimateAttackRange()
+    {
+        if (anim != null) anim.speed = 1;
+    }
+
+    private void DisableAttackRange()
+    {
+
+        gameObject.SetActive(false);
     }
 
     public void InputArmReference(Arm controllingArm)
@@ -33,8 +34,12 @@ public class AttackRange : MonoBehaviour
         arm = controllingArm;
     }
 
-    private void OnDisable()
+    void Awake()
     {
-        //vfx.Stop();
+        if (gameObject.TryGetComponent(out Animator anim))
+        {
+            anim.keepAnimatorStateOnDisable = false;
+            this.anim = anim;
+        }
     }
 }
