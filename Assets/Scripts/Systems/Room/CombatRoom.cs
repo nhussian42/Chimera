@@ -24,7 +24,6 @@ public class CombatRoom : Room
 
     public void DetermineCreatures(FloorSO floorInfo)
     {
-        print("determine creature");
         List<Creature> majorCreaturePool = floorInfo.spawnableMajorCreatures;
         int majorCreatureIndex = UnityEngine.Random.Range(0, majorCreaturePool.Count);
         currentMajorCreature = majorCreaturePool[majorCreatureIndex];

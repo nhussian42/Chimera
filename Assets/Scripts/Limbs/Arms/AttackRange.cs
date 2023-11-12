@@ -7,7 +7,6 @@ public class AttackRange : MonoBehaviour
 {
     //[SerializeField] private ParticleSystem vfx;
     private Arm arm;
-    private Animator anim;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,28 +17,19 @@ public class AttackRange : MonoBehaviour
         }
     }
 
-    public void AnimateAttackRange()
+    private void OnEnable()
     {
-        if (anim != null) anim.speed = 1;
+        transform.localScale = Vector3.one;
     }
 
     private void DisableAttackRange()
     {
-
-        gameObject.SetActive(false);
+        print("disable");
+        arm.AttackRangePool.Release(this);
     }
 
     public void InputArmReference(Arm controllingArm)
     {
         arm = controllingArm;
-    }
-
-    void Awake()
-    {
-        if (gameObject.TryGetComponent(out Animator anim))
-        {
-            anim.keepAnimatorStateOnDisable = false;
-            this.anim = anim;
-        }
     }
 }
