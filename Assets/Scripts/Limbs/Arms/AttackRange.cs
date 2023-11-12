@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(Collider))]
 public class AttackRange : MonoBehaviour
 {
     //[SerializeField] private ParticleSystem vfx;
+    public static Action AttackEnded;
     private Arm arm;
 
     private void OnTriggerEnter(Collider other)
@@ -24,7 +27,7 @@ public class AttackRange : MonoBehaviour
 
     private void DisableAttackRange()
     {
-        print("disable");
+        AttackEnded?.Invoke();
         arm.AttackRangePool.Release(this);
     }
 

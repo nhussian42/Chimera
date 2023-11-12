@@ -120,6 +120,7 @@ public class PlayerController : Singleton<PlayerController>
         FloorManager.NextRoomLoaded += SetStartPosition;
         FloorManager.NextRoomLoaded += EnableAllDefaultControls;
         FloorManager.LeaveRoom += DisableAllDefaultControls;
+        AttackRange.AttackEnded += EnableAllDefaultControls;
         // FloorManager.EnableFloor += EnableAllDefaultControls;
 
         // Assign default controls
@@ -147,6 +148,7 @@ public class PlayerController : Singleton<PlayerController>
         FloorManager.NextRoomLoaded -= SetStartPosition;
         FloorManager.NextRoomLoaded -= EnableAllDefaultControls;
         FloorManager.LeaveRoom -= DisableAllDefaultControls;
+        AttackRange.AttackEnded -= EnableAllDefaultControls;
         // FloorManager.EnableFloor -= EnableAllDefaultControls;
 
         DisableAllDefaultControls();
@@ -164,6 +166,8 @@ public class PlayerController : Singleton<PlayerController>
 
     private void EnableAllDefaultControls()
     {
+        if (GameManager.CurrentGameState != GameState.IsPlaying) return;
+
         _movement.Enable();
         _look.Enable();
         _attackRight.Enable();
@@ -306,6 +310,7 @@ public class PlayerController : Singleton<PlayerController>
         if (_attackRight.triggered && CanAttack)
         {
             CanAttack = false;
+            DisableAllDefaultControls();
             //currentRightArm.PauseInput();
 
             DetermineAttackAnimation(currentRightArm, SideOfPlayer.Right);
@@ -322,6 +327,7 @@ public class PlayerController : Singleton<PlayerController>
         if (_attackLeft.triggered && CanAttack)
         {
             CanAttack = false;
+            DisableAllDefaultControls();
             //currentRightArm.PauseInput();
 
             DetermineAttackAnimation(currentLeftArm, SideOfPlayer.Left);

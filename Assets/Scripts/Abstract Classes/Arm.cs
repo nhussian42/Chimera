@@ -33,18 +33,27 @@ public abstract class Arm : Limb
     public float DefaultAttackDamage { get { return defaultAttackDamage; } }
     public float DefaultAttackSpeed { get { return defaultAttackSpeed; } }
 
+    // Public variables
     public ObjectPool<AttackRange> AttackRangePool { get; private set; }
+    
 
     // Called by Player Controller on animation event
     public virtual void Attack()
     {
         AttackRange attackRange = AttackRangePool.Get();
+        
 
         // May possibly need to set an attack range origin for every single arm instead
         if (Side == SideOfPlayer.Left)
-            attackRange.transform.position = PlayerController.Instance.AttackRangeLeftOrigin.position;
+        {
+            Transform origin = PlayerController.Instance.AttackRangeLeftOrigin;
+            attackRange.transform.SetPositionAndRotation(origin.position, Quaternion.Euler(0, PlayerController.Instance.transform.eulerAngles.y, 0));
+        }
         else if (Side == SideOfPlayer.Right)
-            attackRange.transform.position = PlayerController.Instance.AttackRangeRightOrigin.position;
+        {
+            Transform origin = PlayerController.Instance.AttackRangeRightOrigin;
+            attackRange.transform.SetPositionAndRotation(origin.position, Quaternion.Euler(0, PlayerController.Instance.transform.eulerAngles.y, 0));
+        }
         
         //StartCoroutine(Cooldown());
         
