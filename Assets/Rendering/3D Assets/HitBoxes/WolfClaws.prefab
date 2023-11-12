@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 2421926722003534983}
   - component: {fileID: 8878586784817105542}
   - component: {fileID: 5182243123753938400}
-  - component: {fileID: 425603019407296549}
-  m_Layer: 0
-  m_Name: 360 attack pattern
+  - component: {fileID: 2414605399685137309}
+  m_Layer: 8
+  m_Name: WolfClaws
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6192714990006044032}
-  m_Mesh: {fileID: 1865056248366311061, guid: a0479a9c14f0da34bbf477c784cb8f65, type: 3}
+  m_Mesh: {fileID: -5076798556035486163, guid: 20558370351cd8e4c8c60e7310a12696, type: 3}
 --- !u!23 &338302417500240966
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3a80c6231b934d34c9b99a0a0d948684, type: 2}
+  - {fileID: 2100000, guid: 86024f50650d54b4ab9e11573fcf3b27, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,7 +97,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -108,7 +108,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1865056248366311061, guid: a0479a9c14f0da34bbf477c784cb8f65, type: 3}
+  m_Mesh: {fileID: -5076798556035486163, guid: 20558370351cd8e4c8c60e7310a12696, type: 3}
 --- !u!54 &8878586784817105542
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 454f33c5231b37b4eb01ac6e48181bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &425603019407296549
+--- !u!95 &2414605399685137309
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -158,7 +158,7 @@ Animator:
   m_GameObject: {fileID: 6192714990006044032}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d546d65a60c99894aa6a623e6084e4dc, type: 2}
+  m_Controller: {fileID: 9100000, guid: f888c81e7f814b14bbc6cdd42417a082, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

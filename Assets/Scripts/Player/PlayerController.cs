@@ -121,6 +121,7 @@ public class PlayerController : Singleton<PlayerController>
         FloorManager.NextRoomLoaded += EnableAllDefaultControls;
         FloorManager.LeaveRoom += DisableAllDefaultControls;
         AttackRange.AttackEnded += EnableAllDefaultControls;
+        AttackRange.AttackEnded += () => _movementSpeed = currentLegs.MovementSpeed;
         // FloorManager.EnableFloor += EnableAllDefaultControls;
 
         // Assign default controls
@@ -149,6 +150,7 @@ public class PlayerController : Singleton<PlayerController>
         FloorManager.NextRoomLoaded -= EnableAllDefaultControls;
         FloorManager.LeaveRoom -= DisableAllDefaultControls;
         AttackRange.AttackEnded -= EnableAllDefaultControls;
+        AttackRange.AttackEnded -= () => _movementSpeed = currentLegs.MovementSpeed;
         // FloorManager.EnableFloor -= EnableAllDefaultControls;
 
         DisableAllDefaultControls();
@@ -196,6 +198,19 @@ public class PlayerController : Singleton<PlayerController>
     {
         _unpause.Disable();
         _closeEM.Disable();
+    }
+
+    private void DisableAttackControls()
+    {
+        // _movement.Disable();
+        _look.Disable();
+        _attackRight.Disable();
+        _attackLeft.Disable();
+        _legsAbility.Disable();
+        _swapLimbs.Disable();
+        _interact.Disable();
+        // _pause.Disable();
+        // _openEM.Disable();
     }
 
     private void ChangeControlSchemes(PlayerInput input)
@@ -310,9 +325,8 @@ public class PlayerController : Singleton<PlayerController>
         if (_attackRight.triggered && CanAttack)
         {
             CanAttack = false;
-            DisableAllDefaultControls();
             //currentRightArm.PauseInput();
-
+            
             DetermineAttackAnimation(currentRightArm, SideOfPlayer.Right);
 
             OnAttack?.Invoke();
@@ -327,7 +341,6 @@ public class PlayerController : Singleton<PlayerController>
         if (_attackLeft.triggered && CanAttack)
         {
             CanAttack = false;
-            DisableAllDefaultControls();
             //currentRightArm.PauseInput();
 
             DetermineAttackAnimation(currentLeftArm, SideOfPlayer.Left);
@@ -385,9 +398,12 @@ public class PlayerController : Singleton<PlayerController>
         switch (arm.Weight)
         {
             case Weight.Core:
+            _movementSpeed *= 0.3f;
                 animator.SetTrigger("BaseAttack");
                 break;
             case Weight.Heavy: // Covers croc + rhino, but not shark (may need to be a ground slam instead???)
+                DisableAttackControls();
+                _movementSpeed *= 0.1f;
                 animator.SetTrigger("HeavyAttack");
                 break;
             case Weight.Medium:
@@ -396,6 +412,8 @@ public class PlayerController : Singleton<PlayerController>
                 // If we had specific attacks for each creature it would cause us to have to rethink the rig
                 break;
             case Weight.Light:
+                DisableAttackControls();
+                _movementSpeed *= 0.3f;
                 animator.SetTrigger("LightAttack");
                 break;
         }
