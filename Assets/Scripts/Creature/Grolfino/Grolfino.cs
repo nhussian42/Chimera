@@ -11,6 +11,7 @@ public class Grolfino : BossAI
     [SerializeField] private int numberOfSpikes;
     [SerializeField] private float timeBetweenSpikes;
     [SerializeField] private float spikeDamage;
+    [SerializeField] private float distanceBetweenSpikes;
     [SerializeField] private GameObject spike;
 
 
@@ -80,7 +81,7 @@ public class Grolfino : BossAI
         yield return null;
     }
 
-    private IEnumerator StartSpikeAttack(int numberOfSpikes, float timeBetweenSpikes)
+    private IEnumerator StartSpikeAttack(int numberOfSpikes, float timeBetweenSpikes, float distanceBetweenSpikes)
     {
         //Calculates forward direction for attacks
         Vector3 dir = Quaternion.AngleAxis(0, Vector3.up) * transform.forward;
@@ -90,9 +91,14 @@ public class Grolfino : BossAI
         //Instantiates spikes in a straight line with slightly random rotation
         for (int i = 0; i < numberOfSpikes; i++)
         {
-            GameObject s = Instantiate(spike, transform.position + (dir * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
-            GameObject s2 = Instantiate(spike, transform.position + (dir2 * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
-            GameObject s3 = Instantiate(spike, transform.position + (dir3 * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
+            GameObject s = Instantiate(spike, transform.position + (dir * distanceBetweenSpikes * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
+            GameObject s2 = Instantiate(spike, transform.position + (dir2 * distanceBetweenSpikes * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
+            GameObject s3 = Instantiate(spike, transform.position + (dir3 * distanceBetweenSpikes * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
+
+            Vector3 newScale = new Vector3(1 + (i * 0.1f), 1 + (i * 0.1f), 1 + (i * 0.1f));
+            s.transform.localScale = newScale;
+            s2.transform.localScale = newScale;
+            s3.transform.localScale = newScale;
 
             s.GetComponent<Spike>().spikeDamage = spikeDamage;
             s2.GetComponent<Spike>().spikeDamage = spikeDamage;
@@ -156,7 +162,7 @@ public class Grolfino : BossAI
             }
             else if (r == 1)
             {
-                StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes));
+                StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes, distanceBetweenSpikes));
             }
             else if (r == 2)
             {
