@@ -7,8 +7,10 @@ public abstract class Limb : MonoBehaviour
     // Exposed
     [SerializeField] protected Classification classification;
     [SerializeField] protected Weight weight;
+    [SerializeField] public Name limbName;
     [SerializeField] private float defaultHealth;
     [SerializeField] private float defaultMaxHealth;
+    [SerializeField] public Sprite limbSprite;
 
     // Protected
     protected float currentHealth;
@@ -17,12 +19,14 @@ public abstract class Limb : MonoBehaviour
 
     // Public getters
     public Classification Classification { get { return classification; } }
+    public Name Name { get { return limbName; } }
     public Weight Weight { get { return weight; } }
     public float Health { get { return currentHealth; } set { currentHealth = Mathf.Clamp(value, minHealth, maxHealth); }}
     public float MaxHealth { get { return maxHealth; } }
 
     public float DefaultHealth { get { return defaultHealth; } }
     public float DefaultMaxHealth { get { return defaultMaxHealth; } }
+
 
     public void UpdateHealth(float amount)
     {
