@@ -1140,7 +1140,7 @@ MonoBehaviour:
   defaultHealth: 100
   defaultMaxHealth: 100
   defaultAttackDamage: 10
-  defaultAttackSpeed: 1
+  defaultAttackSpeed: 0.8
   side: 0
   attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
     type: 3}
@@ -2586,7 +2586,7 @@ MonoBehaviour:
   - {fileID: 4876464065982753542}
   - {fileID: 9046302352859666798}
   - {fileID: 4875431189693882085}
-  - {fileID: 3222797542245987251}
+  - {fileID: 5184887656719626218}
   - {fileID: 8922459511799846915}
   allLegs:
   - {fileID: 1225942169148807824}
@@ -2599,6 +2599,7 @@ MonoBehaviour:
   coreLeftArm: {fileID: 4953931813178917154}
   coreRightArm: {fileID: 6543709977600552567}
   coreLegs: {fileID: 1225942169148807824}
+  coreHead: {fileID: 822374487050714662}
   attackRangeLeftOrigin: {fileID: 865760508072513655}
   attackRangeRightOrigin: {fileID: 4585391653819130557}
   animator: {fileID: 3048959359936504127}
@@ -4099,7 +4100,7 @@ MonoBehaviour:
   defaultHealth: 100
   defaultMaxHealth: 100
   defaultAttackDamage: 10
-  defaultAttackSpeed: 1
+  defaultAttackSpeed: 0.8
   side: 1
   attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
     type: 3}
@@ -4256,8 +4257,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 0
   weight: 0
-  defaultHealth: 40
-  defaultMaxHealth: 40
+  defaultHealth: 50
+  defaultMaxHealth: 50
   defaultAttackDamage: 15
   defaultAttackSpeed: 0.7
   side: 0
@@ -6335,7 +6336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6519269652912546412}
   - component: {fileID: 7400260383687435472}
-  - component: {fileID: 3222797542245987251}
+  - component: {fileID: 5184887656719626218}
   m_Layer: 6
   m_Name: RhinoArm_L
   m_TagString: Untagged
@@ -6420,6 +6421,27 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0100106, y: 0.22134674, z: 0.78620243}
     m_Extent: {x: 1.2180408, y: 0.61442, z: 0.7954006}
   m_DirtyAABB: 0
+--- !u!114 &5184887656719626218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7433155870146330783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87c9ac2874b0a6459787f240b6f73fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  classification: 0
+  weight: 0
+  defaultHealth: 50
+  defaultMaxHealth: 50
+  defaultAttackDamage: 15
+  defaultAttackSpeed: 0.7
+  side: 1
+  attackRangePrefab: {fileID: 5182243123753938400, guid: 09deb61281c8e9742834b1ae1c37c5bb,
+    type: 3}
 --- !u!1 &7477643183633414637
 GameObject:
   m_ObjectHideFlags: 0
