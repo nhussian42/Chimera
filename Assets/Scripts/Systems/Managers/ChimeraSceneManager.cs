@@ -15,6 +15,8 @@ public class ChimeraSceneManager : Singleton<ChimeraSceneManager>
     {
         FloorManager.LeaveRoom += FadeOutToBlack;
         FloorManager.NextRoomLoaded += FadeInToBlack;
+
+        MainMenu.StartPressed += FadeOutToBlack;
         //PlayerController.OnDie += FadeOutToBlack;
     }
 
@@ -22,6 +24,8 @@ public class ChimeraSceneManager : Singleton<ChimeraSceneManager>
     {
         FloorManager.LeaveRoom -= FadeOutToBlack;
         FloorManager.NextRoomLoaded -= FadeInToBlack;
+
+        MainMenu.StartPressed -= FadeOutToBlack;
     }
     private void FadeOutToBlack()
     {
@@ -43,6 +47,7 @@ public class ChimeraSceneManager : Singleton<ChimeraSceneManager>
             yield return null;
         }
         FloorManager.LoadNextRoom?.Invoke();
+        MainMenu.LoadFirstRoom?.Invoke();
     }
 
     private IEnumerator FadeIn(float fadeInTime)
