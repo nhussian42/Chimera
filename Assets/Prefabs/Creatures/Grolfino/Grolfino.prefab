@@ -186,7 +186,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   numberOfSpikes: 18
-  timeBetweenSpikes: 0.1
+  timeBetweenSpikes: 0.15
   spikeDamage: 5
   distanceBetweenSpikes: 2
   spike: {fileID: 7992538046275668304, guid: e95dafa6e69e7b149b89ffead601b0fb, type: 3}
@@ -202,7 +202,10 @@ MonoBehaviour:
   sweepAttackCollider: {fileID: 3264562288825394453}
   burrowCooldown: 8
   teleportRange: 10
+  minorCreatures:
+  - {fileID: 2808466385115696920, guid: f49d9933ae83d2e4a834171b58798e9a, type: 3}
   bossMesh: {fileID: 3945894084706364008}
+  bossAttack: []
 --- !u!1 &3195776303206709816
 GameObject:
   m_ObjectHideFlags: 0

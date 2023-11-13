@@ -34,10 +34,13 @@ public class Grolfino : BossAI
     [SerializeField] private float burrowCooldown = 3f;
     [SerializeField] private float teleportRange = 30f;
 
+
+    [SerializeField] private List<GameObject> minorCreatures;
+    private bool halfHealthThresholdReached = false;
     private float currentBurrowCooldown = 0f;
     [SerializeField] private GameObject bossMesh;
     private BoxCollider boxCollider;
-    private List<string> bossAttack;
+    [SerializeField] private List<string> bossAttack;
 
 
     private void Start()
@@ -60,6 +63,17 @@ public class Grolfino : BossAI
         {
             StartCoroutine(Burrow());
             currentBurrowCooldown = burrowCooldown;
+        }
+
+        //When boss reaches 50% health, attacks faster and more frequently
+        if (currentHealth < health / 2 && halfHealthThresholdReached == false)
+        {
+            halfHealthThresholdReached = true;
+            burrowCooldown /= 1.5f;
+            timeBetweenProjectiles /= 1.5f;
+            projectileSpeed *= 2f;
+            timeBetweenSpikes /= 1.5f;
+            sweepDuration /= 1.5f;
         }
     }
 
