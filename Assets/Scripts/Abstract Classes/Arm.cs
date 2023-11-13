@@ -28,6 +28,7 @@ public abstract class Arm : Limb
     public bool CanAttack { get { return canAttack; } }
     public float DefaultAttackDamage { get { return defaultAttackDamage; } }
     public float DefaultAttackSpeed { get { return defaultAttackSpeed; } }
+    
 
     
     // Called by Player Controller on trigger 
