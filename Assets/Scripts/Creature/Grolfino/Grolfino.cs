@@ -15,7 +15,7 @@ public class Grolfino : BossAI
     [SerializeField] private GameObject spike;
 
 
-    [Header("Ranged Attack")]
+    [Header("Projectile Attack")]
     [SerializeField] private int numberOfProjectiles;
     [SerializeField] private float timeBetweenProjectiles;
     [SerializeField] private float projectileDamage;
@@ -35,14 +35,17 @@ public class Grolfino : BossAI
     [SerializeField] private float teleportRange = 30f;
 
     private float currentBurrowCooldown = 0f;
-    private MeshRenderer meshRenderer;
     [SerializeField] private GameObject bossMesh;
     private BoxCollider boxCollider;
+    private List<string> bossAttack;
 
 
     private void Start()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        bossAttack.Add("SpikeAttack");
+        bossAttack.Add("ProjectileAttack");
+        bossAttack.Add("SweepAttack");
+
         boxCollider = GetComponent<BoxCollider>();
         agent.isStopped = true;
     }
@@ -155,18 +158,30 @@ public class Grolfino : BossAI
             }
 
             //Randomly picks an attack to perform
-            int r = Random.Range(0, 3);
-            if (r == 0)
+            //Once an attack is performed, it is removed from the list
+            //When every attack has been performed, the list is refilled
+            int r = Random.Range(0, bossAttack.Count);
+            if (bossAttack[r] == "ProjectileAttack")
             {
                 StartCoroutine(StartRangedAttack(numberOfProjectiles, timeBetweenProjectiles));
+                bossAttack.Remove("ProjectileAttack");
             }
-            else if (r == 1)
+            else if (bossAttack[r] == "SpikeAttack")
             {
                 StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes, distanceBetweenSpikes));
+                bossAttack.Remove("SpikeAttack");
             }
-            else if (r == 2)
+            else if (bossAttack[r] == "SweepAttack")
             {
                 StartCoroutine(StartSweepAttack(sweepAngle, sweepDuration));
+                bossAttack.Remove("SweepAttack");
+            }
+
+            if (bossAttack.Count == 0)
+            {
+                bossAttack.Add("SpikeAttack");
+                bossAttack.Add("ProjectileAttack");
+                bossAttack.Add("SweepAttack");
             }
             yield return null;
         }
