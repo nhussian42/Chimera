@@ -15,6 +15,9 @@ public class MainMenuController : Singleton<MainMenuController>
     private const string mouseScheme = "Keyboard&Mouse"; 
 
     [SerializeField] private GameObject _mainMenuStart;
+    [SerializeField] private GameObject _settingsMenuStart;
+
+    private bool isOnMainMenu = true;
 
      protected override void Init()
     {
@@ -38,7 +41,10 @@ public class MainMenuController : Singleton<MainMenuController>
         _select = _playerInputActions.UI.Select;
         _select.Enable();
 
-        EventSystem.current.SetSelectedGameObject(_mainMenuStart);
+        if (isOnMainMenu)
+            SelectMainMenuStart();
+        else
+            SelectSettingsMenuStart();
     }
 
     private void DisableUIControllerControls()
@@ -64,5 +70,17 @@ public class MainMenuController : Singleton<MainMenuController>
 
             EnableUIControllerControls();
         }
+    }
+
+    public void SelectMainMenuStart()
+    {
+        isOnMainMenu = true;
+        EventSystem.current.SetSelectedGameObject(_mainMenuStart);
+    }
+
+    public void SelectSettingsMenuStart()
+    {
+        isOnMainMenu = false;
+        EventSystem.current.SetSelectedGameObject(_settingsMenuStart);
     }
 }
