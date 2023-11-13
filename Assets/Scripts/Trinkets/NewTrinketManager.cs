@@ -43,7 +43,7 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(OptionOneGO);
 
-        
+        PlayerController.Instance.Pause();
 
         trinketOne = masterTrinketList.GetRandomTrinket();
         trinketTwo = masterTrinketList.GetRandomTrinket();
@@ -75,6 +75,7 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
         EMScript.Instance.AddTrinket(trinketOne);
         Debug.Log(trinketOne.TrinketName);
         gameObject.SetActive(false);
+        UIManager.ResumePressed();
     }
     public void PickupOptionTwo()
     {
@@ -82,6 +83,7 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
         EMScript.Instance.AddTrinket(trinketTwo);
         Debug.Log(trinketOne.TrinketName);
         gameObject.SetActive(false);
+        UIManager.ResumePressed();
     }
     public void PickupOptionThree()
     {
@@ -89,5 +91,6 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
         EMScript.Instance.AddTrinket(trinketThree);
         Debug.Log(trinketThree.TrinketName);
         gameObject.SetActive(false);
+        UIManager.ResumePressed();
     }
 }
