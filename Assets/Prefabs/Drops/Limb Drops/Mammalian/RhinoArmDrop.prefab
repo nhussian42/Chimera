@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3653024600277252923}
   - component: {fileID: 213544860972622858}
   m_Layer: 0
-  m_Name: Croc_Arm_L
+  m_Name: Rhino_Arm_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,14 +25,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3843007134453517770}
-  m_LocalRotation: {x: -0, y: -0, z: -0.037560046, w: 0.99929446}
-  m_LocalPosition: {x: 0.8, y: -2.08, z: 0.04}
+  m_LocalRotation: {x: 0.08724816, y: 0.06734875, z: 0.084562786, w: 0.9903035}
+  m_LocalPosition: {x: 1.489, y: -1.664, z: -0.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6523781888698248655}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -4.305}
+  m_LocalEulerAnglesHint: {x: 9.289, y: 8.634, z: 10.464}
 --- !u!33 &3653024600277252923
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3843007134453517770}
-  m_Mesh: {fileID: 1197582036233005294, guid: 02d200a96acdd384fa5bb873900d070c, type: 3}
+  m_Mesh: {fileID: 2437098204291501225, guid: 10fcfc6ef7c605c489d32f782e2b3532, type: 3}
 --- !u!23 &213544860972622858
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 75ccd14262147714081eaa376bf088c2, type: 2}
+  - {fileID: 2100000, guid: 64b602b21cdc6974d930453f5a52e129, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 1669952791111070830}
   - component: {fileID: 4876641304011081291}
   m_Layer: 0
-  m_Name: CrocArmDrop
+  m_Name: RhinoArmDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 0
-  classification: 1
+  classification: 0
   type: 1
 --- !u!65 &4876641304011081291
 BoxCollider:
