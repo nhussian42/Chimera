@@ -398,7 +398,7 @@ public class PlayerController : Singleton<PlayerController>
         switch (arm.Weight)
         {
             case Weight.Core:
-            _movementSpeed *= 0.3f;
+            _movementSpeed *= 0.5f;
                 animator.SetTrigger("BaseAttack");
                 break;
             case Weight.Heavy: // Covers croc + rhino, but not shark (may need to be a ground slam instead???)
