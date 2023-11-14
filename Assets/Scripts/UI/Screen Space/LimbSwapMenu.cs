@@ -140,7 +140,7 @@ public class LimbSwapMenu : MonoBehaviour
                 // Set icons here later
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
-                statText1.text = "HP: " + "(" + playerController.currentLeftArm.Health + "/" + playerController.currentHead.DefaultMaxHealth + ")";
+                statText1.text = "HP: " + "(" + playerController.currentLeftArm.Health + "/" + playerController.currentLeftArm.DefaultMaxHealth + ")";
                 statText2.text = "ATK: " + playerController.currentLeftArm.DefaultAttackDamage;
                 statText3.text = "SPD: " + playerController.currentLeftArm.DefaultAttackSpeed;
                 statText4.text = "HP: " + "(" + arm.Health + "/" + arm.DefaultMaxHealth + ")";
@@ -172,7 +172,7 @@ public class LimbSwapMenu : MonoBehaviour
                 // Set icons here later
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
-                statText1.text = "HP: " + "(" + playerController.currentRightArm.Health + "/" + playerController.currentHead.DefaultMaxHealth + ")";
+                statText1.text = "HP: " + "(" + playerController.currentRightArm.Health + "/" + playerController.currentRightArm.DefaultMaxHealth + ")";
                 statText2.text = "ATK: " + playerController.currentRightArm.DefaultAttackDamage;
                 statText3.text = "SPD: " + playerController.currentRightArm.DefaultAttackSpeed;
                 statText4.text = "HP: " + "(" + arm.Health + "/" + arm.DefaultMaxHealth + ")";
