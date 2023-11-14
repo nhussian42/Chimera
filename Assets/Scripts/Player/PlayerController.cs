@@ -71,12 +71,13 @@ public class PlayerController : Singleton<PlayerController>
     public Legs currentLegs { get; private set; }
     public Head currentHead { get; private set;}
 
-    [SerializeField] Transform AttackRangeOrigin;
-    [SerializeField] GameObject attackRangeRotator;
+    [SerializeField] Transform attackRangeLeftOrigin;
+    [SerializeField] Transform attackRangeRightOrigin;
 
     [SerializeField] Animator animator;
     public Animator Animator { get { return animator; } }
-    public Transform attackRangeOrigin { get { return AttackRangeOrigin; } }
+    public Transform AttackRangeLeftOrigin { get { return attackRangeLeftOrigin; } }
+    public Transform AttackRangeRightOrigin { get { return attackRangeRightOrigin; } }
 
     //public static Action PlayerSpawned;
 
@@ -103,6 +104,8 @@ public class PlayerController : Singleton<PlayerController>
     public float totalBones;
     public float bonesMultiplier;
 
+    public bool CanAttack = true;
+
     protected override void Init()
     {
         _playerInput = GetComponent<PlayerInput>();
@@ -118,7 +121,10 @@ public class PlayerController : Singleton<PlayerController>
         GameManager.OnUnpause += Unpause;
         FloorManager.LoadNextRoom += Deactivate;
         FloorManager.NextRoomLoaded += SetStartPosition;
+        FloorManager.NextRoomLoaded += EnableAllDefaultControls;
         FloorManager.LeaveRoom += DisableAllDefaultControls;
+        AttackRange.AttackEnded += EnableAllDefaultControls;
+        AttackRange.AttackEnded += () => _movementSpeed = currentLegs.MovementSpeed;
         // FloorManager.EnableFloor += EnableAllDefaultControls;
 
         // Assign default controls
@@ -132,8 +138,6 @@ public class PlayerController : Singleton<PlayerController>
         _pause = _playerInputActions.DefaultControls.Pause;
         _openEM = _playerInputActions.DefaultControls.OpenEM;
 
-        EnableAllDefaultControls();
-
         // Assign UI controls
         _unpause = _playerInputActions.UI.UnPause;
         _closeEM = _playerInputActions.UI.CloseEM;
@@ -146,11 +150,15 @@ public class PlayerController : Singleton<PlayerController>
         GameManager.OnUnpause -= Unpause;
         FloorManager.LoadNextRoom -= Deactivate;
         FloorManager.NextRoomLoaded -= SetStartPosition;
+        FloorManager.NextRoomLoaded -= EnableAllDefaultControls;
         FloorManager.LeaveRoom -= DisableAllDefaultControls;
+        AttackRange.AttackEnded -= EnableAllDefaultControls;
+        AttackRange.AttackEnded -= () => _movementSpeed = currentLegs.MovementSpeed;
         // FloorManager.EnableFloor -= EnableAllDefaultControls;
 
         DisableAllDefaultControls();
         DisableAllUIControls();
+        CanAttack = false;
     }
 
     private void OnDestroy()
@@ -163,6 +171,8 @@ public class PlayerController : Singleton<PlayerController>
 
     private void EnableAllDefaultControls()
     {
+        if (GameManager.CurrentGameState != GameState.IsPlaying) return;
+
         _movement.Enable();
         _look.Enable();
         _attackRight.Enable();
@@ -191,6 +201,19 @@ public class PlayerController : Singleton<PlayerController>
     {
         _unpause.Disable();
         _closeEM.Disable();
+    }
+
+    private void DisableAttackControls()
+    {
+        // _movement.Disable();
+        _look.Disable();
+        _attackRight.Disable();
+        _attackLeft.Disable();
+        _legsAbility.Disable();
+        _swapLimbs.Disable();
+        _interact.Disable();
+        // _pause.Disable();
+        // _openEM.Disable();
     }
 
     private void ChangeControlSchemes(PlayerInput input)
@@ -245,6 +268,7 @@ public class PlayerController : Singleton<PlayerController>
             LoadSavedLimb(saveManager.SavedRightArm);
             LoadSavedLimb(saveManager.SavedCore);
             LoadSavedLimb(saveManager.SavedLegs);
+            
         }
         else
         {
@@ -258,11 +282,17 @@ public class PlayerController : Singleton<PlayerController>
             currentLeftArm = coreLeftArm;
             currentRightArm = coreRightArm;
             currentLeftArm.Initialize(this);
+            animator.SetFloat("LArmAtkSpeed", currentLeftArm.AttackSpeed);
             currentRightArm.Initialize(this);
+            animator.SetFloat("RArmAtkSpeed", currentRightArm.AttackSpeed);
+            
             core.LoadDefaultStats();
         }
 
-        // read default build to base stats SO on first load
+        CanAttack = true;
+        ResetAttackTriggers();
+
+        // read default build to base rstats SO on first load
         //currentBaseStatsSO.UpdateCurrentBuild(core, currentLeftArm, currentRightArm, currentLegs);
         OnSwapLimbs.Invoke();
 
@@ -289,7 +319,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         movementValues = _movement.ReadValue<Vector2>();
         movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
-        Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
+        Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z);
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
         
         if(transform.position.y > 1.5f)
@@ -303,35 +333,35 @@ public class PlayerController : Singleton<PlayerController>
             RotatePlayer(movementVector); 
 
         // Reads L and R mouse buttons 
-        if (_attackRight.triggered == true && currentRightArm.CanAttack == true)
+        if (_attackRight.triggered && CanAttack)
         {
+            CanAttack = false;
             //currentRightArm.PauseInput();
+            
+            DetermineAttackAnimation(currentRightArm, SideOfPlayer.Right);
 
-            OnAttack.Invoke();
+            OnAttack?.Invoke();
 
-            animator.SetTrigger("BaseAttack");
-            animator.SetBool("LeftSide", false);
-
-            if (isRightWolfArm)
-                AudioManager.Instance.PlayPlayerSFX("WolfArm");
-            else
-                AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
+            // // Need new audio implementation
+            // if (isRightWolfArm)
+            //     AudioManager.Instance.PlayPlayerSFX("WolfArm");
+            // else
+            //     AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
-
-        if (_attackLeft.triggered == true && currentLeftArm.CanAttack == true)
+        if (_attackLeft.triggered && CanAttack)
         {
+            CanAttack = false;
             //currentRightArm.PauseInput();
 
-            OnAttack.Invoke();
+            DetermineAttackAnimation(currentLeftArm, SideOfPlayer.Left);
 
-            animator.SetTrigger("BaseAttack");
-            animator.SetBool("LeftSide", true);
+            OnAttack?.Invoke();
 
-            if (isLeftWolfArm)
-                AudioManager.Instance.PlayPlayerSFX("WolfArm");
-            else
-                AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
+            // if (isLeftWolfArm)
+            //     AudioManager.Instance.PlayPlayerSFX("WolfArm");
+            // else
+            //     AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
         if(_legsAbility.triggered == true && currentLegs.CanActivate == true)
@@ -351,8 +381,6 @@ public class PlayerController : Singleton<PlayerController>
                 //animator.SetTrigger("Dash");
                 currentLegs.ActivateAbility();
             }
-            
-            
         }
 
         if (_swapLimbs.triggered == true)
@@ -372,6 +400,41 @@ public class PlayerController : Singleton<PlayerController>
             Pause();
             //EquipMenu.SetActive(true);
         }
+    }
+
+    private void DetermineAttackAnimation(Arm arm, SideOfPlayer side)
+    {
+        animator.SetBool("LeftSide", side == SideOfPlayer.Left);
+
+        switch (arm.Weight)
+        {
+            case Weight.Core:
+            _movementSpeed *= 0.5f;
+                animator.SetTrigger("BaseAttack");
+                break;
+            case Weight.Heavy: // Covers croc + rhino, but not shark (may need to be a ground slam instead???)
+                DisableAttackControls();
+                _movementSpeed *= 0.1f;
+                animator.SetTrigger("HeavyAttack");
+                break;
+            case Weight.Medium:
+                // 11/8 Notes - Nick
+                // Potentially all the medium creatures can give "line" attacks with the push and pull functionality, we might need to rework how these attacks are
+                // If we had specific attacks for each creature it would cause us to have to rethink the rig
+                break;
+            case Weight.Light:
+                DisableAttackControls();
+                _movementSpeed *= 0.3f;
+                animator.SetTrigger("LightAttack");
+                break;
+        }
+    }
+
+    public void ResetAttackTriggers()
+    {
+        animator.ResetTrigger("BaseAttack");
+        animator.ResetTrigger("HeavyAttack");
+        animator.ResetTrigger("LightAttack");
     }
 
     private void FixedUpdate()
@@ -432,9 +495,6 @@ public class PlayerController : Singleton<PlayerController>
     private void SetPlayerPosition(Vector3 to)
     {
         transform.position = to;
-
-        // Lets the character controller know that the position was manually set by a transform
-        // this gave me (Nick) two hours of headaches figuring this out
         Physics.SyncTransforms();
     }
 
@@ -442,12 +502,16 @@ public class PlayerController : Singleton<PlayerController>
     {
         // Called by animation event to enable attack collider at specific point in anim timeline.
         currentLeftArm.Attack();
+        ResetAttackTriggers();
+        CanAttack = true;
     }
 
     private void RightAttack()
     {
         // Called by animation event to enable attack collider at specific point in anim timeline.
         currentRightArm.Attack();
+        ResetAttackTriggers();
+        CanAttack = true;
     }
 
     private void ActivateLegs()
@@ -490,6 +554,9 @@ public class PlayerController : Singleton<PlayerController>
                     currentRightArm.AttackSpeed,
                     currentRightArm.MaxHealth,
                     currentRightArm.Health);
+
+                animator.SetFloat("LArmAtkSpeed", currentLeftArm.AttackSpeed);
+                animator.SetFloat("RArmAtkSpeed", currentRightArm.AttackSpeed);
             }
         }
 
@@ -517,6 +584,10 @@ public class PlayerController : Singleton<PlayerController>
                     switchAtkSpd,
                     switchMxHP,
                     switchHP);
+
+                animator.SetFloat("LArmAtkSpeed", currentLeftArm.AttackSpeed);
+                animator.SetFloat("RArmAtkSpeed", currentRightArm.AttackSpeed);
+                
             }
         }
 
@@ -580,6 +651,7 @@ public class PlayerController : Singleton<PlayerController>
                     currentRightArm = arm;
                     currentRightArm.Initialize(this);
                     currentRightArm.LoadDefaultStats();
+                    animator.SetFloat("RArmAtkSpeed", currentRightArm.AttackSpeed);
                     currentRightArm.Health = newArm.LimbHealth;
 
                 }
@@ -595,6 +667,7 @@ public class PlayerController : Singleton<PlayerController>
                     currentLeftArm = arm;
                     currentLeftArm.Initialize(this);
                     currentLeftArm.LoadDefaultStats();
+                    animator.SetFloat("LArmAtkSpeed", currentLeftArm.AttackSpeed);
                     currentLeftArm.Health = newArm.LimbHealth;
                 }
             }
@@ -647,6 +720,7 @@ public class PlayerController : Singleton<PlayerController>
                         savedArm.AttackSpeed,
                         savedArm.MaxHealth,
                         savedArm.Health);
+                    animator.SetFloat("RArmAtkSpeed", currentRightArm.AttackSpeed);
                     //Debug.Log("savedArm.Health: " + savedArm.Health);
                     //Debug.Log("currentRightArm.Health: " + currentRightArm.Health);
                 }
@@ -665,6 +739,7 @@ public class PlayerController : Singleton<PlayerController>
                         savedArm.AttackSpeed,
                         savedArm.MaxHealth,
                         savedArm.Health);
+                    animator.SetFloat("LArmAtkSpeed", currentLeftArm.AttackSpeed);
                     //Debug.Log("savedArm.Health: " + savedArm.Health);
                     //Debug.Log("currentLeftArm.Health: " + currentLeftArm.Health);
                 }
