@@ -336,7 +336,7 @@ public class PlayerController : Singleton<PlayerController>
             RotatePlayer(movementVector); 
 
         // Reads L and R mouse buttons 
-        if (_attackRight.triggered == true && currentRightArm.CanAttack == true)
+        if (_attackRight.triggered == true && CanAttack)
         {
             CanAttack = false;
             //currentRightArm.PauseInput();

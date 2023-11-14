@@ -409,12 +409,12 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 2115084494}
+    m_TransformParent: {fileID: 665976735}
     m_Modifications:
     - target: {fileID: 5252917493137791230, guid: b1f91e54c233e5c45aa8d994dfe6fd72,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5252917493137791230, guid: b1f91e54c233e5c45aa8d994dfe6fd72,
         type: 3}
@@ -439,17 +439,17 @@ PrefabInstance:
     - target: {fileID: 5252917493137791230, guid: b1f91e54c233e5c45aa8d994dfe6fd72,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5252917493137791230, guid: b1f91e54c233e5c45aa8d994dfe6fd72,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5252917493137791230, guid: b1f91e54c233e5c45aa8d994dfe6fd72,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5252917493137791230, guid: b1f91e54c233e5c45aa8d994dfe6fd72,
         type: 3}
@@ -474,7 +474,7 @@ PrefabInstance:
     - target: {fileID: 5597117825006032296, guid: b1f91e54c233e5c45aa8d994dfe6fd72,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -743,6 +743,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1542492312}
   - {fileID: 537161514}
   - {fileID: 459790138}
   - {fileID: 1241793094}
@@ -1573,6 +1574,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4942246739838718868, guid: ca9034841ed887d408b0411cb8a7bd27,
+        type: 3}
+      propertyPath: m_Size
+      value: 0.6159689
+      objectReference: {fileID: 0}
     - target: {fileID: 6491386089414425319, guid: ca9034841ed887d408b0411cb8a7bd27,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2148,7 +2154,6 @@ Transform:
   - {fileID: 2113933707}
   - {fileID: 702265862}
   - {fileID: 866839172}
-  - {fileID: 1542492312}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
