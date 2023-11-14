@@ -9,7 +9,12 @@ using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 
 using UnityEngine.Events;
+
 using System.Runtime.CompilerServices;
+
+using Unity.Burst.Intrinsics;
+using Unity.VisualScripting.Dependencies.Sqlite;
+
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
@@ -27,6 +32,8 @@ public class PlayerController : Singleton<PlayerController>
     private InputAction _unpause;
     private InputAction _openEM;
     private InputAction _closeEM;
+    private InputAction _switchToLeftArm;
+    private InputAction _switchToRightArm;
     // Put new actions here
     public CharacterController _controller;
 
@@ -37,7 +44,11 @@ public class PlayerController : Singleton<PlayerController>
     private const string mouseScheme = "Keyboard&Mouse"; 
 
     [SerializeField] private GameObject EquipMenu;
+
     private bool menuToggle;
+
+    [HideInInspector] public LimbSwapMenu limbSwapMenu;
+
 
     [SerializeField] private Camera _mainCamera;
     private float _movementSpeed; // references current legs
@@ -145,6 +156,8 @@ public class PlayerController : Singleton<PlayerController>
         // Assign UI controls
         _unpause = _playerInputActions.UI.UnPause;
         _closeEM = _playerInputActions.UI.CloseEM;
+        _switchToLeftArm = _playerInputActions.UI.SwitchToLeftArm;
+        _switchToRightArm = _playerInputActions.UI.SwitchToRightArm;
     }
 
     // Disable new player input actions in this method
@@ -173,7 +186,7 @@ public class PlayerController : Singleton<PlayerController>
         
     }
 
-    private void EnableAllDefaultControls()
+    public void EnableAllDefaultControls()
     {
         if (GameManager.CurrentGameState != GameState.IsPlaying) return;
 
@@ -204,11 +217,20 @@ public class PlayerController : Singleton<PlayerController>
     {
         _unpause.Disable();
         _closeEM.Disable();
+        _switchToLeftArm.Disable();
+        _switchToRightArm.Disable();
+    }
+
+    private void EnableAllUIControls() // not sure if this is the best way to do this, please refactor if needed - Amon
+    {
+        //these controls are used to switch arms in the menus
+        _switchToLeftArm.Enable();
+        _switchToRightArm.Enable();
     }
 
     private void DisableAttackControls()
     {
-        // _movement.Disable();
+        //_movement.Disable();
         _look.Disable();
         _attackRight.Disable();
         _attackLeft.Disable();
@@ -249,17 +271,17 @@ public class PlayerController : Singleton<PlayerController>
         // Set all limbs' stats to default, then hide them
         foreach (Arm arm in allArms)
         {
-            if(saveManager.firstLoad == true) { arm.LoadDefaultStats(); }
+            if(saveManager.firstLoad == true) { arm.gameObject.SetActive(true); arm.LoadDefaultStats(); }
             arm.gameObject.SetActive(false);
         }
         foreach (Legs legs in allLegs)
         {
-            if(saveManager.firstLoad == true) { legs.LoadDefaultStats(); }
+            if(saveManager.firstLoad == true) { legs.gameObject.SetActive(true); legs.LoadDefaultStats(); }
             legs.gameObject.SetActive(false);
         }
         foreach (Head head in allHeads)
         {
-            if (saveManager.firstLoad == true) { head.LoadDefaultStats(); }
+            if (saveManager.firstLoad == true) { head.gameObject.SetActive(true); head.LoadDefaultStats(); }
             head.gameObject.SetActive(false);
         }
 
@@ -390,6 +412,9 @@ public class PlayerController : Singleton<PlayerController>
         if (_swapLimbs.triggered == true)
             SwitchArms();
 
+        if (_switchToLeftArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm) limbSwapMenu.SetToLeftArm();
+        if (_switchToRightArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm) limbSwapMenu.SetToRightArm();
+
         if (_pause.triggered == true)
             Pause();
 
@@ -462,9 +487,14 @@ public class PlayerController : Singleton<PlayerController>
             //Interact button implementation - refactor whole section when limb swamp menu is implemented (Amon)
             if(_interact.triggered == true)
             {
-                SwapLimb(currentLegs, newLimb);
-                Destroy(newLimb.gameObject);
-                //OnLegsSwapped?.Invoke();
+                // display limb swap menu
+                limbSwapMenu.Enable(newLimb);
+
+                // Custom function later for UI? The one we have now does not disable movement
+                _movement.Disable();
+                EnableAllUIControls();
+                DisableAttackControls();                
+
             }
 
             //Configure later for limb swap menu controls
@@ -604,7 +634,7 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     // Called to swap a current limb with a limb drop
-    private void SwapLimb(Head originalHead, LimbDrop newHead)
+    public void SwapLimb(Head originalHead, LimbDrop newHead)
     {
         if(newHead.LimbType == LimbType.Head)
         foreach (Head head in allHeads)
@@ -620,7 +650,7 @@ public class PlayerController : Singleton<PlayerController>
         }
         OnSwapLimbs.Invoke();
     }
-    private void SwapLimb(Legs originalLegs, LimbDrop newLegs)
+    public void SwapLimb(Legs originalLegs, LimbDrop newLegs)
     {
         if(newLegs.LimbType == LimbType.Legs)
         foreach (Legs legs in allLegs)
@@ -637,7 +667,7 @@ public class PlayerController : Singleton<PlayerController>
         }
         OnSwapLimbs.Invoke();
     }
-    private void SwapLimb(Arm originalArm, LimbDrop newArm)
+    public void SwapLimb(Arm originalArm, LimbDrop newArm)
     {
         if(newArm.LimbType == LimbType.Arm)
         foreach (Arm arm in allArms)
