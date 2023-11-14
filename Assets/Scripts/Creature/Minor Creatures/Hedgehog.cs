@@ -9,7 +9,7 @@ public class Hedgehog : NotBossAI
     [SerializeField, Tooltip("How fast it charges")] private float chargeSpeed = 10f;
     [SerializeField, Tooltip("How long it charges for")] private float chargeTime = 0.5f;
     [SerializeField, Tooltip("How long after a charge until it can charge again")] private float attackCooldown = 1f;
-
+    [SerializeField] private float chargeKnockback;
 
     private void Start()
     {
@@ -19,6 +19,7 @@ public class Hedgehog : NotBossAI
     public override IEnumerator Attack()
     {
         //Stops the movement
+        knockbackForce = chargeKnockback;
         animator.SetBool("Charging", true);
         AudioManager.Instance.PlayMinEnemySFX("HedgehogSqueak");
         attacking = true;
@@ -45,5 +46,9 @@ public class Hedgehog : NotBossAI
         yield return null;
     }
 
-
+    protected override void Die()
+    {
+        base.Die();
+        AudioManager.Instance.PlayMinEnemySFX("HedgehogDie");
+    }
 }
