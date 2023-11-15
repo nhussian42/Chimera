@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Burst.Intrinsics;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 // Swap Limb behavior checklist
 /*
@@ -107,13 +111,18 @@ public class LimbSwapMenu : MonoBehaviour
                 currentLimbName.text = playerController.currentHead.name;
                 proposedLimbName.text = head.name;
 
+                // Check if the health value on the limb has been altered, if not use the default max health value on the limb
+                float headHealth = proposedLimbDrop.LimbHealth;
+                if (proposedLimbDrop.LimbHealth <= 0)
+                    headHealth = head.DefaultMaxHealth;
+
                 // Set icons here later
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentHead.Health + "/" + playerController.currentHead.DefaultMaxHealth + ")"; // current head's HP (current/maximum)
                 statText2.text = "";
                 statText3.text = "";
-                statText4.text = "HP: " + "(" + head.Health + "/" + head.DefaultMaxHealth + ")"; // proposed head's HP
+                statText4.text = "HP: " + "(" + headHealth + "/" + head.DefaultMaxHealth + ")"; // proposed head's HP
                 statText5.text = "";
                 statText6.text = "";
 
@@ -137,13 +146,18 @@ public class LimbSwapMenu : MonoBehaviour
                 currentLimbName.text = playerController.currentLeftArm.name;
                 proposedLimbName.text = arm.name;
 
+                // Check if the health value on the limb has been altered, if not use the default max health value on the limb
+                float armHealth = proposedLimbDrop.LimbHealth;
+                if (proposedLimbDrop.LimbHealth <= 0)
+                    armHealth = arm.DefaultMaxHealth;
+
                 // Set icons here later
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentLeftArm.Health + "/" + playerController.currentLeftArm.DefaultMaxHealth + ")";
                 statText2.text = "ATK: " + playerController.currentLeftArm.DefaultAttackDamage;
                 statText3.text = "SPD: " + playerController.currentLeftArm.DefaultAttackSpeed;
-                statText4.text = "HP: " + "(" + arm.Health + "/" + arm.DefaultMaxHealth + ")";
+                statText4.text = "HP: " + "(" + armHealth + "/" + arm.DefaultMaxHealth + ")";
                 statText5.text = "ATK: " + arm.DefaultAttackDamage;
                 statText6.text = "SPD: " + arm.DefaultAttackSpeed;
 
@@ -169,13 +183,18 @@ public class LimbSwapMenu : MonoBehaviour
                 currentLimbName.text = playerController.currentRightArm.name;
                 proposedLimbName.text = arm.name;
 
+                // Check if the health value on the limb has been altered, if not use the default max health value on the limb
+                float armHealth = proposedLimbDrop.LimbHealth;
+                if (proposedLimbDrop.LimbHealth <= 0)
+                    armHealth = arm.DefaultMaxHealth;
+
                 // Set icons here later
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentRightArm.Health + "/" + playerController.currentRightArm.DefaultMaxHealth + ")";
                 statText2.text = "ATK: " + playerController.currentRightArm.DefaultAttackDamage;
                 statText3.text = "SPD: " + playerController.currentRightArm.DefaultAttackSpeed;
-                statText4.text = "HP: " + "(" + arm.Health + "/" + arm.DefaultMaxHealth + ")";
+                statText4.text = "HP: " + "(" + armHealth + "/" + arm.DefaultMaxHealth + ")";
                 statText5.text = "ATK: " + arm.DefaultAttackDamage;
                 statText6.text = "SPD: " + arm.DefaultAttackSpeed;
 
@@ -211,13 +230,18 @@ public class LimbSwapMenu : MonoBehaviour
                 currentLimbName.text = playerController.currentLegs.name;
                 proposedLimbName.text = legs.name;
 
+                // Check if the health value on the limb has been altered, if not use the default max health value on the limb
+                float legsHealth = proposedLimbDrop.LimbHealth;
+                if (proposedLimbDrop.LimbHealth <= 0)
+                    legsHealth = legs.DefaultMaxHealth;
+
                 // Set icons here later
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentLegs.Health + "/" + playerController.currentLegs.DefaultMaxHealth + ")";
                 statText2.text = "SPD: " + playerController.currentLegs.DefaultMovementSpeed;
                 statText3.text = "CD: " + playerController.currentLegs.DefaultCooldownTime + " sec";
-                statText4.text = "HP: " + "(" + legs.Health + "/" + legs.DefaultMaxHealth + ")";
+                statText4.text = "HP: " + "(" + legsHealth + "/" + legs.DefaultMaxHealth + ")";
                 statText5.text = "SPD: " + legs.DefaultMovementSpeed;
                 statText6.text = "CD: " + legs.DefaultCooldownTime + " sec";
 
@@ -268,6 +292,14 @@ public class LimbSwapMenu : MonoBehaviour
         playerController.AddBones(50); //replace with the exposed amount on the proposed limb
         Destroy(proposedLimbDrop.gameObject);
         playerController.EnableAllDefaultControls();
+    }
+
+    private float Truncate(float value)
+    {
+        value = Mathf.RoundToInt(value * 10);
+        value /= 10;
+        return value;
+
     }
 
     public void Exit()

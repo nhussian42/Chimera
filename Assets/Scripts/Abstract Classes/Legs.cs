@@ -18,7 +18,7 @@ public abstract class Legs : Limb
     public float MovementSpeed { get { return movementSpeed; } }
     public float CooldownTime { get { return cooldownTime; } }
     public float DefaultMovementSpeed { get { return defaultMovementSpeed; } }
-    public float DefaultCooldownTime { get { return cooldownTime; } }
+    public float DefaultCooldownTime { get { return defaultCooldownTime; } }
 
     // Refs
     protected PlayerController player; // needed to manipulate player visibility and movement

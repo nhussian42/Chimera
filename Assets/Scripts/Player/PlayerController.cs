@@ -183,7 +183,8 @@ public class PlayerController : Singleton<PlayerController>
         // Called when the player exits the room (loading a new scene destroys all current scene objects)
         if (core.Health == 0) { saveManager.Reset(); }
         else { saveManager.SaveLimbData(currentHead, currentLeftArm, currentRightArm, core, currentLegs); }
-        
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+
     }
 
     public void EnableAllDefaultControls()
@@ -271,17 +272,17 @@ public class PlayerController : Singleton<PlayerController>
         // Set all limbs' stats to default, then hide them
         foreach (Arm arm in allArms)
         {
-            if(saveManager.firstLoad == true) { arm.gameObject.SetActive(true); arm.LoadDefaultStats(); }
+            if(saveManager.firstLoad == true) { arm.LoadDefaultStats(); }
             arm.gameObject.SetActive(false);
         }
         foreach (Legs legs in allLegs)
         {
-            if(saveManager.firstLoad == true) { legs.gameObject.SetActive(true); legs.LoadDefaultStats(); }
+            if(saveManager.firstLoad == true) { legs.LoadDefaultStats(); }
             legs.gameObject.SetActive(false);
         }
         foreach (Head head in allHeads)
         {
-            if (saveManager.firstLoad == true) { head.gameObject.SetActive(true); head.LoadDefaultStats(); }
+            if (saveManager.firstLoad == true) { head.LoadDefaultStats(); }
             head.gameObject.SetActive(false);
         }
 
@@ -476,13 +477,13 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (other.gameObject.TryGetComponent<LimbDrop>(out LimbDrop newLimb) != false)
         {
-            // Scrap Limb
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                Debug.Log("Scrapped Item");
-                Instance.AddBones(50);
-                Destroy(newLimb.gameObject);
-            }
+            //// Scrap Limb
+            //if (Input.GetKeyDown(KeyCode.K))
+            //{
+            //    Debug.Log("Scrapped Item");
+            //    Instance.AddBones(50);
+            //    Destroy(newLimb.gameObject);
+            //}
 
             //Interact button implementation - refactor whole section when limb swamp menu is implemented (Amon)
             if(_interact.triggered == true)
@@ -497,20 +498,20 @@ public class PlayerController : Singleton<PlayerController>
 
             }
 
-            //Configure later for limb swap menu controls
-            if (_attackRight.triggered == true)
-            {
-                SwapLimb(currentRightArm, newLimb);
-                Destroy(newLimb.gameObject);
-                OnArmSwapped?.Invoke();
+            ////Configure later for limb swap menu controls
+            //if (_attackRight.triggered == true)
+            //{
+            //    SwapLimb(currentRightArm, newLimb);
+            //    Destroy(newLimb.gameObject);
+            //    OnArmSwapped?.Invoke();
 
-            }
-            else if (_attackLeft.triggered == true)
-            {
-                SwapLimb(currentLeftArm, newLimb);
-                Destroy(newLimb.gameObject);
-                OnArmSwapped?.Invoke();
-            }
+            //}
+            //else if (_attackLeft.triggered == true)
+            //{
+            //    SwapLimb(currentLeftArm, newLimb);
+            //    Destroy(newLimb.gameObject);
+            //    OnArmSwapped?.Invoke();
+            //}
         }
     }
 
@@ -645,8 +646,9 @@ public class PlayerController : Singleton<PlayerController>
                 head.gameObject.SetActive(true);
                 head.LoadDefaultStats();
                 currentHead = head;
-                // add function here for overwriting current health of equipped head to match the stored health of the pickup
-            }
+                if (newHead.LimbHealth <= 0) { newHead.OverwriteLimbHealth(currentHead.DefaultMaxHealth); }
+                currentHead.Health = newHead.LimbHealth;
+                }
         }
         OnSwapLimbs.Invoke();
     }
@@ -662,7 +664,8 @@ public class PlayerController : Singleton<PlayerController>
                 legs.LoadDefaultStats();
                 currentLegs = legs;
                 _movementSpeed = currentLegs.MovementSpeed;
-                // add function here for overwriting current health of equipped legs to match the stored health of the pickup
+                if (newLegs.LimbHealth <= 0) { newLegs.OverwriteLimbHealth(currentLegs.DefaultMaxHealth); }
+                currentLegs.Health = newLegs.LimbHealth;
             }
         }
         OnSwapLimbs.Invoke();
@@ -687,6 +690,7 @@ public class PlayerController : Singleton<PlayerController>
                     currentRightArm.Initialize(this);
                     currentRightArm.LoadDefaultStats();
                     animator.SetFloat("RArmAtkSpeed", currentRightArm.AttackSpeed);
+                    if (newArm.LimbHealth <= 0) { newArm.OverwriteLimbHealth(currentRightArm.DefaultMaxHealth); }
                     currentRightArm.Health = newArm.LimbHealth;
 
                 }
@@ -703,11 +707,13 @@ public class PlayerController : Singleton<PlayerController>
                     currentLeftArm.Initialize(this);
                     currentLeftArm.LoadDefaultStats();
                     animator.SetFloat("LArmAtkSpeed", currentLeftArm.AttackSpeed);
+                    if (newArm.LimbHealth <= 0) { newArm.OverwriteLimbHealth(currentLeftArm.DefaultMaxHealth); }
                     currentLeftArm.Health = newArm.LimbHealth;
                 }
             }
         }
         OnSwapLimbs.Invoke();
+        OnArmSwapped?.Invoke();
     }
     
 
@@ -910,6 +916,10 @@ public class PlayerController : Singleton<PlayerController>
                 damagedLimbs.Add(currentLeftArm);
             if (currentRightArm != coreRightArm)
                 damagedLimbs.Add(currentRightArm);
+            if (currentLegs != coreLegs)
+                damagedLimbs.Add(currentLegs);
+            if (currentHead != coreHead)
+                damagedLimbs.Add(currentHead);
 
             foreach (Limb limb in damagedLimbs)
             {
