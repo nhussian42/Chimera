@@ -786,7 +786,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             currentRightArm.Terminate();
             currentRightArm.LoadDefaultStats();
-            currentRightArm.gameObject.SetActive(false);
+            // currentRightArm.gameObject.SetActive(false);
             currentRightArm = coreRightArm;
             currentRightArm.gameObject.SetActive(true);
             currentRightArm.Initialize(this);
@@ -795,7 +795,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             currentLeftArm.Terminate();
             currentLeftArm.LoadDefaultStats();
-            currentLeftArm.gameObject.SetActive(false);
+            // currentLeftArm.gameObject.SetActive(false);
             currentLeftArm = coreLeftArm;
             currentLeftArm.gameObject.SetActive(true);
             currentLeftArm.Initialize(this);

@@ -18,6 +18,8 @@ public abstract class Limb : MonoBehaviour
     protected float minHealth = 0;
     protected float maxHealth;
 
+    private bool dissolving;
+
     // Public getters
     public Classification Classification { get { return classification; } }
     public Name Name { get { return limbName; } }
@@ -44,13 +46,16 @@ public abstract class Limb : MonoBehaviour
 
     public virtual void Disintegrate()
     {
-        //DissolveTraverse(transform);
+        if (dissolving) return;
+        dissolving = true;
+        
         ActivateLimbDissolve(transform);
+        // DissolveTraverse(transform);
     }
 
     private void DissolveTraverse(Transform t)
     {
-        if (t.childCount <= 0) return;
+        if (t.childCount <= 1) return;
 
         foreach (Transform child in t)
         {
@@ -63,7 +68,7 @@ public abstract class Limb : MonoBehaviour
     {
         if (TryGetComponent(out LimbDissolve dissolve))
         {
-            print("BWAH");
+            print("YIPPEEEE");
             dissolve.Dissolve();
         }
     }

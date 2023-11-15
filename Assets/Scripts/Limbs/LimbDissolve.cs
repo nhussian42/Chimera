@@ -45,5 +45,7 @@ public class LimbDissolve : MonoBehaviour
             mat.SetFloat("_DissolveHeight", dissolveHeight);
             yield return null;
         }
+
+        gameObject.SetActive(false);
     }
 }

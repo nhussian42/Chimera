@@ -2538,7 +2538,7 @@ Transform:
   - {fileID: 7120051725487143016}
   - {fileID: 6976358354469409987}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3048959359936504127
 Animator:
@@ -2639,8 +2639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 2793159458867588477}
-  EquipMenu: {fileID: 3346927322668887821, guid: ca9034841ed887d408b0411cb8a7bd27,
-    type: 3}
+  EquipMenu: {fileID: 0}
   _mainCamera: {fileID: 0}
   _turnSpeed: 1300
   smoothMovementEnabled: 1
@@ -5701,6 +5700,7 @@ GameObject:
   - component: {fileID: 2898810588073608162}
   - component: {fileID: 6970871679074188879}
   - component: {fileID: 4876464065982753542}
+  - component: {fileID: 4770244124050011644}
   m_Layer: 6
   m_Name: WolfArm_R
   m_TagString: Untagged
@@ -5808,6 +5808,21 @@ MonoBehaviour:
   side: 0
   attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
     type: 3}
+--- !u!114 &4770244124050011644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6191589523603986354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a7e184d8500d04fbc3a67fa0e6c964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveDuration: 2
+  undissolvedHeight: 4
+  fullyDissolvedHeight: -1.5
 --- !u!1 &6257170371691078448
 GameObject:
   m_ObjectHideFlags: 0
@@ -6163,7 +6178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 1
   weight: 0
-  limbName: 0
+  limbName: 1
   defaultHealth: 30
   defaultMaxHealth: 30
   limbSprite: {fileID: 0}
@@ -6584,6 +6599,7 @@ GameObject:
   - component: {fileID: 4798375277047165863}
   - component: {fileID: 7760728473443049174}
   - component: {fileID: 7519665129616702369}
+  - component: {fileID: 5986036991736504929}
   m_Layer: 6
   m_Name: WolfArm_L
   m_TagString: Untagged
@@ -6691,6 +6707,21 @@ MonoBehaviour:
   side: 1
   attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
     type: 3}
+--- !u!114 &5986036991736504929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6943437068508584156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a7e184d8500d04fbc3a67fa0e6c964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveDuration: 2
+  undissolvedHeight: 4
+  fullyDissolvedHeight: -1.5
 --- !u!1 &7015660444147226570
 GameObject:
   m_ObjectHideFlags: 0
