@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,7 +44,27 @@ public abstract class Limb : MonoBehaviour
 
     public virtual void Disintegrate()
     {
-        // shader dissolve thing here maybe?
-        
+        //DissolveTraverse(transform);
+        ActivateLimbDissolve(transform);
+    }
+
+    private void DissolveTraverse(Transform t)
+    {
+        if (t.childCount <= 0) return;
+
+        foreach (Transform child in t)
+        {
+            ActivateLimbDissolve(t);
+            DissolveTraverse(t);
+        }
+    }
+
+    private void ActivateLimbDissolve(Transform t)
+    {
+        if (TryGetComponent(out LimbDissolve dissolve))
+        {
+            print("BWAH");
+            dissolve.Dissolve();
+        }
     }
 }

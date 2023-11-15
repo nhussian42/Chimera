@@ -165,7 +165,7 @@ public abstract class Arm : Limb
     public override void Disintegrate()
     {
         base.Disintegrate();
-        PlayerController.Instance.RevertToDefault(this);
+        //PlayerController.Instance.RevertToDefault(this);
     }
 
     public void DebugLog()

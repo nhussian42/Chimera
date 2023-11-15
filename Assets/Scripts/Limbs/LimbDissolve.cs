@@ -11,10 +11,10 @@ public class LimbDissolve : MonoBehaviour
 
     Material mat;
 
-    private void Start()
+    private void OnEnable()
     {
         mat = GetComponent<SkinnedMeshRenderer>().material;
-        Dissolve();
+        // Dissolve();
     }
 
     private void OnDisable()
