@@ -6,39 +6,44 @@ using UnityEngine;
 public class LimbDissolve : MonoBehaviour
 {
     [SerializeField] float dissolveDuration = 3; 
-    [SerializeField] float startValue = 0; 
-    [SerializeField] float endValue = 10; 
-    float valueToLerp;
+    [SerializeField] float undissolvedHeight = 0; 
+    [SerializeField] float fullyDissolvedHeight = 10;
 
     Material mat;
 
     private void Start()
     {
-        
         mat = GetComponent<SkinnedMeshRenderer>().material;
-        StartCoroutine(Lerp());
-    }
-    private IEnumerator Lerp()
-    {
-        float timeElapsed = 0;
-        while (timeElapsed < dissolveDuration)
-        {
-            valueToLerp = Mathf.Lerp(startValue, endValue, timeElapsed / dissolveDuration);
-            timeElapsed += Time.deltaTime;
-            mat.SetFloat("_DissolveHeight", valueToLerp);
-            yield return null;
-        }
-
-        valueToLerp = endValue;
-        float temp = startValue;
-        startValue = endValue;
-        endValue = temp;
-
-        StartCoroutine(Lerp());
+        Dissolve();
     }
 
     private void OnDisable()
     {
-        
+        mat.SetFloat("_DissolveHeight", undissolvedHeight);
+    }
+
+    public void Dissolve()
+    {
+        StartCoroutine(DissolveLimb());
+    }
+
+    public void DissolveWithColor(Color dissolveColor)
+    {
+        mat.SetColor("_DissolveColor", dissolveColor);
+        StartCoroutine(DissolveLimb());
+    }
+
+    private IEnumerator DissolveLimb()
+    {
+        float timeElapsed = 0;
+        float dissolveHeight;
+
+        while (timeElapsed < dissolveDuration)
+        {
+            dissolveHeight = Mathf.Lerp(undissolvedHeight, fullyDissolvedHeight, timeElapsed / dissolveDuration);
+            timeElapsed += Time.deltaTime;
+            mat.SetFloat("_DissolveHeight", dissolveHeight);
+            yield return null;
+        }
     }
 }
