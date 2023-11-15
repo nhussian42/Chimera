@@ -6,6 +6,7 @@ public class ArmDrop : MonoBehaviour
 {
     [SerializeField] Classification classification;
     [SerializeField] Weight weight;
+    
 
     public Classification Classification { get { return classification; } }
     public Weight Weight { get { return weight; } }
