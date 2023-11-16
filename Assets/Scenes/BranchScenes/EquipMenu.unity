@@ -777,15 +777,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c663f5b2020d9b440854d07dd630a4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  validFloors: 
   bottomLeftStartDoors:
   - {fileID: 1463131331}
   bottomRightStartDoors:
   - {fileID: 1837640563}
-  exitDoors: []
-  currentMajorCreature: {fileID: 0}
-  currentMinorCreature: {fileID: 0}
-  majorCreatureSpawnsParent: {fileID: 0}
-  minorCreatureSpawnsParent: {fileID: 0}
 --- !u!4 &95789326
 Transform:
   m_ObjectHideFlags: 0
@@ -3384,7 +3380,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coreHealth: {fileID: 1167225210}
-  totalBones: {fileID: 0}
   rightArmHealth: {fileID: 413713971}
   rightArmDamage: {fileID: 1315403574}
   rightArmAttackSpeed: {fileID: 412536606}
@@ -3919,10 +3914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92803d12ba435ce48aad10e28d393028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trinketSlot: {fileID: 0}
-  contentPanel: {fileID: 0}
-  selectedDesc: {fileID: 0}
-  playerInv: {fileID: 0}
+  EquipMenu: {fileID: 415390083}
 --- !u!1001 &623820633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4109,7 +4101,7 @@ SpriteRenderer:
   m_Size: {x: 640, y: 360}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &659743334
@@ -4556,8 +4548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2630b0e64ff0e439cc14d4f2bf1570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ExitRoomSide>k__BackingField: 0
-  _nextRoom: {fileID: 0}
+  _exitRoomSide: 1
 --- !u!65 &705310806
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5912,8 +5903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2630b0e64ff0e439cc14d4f2bf1570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ExitRoomSide>k__BackingField: 0
-  _nextRoom: {fileID: 0}
+  _exitRoomSide: 1
 --- !u!1 &988929513
 GameObject:
   m_ObjectHideFlags: 0
@@ -6828,7 +6818,7 @@ SpriteRenderer:
   m_Size: {x: 640, y: 360}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1118241164
@@ -8654,8 +8644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2630b0e64ff0e439cc14d4f2bf1570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ExitRoomSide>k__BackingField: 0
-  _nextRoom: {fileID: 0}
+  _exitRoomSide: 0
 --- !u!65 &1369600586
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8990,7 +8979,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.5
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 6b9f1337e6957d942ba1b499296e50db, type: 2}
   m_BuildHeightMesh: 0
@@ -9706,8 +9695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2630b0e64ff0e439cc14d4f2bf1570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ExitRoomSide>k__BackingField: 0
-  _nextRoom: {fileID: 0}
+  _exitRoomSide: 0
 --- !u!1 &1529641466
 GameObject:
   m_ObjectHideFlags: 0
@@ -11054,11 +11042,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -3.47
       objectReference: {fileID: 0}
-    - target: {fileID: 8176289624859524330, guid: dde6be5d931cea340b09714a51b7a0d5,
-        type: 3}
-      propertyPath: m_Name
-      value: Wall-Mounted Torch
-      objectReference: {fileID: 0}
     - target: {fileID: 8208350339389812999, guid: dde6be5d931cea340b09714a51b7a0d5,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -11488,10 +11471,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d0ddef684bde54e935f4896fceb9e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <currentFloor>k__BackingField: {fileID: 0}
-  combatRoomBuildIndex: 0
-  tutorialRoom: {fileID: 0}
+  _currentFloor: 0
   _currentRoom: {fileID: 33184616}
+  _totalRooms: 0
+  _currentRoomIndex: 1
 --- !u!1 &1784157494
 GameObject:
   m_ObjectHideFlags: 0
@@ -12462,7 +12445,7 @@ SpriteRenderer:
   m_Size: {x: 640, y: 360}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1001 &1918934359
