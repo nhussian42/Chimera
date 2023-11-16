@@ -11,6 +11,7 @@ public abstract class Limb : MonoBehaviour
     [SerializeField] private float defaultHealth;
     [SerializeField] private float defaultMaxHealth;
     [SerializeField] public Sprite limbSprite;
+    [SerializeField] public Sprite selectedSprite;
 
     // Protected
     protected float currentHealth;

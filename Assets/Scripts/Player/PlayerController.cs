@@ -398,7 +398,7 @@ public class PlayerController : Singleton<PlayerController>
             EquipMenu.gameObject.SetActive(!EquipMenu.gameObject.activeSelf);
             menuToggle = !menuToggle;
             EMScript.Instance.ListTrinkets();
-
+            
             if (menuToggle) Pause();
                  
             if (menuToggle == false) UIManager.ResumePressed();
