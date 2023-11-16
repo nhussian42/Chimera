@@ -18,12 +18,11 @@ public class PlayerInvSlot : MonoBehaviour
     [SerializeField] private GameObject relic;
 
 
-    [SerializeField] private TMP_Text NameBox;
-    [SerializeField] private TMP_Text DescBox;
-    [SerializeField] private Image ImgBox;
+    [SerializeField] private TMP_Text limbName;
+    [SerializeField] private TMP_Text limbDesc;
 
 
-    //public event Action<PlayerInvSlot> OnLimbClicked;
+    public event Action<PlayerInvSlot> OnLimbClicked;
 
     public void OnPointerClick(BaseEventData data)
     {
@@ -31,80 +30,42 @@ public class PlayerInvSlot : MonoBehaviour
 
         if (pointerData.button == PointerEventData.InputButton.Left)
         {
-            //OnLimbClicked?.Invoke(this);
+            OnLimbClicked?.Invoke(this);
         }
 
         switch (pointerData.pointerCurrentRaycast.gameObject.name)
         {
             case "Arm_L":
-                UnityEngine.Debug.Log("ARM_L");    
-                NameBox.text = (PlayerController.Instance.currentLeftArm.Name.ToString() + " Arm");
-                DescBox.text = "Left Arm Desc";
-                SetSprite(PlayerController.Instance.currentLeftArm.Name, LimbType.Arm, PlayerController.Instance.currentLeftArm);
-                break;              
-                
+                UnityEngine.Debug.Log("ARM_L");
+                limbName.text = "Left Arm Name";
+                limbDesc.text = "Left Arm Desc";
+                break;
             case "Arm_R":
                 UnityEngine.Debug.Log("ARM_R");
-                NameBox.text = (PlayerController.Instance.currentRightArm.Name.ToString() + " Arm");
-                DescBox.text = "Right Arm Desc";
-                SetSprite(PlayerController.Instance.currentRightArm.Name, LimbType.Arm, PlayerController.Instance.currentRightArm);
+                limbName.text = "Right Arm Name";
+                limbDesc.text = "Right Arm Desc";
                 break;
-
             case "Head":
-                NameBox.text = "Head Name";
-                //NameBox.text = (PlayerController.Instance.currentHead.Name.ToString() + " Arm");
-                DescBox.text = "Head Desc";
+                UnityEngine.Debug.Log("Head");
+                limbName.text = "Head Name";
+                limbDesc.text = "Head Desc";
                 break;
             case "Core":
-                NameBox.text = "Chimera Core";
-                DescBox.text = "Core Desc";
+                UnityEngine.Debug.Log("Core");
+                limbName.text = "Core Name";
+                limbDesc.text = "Core Desc";
                 break;
             case "Legs":
-                NameBox.text = (PlayerController.Instance.currentLegs.Name.ToString() + " Legs");
-                DescBox.text = "Legs Desc";
+                UnityEngine.Debug.Log("Legs");
+                limbName.text = "Legs Name";
+                limbDesc.text = "Legs Desc";
                 break;
             case "Relic":
                 UnityEngine.Debug.Log("Relic");
-                NameBox.text = "Relic Name";
-                DescBox.text = "Relic Desc";
+                limbName.text = "Relic Name";
+                limbDesc.text = "Relic Desc";
                 break;
-                //if (PlayerController.Instance.currentRightArm.Classification.ToString() != "Core")
-                //{
-                //    NameBox.text = PlayerController.Instance.currentRightArm.Name.ToString();
-                //    //DescBox.text = ;
-                //    break;
-                //}
-                //else
-                //{
-                //    NameBox.text = "Left Arm Name";
-                //    DescBox.text = "Left Arm Desc";
-                //}
         }
-
     }
-
-    public void SetSprite(Name name, LimbType type, Limb limb)
-    {
-        ImgBox.gameObject.SetActive(true);
-        var limbSprite = limb.limbSprite;
-
-        if(name.ToString() == "Core")
-        {
-            if (type.ToString() == "Arm")
-            {
-                ImgBox.sprite = limbSprite;
-            };
-        }
-
-        if(name.ToString() == "Wolf")
-        {
-            if (type.ToString() == "Arm")
-            {
-                ImgBox.sprite = limbSprite;
-            }
-        }
-
-    }
-
 
 }

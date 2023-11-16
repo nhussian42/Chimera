@@ -32,7 +32,6 @@ public abstract class Arm : Limb
     //public bool CanAttack { get { return canAttack; } set { canAttack = value; }}
     public float DefaultAttackDamage { get { return defaultAttackDamage; } }
     public float DefaultAttackSpeed { get { return defaultAttackSpeed; } }
-    
 
     // Public variables
     public ObjectPool<AttackRange> AttackRangePool { get; private set; }

@@ -6,8 +6,7 @@ using UnityEngine;
 public class CompoundTrinket : Trinket
 {
     [SerializeField] List<Trinket> trinketsToActivate = new List<Trinket>();
-    [SerializeField][HideInInspector] int quantity;
-    [SerializeField] bool trackQuantity;
+
     bool activated;
 
     public override void Enable()
@@ -36,11 +35,6 @@ public class CompoundTrinket : Trinket
                 }
             }
             activated = true;
-
-            if (trackQuantity == true)
-            {
-                quantity++;
-            }
         }
     }
 
