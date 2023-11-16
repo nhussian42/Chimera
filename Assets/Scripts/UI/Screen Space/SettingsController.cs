@@ -4,14 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using TMPro;
-using UnityEngine.EventSystems;
 
 public class SettingsController : MonoBehaviour
 {
     [SerializeField]
     private Slider _masterSlider, _musicSlider, _sfxSlider;
-    [SerializeField]
-    private GameObject SettingsGO;
     [SerializeField]
     private TextMeshProUGUI masterPercent, musicPercent, sfxPercent;
 
@@ -29,21 +26,8 @@ public class SettingsController : MonoBehaviour
         _sfxSlider.value = SaveValues.sfxVolume;
 
         fullScreenToggle.GetComponent<Toggle>().isOn = SaveValues.isFullscreen;
-
     }
-
-    public void SelectSettingsMenu()
-    {
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(_masterSlider.gameObject);
-    }
-
-    public void ReSelectSettings()
-    {
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(SettingsGO);
-    }
-
+    
     public void MasterVolume()
     {
         masterPercent.text = Mathf.RoundToInt(_masterSlider.value * 100) + "%";

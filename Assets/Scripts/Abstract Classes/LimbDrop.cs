@@ -8,16 +8,13 @@ public class LimbDrop : MonoBehaviour
     [SerializeField] protected Weight weight;
     [SerializeField] protected Classification classification;
     [SerializeField] protected LimbType type;
-    [SerializeField] protected Name limbName;
 
     private float limbHealth;
 
     public LimbType LimbType { get { return type; } }
     public Classification Classification { get { return classification; } }
     public Weight Weight { get { return weight; } }
-    public Name Name { get { return limbName; } } 
     public float LimbHealth { get { return limbHealth; } }
-
 
     private void OnEnable()
     {

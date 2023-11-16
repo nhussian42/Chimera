@@ -11,20 +11,23 @@ public class SelectedDescription : MonoBehaviour
     [SerializeField] private TMP_Text selectedName;
     [SerializeField] private TMP_Text selectedDesc;
 
-    public static SelectedDescription instance;
-
     public void Awake()
-    { 
-        instance = this;
+    {
+        ResetDescription();
     }
 
+    public void ResetDescription()
+    {
+        this.selectedImg.gameObject.SetActive(false);
+        this.selectedName.text = "";
+        this.selectedDesc.text = "";
+    }
 
     public void SetSelected(Sprite sprite, string name, string desc)
     {
-        selectedImg.gameObject.SetActive(true);
-        selectedImg.sprite = sprite;
-        selectedName.text = name;
-        selectedDesc.text = desc;
-        
+        this.selectedImg.gameObject.SetActive(true);
+        this.selectedImg.sprite = sprite;
+        this.selectedName.text = name;
+        this.selectedDesc.text = desc;
     }
 }
