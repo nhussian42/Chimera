@@ -77,8 +77,8 @@ public class PlayerInvSlot : MonoBehaviour
                 NameBox.text = "Relic Name";
                 DescBox.text = "Relic Desc";
                 break;
-
         }
+
     }
 
     public void SetLimbSprites()

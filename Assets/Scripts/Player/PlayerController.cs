@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 
 using UnityEngine.Events;
+
 using System.Runtime.CompilerServices;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
