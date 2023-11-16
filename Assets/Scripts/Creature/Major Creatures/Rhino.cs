@@ -67,7 +67,7 @@ public class Rhino : NotBossAI
     public override IEnumerator Attack()
     {
         //Rhino stops
-        StartCoroutine(FacePlayer());
+        StartCoroutine(FacePlayer(2));
         yield return new WaitForSeconds(1f);
 
         agent.isStopped = true;
@@ -144,16 +144,17 @@ public class Rhino : NotBossAI
         yield return null;
     }
 
-    private IEnumerator FacePlayer()
+    private IEnumerator FacePlayer(int rotationTime)
     {
-        float timer = 3f;
-        while (timer > 0f)
+        Debug.Log("Rotating");
+        float timer = 0f;
+        Quaternion lookRotation = Quaternion.LookRotation(player.transform.position - transform.position);
+        Quaternion startRotation = transform.rotation;
+        while (timer < rotationTime)
         {
-            timer -= Time.deltaTime;
-            Vector3 targetDirection = player.transform.position - transform.position;
-            float singleStep = 2.5f * Time.deltaTime;
-            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
-            transform.rotation = Quaternion.LookRotation(newDirection);
+            timer += Time.deltaTime;
+            Debug.Log("Timer = " + timer / rotationTime);
+            transform.rotation = Quaternion.Lerp(startRotation, lookRotation, timer / rotationTime);
             yield return null;
         }
     }
