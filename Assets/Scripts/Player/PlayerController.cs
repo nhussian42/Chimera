@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 
 using UnityEngine.Events;
+using System.Runtime.CompilerServices;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
@@ -36,6 +37,7 @@ public class PlayerController : Singleton<PlayerController>
     private const string mouseScheme = "Keyboard&Mouse"; 
 
     [SerializeField] private GameObject EquipMenu;
+    private bool menuToggle;
 
     [SerializeField] private Camera _mainCamera;
     private float _movementSpeed; // references current legs
@@ -84,6 +86,7 @@ public class PlayerController : Singleton<PlayerController>
     public static Action OnDamageReceived;
     public static Action OnArmSwapped;
     public static Action OnGamePaused;
+    public static Action ToggleMenuPause;
     public static Action OnDie;
 
     public static Action<LimbDrop> OnLimbDropTriggerStay; // DEBUG
@@ -96,6 +99,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private bool isLeftWolfArm = false;
     private bool isRightWolfArm = false;
+   
 
     private Vector2 movementValues;
     public Vector3 movementDir { get; private set; }
@@ -194,7 +198,6 @@ public class PlayerController : Singleton<PlayerController>
         _swapLimbs.Disable();
         _interact.Disable();
         _pause.Disable();
-        _openEM.Disable();
     }
 
     private void DisableAllUIControls()
@@ -333,14 +336,15 @@ public class PlayerController : Singleton<PlayerController>
             RotatePlayer(movementVector); 
 
         // Reads L and R mouse buttons 
-        if (_attackRight.triggered && CanAttack)
+        if (_attackRight.triggered == true && CanAttack)
         {
             CanAttack = false;
             //currentRightArm.PauseInput();
             
             DetermineAttackAnimation(currentRightArm, SideOfPlayer.Right);
 
-            OnAttack?.Invoke();
+            animator.SetTrigger("BaseAttack");
+            animator.SetBool("LeftSide", false);
 
             // // Need new audio implementation
             // if (isRightWolfArm)
@@ -388,19 +392,20 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_pause.triggered == true)
             Pause();
-        
-        if (_unpause.triggered == true || _closeEM.triggered == true)
-        {
-            UIManager.ResumePressed?.Invoke();
-            //EquipMenu.SetActive(false);
-        }
 
         if (_openEM.triggered == true)
         {
-            Pause();
-            //EquipMenu.SetActive(true);
+            EquipMenu.gameObject.SetActive(!EquipMenu.gameObject.activeSelf);
+            menuToggle = !menuToggle;
+            EMScript.Instance.ListTrinkets();
+
+            if (menuToggle) Pause();
+                 
+            if (menuToggle == false) UIManager.ResumePressed();
+                       
         }
-    }
+
+    }  
 
     private void DetermineAttackAnimation(Arm arm, SideOfPlayer side)
     {
@@ -912,11 +917,10 @@ public class PlayerController : Singleton<PlayerController>
         Debug.Log(_movementSpeed.ToString());
     }
 
-    private void Pause()
+    public void Pause()
     {
         DisableAllDefaultControls();
         _unpause.Enable();
-        _closeEM.Enable();
         OnGamePaused?.Invoke();
     }
 
@@ -924,7 +928,6 @@ public class PlayerController : Singleton<PlayerController>
     {
         EnableAllDefaultControls();
         _unpause.Disable();
-        _closeEM.Disable();
     }
 
     public void AddBones(float amount)
