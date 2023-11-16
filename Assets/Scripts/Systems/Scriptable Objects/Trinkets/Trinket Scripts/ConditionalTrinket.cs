@@ -11,6 +11,8 @@ public class ConditionalTrinket : Trinket
     [SerializeField] float thisValue;
     [SerializeField] bool treatAsPercent;
     [SerializeField] FloatVar returnTo;
+    [SerializeField][HideInInspector] int quantity;
+    [SerializeField] bool trackQuantity;
 
     [SerializeField] List<Conditional> onlyModifyIf = new List<Conditional>();
     [SerializeField]
@@ -46,6 +48,11 @@ public class ConditionalTrinket : Trinket
                 Calculate(); 
             }
             activated = true;
+
+            if (trackQuantity == true)
+            {
+                quantity++;
+            }
 
             if (debug == true) 
             {
