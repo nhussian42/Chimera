@@ -10,9 +10,6 @@ using UnityEngine.SceneManagement;
 
 using UnityEngine.Events;
 using System.Runtime.CompilerServices;
-using Unity.Burst.Intrinsics;
-using Unity.VisualScripting.Dependencies.Sqlite;
-
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
@@ -30,8 +27,6 @@ public class PlayerController : Singleton<PlayerController>
     private InputAction _unpause;
     private InputAction _openEM;
     private InputAction _closeEM;
-    private InputAction _switchToLeftArm;
-    private InputAction _switchToRightArm;
     // Put new actions here
     public CharacterController _controller;
 
@@ -42,11 +37,7 @@ public class PlayerController : Singleton<PlayerController>
     private const string mouseScheme = "Keyboard&Mouse"; 
 
     [SerializeField] private GameObject EquipMenu;
-
     private bool menuToggle;
-
-    [HideInInspector] public LimbSwapMenu limbSwapMenu;
-
 
     [SerializeField] private Camera _mainCamera;
     private float _movementSpeed; // references current legs
@@ -95,6 +86,7 @@ public class PlayerController : Singleton<PlayerController>
     public static Action OnDamageReceived;
     public static Action OnArmSwapped;
     public static Action OnGamePaused;
+    public static Action ToggleMenuPause;
     public static Action OnDie;
 
     public static Action<LimbDrop> OnLimbDropTriggerStay; // DEBUG
@@ -107,6 +99,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private bool isLeftWolfArm = false;
     private bool isRightWolfArm = false;
+   
 
     private Vector2 movementValues;
     public Vector3 movementDir { get; private set; }
@@ -152,8 +145,6 @@ public class PlayerController : Singleton<PlayerController>
         // Assign UI controls
         _unpause = _playerInputActions.UI.UnPause;
         _closeEM = _playerInputActions.UI.CloseEM;
-        _switchToLeftArm = _playerInputActions.UI.SwitchToLeftArm;
-        _switchToRightArm = _playerInputActions.UI.SwitchToRightArm;
     }
 
     // Disable new player input actions in this method
@@ -179,11 +170,10 @@ public class PlayerController : Singleton<PlayerController>
         // Called when the player exits the room (loading a new scene destroys all current scene objects)
         if (core.Health == 0) { saveManager.Reset(); }
         else { saveManager.SaveLimbData(currentHead, currentLeftArm, currentRightArm, core, currentLegs); }
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
-
+        
     }
 
-    public void EnableAllDefaultControls()
+    private void EnableAllDefaultControls()
     {
         if (GameManager.CurrentGameState != GameState.IsPlaying) return;
 
@@ -208,27 +198,17 @@ public class PlayerController : Singleton<PlayerController>
         _swapLimbs.Disable();
         _interact.Disable();
         _pause.Disable();
-        _openEM.Disable();
     }
 
     private void DisableAllUIControls()
     {
         _unpause.Disable();
         _closeEM.Disable();
-        _switchToLeftArm.Disable();
-        _switchToRightArm.Disable();
-    }
-
-    private void EnableAllUIControls() // not sure if this is the best way to do this, please refactor if needed - Amon
-    {
-        //these controls are used to switch arms in the menus
-        _switchToLeftArm.Enable();
-        _switchToRightArm.Enable();
     }
 
     private void DisableAttackControls()
     {
-        //_movement.Disable();
+        // _movement.Disable();
         _look.Disable();
         _attackRight.Disable();
         _attackLeft.Disable();
@@ -356,14 +336,15 @@ public class PlayerController : Singleton<PlayerController>
             RotatePlayer(movementVector); 
 
         // Reads L and R mouse buttons 
-        if (_attackRight.triggered && CanAttack)
+        if (_attackRight.triggered == true && CanAttack)
         {
             CanAttack = false;
             //currentRightArm.PauseInput();
             
             DetermineAttackAnimation(currentRightArm, SideOfPlayer.Right);
 
-            OnAttack?.Invoke();
+            animator.SetTrigger("BaseAttack");
+            animator.SetBool("LeftSide", false);
 
             // // Need new audio implementation
             // if (isRightWolfArm)
@@ -409,17 +390,8 @@ public class PlayerController : Singleton<PlayerController>
         if (_swapLimbs.triggered == true)
             SwitchArms();
 
-        if (_switchToLeftArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm) limbSwapMenu.SetToLeftArm();
-        if (_switchToRightArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm) limbSwapMenu.SetToRightArm();
-
         if (_pause.triggered == true)
             Pause();
-        
-        if (_unpause.triggered == true || _closeEM.triggered == true)
-        {
-            UIManager.ResumePressed?.Invoke();
-            //EquipMenu.SetActive(false);
-        }
 
         if (_openEM.triggered == true)
         {
@@ -432,7 +404,8 @@ public class PlayerController : Singleton<PlayerController>
             if (menuToggle == false) UIManager.ResumePressed();
                        
         }
-    }
+
+    }  
 
     private void DetermineAttackAnimation(Arm arm, SideOfPlayer side)
     {
@@ -478,41 +451,36 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (other.gameObject.TryGetComponent<LimbDrop>(out LimbDrop newLimb) != false)
         {
-            //// Scrap Limb
-            //if (Input.GetKeyDown(KeyCode.K))
-            //{
-            //    Debug.Log("Scrapped Item");
-            //    Instance.AddBones(50);
-            //    Destroy(newLimb.gameObject);
-            //}
+            // Scrap Limb
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                Debug.Log("Scrapped Item");
+                Instance.AddBones(50);
+                Destroy(newLimb.gameObject);
+            }
 
             //Interact button implementation - refactor whole section when limb swamp menu is implemented (Amon)
             if(_interact.triggered == true)
             {
-                // display limb swap menu
-                limbSwapMenu.Enable(newLimb);
-
-                // Custom function later for UI? The one we have now does not disable movement
-                _movement.Disable();
-                EnableAllUIControls();
-                DisableAttackControls();                
-
+                SwapLimb(currentLegs, newLimb);
+                Destroy(newLimb.gameObject);
+                //OnLegsSwapped?.Invoke();
             }
 
-            ////Configure later for limb swap menu controls
-            //if (_attackRight.triggered == true)
-            //{
-            //    SwapLimb(currentRightArm, newLimb);
-            //    Destroy(newLimb.gameObject);
-            //    OnArmSwapped?.Invoke();
+            //Configure later for limb swap menu controls
+            if (_attackRight.triggered == true)
+            {
+                SwapLimb(currentRightArm, newLimb);
+                Destroy(newLimb.gameObject);
+                OnArmSwapped?.Invoke();
 
-            //}
-            //else if (_attackLeft.triggered == true)
-            //{
-            //    SwapLimb(currentLeftArm, newLimb);
-            //    Destroy(newLimb.gameObject);
-            //    OnArmSwapped?.Invoke();
-            //}
+            }
+            else if (_attackLeft.triggered == true)
+            {
+                SwapLimb(currentLeftArm, newLimb);
+                Destroy(newLimb.gameObject);
+                OnArmSwapped?.Invoke();
+            }
         }
     }
 
@@ -636,7 +604,7 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     // Called to swap a current limb with a limb drop
-    public void SwapLimb(Head originalHead, LimbDrop newHead)
+    private void SwapLimb(Head originalHead, LimbDrop newHead)
     {
         if(newHead.LimbType == LimbType.Head)
         foreach (Head head in allHeads)
@@ -647,13 +615,12 @@ public class PlayerController : Singleton<PlayerController>
                 head.gameObject.SetActive(true);
                 head.LoadDefaultStats();
                 currentHead = head;
-                if (newHead.LimbHealth <= 0) { newHead.OverwriteLimbHealth(currentHead.DefaultMaxHealth); }
-                currentHead.Health = newHead.LimbHealth;
-                }
+                // add function here for overwriting current health of equipped head to match the stored health of the pickup
+            }
         }
         OnSwapLimbs.Invoke();
     }
-    public void SwapLimb(Legs originalLegs, LimbDrop newLegs)
+    private void SwapLimb(Legs originalLegs, LimbDrop newLegs)
     {
         if(newLegs.LimbType == LimbType.Legs)
         foreach (Legs legs in allLegs)
@@ -665,13 +632,12 @@ public class PlayerController : Singleton<PlayerController>
                 legs.LoadDefaultStats();
                 currentLegs = legs;
                 _movementSpeed = currentLegs.MovementSpeed;
-                if (newLegs.LimbHealth <= 0) { newLegs.OverwriteLimbHealth(currentLegs.DefaultMaxHealth); }
-                currentLegs.Health = newLegs.LimbHealth;
+                // add function here for overwriting current health of equipped legs to match the stored health of the pickup
             }
         }
         OnSwapLimbs.Invoke();
     }
-    public void SwapLimb(Arm originalArm, LimbDrop newArm)
+    private void SwapLimb(Arm originalArm, LimbDrop newArm)
     {
         if(newArm.LimbType == LimbType.Arm)
         foreach (Arm arm in allArms)
@@ -691,7 +657,6 @@ public class PlayerController : Singleton<PlayerController>
                     currentRightArm.Initialize(this);
                     currentRightArm.LoadDefaultStats();
                     animator.SetFloat("RArmAtkSpeed", currentRightArm.AttackSpeed);
-                    if (newArm.LimbHealth <= 0) { newArm.OverwriteLimbHealth(currentRightArm.DefaultMaxHealth); }
                     currentRightArm.Health = newArm.LimbHealth;
 
                 }
@@ -708,13 +673,11 @@ public class PlayerController : Singleton<PlayerController>
                     currentLeftArm.Initialize(this);
                     currentLeftArm.LoadDefaultStats();
                     animator.SetFloat("LArmAtkSpeed", currentLeftArm.AttackSpeed);
-                    if (newArm.LimbHealth <= 0) { newArm.OverwriteLimbHealth(currentLeftArm.DefaultMaxHealth); }
                     currentLeftArm.Health = newArm.LimbHealth;
                 }
             }
         }
         OnSwapLimbs.Invoke();
-        OnArmSwapped?.Invoke();
     }
     
 
@@ -917,10 +880,6 @@ public class PlayerController : Singleton<PlayerController>
                 damagedLimbs.Add(currentLeftArm);
             if (currentRightArm != coreRightArm)
                 damagedLimbs.Add(currentRightArm);
-            if (currentLegs != coreLegs)
-                damagedLimbs.Add(currentLegs);
-            if (currentHead != coreHead)
-                damagedLimbs.Add(currentHead);
 
             foreach (Limb limb in damagedLimbs)
             {
@@ -958,11 +917,10 @@ public class PlayerController : Singleton<PlayerController>
         Debug.Log(_movementSpeed.ToString());
     }
 
-    private void Pause()
+    public void Pause()
     {
         DisableAllDefaultControls();
         _unpause.Enable();
-        _closeEM.Enable();
         OnGamePaused?.Invoke();
     }
 
@@ -970,7 +928,6 @@ public class PlayerController : Singleton<PlayerController>
     {
         EnableAllDefaultControls();
         _unpause.Disable();
-        _closeEM.Disable();
     }
 
     public void AddBones(float amount)
