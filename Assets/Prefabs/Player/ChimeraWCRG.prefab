@@ -1137,7 +1137,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  limbName: 4
   defaultHealth: 100
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: 15673981f7fae424bab4aefba5c0f068, type: 3}
@@ -2175,11 +2174,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 0
   weight: 2
-  limbName: 0
   defaultHealth: 30
   defaultMaxHealth: 30
   limbSprite: {fileID: 21300000, guid: d902f3ca518661043b034b9d0578332d, type: 3}
   selectedSprite: {fileID: 21300000, guid: b111b0144038e9547a6df29b0543c0eb, type: 3}
+
   defaultMovementSpeed: 24
   defaultCooldownTime: 3
   dashDistance: 200
@@ -2253,7 +2252,7 @@ Transform:
   - {fileID: 7120051725487143016}
   - {fileID: 6976358354469409987}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3048959359936504127
 Animator:
@@ -2354,8 +2353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 2793159458867588477}
-  EquipMenu: {fileID: 3346927322668887821, guid: ca9034841ed887d408b0411cb8a7bd27,
-    type: 3}
+  EquipMenu: {fileID: 0}
   _mainCamera: {fileID: 0}
   _turnSpeed: 1300
   smoothMovementEnabled: 1
@@ -3131,7 +3129,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  limbName: 4
   defaultHealth: 100
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: 2f1d277ae408d844cb5852501b1ec17f, type: 3}
@@ -3968,9 +3965,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  limbName: 4
   defaultHealth: 100
   defaultMaxHealth: 100
+
   limbSprite: {fileID: 21300000, guid: e4102422eadd3b64d947d927c86d4b18, type: 3}
   selectedSprite: {fileID: 21300000, guid: be2c634c57f8ca14abd3f973a64e8823, type: 3}
 --- !u!1 &4737398191815994847
@@ -4116,11 +4113,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   classification: 3
   weight: 3
-  limbName: 4
   defaultHealth: 100
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: b7f0420002722514691dfa0697342ff3, type: 3}
   selectedSprite: {fileID: 21300000, guid: 3b9a031331db29749b5fa7109c5586ca, type: 3}
+
   defaultAttackDamage: 10
   defaultAttackSpeed: 0.8
   side: 1

@@ -18,20 +18,16 @@ public class PlayerInvSlot : MonoBehaviour
     [SerializeField] private GameObject relic;
 
 
-    [SerializeField] private TMP_Text NameBox;
-    [SerializeField] private TMP_Text DescBox;
-    [SerializeField] private Image ImgBox;
+    [SerializeField] private TMP_Text limbName;
+    [SerializeField] private TMP_Text limbDesc;
 
     [SerializeField] private GameObject LimbButtonGO;
     [SerializeField] private List<Button> LimbButtons;
     [SerializeField] private List<Button> LimbButtonHLs;
 
-
     //public event Action<PlayerInvSlot> OnLimbClicked;
     public void OnSelected(BaseEventData data)
     {
-        UnityEngine.Debug.Log(data.selectedObject.name);
-
         switch (data.selectedObject.name)
         {
             case "Arm_L":
@@ -43,7 +39,6 @@ public class PlayerInvSlot : MonoBehaviour
 
                 SetInfoSprite(PlayerController.Instance.currentLeftArm);
                 break;
-
             case "Arm_R":
                 NameBox.text = (PlayerController.Instance.currentRightArm.Name.ToString() + " Arm");
                 DescBox.text = (PlayerController.Instance.currentRightArm.Health.ToString("F0") + " / "
@@ -51,8 +46,16 @@ public class PlayerInvSlot : MonoBehaviour
                     + PlayerController.Instance.currentRightArm.AttackDamage.ToString() + " Damage\v"
                     + PlayerController.Instance.currentRightArm.AttackSpeed.ToString("F2") + " ATK Speed");
                 SetInfoSprite(PlayerController.Instance.currentRightArm);
-                break;
 
+                UnityEngine.Debug.Log("ARM_L");
+                limbName.text = "Left Arm Name";
+                limbDesc.text = "Left Arm Desc";
+                break;
+            case "Arm_R":
+                UnityEngine.Debug.Log("ARM_R");
+                limbName.text = "Right Arm Name";
+                limbDesc.text = "Right Arm Desc";
+                break;
             case "Head":
                 NameBox.text = (PlayerController.Instance.currentHead.Name.ToString() + " Head");
                 DescBox.text = (PlayerController.Instance.currentHead.Health.ToString("F0") + " / "
@@ -74,8 +77,8 @@ public class PlayerInvSlot : MonoBehaviour
                 break;
             case "Relic":
                 UnityEngine.Debug.Log("Relic");
-                NameBox.text = "Relic Name";
-                DescBox.text = "Relic Desc";
+                limbName.text = "Relic Name";
+                limbDesc.text = "Relic Desc";
                 break;
 
         }
@@ -143,7 +146,7 @@ public class PlayerInvSlot : MonoBehaviour
         var limbSprite = limb.limbSprite;
 
         ImgBox.sprite = limbSprite;
+        }
     }
-
 
 }

@@ -49,8 +49,7 @@ public class MainMenuController : Singleton<MainMenuController>
 
     private void DisableUIControllerControls()
     {
-        if (_select != null)
-            _select.Disable();
+        _select.Disable();
     }
 
     private void ChangeControlSchemes(PlayerInput input)
