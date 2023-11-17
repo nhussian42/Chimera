@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WolfLegs : Legs
+public class GeckoLegs : Legs
 {
     [SerializeField] float dashDistance;
     [SerializeField] float dashSpeed;
+    [SerializeField] int defaultDashCharges;
+    int currentDashCharge;
 
     private float t; //interpolator
     private bool activated;
@@ -28,9 +30,13 @@ public class WolfLegs : Legs
 
     public override void ActivateAbility()
     {
-        Debug.Log("pounce");
         t = 0;
         activated = true;
-        StartCoroutine(Cooldown());
+        currentDashCharge++;
+        if(currentDashCharge == defaultDashCharges)
+        {
+            currentDashCharge = 0;
+            StartCoroutine(Cooldown());
+        }
     }
 }

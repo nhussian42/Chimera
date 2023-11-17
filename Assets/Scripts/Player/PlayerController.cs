@@ -401,6 +401,7 @@ public class PlayerController : Singleton<PlayerController>
             // Temporary fix for using different animations for different limbs until we can implement a more complex solution - Amon
             if (currentLegs.Classification == Classification.Mammalian && currentLegs.Weight == Weight.Light)
             {
+                Debug.Log("Shift Pressed");
                 animator.SetTrigger("Pounce");
             }
             else
