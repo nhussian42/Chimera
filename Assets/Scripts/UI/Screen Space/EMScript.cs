@@ -95,6 +95,8 @@ public class EMScript : MonoBehaviour
 
         }
 
+        playerInv.SetLimbSprites();
+
         
     }
 
