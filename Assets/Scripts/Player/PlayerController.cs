@@ -88,6 +88,7 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] Transform attackRangeRightOrigin;
 
     [SerializeField] Animator animator;
+    [field: SerializeField] public float LimbDissolveDuration { get; private set; }
     public Animator Animator { get { return animator; } }
     public Transform AttackRangeLeftOrigin { get { return attackRangeLeftOrigin; } }
     public Transform AttackRangeRightOrigin { get { return attackRangeRightOrigin; } }
@@ -119,7 +120,7 @@ public class PlayerController : Singleton<PlayerController>
     public float totalBones;
     public float bonesMultiplier;
 
-    public bool CanAttack = true;
+    private bool CanAttack = true;
 
     protected override void Init()
     {
@@ -853,6 +854,7 @@ public class PlayerController : Singleton<PlayerController>
         previousLegs.LoadDefaultStats();
         // previousLegs.gameObject.SetActive(false); // dissolve script handles it
         currentLegs = coreLegs;
+        _movementSpeed = currentLegs.MovementSpeed;
         coreLegs.gameObject.SetActive(true);        
     }
 

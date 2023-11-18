@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(SkinnedMeshRenderer))]
 public class LimbDissolve : MonoBehaviour
 {
-    [SerializeField] float dissolveDuration = 3; 
     [SerializeField] float undissolvedHeight = 0; 
     [SerializeField] float fullyDissolvedHeight = 10;
 
@@ -37,6 +36,7 @@ public class LimbDissolve : MonoBehaviour
     {
         float timeElapsed = 0;
         float dissolveHeight;
+        float dissolveDuration = PlayerController.Instance.LimbDissolveDuration;
 
         while (timeElapsed < dissolveDuration)
         {
