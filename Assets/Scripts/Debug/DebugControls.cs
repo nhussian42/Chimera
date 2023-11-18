@@ -26,7 +26,12 @@ public class DebugControls : MonoBehaviour
         // F
         // G
         // H
-        // I
+        
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            PlayerController.Instance.DistributeDamage(10);
+        }
+
         if (Input.GetKeyDown(KeyCode.J))
             SpawnDebugCreature?.Invoke();
 
@@ -64,6 +69,8 @@ public class DebugControls : MonoBehaviour
         // X
         // Y
         // Z
+
+        
     }
     #else
     #endif

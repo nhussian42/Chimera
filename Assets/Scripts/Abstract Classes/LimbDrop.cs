@@ -21,10 +21,10 @@ public class LimbDrop : MonoBehaviour
 
     private void OnEnable()
     {
-        if (limbHealth == 0)
-        {
-            limbHealth = 100f;
-        }
+        //if (limbHealth == 0)
+        //{
+        //    limbHealth = 100f;
+        //}
         //Debug.Log("limbHealth: " + limbHealth);
 
     }
