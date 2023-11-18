@@ -289,7 +289,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d00f5039-296c-48a0-99c2-7da7e08fc017"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -300,7 +300,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5eed101c-196b-4882-b6cc-e991d4ff2530"",
-                    ""path"": ""<Mouse>/middleButton"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -347,6 +347,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Select"",
                     ""type"": ""Button"",
                     ""id"": ""4a79f38e-d4fc-4a92-8525-da59cc6ad74f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchToLeftArm"",
+                    ""type"": ""Button"",
+                    ""id"": ""a32f2851-50aa-4fb3-a80c-1647442e83e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchToRightArm"",
+                    ""type"": ""Button"",
+                    ""id"": ""45c7312e-8ec8-4ba4-b600-995931c01563"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -408,6 +426,50 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3e95727b-74d8-4150-b2d2-e83800185e2b"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SwitchToLeftArm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0994a1e4-23b4-43af-990f-fddb1812e78a"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SwitchToLeftArm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92395e7a-c40c-4d50-8853-a90caba88749"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SwitchToRightArm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c0b0b8b-bcf5-40a8-b5bf-8163c30a2ca1"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SwitchToRightArm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -458,6 +520,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_UI_UnPause = m_UI.FindAction("UnPause", throwIfNotFound: true);
         m_UI_CloseEM = m_UI.FindAction("CloseEM", throwIfNotFound: true);
         m_UI_Select = m_UI.FindAction("Select", throwIfNotFound: true);
+        m_UI_SwitchToLeftArm = m_UI.FindAction("SwitchToLeftArm", throwIfNotFound: true);
+        m_UI_SwitchToRightArm = m_UI.FindAction("SwitchToRightArm", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -632,6 +696,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_UnPause;
     private readonly InputAction m_UI_CloseEM;
     private readonly InputAction m_UI_Select;
+    private readonly InputAction m_UI_SwitchToLeftArm;
+    private readonly InputAction m_UI_SwitchToRightArm;
     public struct UIActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -639,6 +705,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @UnPause => m_Wrapper.m_UI_UnPause;
         public InputAction @CloseEM => m_Wrapper.m_UI_CloseEM;
         public InputAction @Select => m_Wrapper.m_UI_Select;
+        public InputAction @SwitchToLeftArm => m_Wrapper.m_UI_SwitchToLeftArm;
+        public InputAction @SwitchToRightArm => m_Wrapper.m_UI_SwitchToRightArm;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -657,6 +725,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Select.started += instance.OnSelect;
             @Select.performed += instance.OnSelect;
             @Select.canceled += instance.OnSelect;
+            @SwitchToLeftArm.started += instance.OnSwitchToLeftArm;
+            @SwitchToLeftArm.performed += instance.OnSwitchToLeftArm;
+            @SwitchToLeftArm.canceled += instance.OnSwitchToLeftArm;
+            @SwitchToRightArm.started += instance.OnSwitchToRightArm;
+            @SwitchToRightArm.performed += instance.OnSwitchToRightArm;
+            @SwitchToRightArm.canceled += instance.OnSwitchToRightArm;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -670,6 +744,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Select.started -= instance.OnSelect;
             @Select.performed -= instance.OnSelect;
             @Select.canceled -= instance.OnSelect;
+            @SwitchToLeftArm.started -= instance.OnSwitchToLeftArm;
+            @SwitchToLeftArm.performed -= instance.OnSwitchToLeftArm;
+            @SwitchToLeftArm.canceled -= instance.OnSwitchToLeftArm;
+            @SwitchToRightArm.started -= instance.OnSwitchToRightArm;
+            @SwitchToRightArm.performed -= instance.OnSwitchToRightArm;
+            @SwitchToRightArm.canceled -= instance.OnSwitchToRightArm;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -722,5 +802,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnUnPause(InputAction.CallbackContext context);
         void OnCloseEM(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
+        void OnSwitchToLeftArm(InputAction.CallbackContext context);
+        void OnSwitchToRightArm(InputAction.CallbackContext context);
     }
 }
