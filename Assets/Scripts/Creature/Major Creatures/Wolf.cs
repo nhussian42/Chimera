@@ -11,6 +11,7 @@ public class Wolf : NotBossAI
     [SerializeField, Tooltip("How long it stops once in range before beginning the charge")] private float chargeDelay = 0.75f;
     [SerializeField, Tooltip("How long it charges for")] private float chargeTime = 0.5f;
     [SerializeField, Tooltip("Multiplier to how fast the wolf charges")] private float chargeMultiplier;
+    [SerializeField] private float chargeDistance = 2f;
     [SerializeField] private GameObject attackCollider;
     [SerializeField] private float pounceKnockback;
 
@@ -137,7 +138,15 @@ public class Wolf : NotBossAI
         attacking = true;
         attackCollider.SetActive(true);
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.AddForce(gameObject.transform.forward * (Vector3.Distance(transform.position, player.transform.position) * chargeMultiplier), ForceMode.Impulse);
+        float timer = 0;
+        Vector3 endPos = player.transform.position;
+        while (timer < chargeTime)
+        {
+            timer += Time.deltaTime;
+            transform.LookAt(player.transform.position);
+            transform.position = Vector3.MoveTowards(transform.position, endPos, chargeMultiplier * Time.deltaTime);
+            yield return null;
+        }
         yield return new WaitForSeconds(chargeTime);
 
         attackCollider.SetActive(false);
@@ -162,13 +171,13 @@ public class Wolf : NotBossAI
 
     private IEnumerator RotateTowardsTarget(Vector3 position, float turnTime)
     {
-        float timer = turnTime;
-        while (timer > 0)
+        float timer = 0;
+        while (timer < turnTime)
         {
-            timer -= Time.deltaTime;
+            timer += Time.deltaTime;
             Vector3 direction = (position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * 7);
+            transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, timer / turnTime);
             yield return null;
         }
         yield return null;

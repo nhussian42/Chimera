@@ -11,6 +11,8 @@ public class Crocodile : NotBossAI
     private Rigidbody rb;
 
     [SerializeField] private float digCooldown = 20f; //Cooldown between uses of dig
+    [SerializeField] private float chargeTime = 0.5f;
+    [SerializeField] private float chargeMultiplier = 2f;
     private float baseSpeed;
     [SerializeField] private float burrowSpeed;
     private float remainingDigCooldown = 0f; //Actual value that track remaining dig cooldown
@@ -64,6 +66,19 @@ public class Crocodile : NotBossAI
         yield return new WaitUntil(() => agent.remainingDistance <= agent.stoppingDistance);
 
         animator.SetBool("Charge", true);
+        float timer = 0;
+        Vector3 endPos = player.transform.position;
+        while (timer < chargeTime)
+        {
+            timer += Time.deltaTime;
+            transform.LookAt(player.transform.position);
+            transform.position = Vector3.MoveTowards(transform.position, endPos, chargeMultiplier * Time.deltaTime);
+            if (Vector3.Distance(transform.position, player.transform.position) < 2f)
+            {
+                break;
+            }
+            yield return null;
+        }
         attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);
 
