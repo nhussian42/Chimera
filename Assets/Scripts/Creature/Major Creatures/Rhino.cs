@@ -132,7 +132,6 @@ public class Rhino : NotBossAI
         Vector3 targetPos;
         if (RandomPoint(player.transform.position, attackRange, out targetPos))
         {
-            //Debug.Log(targetPos);
             agent.destination = new Vector3(targetPos.x, transform.position.y, targetPos.z);
             yield return new WaitForSeconds(1);
             yield return null;
@@ -146,14 +145,12 @@ public class Rhino : NotBossAI
 
     private IEnumerator FacePlayer(int rotationTime)
     {
-        Debug.Log("Rotating");
         float timer = 0f;
         Quaternion lookRotation = Quaternion.LookRotation(player.transform.position - transform.position);
         Quaternion startRotation = transform.rotation;
         while (timer < rotationTime)
         {
             timer += Time.deltaTime;
-            Debug.Log("Timer = " + timer / rotationTime);
             transform.rotation = Quaternion.Lerp(startRotation, lookRotation, timer / rotationTime);
             yield return null;
         }

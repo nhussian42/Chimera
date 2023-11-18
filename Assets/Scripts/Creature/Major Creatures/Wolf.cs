@@ -12,7 +12,7 @@ public class Wolf : NotBossAI
     [SerializeField, Tooltip("How long it charges for")] private float chargeTime = 0.5f;
     [SerializeField, Tooltip("Multiplier to how fast the wolf charges")] private float chargeMultiplier;
     [SerializeField] private float chargeDistance = 2f;
-    [SerializeField] private GameObject attackCollider;
+    [SerializeField] private MeshCollider attackCollider;
     [SerializeField] private float pounceKnockback;
 
 
@@ -136,7 +136,7 @@ public class Wolf : NotBossAI
         yield return new WaitForSeconds(chargeDelay);
 
         attacking = true;
-        attackCollider.SetActive(true);
+        attackCollider.enabled = true;
         Rigidbody rb = GetComponent<Rigidbody>();
         float timer = 0;
         Vector3 endPos = player.transform.position;
@@ -149,7 +149,7 @@ public class Wolf : NotBossAI
         }
         yield return new WaitForSeconds(chargeTime);
 
-        attackCollider.SetActive(false);
+        attackCollider.enabled = false;
         animator.SetBool("Attack", false);
         rb.velocity = Vector3.zero;
         agent.isStopped = false;

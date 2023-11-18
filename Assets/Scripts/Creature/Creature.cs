@@ -128,20 +128,14 @@ public abstract class Creature : MonoBehaviour
             Rigidbody rb = GetComponent<Rigidbody>();
             if (GetComponent<Rigidbody>() != null)
             {
-                rb.AddForce(knockbackDir.normalized * knockbackForce, ForceMode.Impulse);
+                float timer = 0;
+                while (timer < knockbackDuration)
+                {
+                    timer += Time.deltaTime;
+                    transform.position = Vector3.MoveTowards(transform.position, knockbackDir * knockbackForce, Time.deltaTime);
+                }
             }
 
-            float timer = knockbackDuration;
-            agent.isStopped = true;
-            while (timer > 0)
-            {
-                timer -= Time.deltaTime;
-            }
-            if (timer <= 0 && rb != null)
-            {
-                rb.velocity = Vector3.zero;
-                agent.isStopped = false;
-            }
         }
 
     }
