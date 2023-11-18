@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,8 @@ public abstract class Limb : MonoBehaviour
     protected float currentHealth;
     protected float minHealth = 0;
     protected float maxHealth;
+
+    protected bool dissolving;
 
     // Public getters
     public Classification Classification { get { return classification; } }
@@ -46,7 +49,17 @@ public abstract class Limb : MonoBehaviour
 
     public virtual void Disintegrate()
     {
-        // shader dissolve thing here maybe?
-        
+        if (dissolving) return;
+        dissolving = true;
+
+        foreach (LimbDissolve limb in GetComponentsInChildren<LimbDissolve>())
+        {
+            limb.Dissolve();
+        }
+    }
+
+    private void OnDisable()
+    {
+        dissolving = false;
     }
 }
