@@ -1235,6 +1235,7 @@ GameObject:
   - component: {fileID: 3121911367171458664}
   - component: {fileID: 2498459930453273433}
   - component: {fileID: 4396139807806981925}
+  - component: {fileID: 2511426137076177794}
   m_Layer: 0
   m_Name: LimbSwapMenu
   m_TagString: Untagged
@@ -1338,6 +1339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a51267816fbe8f847b8ba9a2b059a247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  equipButton: {fileID: 7219598106831692821}
   currentLimbName: {fileID: 4849128079046591501}
   proposedLimbName: {fileID: 8103439074397469670}
   currentLimbIcon: {fileID: 5169339133443351679}
@@ -1352,6 +1354,37 @@ MonoBehaviour:
   downgradeColor: {r: 1, g: 0, b: 0, a: 0}
   scrapText: {fileID: 2748825914614087182}
   switchArmText: {fileID: 5033959399314837878}
+--- !u!114 &2511426137076177794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3604465902087330480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 91b8ffb3dc9f29c4cb5c768c21854782,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: DefaultControls
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &3815611605966897606
 GameObject:
   m_ObjectHideFlags: 0

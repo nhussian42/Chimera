@@ -2599,7 +2599,7 @@ MonoBehaviour:
   - {fileID: 5184887656719626218}
   - {fileID: 8922459511799846915}
   allLegs:
-  - {fileID: 5266476932273266182}
+  - {fileID: 8699848762791077136}
   - {fileID: 3824944412148831068}
   - {fileID: 3840664417998227876}
   publicClassesSO: {fileID: 11400000, guid: 0f4d75e79e2d23f4f913dca15a1c7691, type: 2}
@@ -2608,7 +2608,7 @@ MonoBehaviour:
   core: {fileID: 3181341946337852480}
   coreLeftArm: {fileID: 4953931813178917154}
   coreRightArm: {fileID: 6543709977600552567}
-  coreLegs: {fileID: 5266476932273266182}
+  coreLegs: {fileID: 8699848762791077136}
   coreHead: {fileID: 822374487050714662}
   attackRangeLeftOrigin: {fileID: 865760508072513655}
   attackRangeRightOrigin: {fileID: 4585391653819130557}
@@ -3092,7 +3092,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8690998298932987145}
-  - component: {fileID: 5266476932273266182}
+  - component: {fileID: 8699848762791077136}
   m_Layer: 6
   m_Name: Legs
   m_TagString: Untagged
@@ -3117,7 +3117,7 @@ Transform:
   m_Father: {fileID: 7261164759087167901}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5266476932273266182
+--- !u!114 &8699848762791077136
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3126,21 +3126,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 3572364948946854027}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bdbcc7a79ec1a743ac061f5bef3e6e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4de6d99d06b59bc42a4e7465114ba2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  classification: 3
-  weight: 3
-  limbName: 4
-  defaultHealth: 0
-  defaultMaxHealth: 0
-  limbSprite: {fileID: 0}
-  selectedSprite: {fileID: 0}
-  defaultMovementSpeed: 24
-  defaultCooldownTime: 10
-  dashDistance: 55
+  classification: 0
+  weight: 0
+  limbName: 0
+  defaultHealth: 100
+  defaultMaxHealth: 100
+  limbSprite: {fileID: 21300000, guid: 2f1d277ae408d844cb5852501b1ec17f, type: 3}
+  selectedSprite: {fileID: 21300000, guid: d95f60d245a5af541a3727b297815a31, type: 3}
+  defaultMovementSpeed: 12
+  defaultCooldownTime: 5
+  dashDistance: 75
   dashSpeed: 8
-  defaultDashCharges: 3
 --- !u!1 &3656269055238473731
 GameObject:
   m_ObjectHideFlags: 0

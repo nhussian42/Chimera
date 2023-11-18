@@ -32,8 +32,6 @@ public class PlayerController : Singleton<PlayerController>
     private InputAction _unpause;
     private InputAction _openEM;
     private InputAction _closeEM;
-    private InputAction _switchToLeftArm;
-    private InputAction _switchToRightArm;
     // Put new actions here
     public CharacterController _controller;
 
@@ -156,8 +154,6 @@ public class PlayerController : Singleton<PlayerController>
         // Assign UI controls
         _unpause = _playerInputActions.UI.UnPause;
         _closeEM = _playerInputActions.UI.CloseEM;
-        _switchToLeftArm = _playerInputActions.UI.SwitchToLeftArm;
-        _switchToRightArm = _playerInputActions.UI.SwitchToRightArm;
     }
 
     // Disable new player input actions in this method
@@ -218,15 +214,6 @@ public class PlayerController : Singleton<PlayerController>
     {
         _unpause.Disable();
         _closeEM.Disable();
-        _switchToLeftArm.Disable();
-        _switchToRightArm.Disable();
-    }
-
-    private void EnableAllUIControls() // not sure if this is the best way to do this, please refactor if needed - Amon
-    {
-        //these controls are used to switch arms in the menus
-        _switchToLeftArm.Enable();
-        _switchToRightArm.Enable();
     }
 
     private void DisableAttackControls()
@@ -414,9 +401,6 @@ public class PlayerController : Singleton<PlayerController>
         if (_swapLimbs.triggered == true)
             SwitchArms();
 
-        if (_switchToLeftArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm) limbSwapMenu.SetToLeftArm();
-        if (_switchToRightArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm) limbSwapMenu.SetToRightArm();
-
         if (_pause.triggered == true)
             Pause();
 
@@ -492,9 +476,8 @@ public class PlayerController : Singleton<PlayerController>
                 // display limb swap menu
                 limbSwapMenu.Enable(newLimb);
 
-                // Custom function later for UI? The one we have now does not disable movement
+                // disable movement and attacks
                 _movement.Disable();
-                EnableAllUIControls();
                 DisableAttackControls();                
 
             }
