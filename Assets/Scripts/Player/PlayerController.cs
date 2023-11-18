@@ -88,6 +88,7 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] Transform attackRangeRightOrigin;
 
     [SerializeField] Animator animator;
+    [field: SerializeField] public float LimbDissolveDuration { get; private set; }
     public Animator Animator { get { return animator; } }
     public Transform AttackRangeLeftOrigin { get { return attackRangeLeftOrigin; } }
     public Transform AttackRangeRightOrigin { get { return attackRangeRightOrigin; } }
@@ -119,7 +120,7 @@ public class PlayerController : Singleton<PlayerController>
     public float totalBones;
     public float bonesMultiplier;
 
-    public bool CanAttack = true;
+    private bool CanAttack = true;
 
     protected override void Init()
     {
@@ -812,37 +813,49 @@ public class PlayerController : Singleton<PlayerController>
     public void RevertToDefault (Head previousHead)
     {
         previousHead.LoadDefaultStats();
-        previousHead.gameObject.SetActive(false);
+        // previousHead.gameObject.SetActive(false); // dissolve script handles it
         coreHead.gameObject.SetActive(true);
         currentHead = coreHead;
     }
     public void RevertToDefault(Arm previousArm)
     {
+        // Arm currentArm = previousArm.Side == SideOfPlayer.Right ? currentRightArm : currentLeftArm;
+
+        // currentArm.Terminate();
+        // currentArm.LoadDefaultStats();
+        
+        // currentRightArm = coreRightArm;
+        // currentLeftArm = coreLeftArm;
+
         if(previousArm.Side == SideOfPlayer.Right)
         {
             currentRightArm.Terminate();
             currentRightArm.LoadDefaultStats();
-            currentRightArm.gameObject.SetActive(false);
+            
+            // currentRightArm.gameObject.SetActive(false); // dissolve script handles it
             currentRightArm = coreRightArm;
             currentRightArm.gameObject.SetActive(true);
             currentRightArm.Initialize(this);
+            animator.SetFloat("RArmAtkSpeed", currentRightArm.AttackSpeed);
         }
         else
         {
             currentLeftArm.Terminate();
             currentLeftArm.LoadDefaultStats();
-            currentLeftArm.gameObject.SetActive(false);
+            // currentLeftArm.gameObject.SetActive(false); // dissolve script handles it
             currentLeftArm = coreLeftArm;
             currentLeftArm.gameObject.SetActive(true);
             currentLeftArm.Initialize(this);
+            animator.SetFloat("LArmAtkSpeed", currentLeftArm.AttackSpeed);
         }
     }
     public void RevertToDefault(Legs previousLegs)
     {
         previousLegs.LoadDefaultStats();
-        previousLegs.gameObject.SetActive(false);
-        coreLegs.gameObject.SetActive(true);
+        // previousLegs.gameObject.SetActive(false); // dissolve script handles it
         currentLegs = coreLegs;
+        _movementSpeed = currentLegs.MovementSpeed;
+        coreLegs.gameObject.SetActive(true);        
     }
 
     // Called to update the stats of all limbs after modifying equipment (picking up trinkets or swapping limbs)
