@@ -665,7 +665,7 @@ public class PlayerController : Singleton<PlayerController>
                 currentLegs = legs;
                 _movementSpeed = currentLegs.MovementSpeed;
                 if (newLegs.LimbHealth <= 0) { newLegs.OverwriteLimbHealth(currentLegs.DefaultMaxHealth); }
-                currentLegs.Health = newLegs.LimbHealth;
+                currentLegs.Health = newLegs.LimbHealth;    
             }
         }
         OnSwapLimbs.Invoke();
