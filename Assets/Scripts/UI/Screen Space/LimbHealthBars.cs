@@ -94,6 +94,7 @@ public class LimbHealthBars : MonoBehaviour
         {
             PlayerController.Instance.currentLeftArm.Health -= 10;
             PlayerController.Instance.currentRightArm.Health -= 10;
+            PlayerController.Instance.currentLegs.Health -= 10;
         }
     }
 
@@ -104,22 +105,18 @@ public class LimbHealthBars : MonoBehaviour
         if (PlayerController.Instance.currentLeftArm.Classification.ToString() != "Core")
         {
             LArmEquipped = true;
-            //Checks for Both limbs just in case
-            if (PlayerController.Instance.currentRightArm.Classification.ToString() != "Core")
-            {
-                RArmEquipped = true;
-            }
         }
 
-        else if (PlayerController.Instance.currentRightArm.Classification.ToString() != "Core")
+        if (PlayerController.Instance.currentRightArm.Classification.ToString() != "Core")
         {
             RArmEquipped = true;
-            if (PlayerController.Instance.currentLeftArm.Classification.ToString() != "Core")
-            {
-                LArmEquipped = true;
-            }
         }
-        
+
+        if (PlayerController.Instance.currentLegs.Classification.ToString() != "Core")
+        {
+            LegsEquipped = true;  
+        }
+
         else return;
     }
 
