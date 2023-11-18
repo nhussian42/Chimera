@@ -19,7 +19,7 @@ public abstract class Limb : MonoBehaviour
     protected float minHealth = 0;
     protected float maxHealth;
 
-    private bool dissolving;
+    protected bool dissolving;
 
     // Public getters
     public Classification Classification { get { return classification; } }
@@ -49,28 +49,15 @@ public abstract class Limb : MonoBehaviour
     {
         if (dissolving) return;
         dissolving = true;
-        
-        ActivateLimbDissolve(transform);
-        // DissolveTraverse(transform);
-    }
 
-    private void DissolveTraverse(Transform t)
-    {
-        if (t.childCount <= 1) return;
-
-        foreach (Transform child in t)
+        foreach (LimbDissolve limb in GetComponentsInChildren<LimbDissolve>())
         {
-            ActivateLimbDissolve(t);
-            DissolveTraverse(t);
+            limb.Dissolve();
         }
     }
 
-    private void ActivateLimbDissolve(Transform t)
+    private void OnDisable()
     {
-        if (TryGetComponent(out LimbDissolve dissolve))
-        {
-            print("YIPPEEEE");
-            dissolve.Dissolve();
-        }
+        dissolving = false;
     }
 }
