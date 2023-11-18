@@ -16,6 +16,8 @@ public class LimbHealthBars : MonoBehaviour
 
     private bool LArmEquipped;
     private bool RArmEquipped;
+    private bool HeadEquipped;
+    private bool LegsEquipped;
 
     private float CoreHealth;
     private float LegsHealth;
@@ -29,20 +31,31 @@ public class LimbHealthBars : MonoBehaviour
 
         float CoreHealthMax = PlayerController.Instance.Core.MaxHealth;
         float LegsHealthMax = PlayerController.Instance.currentLegs.MaxHealth;
-        
-        
-        //float HeadMaxHealth = PlayerController.Instance.currentHead.MaxHealth;
+        float HeadMaxHealth = PlayerController.Instance.currentHead.MaxHealth;
+
         CoreHealth = PlayerController.Instance.Core.Health / CoreHealthMax;
         LegsHealth = PlayerController.Instance.currentLegs.Health / LegsHealthMax;
-
-        
-        
-        //CoreHealth = PlayerController.Instance.Head.Health;
+        //HeadHealth = PlayerController.Instance.Head.Health;
 
         CoreImage.color = gradient.Evaluate(CoreHealth);
-        //LegsImage.color = gradient.Evaluate(LegsHealth);
-       
+
+        if (LegsEquipped)
+        {
+            if(LegsHealth > 0)
+            {
+                LegsImage.color = gradient.Evaluate(LegsHealth);
+            }
+
+            if(LegsHealth == 0)
+            {
+                LegsImage.color = Color.white;
+                LegsEquipped = false;
+            }
+        }
         
+
+
+
         //HeadImage.color = gradient.Evaluate();
 
         if (LArmEquipped)
@@ -50,12 +63,24 @@ public class LimbHealthBars : MonoBehaviour
             float LeftArmHealthMax = PlayerController.Instance.currentLeftArm.MaxHealth;
             LeftArmHealth = PlayerController.Instance.currentLeftArm.Health / LeftArmHealthMax;
             LeftArmImage.color = gradient.Evaluate(LeftArmHealth);
+
+            if(LeftArmHealth == 0) 
+            {
+                LeftArmImage.color = Color.white;
+                LArmEquipped = false;
+            }
         }
         if (RArmEquipped)
         {
             float RightArmHealthMax = PlayerController.Instance.currentRightArm.MaxHealth;
             RightArmHealth = PlayerController.Instance.currentRightArm.Health / RightArmHealthMax;
             RightArmImage.color = gradient.Evaluate(RightArmHealth);
+
+            if (RightArmHealth == 0)
+            {
+                RightArmImage.color = Color.white;
+                RArmEquipped = false;
+            }
         }
     }
 
@@ -64,6 +89,12 @@ public class LimbHealthBars : MonoBehaviour
         SetHealth();
         OnLimbEquipped();
         CheckLimbSwap();
+
+        if(Input.GetKeyDown(KeyCode.I)) 
+        {
+            PlayerController.Instance.currentLeftArm.Health -= 10;
+            PlayerController.Instance.currentRightArm.Health -= 10;
+        }
     }
 
 
