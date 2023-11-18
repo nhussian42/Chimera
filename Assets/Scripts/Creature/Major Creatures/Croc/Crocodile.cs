@@ -16,10 +16,8 @@ public class Crocodile : NotBossAI
     private float baseSpeed;
     [SerializeField] private float burrowSpeed;
     private float remainingDigCooldown = 0f; //Actual value that track remaining dig cooldown
-    [SerializeField] private MeshCollider attackCollider;
     [SerializeField] private float burrowAttackDamage;
     [SerializeField] private float regularAttackDamage;
-    [SerializeField] private BoxCollider burrowAttackCollider;
     [SerializeField] private BoxCollider crocBodyCollider;
     [SerializeField] private float regularAttackKnockback;
     [SerializeField] private float burrowAttackKnockback;
@@ -78,10 +76,8 @@ public class Crocodile : NotBossAI
             }
             yield return null;
         }
-        attackCollider.enabled = true;
         yield return new WaitForSeconds(0.5f);
 
-        attackCollider.enabled = false;
         animator.SetBool("Charge", false);
         agent.isStopped = true;
         animator.SetBool("Idle", true);
@@ -118,11 +114,9 @@ public class Crocodile : NotBossAI
 
         //Damage gets dealt here
         animator.SetBool("BurrowResurface", false);
-        burrowAttackCollider.enabled = true;
         yield return new WaitForSeconds(0.75f);
 
         //Burrow attack collider disabled, croc can take damage again, attack damage reset, goes back to chasing
-        burrowAttackCollider.enabled = false;
         crocBodyCollider.enabled = true;
         attackDamage = regularAttackDamage;
         GetComponentInChildren<Canvas>().enabled = true;
