@@ -99,9 +99,8 @@ public abstract class Creature : MonoBehaviour
         // SpawnDrop();
         animator.Play("Death");
         agent.isStopped = true;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        //rb.isKinematic = true;
         alive = false;
+        GetComponent<BoxCollider>().enabled = false;
 
         CreatureManager.AnyCreatureDied?.Invoke();
         if (creatureType == CreatureType.Minor)

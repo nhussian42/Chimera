@@ -231,7 +231,6 @@ GameObject:
   - component: {fileID: 6221755424438387032}
   - component: {fileID: -3162664020276368412}
   - component: {fileID: -4780591666261039741}
-  - component: {fileID: 5339096347612801011}
   - component: {fileID: 2223943163951464368}
   m_Layer: 7
   m_Name: Croc 1
@@ -342,7 +341,6 @@ MonoBehaviour:
   regularAttackDamage: 10
   burrowAttackCollider: {fileID: 6221755424438387032}
   crocBodyCollider: {fileID: 2223943163951464368}
-  crocDamageCollider: {fileID: 5339096347612801011}
   regularAttackKnockback: 15
   burrowAttackKnockback: 40
 --- !u!65 &6221755424438387032
@@ -397,29 +395,6 @@ MonoBehaviour:
   - {fileID: 7937426487983829427, guid: dbcce601d3442aa438271b7491ae394c, type: 3}
   - {fileID: 6755447452877946996, guid: 3478f148265bce34f9c9969620ca7a86, type: 3}
   _spawnCondition: 1
---- !u!136 &5339096347612801011
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4295455712857961172}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2
-  m_Height: 9
-  m_Direction: 2
-  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!65 &2223943163951464368
 BoxCollider:
   m_ObjectHideFlags: 0

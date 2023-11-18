@@ -21,7 +21,6 @@ public class Crocodile : NotBossAI
     [SerializeField] private float regularAttackDamage;
     [SerializeField] private BoxCollider burrowAttackCollider;
     [SerializeField] private BoxCollider crocBodyCollider;
-    [SerializeField] private CapsuleCollider crocDamageCollider;
     [SerializeField] private float regularAttackKnockback;
     [SerializeField] private float burrowAttackKnockback;
     private bool burrowing;
@@ -100,7 +99,6 @@ public class Crocodile : NotBossAI
         animator.SetBool("Burrow", true);
         burrowing = true;
         crocBodyCollider.enabled = false;
-        crocDamageCollider.enabled = false;
         agent.stoppingDistance = 2;
         agent.isStopped = true;
         agent.speed = burrowSpeed;
@@ -126,7 +124,6 @@ public class Crocodile : NotBossAI
         //Burrow attack collider disabled, croc can take damage again, attack damage reset, goes back to chasing
         burrowAttackCollider.enabled = false;
         crocBodyCollider.enabled = true;
-        crocDamageCollider.enabled = false;
         attackDamage = regularAttackDamage;
         GetComponentInChildren<Canvas>().enabled = true;
         burrowing = false;
