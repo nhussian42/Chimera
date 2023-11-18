@@ -93,15 +93,16 @@ public class LimbSwapMenu : MonoBehaviour
         {
             if (head.Classification == proposedLimbDrop.Classification && head.Weight == proposedLimbDrop.Weight)
             {
-                currentLimbName.text = playerController.currentHead.name;
-                proposedLimbName.text = head.name;
+                currentLimbName.text = playerController.currentHead.StringName;
+                proposedLimbName.text = head.StringName;
 
                 // Check if the health value on the limb has been altered, if not use the default max health value on the limb
                 float headHealth = proposedLimbDrop.LimbHealth;
                 if (proposedLimbDrop.LimbHealth <= 0)
                     headHealth = head.DefaultMaxHealth;
 
-                // Set icons here later
+                currentLimbIcon.sprite = playerController.currentHead.LimbSprite;
+                proposedLimbIcon.sprite = head.LimbSprite;
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentHead.Health + "/" + playerController.currentHead.DefaultMaxHealth + ")"; // current head's HP (current/maximum)
@@ -128,15 +129,16 @@ public class LimbSwapMenu : MonoBehaviour
             if (arm.Classification == proposedLimbDrop.Classification && arm.Weight == proposedLimbDrop.Weight && arm.Side == SideOfPlayer.Left)
             {
                 // Set these to the exposed Name attribute of the limbs later
-                currentLimbName.text = playerController.currentLeftArm.name;
-                proposedLimbName.text = arm.name;
+                currentLimbName.text = playerController.currentLeftArm.StringName + "(L)";
+                proposedLimbName.text = arm.StringName;
 
                 // Check if the health value on the limb has been altered, if not use the default max health value on the limb
                 float armHealth = proposedLimbDrop.LimbHealth;
                 if (proposedLimbDrop.LimbHealth <= 0)
                     armHealth = arm.DefaultMaxHealth;
 
-                // Set icons here later
+                currentLimbIcon.sprite = playerController.currentLeftArm.LimbSprite;
+                proposedLimbIcon.sprite = arm.LimbSprite;
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentLeftArm.Health + "/" + playerController.currentLeftArm.DefaultMaxHealth + ")";
@@ -165,15 +167,16 @@ public class LimbSwapMenu : MonoBehaviour
             if (arm.Classification == proposedLimbDrop.Classification && arm.Weight == proposedLimbDrop.Weight && arm.Side == SideOfPlayer.Right)
             {
                 // Set these to the exposed Name attribute of the limbs later
-                currentLimbName.text = playerController.currentRightArm.name;
-                proposedLimbName.text = arm.name;
+                currentLimbName.text = playerController.currentRightArm.StringName + "(R)";
+                proposedLimbName.text = arm.StringName;
 
                 // Check if the health value on the limb has been altered, if not use the default max health value on the limb
                 float armHealth = proposedLimbDrop.LimbHealth;
                 if (proposedLimbDrop.LimbHealth <= 0)
                     armHealth = arm.DefaultMaxHealth;
 
-                // Set icons here later
+                currentLimbIcon.sprite = playerController.currentRightArm.LimbSprite;
+                proposedLimbIcon.sprite = arm.LimbSprite;
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentRightArm.Health + "/" + playerController.currentRightArm.DefaultMaxHealth + ")";
@@ -212,15 +215,16 @@ public class LimbSwapMenu : MonoBehaviour
             if (legs.Classification == proposedLimbDrop.Classification && legs.Weight == proposedLimbDrop.Weight)
             {
                 // Set these to the exposed Name attribute of the limbs later
-                currentLimbName.text = playerController.currentLegs.name;
-                proposedLimbName.text = legs.name;
+                currentLimbName.text = playerController.currentLegs.StringName;
+                proposedLimbName.text = legs.StringName;
 
                 // Check if the health value on the limb has been altered, if not use the default max health value on the limb
                 float legsHealth = proposedLimbDrop.LimbHealth;
                 if (proposedLimbDrop.LimbHealth <= 0)
                     legsHealth = legs.DefaultMaxHealth;
 
-                // Set icons here later
+                currentLimbIcon.sprite = playerController.currentLegs.LimbSprite;
+                proposedLimbIcon.sprite = legs.LimbSprite;
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentLegs.Health + "/" + playerController.currentLegs.DefaultMaxHealth + ")";
