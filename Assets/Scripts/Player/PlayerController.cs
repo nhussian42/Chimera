@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 
 using Unity.Burst.Intrinsics;
 using Unity.VisualScripting.Dependencies.Sqlite;
-
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
@@ -32,6 +32,7 @@ public class PlayerController : Singleton<PlayerController>
     private InputAction _unpause;
     private InputAction _openEM;
     private InputAction _closeEM;
+    private InputAction _select;
     private InputAction _switchToLeftArm;
     private InputAction _switchToRightArm;
     // Put new actions here
@@ -157,6 +158,7 @@ public class PlayerController : Singleton<PlayerController>
         // Assign UI controls
         _unpause = _playerInputActions.UI.UnPause;
         _closeEM = _playerInputActions.UI.CloseEM;
+        _select = _playerInputActions.UI.Select;
         _switchToLeftArm = _playerInputActions.UI.SwitchToLeftArm;
         _switchToRightArm = _playerInputActions.UI.SwitchToRightArm;
     }
@@ -203,7 +205,7 @@ public class PlayerController : Singleton<PlayerController>
         _openEM.Enable();
     }
 
-    private void DisableAllDefaultControls()
+    public void DisableAllDefaultControls()
     {
         _movement.Disable();
         _look.Disable();
@@ -215,22 +217,23 @@ public class PlayerController : Singleton<PlayerController>
         _pause.Disable();
     }
 
-    private void DisableAllUIControls()
+    public void DisableAllUIControls()
     {
         _unpause.Disable();
         _closeEM.Disable();
+        _select.Disable();
         _switchToLeftArm.Disable();
         _switchToRightArm.Disable();
     }
 
-    private void EnableAllUIControls() // not sure if this is the best way to do this, please refactor if needed - Amon
+    public void EnableAllUIControls()
     {
-        //these controls are used to switch arms in the menus
+        _select.Enable();
         _switchToLeftArm.Enable();
         _switchToRightArm.Enable();
     }
 
-    private void DisableAttackControls()
+    public void DisableAttackControls()
     {
         //_movement.Disable();
         _look.Disable();
@@ -402,6 +405,7 @@ public class PlayerController : Singleton<PlayerController>
             // Temporary fix for using different animations for different limbs until we can implement a more complex solution - Amon
             if (currentLegs.Classification == Classification.Mammalian && currentLegs.Weight == Weight.Light)
             {
+                Debug.Log("Shift Pressed");
                 animator.SetTrigger("Pounce");
             }
             else
@@ -414,11 +418,13 @@ public class PlayerController : Singleton<PlayerController>
         if (_swapLimbs.triggered == true)
             SwitchArms();
 
-        if (_switchToLeftArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm) limbSwapMenu.SetToLeftArm();
-        if (_switchToRightArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm) limbSwapMenu.SetToRightArm();
-
         if (_pause.triggered == true)
             Pause();
+
+        if (_switchToLeftArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm)
+            limbSwapMenu.SetToLeftArm();
+        if (_switchToRightArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm)
+            limbSwapMenu.SetToRightArm();
 
         if (_openEM.triggered == true)
         {
@@ -491,12 +497,6 @@ public class PlayerController : Singleton<PlayerController>
             {
                 // display limb swap menu
                 limbSwapMenu.Enable(newLimb);
-
-                // Custom function later for UI? The one we have now does not disable movement
-                _movement.Disable();
-                EnableAllUIControls();
-                DisableAttackControls();                
-
             }
 
             ////Configure later for limb swap menu controls
