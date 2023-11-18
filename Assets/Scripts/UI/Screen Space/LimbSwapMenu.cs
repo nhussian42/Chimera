@@ -9,18 +9,9 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
-public class LimbSwapMenu : Singleton<LimbSwapMenu>
+public class LimbSwapMenu : MonoBehaviour
 {
     private PlayerController playerController;
-    private PlayerInputActions playerInputActions;
-    private PlayerInput playerInput;
-    private string previousScheme = "";
-    private const string mouseScheme = "MouseScheme";
-    private const string gamepadScheme = "GamepadScheme";
-    private InputAction _select;
-    private InputAction _switchToLeftArm;
-    private InputAction _switchToRightArm;
-
 
     [Header("UI Elements")]
     [SerializeField] private Button equipButton;
@@ -47,12 +38,6 @@ public class LimbSwapMenu : Singleton<LimbSwapMenu>
     private LimbDrop proposedLimbDrop;
     private SideOfPlayer displayedArm;
 
-    protected override void Init()
-    {
-        playerInput = GetComponent<PlayerInput>();
-        playerInputActions = new PlayerInputActions();
-    }
-
     private void Start()
     {
         playerController = PlayerController.Instance;
@@ -61,73 +46,15 @@ public class LimbSwapMenu : Singleton<LimbSwapMenu>
         //Debug.Log("Called Start() on LimbSwapMenu");
     }
 
-    private void OnEnable()
-    {
-        playerInput.onControlsChanged += ChangeControlSchemes;
-    }
-
-    private void OnDisable()
-    {
-        playerInput.onControlsChanged -= ChangeControlSchemes;
-    }
-
-    private void Update()
-    {
-        if (_switchToLeftArm.triggered == true && proposedLimbType == LimbType.Arm) SetToLeftArm();
-        if (_switchToRightArm.triggered == true && proposedLimbType == LimbType.Arm) SetToRightArm();
-    }
-
-    private void ChangeControlSchemes(PlayerInput input)
-    {
-        if (playerInput.currentControlScheme == mouseScheme && previousScheme != mouseScheme)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            previousScheme = mouseScheme;
-
-            DisableUIControls();
-        }
-        else if (playerInput.currentControlScheme == gamepadScheme && previousScheme != gamepadScheme)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            previousScheme = gamepadScheme;
-
-            EnableUIControls();
-        }
-    }
-
-    private void EnableUIControls()
-    {
-        _select = playerInputActions.UI.Select;
-        _switchToLeftArm = playerInputActions.UI.SwitchToLeftArm;
-        _switchToRightArm = playerInputActions.UI.SwitchToRightArm;
-        _select.Enable();
-        _switchToLeftArm.Enable();
-        _switchToRightArm.Enable();
-
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(equipButton.gameObject);
-    }
-
-    private void DisableUIControls()
-    {
-        if (_select != null)
-            _select.Disable();
-        if (_switchToLeftArm != null)
-            _switchToLeftArm.Disable();
-        if (_switchToRightArm != null)
-            _switchToRightArm.Disable();
-    }
-
     public void Enable(LimbDrop proposedLimb)
     {
         proposedLimbDrop = proposedLimb;
         SetMenu();
         scrapText.text = "Scrap(50)";
         gameObject.SetActive(true);
-
-        EnableUIControls();
+        playerController.DisableAllDefaultControls();
+        playerController.EnableAllUIControls();
+        EventSystem.current.SetSelectedGameObject(equipButton.gameObject);
     }
 
     // Determines which limb swap menu variant will display
@@ -363,6 +290,6 @@ public class LimbSwapMenu : Singleton<LimbSwapMenu>
     public void Exit()
     {
         playerController.EnableAllDefaultControls();
-        DisableUIControls();
+        playerController.DisableAllUIControls();
     }
 }

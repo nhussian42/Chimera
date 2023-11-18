@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 
 using Unity.Burst.Intrinsics;
 using Unity.VisualScripting.Dependencies.Sqlite;
-
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
@@ -32,6 +32,9 @@ public class PlayerController : Singleton<PlayerController>
     private InputAction _unpause;
     private InputAction _openEM;
     private InputAction _closeEM;
+    private InputAction _select;
+    private InputAction _switchToLeftArm;
+    private InputAction _switchToRightArm;
     // Put new actions here
     public CharacterController _controller;
 
@@ -154,6 +157,9 @@ public class PlayerController : Singleton<PlayerController>
         // Assign UI controls
         _unpause = _playerInputActions.UI.UnPause;
         _closeEM = _playerInputActions.UI.CloseEM;
+        _select = _playerInputActions.UI.Select;
+        _switchToLeftArm = _playerInputActions.UI.SwitchToLeftArm;
+        _switchToRightArm = _playerInputActions.UI.SwitchToRightArm;
     }
 
     // Disable new player input actions in this method
@@ -198,7 +204,7 @@ public class PlayerController : Singleton<PlayerController>
         _openEM.Enable();
     }
 
-    private void DisableAllDefaultControls()
+    public void DisableAllDefaultControls()
     {
         _movement.Disable();
         _look.Disable();
@@ -210,13 +216,23 @@ public class PlayerController : Singleton<PlayerController>
         _pause.Disable();
     }
 
-    private void DisableAllUIControls()
+    public void DisableAllUIControls()
     {
         _unpause.Disable();
         _closeEM.Disable();
+        _select.Disable();
+        _switchToLeftArm.Disable();
+        _switchToRightArm.Disable();
     }
 
-    private void DisableAttackControls()
+    public void EnableAllUIControls()
+    {
+        _select.Enable();
+        _switchToLeftArm.Enable();
+        _switchToRightArm.Enable();
+    }
+
+    public void DisableAttackControls()
     {
         //_movement.Disable();
         _look.Disable();
@@ -404,6 +420,11 @@ public class PlayerController : Singleton<PlayerController>
         if (_pause.triggered == true)
             Pause();
 
+        if (_switchToLeftArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm)
+            limbSwapMenu.SetToLeftArm();
+        if (_switchToRightArm.triggered == true && limbSwapMenu.proposedLimbType == LimbType.Arm)
+            limbSwapMenu.SetToRightArm();
+
         if (_openEM.triggered == true)
         {
             EquipMenu.gameObject.SetActive(!EquipMenu.gameObject.activeSelf);
@@ -475,11 +496,6 @@ public class PlayerController : Singleton<PlayerController>
             {
                 // display limb swap menu
                 limbSwapMenu.Enable(newLimb);
-
-                // disable movement and attacks
-                _movement.Disable();
-                DisableAttackControls();                
-
             }
 
             ////Configure later for limb swap menu controls
