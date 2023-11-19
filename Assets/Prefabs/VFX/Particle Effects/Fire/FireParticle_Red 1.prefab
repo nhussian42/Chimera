@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5499761372720335069}
   m_Layer: 0
-  m_Name: FireParticle_Green
+  m_Name: FireParticle_Red 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4721189806894608693}
   serializedVersion: 8
-  lengthInSec: 2
+  lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -84,7 +84,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -639,7 +639,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 50
+    maxNumParticles: 1000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -1022,7 +1022,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.20076346
+          value: 0.22708106
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -1031,12 +1031,12 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0.5131594
-          inSlope: 0.65480494
-          outSlope: 0.65480494
+          value: 0.60526276
+          inSlope: 1
+          outSlope: 1
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.16319609
+          inWeight: 0.33333334
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -1343,9 +1343,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.9171872, g: 1, b: 0.5613208, a: 0}
-        key1: {r: 0.39096606, g: 1, b: 0, a: 1}
-        key2: {r: 0, g: 0.5849056, b: 0.007292104, a: 0}
+        key0: {r: 1, g: 0.84705883, b: 0, a: 0}
+        key1: {r: 1, g: 0.30882353, b: 0, a: 1}
+        key2: {r: 1, g: 0.101960786, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -4890,7 +4890,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5363386325518990228}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -2.4881253, z: 0}
+  m_LocalPosition: {x: -0.18, y: -2.4881253, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4905,7 +4905,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5363386325518990228}
   serializedVersion: 8
-  lengthInSec: 0.5
+  lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -4913,7 +4913,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -4980,7 +4980,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.6
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5151,7 +5151,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 4
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5468,7 +5468,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 50
+    maxNumParticles: 1000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -5851,7 +5851,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.34768242
+          value: 0.058211744
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -5860,7 +5860,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0.7236843
+          value: 0.38158226
           inSlope: 1
           outSlope: 1
           tangentMode: 0
@@ -6172,9 +6172,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.9171872, g: 1, b: 0.5613208, a: 0}
-        key1: {r: 0.39096606, g: 1, b: 0, a: 1}
-        key2: {r: 0, g: 0.5849056, b: 0.007292104, a: 0}
+        key0: {r: 1, g: 0.84705883, b: 0, a: 0}
+        key1: {r: 1, g: 0.30882353, b: 0, a: 1}
+        key2: {r: 1, g: 0.101960786, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -9734,7 +9734,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5866616947561494284}
   serializedVersion: 8
-  lengthInSec: 2
+  lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -9742,7 +9742,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -10297,7 +10297,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 50
+    maxNumParticles: 1000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -10680,7 +10680,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.5263157
+          value: 0.36842346
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -11001,9 +11001,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.9171872, g: 1, b: 0.5613208, a: 0}
-        key1: {r: 0.39096606, g: 1, b: 0, a: 1}
-        key2: {r: 0, g: 0.5849056, b: 0.007292104, a: 0}
+        key0: {r: 1, g: 0.84705883, b: 0, a: 0}
+        key1: {r: 1, g: 0.30882353, b: 0, a: 1}
+        key2: {r: 1, g: 0.101960786, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -14563,7 +14563,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6045799021664030660}
   serializedVersion: 8
-  lengthInSec: 2
+  lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -14571,7 +14571,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -15126,7 +15126,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 50
+    maxNumParticles: 1000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -15509,7 +15509,7 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.21392417
+          value: 0.25339866
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -15518,7 +15518,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0.6052636
+          value: 0.65789413
           inSlope: 1
           outSlope: 1
           tangentMode: 0
@@ -15830,16 +15830,16 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.9171872, g: 1, b: 0.5613208, a: 0}
-        key1: {r: 0.39096606, g: 1, b: 0, a: 1}
-        key2: {r: 0, g: 0.5849056, b: 0.007292104, a: 0}
+        key0: {r: 1, g: 0.84705883, b: 0, a: 0}
+        key1: {r: 1, g: 0.44705883, b: 0.2, a: 1}
+        key2: {r: 0.21698111, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 9175
-        ctime1: 20316
+        ctime1: 19661
         ctime2: 65535
         ctime3: 0
         ctime4: 0
@@ -15847,7 +15847,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 14418
+        atime1: 9830
         atime2: 65535
         atime3: 65535
         atime4: 0
