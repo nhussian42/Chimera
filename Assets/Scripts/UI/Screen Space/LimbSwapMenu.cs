@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Burst.Intrinsics;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEditorInternal;
+using System;
+using Unity.Burst.Intrinsics;
 
 public class LimbSwapMenu : MonoBehaviour
 {
@@ -42,7 +42,11 @@ public class LimbSwapMenu : MonoBehaviour
 
     public LimbType proposedLimbType { get; private set; }   
     private LimbDrop proposedLimbDrop;
+    private Limb proposedLimb;
     private SideOfPlayer displayedArm;
+
+    // Actions
+    public static Action<int> OnScrap;
 
     private void Start()
     {
@@ -99,6 +103,7 @@ public class LimbSwapMenu : MonoBehaviour
         {
             if (head.Classification == proposedLimbDrop.Classification && head.Weight == proposedLimbDrop.Weight)
             {
+                proposedLimb = head;
                 currentLimbName.text = playerController.currentHead.StringName;
                 proposedLimbName.text = head.StringName;
 
@@ -142,6 +147,8 @@ public class LimbSwapMenu : MonoBehaviour
         {
             if (arm.Classification == proposedLimbDrop.Classification && arm.Weight == proposedLimbDrop.Weight && arm.Side == SideOfPlayer.Left)
             {
+                proposedLimb = arm;
+
                 // Set these to the exposed Name attribute of the limbs later
                 currentLimbName.text = playerController.currentLeftArm.StringName + "(L)";
                 proposedLimbName.text = arm.StringName;
@@ -187,6 +194,8 @@ public class LimbSwapMenu : MonoBehaviour
         {
             if (arm.Classification == proposedLimbDrop.Classification && arm.Weight == proposedLimbDrop.Weight && arm.Side == SideOfPlayer.Right)
             {
+                proposedLimb = arm;
+
                 // Set these to the exposed Name attribute of the limbs later
                 currentLimbName.text = playerController.currentRightArm.StringName + "(R)";
                 proposedLimbName.text = arm.StringName;
@@ -243,6 +252,8 @@ public class LimbSwapMenu : MonoBehaviour
         {
             if (legs.Classification == proposedLimbDrop.Classification && legs.Weight == proposedLimbDrop.Weight)
             {
+                proposedLimb = legs;
+
                 // Set these to the exposed Name attribute of the limbs later
                 currentLimbName.text = playerController.currentLegs.StringName;
                 proposedLimbName.text = legs.StringName;
@@ -315,7 +326,7 @@ public class LimbSwapMenu : MonoBehaviour
     // Called by button to scrap the proposed limb
     public void ScrapLimb()
     {
-        playerController.AddBones(50); //replace with the exposed amount on the proposed limb
+        OnScrap?.Invoke(50); // replace with OnScrap?.Invoke(proposedLimb.BonesValue) when property is added to Limb class
         playerController.EnableAllDefaultControls();
     }
 

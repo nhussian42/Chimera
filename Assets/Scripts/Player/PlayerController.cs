@@ -998,9 +998,10 @@ public class PlayerController : Singleton<PlayerController>
         _unpause.Disable();
     }
 
+    // Refactored into CurrencyManager
     public void AddBones(float amount)
     {
-        if(bonesMultiplier > 1)
+        if (bonesMultiplier > 1)
         {
             totalBones += amount * bonesMultiplier;
         }
@@ -1008,7 +1009,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             totalBones += amount;
         }
-        
+
         Debug.Log(totalBones.ToString("F2"));
     }
 
