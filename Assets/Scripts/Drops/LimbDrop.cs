@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LimbDrop : MonoBehaviour
+public class LimbDrop : Drop
 {
-    
+    [Header("Limb information")]
     [SerializeField] protected Weight weight;
     [SerializeField] protected Classification classification;
     [SerializeField] protected LimbType type;
@@ -17,17 +17,6 @@ public class LimbDrop : MonoBehaviour
     public Weight Weight { get { return weight; } }
     public Name Name { get { return limbName; } } 
     public float LimbHealth { get { return limbHealth; } }
-
-
-    // private void OnEnable()
-    // {
-    //     //if (limbHealth == 0)
-    //     //{
-    //     //    limbHealth = 100f;
-    //     //}
-    //     //Debug.Log("limbHealth: " + limbHealth);
-
-    // }
 
     public void OverwriteLimbHealth(float newValue)
     {

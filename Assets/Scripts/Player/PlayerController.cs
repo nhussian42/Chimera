@@ -102,8 +102,6 @@ public class PlayerController : Singleton<PlayerController>
     public static Action ToggleMenuPause;
     public static Action OnDie;
 
-    public static Action<LimbDrop> OnLimbDropTriggerStay; // DEBUG
-
     //float startingYPos;  I don't think we need these anymore  - Amon
     //bool firstMove = false;
 
@@ -121,13 +119,17 @@ public class PlayerController : Singleton<PlayerController>
     public float totalBones;
     public float bonesMultiplier;
 
-    private bool CanAttack = true;
+    private bool canAttack = true;
+    private bool interacting;
+    private List<Drop> touchedDrops;
+    private Drop nearestDrop;
 
     protected override void Init()
     {
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
         _controller = GetComponent<CharacterController>();
+        touchedDrops = new List<Drop>();
         
     }
 
@@ -178,7 +180,7 @@ public class PlayerController : Singleton<PlayerController>
 
         DisableAllDefaultControls();
         DisableAllUIControls();
-        CanAttack = false;
+        canAttack = false;
     }
 
     private void OnDestroy()
@@ -319,7 +321,7 @@ public class PlayerController : Singleton<PlayerController>
             core.LoadDefaultStats();
         }
 
-        CanAttack = true;
+        canAttack = true;
         ResetAttackTriggers();
 
         // read default build to base rstats SO on first load
@@ -363,9 +365,9 @@ public class PlayerController : Singleton<PlayerController>
             RotatePlayer(movementVector); 
 
         // Reads L and R mouse buttons 
-        if (_attackRight.triggered == true && CanAttack)
+        if (_attackRight.triggered == true && canAttack)
         {
-            CanAttack = false;
+            canAttack = false;
             //currentRightArm.PauseInput();
             
             DetermineAttackAnimation(currentRightArm, SideOfPlayer.Right);
@@ -380,9 +382,9 @@ public class PlayerController : Singleton<PlayerController>
             //     AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
-        if (_attackLeft.triggered && CanAttack)
+        if (_attackLeft.triggered && canAttack)
         {
-            CanAttack = false;
+            canAttack = false;
             //currentRightArm.PauseInput();
 
             DetermineAttackAnimation(currentLeftArm, SideOfPlayer.Left);
@@ -434,10 +436,25 @@ public class PlayerController : Singleton<PlayerController>
             
             if (menuToggle) Pause();
                  
-            if (menuToggle == false) UIManager.ResumePressed();
-                       
+            if (menuToggle == false) UIManager.ResumePressed();         
         }
 
+        if (_interact.triggered)
+        {
+            if (nearestDrop != null)
+            {
+                if (nearestDrop is LimbDrop)
+                    EnableLimbSwapMenu((LimbDrop)nearestDrop);
+                if (nearestDrop is TrinketBagDrop)
+                    EnableTrinketMenu();
+                
+                Drop dropToRemove = nearestDrop;
+                RemoveFromDrops(nearestDrop);
+                dropToRemove.DestroyDrop();
+            }
+        }
+
+        interacting = _interact.triggered;
     }  
 
     private void DetermineAttackAnimation(Arm arm, SideOfPlayer side)
@@ -480,40 +497,38 @@ public class PlayerController : Singleton<PlayerController>
         //SetPlayerPosition(new Vector3(transform.position.x, startingYPos, transform.position.z));
     }
 
-    private void OnTriggerStay(Collider other)
+    public void AddToDrops(Drop drop) { touchedDrops.Add(drop); SelectNearestDrop(); }
+
+    public void RemoveFromDrops (Drop drop) { touchedDrops.Remove(drop); drop.DisablePickupIndicator(); SelectNearestDrop(); }
+
+    private void SelectNearestDrop()
     {
-        if (other.gameObject.TryGetComponent<LimbDrop>(out LimbDrop newLimb) != false)
+        if (touchedDrops.Count <= 0) return;
+
+        float closestDistance = Mathf.Infinity;
+        Drop closestDrop = touchedDrops[0];
+
+        foreach (Drop drop in touchedDrops)
         {
-            //// Scrap Limb
-            //if (Input.GetKeyDown(KeyCode.K))
-            //{
-            //    Debug.Log("Scrapped Item");
-            //    Instance.AddBones(50);
-            //    Destroy(newLimb.gameObject);
-            //}
+            drop.DisablePickupIndicator();
 
-            //Interact button implementation - refactor whole section when limb swamp menu is implemented (Amon)
-            if(_interact.triggered == true)
-            {
-                // display limb swap menu
-                limbSwapMenu.Enable(newLimb);
-            }
-
-            ////Configure later for limb swap menu controls
-            //if (_attackRight.triggered == true)
-            //{
-            //    SwapLimb(currentRightArm, newLimb);
-            //    Destroy(newLimb.gameObject);
-            //    OnArmSwapped?.Invoke();
-
-            //}
-            //else if (_attackLeft.triggered == true)
-            //{
-            //    SwapLimb(currentLeftArm, newLimb);
-            //    Destroy(newLimb.gameObject);
-            //    OnArmSwapped?.Invoke();
-            //}
+            float distanceFromDrop = Vector3.Distance(transform.position, drop.transform.position);
+            if (distanceFromDrop < closestDistance)
+                closestDrop = drop;                
         }
+
+        closestDrop.EnablePickupIndicator();
+        nearestDrop = closestDrop;
+    }
+
+    private void EnableLimbSwapMenu(LimbDrop drop)
+    {
+        limbSwapMenu.Enable(drop);
+    }
+
+    private void EnableTrinketMenu()
+    {
+        NewTrinketManager.Instance.gameObject.SetActive(true);
     }
 
     private void RotatePlayer(Vector3 towards)
@@ -540,7 +555,7 @@ public class PlayerController : Singleton<PlayerController>
         // Called by animation event to enable attack collider at specific point in anim timeline.
         currentLeftArm.Attack();
         ResetAttackTriggers();
-        CanAttack = true;
+        canAttack = true;
     }
 
     private void RightAttack()
@@ -548,7 +563,7 @@ public class PlayerController : Singleton<PlayerController>
         // Called by animation event to enable attack collider at specific point in anim timeline.
         currentRightArm.Attack();
         ResetAttackTriggers();
-        CanAttack = true;
+        canAttack = true;
     }
 
     private void ActivateLegs()

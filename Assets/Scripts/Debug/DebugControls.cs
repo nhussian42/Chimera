@@ -9,6 +9,7 @@ public class DebugControls : MonoBehaviour
     public static Action<int> DamageAllCreatures;
     public static Action SpawnDebugCreature;
     public static Action toggleTrinketBuffMenu;
+    public static Action DestroyAllDrops;
 
     #if DEVELOPMENT_BUILD || UNITY_EDITOR
     private void Update()
@@ -20,7 +21,7 @@ public class DebugControls : MonoBehaviour
 
         // D = PlayerInputActions Move
 
-        // E = Pause Menu?
+        // E = PlayerInputActions Pickup Item
         
 
         // F
@@ -70,6 +71,30 @@ public class DebugControls : MonoBehaviour
         // Y
         // Z
 
+        // Alpha 1 = PlayerInputActions UI Swap Menu Switch Limb
+        // Alpha 2 = PlayerInputActions UI Swap Menu Switch Limb
+        // Alpha 3
+        // Alpha 4
+        // Alpha 5
+        // Alpha 6
+        // Alpha 7
+        // Alpha 8
+        // Alpha 9
+
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            DestroyAllDrops.Invoke();
+        }
+
+        // -
+        // =
+        // [
+        // ]
+        // \
+        // ;
+        // '
+        // ,
+        // .
         
     }
     #else

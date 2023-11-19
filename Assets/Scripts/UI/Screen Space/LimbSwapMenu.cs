@@ -181,7 +181,6 @@ public class LimbSwapMenu : MonoBehaviour
     // Right Arm variant
     public void SetToRightArm()
     {
-
         displayedArm = SideOfPlayer.Right;
 
         foreach (Arm arm in playerController.allArms)
@@ -309,7 +308,7 @@ public class LimbSwapMenu : MonoBehaviour
                     break;
                 }
         }
-        Destroy(proposedLimbDrop.gameObject);
+
         playerController.EnableAllDefaultControls();
     }
 
@@ -317,7 +316,6 @@ public class LimbSwapMenu : MonoBehaviour
     public void ScrapLimb()
     {
         playerController.AddBones(50); //replace with the exposed amount on the proposed limb
-        Destroy(proposedLimbDrop.gameObject);
         playerController.EnableAllDefaultControls();
     }
 
