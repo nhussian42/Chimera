@@ -12,12 +12,16 @@ using UnityEngine.SceneManagement;
  * Trinkets acquired
  * Limbs equipped
  */
-public class PostRunSummaryController : Singleton<PostRunSummaryController>
+public class PostRunSummaryManager : Singleton<PostRunSummaryManager>
 {
     // Private
     private bool timerStarted = false;
     public float currentTime { get; private set; } = 0;
     public int roomsCleared { get; private set; } = 0;
+    public List<Sprite> headsInRun { get; private set; }
+    public List<Sprite> leftArmsInRun { get; private set; }
+    public List<Sprite> rightArmsInRun { get; private set; }
+    public List<Sprite> legsInRun { get; private set; }
 
     // Events
     public static Action OnTimerUpdate;
@@ -27,8 +31,10 @@ public class PostRunSummaryController : Singleton<PostRunSummaryController>
         // subscribe to C# events here
         DebugControls.TestTimerStart += StartTimer; // Debug Timer
         DebugControls.TestTimerStop += StopTimer;
-        FloorManager.AllCreaturesDefeated += AddClearedRoom;
+
+        FloorManager.AllCreaturesDefeated += AddClearedRoom; 
         FloorManager.LeaveRoom += StopTimer;
+        FloorManager.LeaveRoom += ReadPlayerLimbs;
         FloorManager.NextRoomLoaded += StartTimer;
     }
 
@@ -37,8 +43,10 @@ public class PostRunSummaryController : Singleton<PostRunSummaryController>
         // unsubscribe from C# events here
         DebugControls.TestTimerStart -= StartTimer; // Debug Timer
         DebugControls.TestTimerStop -= StopTimer;
+
         FloorManager.AllCreaturesDefeated -= AddClearedRoom;
         FloorManager.LeaveRoom -= StopTimer;
+        FloorManager.LeaveRoom -= ReadPlayerLimbs;
         FloorManager.NextRoomLoaded -= StartTimer;
     }
 
@@ -52,7 +60,7 @@ public class PostRunSummaryController : Singleton<PostRunSummaryController>
         // start and stop timer here
         if (timerStarted == true)
         {
-            currentTime += Time.deltaTime * 20;
+            currentTime += Time.deltaTime;
             OnTimerUpdate?.Invoke();
         }        
     }
@@ -62,6 +70,10 @@ public class PostRunSummaryController : Singleton<PostRunSummaryController>
         currentTime = 0;
         roomsCleared = 0;
         timerStarted = false;
+        headsInRun.Clear();
+        leftArmsInRun.Clear();
+        rightArmsInRun.Clear();
+        legsInRun.Clear();
     }
 
     private void StartTimer() // Called to start timer at beginning of new run
@@ -79,14 +91,11 @@ public class PostRunSummaryController : Singleton<PostRunSummaryController>
         roomsCleared++;
     }
 
-    private void ReadPlayerLimbs() // Called at end of run to read and display the player's equipped limbs
+    private void ReadPlayerLimbs() // Called when player exits a room to record the equipped limbs at that time
     {
-
+        headsInRun.Add(PlayerController.Instance.currentHead.LimbSprite);
+        leftArmsInRun.Add(PlayerController.Instance.currentLeftArm.LimbSprite);
+        rightArmsInRun.Add(PlayerController.Instance.currentRightArm.LimbSprite);
+        legsInRun.Add(PlayerController.Instance.currentLegs.LimbSprite);
     }
-
-    private void ReadPlayerTrinkets() // Called at end of run to read and display the player's trinket inventory
-    {
-
-    }
-
 }
