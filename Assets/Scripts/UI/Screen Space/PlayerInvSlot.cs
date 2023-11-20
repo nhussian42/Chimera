@@ -26,6 +26,7 @@ public class PlayerInvSlot : MonoBehaviour
     [SerializeField] private List<Button> LimbButtons;
     [SerializeField] private List<Button> LimbButtonHLs;
 
+    [SerializeField] private MasterTrinketList masterTrinketList;
 
     //public event Action<PlayerInvSlot> OnLimbClicked;
     public void OnSelected(BaseEventData data)
@@ -74,10 +75,21 @@ public class PlayerInvSlot : MonoBehaviour
                 break;
             case "Relic":
                 UnityEngine.Debug.Log("Relic");
-                NameBox.text = "Relic Name";
-                DescBox.text = "Relic Desc";
-                break;
-
+                if(masterTrinketList.Relic == null)
+                {
+                    NameBox.text = "No Relic Equipped";
+                    DescBox.text = "No Relic Equipped";
+                    ImgBox.sprite = null;
+                    break;
+                }
+                else
+                {
+                    NameBox.text = masterTrinketList.Relic.TrinketName.ToString();
+                    DescBox.text = masterTrinketList.Relic.Description.ToString();
+                    SetRelicSprite(masterTrinketList.Relic);
+                    break;
+                }
+                
         }
     }
 
@@ -133,6 +145,18 @@ public class PlayerInvSlot : MonoBehaviour
                     LimbButtonHLs[4].GetComponent<Image>().sprite = PlayerController.Instance.currentLegs.limbSprite;
                     break;
 
+                case "Relic":
+                    if(masterTrinketList.Relic == null)
+                    {
+                        LimbButtons[5].GetComponent<Image>().sprite = null;
+                        break;
+                    }
+                    else
+                    {
+                        LimbButtons[5].GetComponent<Image>().sprite = masterTrinketList.Relic.Icon;
+                        break;
+                    }
+                    
             }
         }
     }
@@ -145,5 +169,12 @@ public class PlayerInvSlot : MonoBehaviour
         ImgBox.sprite = limbSprite;
     }
 
+    public void SetRelicSprite(Trinket trinket)
+    {
+        ImgBox.gameObject.SetActive(true);
+        var trinketIcon = trinket.Icon;
+
+        ImgBox.sprite = trinketIcon;
+    }
 
 }
