@@ -6,21 +6,21 @@ using UnityEngine;
 public class TimerDebug : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timerText;
-    private PostRunSummaryController pRSController;
+    private PostRunSummaryManager pRSController;
 
     private void Start()
     {
-        pRSController = PostRunSummaryController.Instance;
+        pRSController = PostRunSummaryManager.Instance;
     }
 
     private void OnEnable()
     {
-        PostRunSummaryController.OnTimerUpdate += UpdateTimer;
+        PostRunSummaryManager.OnTimerUpdate += UpdateTimer;
     }
 
     private void OnDisable()
     {
-        PostRunSummaryController.OnTimerUpdate -= UpdateTimer;
+        PostRunSummaryManager.OnTimerUpdate -= UpdateTimer;
     }
 
     private void UpdateTimer()

@@ -1,101 +1,66 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-// Things that need to be tracked:
-/*
- * Run time
- * Rooms cleared
- * Trinkets acquired
- * Limbs equipped
- */
-public class PostRunSummaryManager : Singleton<PostRunSummaryManager>
+public class PostRunSummaryController : MonoBehaviour
 {
     // Private
-    private bool timerStarted = false;
-    public float currentTime { get; private set; } = 0;
-    public int roomsCleared { get; private set; } = 0;
-    public List<Sprite> headsInRun { get; private set; }
-    public List<Sprite> leftArmsInRun { get; private set; }
-    public List<Sprite> rightArmsInRun { get; private set; }
-    public List<Sprite> legsInRun { get; private set; }
+    private PostRunSummaryManager pRSManager;
 
-    // Events
-    public static Action OnTimerUpdate;
+    // Exposed
+    [SerializeField] MasterTrinketList masterTrinketList;
+
+    // Exposed UI
+    [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] TextMeshProUGUI roomsClearedText;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        pRSManager = PostRunSummaryManager.Instance;
+    }
 
     private void OnEnable()
     {
         // subscribe to C# events here
-        DebugControls.TestTimerStart += StartTimer; // Debug Timer
-        DebugControls.TestTimerStop += StopTimer;
-
-        FloorManager.AllCreaturesDefeated += AddClearedRoom; 
-        FloorManager.LeaveRoom += StopTimer;
-        FloorManager.LeaveRoom += ReadPlayerLimbs;
-        FloorManager.NextRoomLoaded += StartTimer;
     }
 
     private void OnDisable()
     {
-        // unsubscribe from C# events here
-        DebugControls.TestTimerStart -= StartTimer; // Debug Timer
-        DebugControls.TestTimerStop -= StopTimer;
-
-        FloorManager.AllCreaturesDefeated -= AddClearedRoom;
-        FloorManager.LeaveRoom -= StopTimer;
-        FloorManager.LeaveRoom -= ReadPlayerLimbs;
-        FloorManager.NextRoomLoaded -= StartTimer;
+        // unsubscribe to C# events here
     }
 
-    private void Start()
+    private void Display()
     {
-        DontDestroyOnLoad(this);
+        // Uses coroutines to display information in order
     }
 
-    private void Update()
+    private IEnumerator PlayTimerText()
     {
-        // start and stop timer here
-        if (timerStarted == true)
-        {
-            currentTime += Time.deltaTime;
-            OnTimerUpdate?.Invoke();
-        }        
+        // displays and formats timer text
+        yield return null;
     }
 
-    private void Initialize() // Called to reset the post run summary controller
+    private IEnumerator PlayRoomsClearedText()
     {
-        currentTime = 0;
-        roomsCleared = 0;
-        timerStarted = false;
-        headsInRun.Clear();
-        leftArmsInRun.Clear();
-        rightArmsInRun.Clear();
-        legsInRun.Clear();
+        // displays and formats rooms cleared text
+        yield return null;
     }
 
-    private void StartTimer() // Called to start timer at beginning of new run
+    private void ReadPlayerTrinketInventory()
     {
-        timerStarted = true;
+        // uses the master trinket list to display player's trinket inventory
     }
 
-    private void StopTimer() // Called to stop timer when run ends or when paused
+    private IEnumerator StartLimbsTimelapse()
     {
-        timerStarted = false;
+        // gets lists from PostRunSummaryManager to display a snapshot of player's limb build after each room in sequential order
+        yield return null;
+        
     }
 
-    private void AddClearedRoom() // Called when a player clears a room
-    {
-        roomsCleared++;
-    }
+    //Retry function?
 
-    private void ReadPlayerLimbs() // Called when player exits a room to record the equipped limbs at that time
-    {
-        headsInRun.Add(PlayerController.Instance.currentHead.LimbSprite);
-        leftArmsInRun.Add(PlayerController.Instance.currentLeftArm.LimbSprite);
-        rightArmsInRun.Add(PlayerController.Instance.currentRightArm.LimbSprite);
-        legsInRun.Add(PlayerController.Instance.currentLegs.LimbSprite);
-    }
+    //Main Menu function?
 }
