@@ -52,7 +52,7 @@ public class PostRunSummaryController : Singleton<PostRunSummaryController>
         // start and stop timer here
         if (timerStarted == true)
         {
-            currentTime += Time.deltaTime;
+            currentTime += Time.deltaTime * 20;
             OnTimerUpdate?.Invoke();
         }        
     }

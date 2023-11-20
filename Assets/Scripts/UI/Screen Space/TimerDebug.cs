@@ -25,6 +25,9 @@ public class TimerDebug : MonoBehaviour
 
     private void UpdateTimer()
     {
-        timerText.text = pRSController.currentTime.ToString();
+        float seconds = Mathf.Round(pRSController.currentTime % 60);
+        float minutes = Mathf.Round(pRSController.currentTime/60) % 60;
+        float hours = Mathf.Round(pRSController.currentTime/3600) % 24;
+        timerText.text = hours + ":" + minutes + ":" + seconds;
     }
 }
