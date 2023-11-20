@@ -45,11 +45,6 @@ public class EMScript : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-      
-    }
-
     private void Hide()
     {
         gameObject.SetActive(false);
@@ -57,7 +52,7 @@ public class EMScript : MonoBehaviour
 
     public void AddTrinket(Trinket trinket)
     {
-        if (trinketList.Contains(trinket))
+        if (trinketList.Contains(trinket) && (trinket.IsRelic == false))
         {
             return;
         }
