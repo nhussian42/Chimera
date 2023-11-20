@@ -528,6 +528,8 @@ GameObject:
   - component: {fileID: 7857498733618933282}
   - component: {fileID: 8402245830762764459}
   - component: {fileID: 1156952753494874463}
+  - component: {fileID: 1688542997686930998}
+  - component: {fileID: 7870981516171893762}
   m_Layer: 0
   m_Name: Debug_DontDestroyOnLoad
   m_TagString: Untagged
@@ -554,7 +556,7 @@ Transform:
   - {fileID: 8204979400922181322}
   - {fileID: 1448948696143510991}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7857498733618933282
 MonoBehaviour:
@@ -575,7 +577,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4992577390909611129}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 867101000f6375e419355dba80fa6916, type: 3}
   m_Name: 
@@ -636,6 +638,227 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5a026bed61df84ba8187b2eed8884c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1688542997686930998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4992577390909611129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e0e1670c882fb64d84d4e6c2db0a6da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioListener: {fileID: 0}
+--- !u!114 &7870981516171893762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4992577390909611129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a19760e3736d0254bbca95d9036d4906, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OnMainMenuStarted>k__BackingField:
+    Guid:
+      Data1: -1525036518
+      Data2: 1314759516
+      Data3: -995288950
+      Data4: -775951100
+    Path: event:/OnMainMenuStart
+  <OnGameplayStarted>k__BackingField:
+    Guid:
+      Data1: -1112833819
+      Data2: 1120338472
+      Data3: 2012681344
+      Data4: -1800749538
+    Path: event:/OnGameplayStart
+  <OnCombatStarted>k__BackingField:
+    Guid:
+      Data1: 1967306856
+      Data2: 1085780376
+      Data3: -1746842491
+      Data4: -821443486
+    Path: event:/OnCombatMusicStart
+  <OnBoss1Started>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnShopEntered>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnGameStart>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnGameQuit>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnMenuButtonSelected>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnMenuButtonClicked>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnPlayerWalk>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnPlayerBaseAttack>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnPlayerLightAttack>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnPlayerHeavyAttack>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnWolfSpawn>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnWolfAttack>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnWolfDeath>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnCrocSpawn>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnCrocAttack>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnCrocDeath>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnRhinoSpawn>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnRhinoAttack>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnRhinoDeath>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnBoss1Spawn>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnBoss1Attack>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnBoss1Death>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnRoomCleared>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnPotBroken>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnWaterfallApproached>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &5713194264434595104
 GameObject:
   m_ObjectHideFlags: 0

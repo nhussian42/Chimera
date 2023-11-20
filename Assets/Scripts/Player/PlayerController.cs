@@ -920,7 +920,7 @@ public class PlayerController : Singleton<PlayerController>
         if (isInvincible == false)
         {
             animator.SetTrigger("TakeDamage");
-            AudioManager.Instance.PlayPlayerSFX("MinHit");
+            OLDAudioManager.Instance.PlayPlayerSFX("MinHit");
             List<Limb> damagedLimbs = new List<Limb>();
 
             damagedLimbs.Add(core);

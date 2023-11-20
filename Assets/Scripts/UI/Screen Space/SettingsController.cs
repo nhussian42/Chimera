@@ -56,17 +56,17 @@ public class SettingsController : MonoBehaviour
     public void MusicVolume()
     {
         musicPercent.text = Mathf.RoundToInt(_musicSlider.value * 100) + "%";
-        AudioManager.Instance.MusicVolume(_musicSlider.value);
+        OLDAudioManager.Instance.MusicVolume(_musicSlider.value);
         SaveValues.musicVolume = _musicSlider.value;
     }
     public void SFXVolume()
     {
         sfxPercent.text = Mathf.RoundToInt(_sfxSlider.value * 100) + "%";
-        AudioManager.Instance.MenuSFXVolume(_sfxSlider.value); 
-        AudioManager.Instance.WorldSFXVolume(_sfxSlider.value);
-        AudioManager.Instance.MinEnemySFXVolume(_sfxSlider.value);
-        AudioManager.Instance.MajEnemySFXVolume(_sfxSlider.value);
-        AudioManager.Instance.PlayerSFXVolume(_sfxSlider.value);
+        OLDAudioManager.Instance.MenuSFXVolume(_sfxSlider.value); 
+        OLDAudioManager.Instance.WorldSFXVolume(_sfxSlider.value);
+        OLDAudioManager.Instance.MinEnemySFXVolume(_sfxSlider.value);
+        OLDAudioManager.Instance.MajEnemySFXVolume(_sfxSlider.value);
+        OLDAudioManager.Instance.PlayerSFXVolume(_sfxSlider.value);
         SaveValues.sfxVolume = _sfxSlider.value;
     }
 

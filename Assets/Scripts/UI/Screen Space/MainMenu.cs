@@ -28,9 +28,9 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        AudioManager.Instance.PlayMenuSFX("SelectPlay");
-        AudioManager.Instance.musicSource.Stop();
-        AudioManager.Instance.PlayMusic("DungeonMusic");
+        OLDAudioManager.Instance.PlayMenuSFX("SelectPlay");
+        OLDAudioManager.Instance.musicSource.Stop();
+        OLDAudioManager.Instance.PlayMusic("DungeonMusic");
 
         foreach (Button child in GetComponentsInChildren<Button>())
         {

@@ -128,7 +128,7 @@ public class Wolf : NotBossAI
     {
         knockbackForce = pounceKnockback;
         animator.SetBool("Attack", true);
-        AudioManager.Instance.PlayMajEnemySFX("WolfBark");
+        OLDAudioManager.Instance.PlayMajEnemySFX("WolfBark");
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         StartCoroutine(RotateTowardsTarget(player.transform.position, chargeDelay));

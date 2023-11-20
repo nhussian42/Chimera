@@ -1,171 +1,91 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
+using FMOD.Studio;
+using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : Singleton<AudioManager>
 {
-    public static AudioManager Instance;
+    [SerializeField] private StudioListener audioListener;
+    private AudioEvents audioEvents;
+    private EventInstance currentMusic;
 
-    public Sound[] musicSounds, menuSFXSounds, worldSFXSounds, playerSFXSounds, minEnemySFXSounds, majEnemySFXSounds;
-    public AudioSource musicSource, menuSFXSource, worldSFXSource, playerSFXSource, minEnemySFXSource, majEnemySFXSource;
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    private int previousSceneMusicIndex = -1;
 
     private void Start()
     {
-        PlayMusic("MenuMusic");
+        audioEvents = AudioEvents.Instance;
+
+        // StartNewSceneMusic(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void PlayMusic(string name) 
+    private void OnEnable()
     {
-        Sound s = Array.Find(musicSounds, x => x.name == name);
+        ChimeraSceneManager.OnSceneSwitched += StartNewSceneMusic;
+        FloorManager.AllCreaturesDefeated += FadeOutCombatMusic;
+    }
 
-        if (s == null)
+    private void OnDisable()
+    {
+        ChimeraSceneManager.OnSceneSwitched -= StartNewSceneMusic;
+        FloorManager.AllCreaturesDefeated -= FadeOutCombatMusic;
+    }
+    
+    public void PlaySound2D(EventReference audioEvent)
+    {
+        RuntimeManager.PlayOneShot(audioEvent, audioListener.transform.position);
+    }
+
+    public void PlaySound3D(EventReference audioEvent, Vector3 position)
+    {
+        RuntimeManager.PlayOneShot(audioEvent, position);
+    }
+
+    public EventInstance CreateEventInstance(EventReference eventReference)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
+        return eventInstance;
+    }
+
+    public void CrossFadeMusic(EventInstance currentInstance, EventInstance newInstance)
+    {
+        currentMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        currentMusic.release();
+        currentMusic = newInstance;
+        currentMusic.start();
+    }
+
+    private void StartNewSceneMusic(int buildIndex)
+    {
+        audioListener = GameObject.FindObjectOfType<StudioListener>();
+        EventInstance newMusicInstance = currentMusic;
+
+        if (buildIndex == 0)
         {
-            Debug.Log("Sound Not Found");
+            newMusicInstance = CreateEventInstance(audioEvents.OnMainMenuStarted);
+        }
+        else if (buildIndex == 1 && previousSceneMusicIndex != buildIndex)
+        {
+            newMusicInstance = CreateEventInstance(audioEvents.OnGameplayStarted);
+        }
+        else if (buildIndex == 1 && previousSceneMusicIndex == buildIndex)
+        {
+            newMusicInstance = CreateEventInstance(audioEvents.OnCombatStarted);
         }
         else
         {
-            musicSource.clip = s.clip;
-            musicSource.Play();
+            Debug.LogError($"Could not start new scene music at build index \"{buildIndex}\"");
         }
-    }
-    public void PlayMenuSFX(string name)
-    {
-        Sound s = Array.Find(menuSFXSounds, x => x.name == name);
+        
+        previousSceneMusicIndex = buildIndex;
 
-        if (s == null)
-        {
-            Debug.Log("Sound Not Found");
-        }
-        else
-        {
-            menuSFXSource.PlayOneShot(s.clip);
-        }
+        CrossFadeMusic(currentMusic, newMusicInstance);
     }
 
-    public void PlayWorldSFX(string name)
+    private void FadeOutCombatMusic()
     {
-        Sound s = Array.Find(worldSFXSounds, x => x.name == name);
-
-        if (s == null)
-        {
-            Debug.Log("Sound Not Found");
-        }
-        else
-        {
-            worldSFXSource.PlayOneShot(s.clip);
-        }
-    }
-    public void PlayMinEnemySFX(string name)
-    {
-        Sound s = Array.Find(minEnemySFXSounds, x => x.name == name);
-
-        if (s == null)
-        {
-            Debug.Log("Sound Not Found");
-        }
-        else
-        {
-            minEnemySFXSource.PlayOneShot(s.clip);
-        }
-    }
-
-    public void PlayMajEnemySFX(string name)
-    {
-        Sound s = Array.Find(majEnemySFXSounds, x => x.name == name);
-
-        if (s == null)
-        {
-            Debug.Log("Sound Not Found");
-        }
-        else
-        {
-            majEnemySFXSource.PlayOneShot(s.clip);
-        }
-    }
-
-   public void PlayPlayerSFX(string name)
-    {
-        Sound s = Array.Find(playerSFXSounds, x => x.name == name);
-
-        if (s == null)
-        {
-            Debug.Log("Sound Not Found");
-        }
-        else
-        {
-            playerSFXSource.PlayOneShot(s.clip);
-        }
-    }
-
-    public void ToggleMusic()
-    {
-        musicSource.mute = !musicSource.mute;
-    }
-
-    public void ToggleMenuSFX()
-    {
-        menuSFXSource.mute = !menuSFXSource.mute;
-    }
-
-    public void ToggleWorldSFX()
-    {
-        worldSFXSource.mute = !worldSFXSource.mute;
-    }
-
-    public void ToggleMinEnemySFX()
-    {
-        minEnemySFXSource.mute = !minEnemySFXSource.mute;
-    }
-
-    public void ToggleMajEnemySFX()
-    {
-        majEnemySFXSource.mute = !majEnemySFXSource.mute;
-    }
-
-    public void TogglePlayerSFX()
-    {
-        playerSFXSource.mute = !playerSFXSource.mute;
-    }
-
-    public void MusicVolume(float volume)
-    {
-        musicSource.volume = volume;
-    }
-
-    public void MenuSFXVolume(float volume)
-    {
-        menuSFXSource.volume = volume;
-    }
-    public void WorldSFXVolume(float volume)
-    {
-        worldSFXSource.volume = volume;
-    }
-    public void MinEnemySFXVolume(float volume)
-    {
-        minEnemySFXSource.volume = volume;
-    }
-
-    public void MajEnemySFXVolume(float volume)
-    {
-        majEnemySFXSource.volume = volume;
-    }
-
-    public void PlayerSFXVolume(float volume)
-    {
-        playerSFXSource.volume = volume;
+        CrossFadeMusic(currentMusic, CreateEventInstance(audioEvents.OnGameplayStarted));
     }
 }
