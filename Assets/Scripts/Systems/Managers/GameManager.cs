@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
     private void OnEnable()
     {
         PlayerController.OnGamePaused += PauseGame;
+        PlayerController.ToggleMenuPause += PauseGame;
         UIManager.ResumePressed += UnpauseGame;
         UIManager.QuitPressed += QuitGame;
     }
@@ -20,6 +21,7 @@ public class GameManager : Singleton<GameManager>
     private void OnDisable()
     {
         PlayerController.OnGamePaused -= PauseGame;
+        PlayerController.ToggleMenuPause -= PauseGame;
         UIManager.ResumePressed -= UnpauseGame;
         UIManager.QuitPressed -= QuitGame;
     }

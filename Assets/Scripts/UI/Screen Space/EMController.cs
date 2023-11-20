@@ -10,6 +10,6 @@ public class EMController : MonoBehaviour
 
     private void Start()
     {
-        equipUI.InitializeTrinketInv(invSize);
+        //equipUI.InitializeTrinketInv(invSize);
     }
 }

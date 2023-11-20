@@ -44,11 +44,13 @@ public class NotBossAI : Creature
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<CharacterController>() != null && attacking == true && playerIFrame == false)
+        // PlayerController.Instance.isInvincible is temporary for fixing croc knockback while player is burrowing
+        if (other.gameObject.GetComponent<CharacterController>() != null && attacking == true && playerIFrame == false && PlayerController.Instance.isInvincible == false)
         {
             playerIFrame = true;
             Invoke("PlayerIFrame", 0.5f);
             Debug.Log("Dealt damage to player");
+
             PlayerController.Instance.DistributeDamage(attackDamage);
 
             StartCoroutine(PlayerKnockback((player.transform.position - transform.position).normalized, knockbackForce, 0.4f));
