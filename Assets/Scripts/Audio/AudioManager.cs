@@ -1,17 +1,12 @@
 using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
-using System.Collections.Generic;
-using System;
-using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
 
 public class AudioManager : Singleton<AudioManager>
 {
     [SerializeField] private StudioListener audioListener;
     private AudioEvents audioEvents;
     private EventInstance currentMusic;
-
     private int previousSceneMusicIndex = -1;
 
     private void Start()
