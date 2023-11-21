@@ -45,7 +45,6 @@ public class Grolfino : BossAI
 
     private void Start()
     {
-        bossAttack.Add("SpikeAttack");
         bossAttack.Add("ProjectileAttack");
         bossAttack.Add("SweepAttack");
 
@@ -102,8 +101,8 @@ public class Grolfino : BossAI
     {
         //Calculates forward direction for attacks
         Vector3 dir = Quaternion.AngleAxis(0, Vector3.up) * transform.forward;
-        Vector3 dir2 = Quaternion.AngleAxis(15, Vector3.up) * transform.forward;
-        Vector3 dir3 = Quaternion.AngleAxis(-15, Vector3.up) * transform.forward;
+        Vector3 dir2 = Quaternion.AngleAxis(30, Vector3.up) * transform.forward;
+        Vector3 dir3 = Quaternion.AngleAxis(-30, Vector3.up) * transform.forward;
 
         //Instantiates spikes in a straight line with slightly random rotation
         for (int i = 0; i < numberOfSpikes; i++)
@@ -174,28 +173,26 @@ public class Grolfino : BossAI
             //Randomly picks an attack to perform
             //Once an attack is performed, it is removed from the list
             //When every attack has been performed, the list is refilled
-            int r = Random.Range(0, bossAttack.Count);
-            if (bossAttack[r] == "ProjectileAttack")
-            {
-                StartCoroutine(StartRangedAttack(numberOfProjectiles, timeBetweenProjectiles));
-                bossAttack.Remove("ProjectileAttack");
-            }
-            else if (bossAttack[r] == "SpikeAttack")
-            {
-                StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes, distanceBetweenSpikes));
-                bossAttack.Remove("SpikeAttack");
-            }
-            else if (bossAttack[r] == "SweepAttack")
-            {
-                StartCoroutine(StartSweepAttack(sweepAngle, sweepDuration));
-                bossAttack.Remove("SweepAttack");
-            }
-
+            
             if (bossAttack.Count == 0)
             {
-                bossAttack.Add("SpikeAttack");
+                StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes, distanceBetweenSpikes));
                 bossAttack.Add("ProjectileAttack");
                 bossAttack.Add("SweepAttack");
+            }
+            else 
+            {
+                int r = Random.Range(0, bossAttack.Count);
+                if (bossAttack[r] == "ProjectileAttack")
+                {
+                    StartCoroutine(StartRangedAttack(numberOfProjectiles, timeBetweenProjectiles));
+                    bossAttack.Remove("ProjectileAttack");
+                } 
+                else if (bossAttack[r] == "SweepAttack")
+                {
+                    StartCoroutine(StartSweepAttack(sweepAngle, sweepDuration));
+                    bossAttack.Remove("SweepAttack");
+                }
             }
             yield return null;
         }
