@@ -4,20 +4,15 @@ using FMOD.Studio;
 
 public class AudioManager : Singleton<AudioManager>
 {
-    [SerializeField] private StudioListener audioListener;
+    private StudioListener audioListener;
     private AudioEvents audioEvents;
     private EventInstance currentMusic;
     private int previousSceneMusicIndex = -1;
 
-    private void Start()
+    private void OnEnable()
     {
         audioEvents = AudioEvents.Instance;
 
-        // StartNewSceneMusic(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    private void OnEnable()
-    {
         ChimeraSceneManager.OnSceneSwitched += StartNewSceneMusic;
         FloorManager.AllCreaturesDefeated += FadeOutCombatMusic;
     }
