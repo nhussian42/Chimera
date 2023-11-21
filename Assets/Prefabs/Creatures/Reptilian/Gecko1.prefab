@@ -3301,7 +3301,7 @@ MonoBehaviour:
   chargeSpeed: 10
   chargeTime: 0.5
   attackCooldown: 1
-  dashAttackCooldown: 7
+  dashAttackCooldown: 12
 --- !u!65 &8156032211501480992
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4547,6 +4547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCollider: {fileID: 3988205804073004874}
+  geckoCollider: {fileID: 8156032211501480992}
 --- !u!1 &8615627847072989887
 GameObject:
   m_ObjectHideFlags: 0
@@ -4965,7 +4966,7 @@ PrefabInstance:
     - target: {fileID: 2421926722003534983, guid: c435e15060d16f74abbf39a3f456f12f,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6192714990006044032, guid: c435e15060d16f74abbf39a3f456f12f,
         type: 3}
@@ -4990,7 +4991,7 @@ PrefabInstance:
     - target: {fileID: 7719906722645857054, guid: c435e15060d16f74abbf39a3f456f12f,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7719906722645857054, guid: c435e15060d16f74abbf39a3f456f12f,
         type: 3}
@@ -5005,7 +5006,7 @@ PrefabInstance:
     - target: {fileID: 7719906722645857054, guid: c435e15060d16f74abbf39a3f456f12f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.5
+      value: 2.93
       objectReference: {fileID: 0}
     - target: {fileID: 7719906722645857054, guid: c435e15060d16f74abbf39a3f456f12f,
         type: 3}

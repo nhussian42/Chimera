@@ -37,14 +37,15 @@ public class Gecko : NotBossAI
 
         //Charges foward
         agent.isStopped = true;
-        Vector3 endPos = Vector3.Lerp(transform.position, player.transform.position, 0.7f);
+        Vector3 startPos = transform.position;
+        Vector3 endPos = Vector3.Lerp(transform.position, player.transform.position, 0.5f);
         Vector3 middlePos = Vector3.Lerp(transform.position, endPos, 0.3f);
         animator.SetBool("Dash", true);
+        transform.LookAt(middlePos);
         float timer = 0;
         while (timer < chargeTime)
         {
             timer += Time.deltaTime;
-            transform.LookAt(endPos);
             transform.position = Vector3.MoveTowards(transform.position, middlePos + (transform.right * 3), chargeSpeed * Time.deltaTime);
             yield return null;
         }
@@ -56,25 +57,21 @@ public class Gecko : NotBossAI
         while (timer < chargeTime)
         {
             timer += Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, endPos, chargeSpeed * Time.deltaTime);
-            if (Vector3.Distance(endPos, transform.position) < 0.1f)
-            {
-                timer = chargeTime;
-            }
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, chargeSpeed * Time.deltaTime);
             yield return null;
         }
         yield return new WaitForSeconds(0.25f);
         animator.SetBool("DashAttack", false);
         animator.SetBool("DashBack", true);
-        Vector3 fleePos = PointOnXZCircle(endPos, 7f, Random.Range(-30, 31));
         timer = 0;
         while (timer < chargeTime)
         {
             timer += Time.deltaTime;
-            transform.LookAt(endPos);
-            transform.position = Vector3.MoveTowards(transform.position, fleePos, chargeSpeed * Time.deltaTime);
+            transform.LookAt(player.transform.position);
+            transform.position = Vector3.MoveTowards(transform.position, startPos, chargeSpeed * Time.deltaTime);
             yield return null;
         }
+        animator.SetBool("Fleeing", true);
         animator.SetBool("DashBack", false);
         agent.isStopped = false;
         remainingDashAttackCooldown = dashAttackCooldown;
@@ -89,19 +86,22 @@ public class Gecko : NotBossAI
 
     private IEnumerator Flee()
     {
-        agent.destination = PointOnXZCircle(player.transform.position, 15f, Random.Range(-45, 46));
+        agent.destination = PointOnXZCircle(transform.position, 15f, Random.Range(0, 361));
+        agent.speed = 24;
+        agent.acceleration = 24;
         while (remainingDashAttackCooldown > 0)
         {
-            if (Vector3.Distance(player.transform.position, transform.position) < 1f)
+            if (Vector3.Distance(player.transform.position, transform.position) < 9f)
             {
-                agent.destination = PointOnXZCircle(player.transform.position, 15f, Random.Range(-45, 46));
-                Debug.Log("New flee destination");
+                agent.destination = PointOnXZCircle(transform.position, 25f, Random.Range(0, 361));
+                yield return new WaitForSeconds(1.5f);
             }
-            yield return new WaitForSeconds(2f);
+            yield return null;
         }
-        agent.speed = agent.speed * 2;
-        yield return new WaitUntil(() => remainingDashAttackCooldown < 0);
-        agent.speed = agent.speed / 2;
+        animator.SetBool("Fleeing", false);
+        animator.SetBool("Idle", false);
+        agent.speed = 6;
+        agent.acceleration = 8;
         fleeing = false;
         attacking = false;
         yield return null;
@@ -122,12 +122,14 @@ public class Gecko : NotBossAI
         }
         else if (alive == true)
         {
-            if (fleeing == false)
+            if (agent.remainingDistance < 0.1f && fleeing == true)
             {
-                StartCoroutine(Flee());
-                fleeing = true;
+                animator.SetBool("Idle", true);
             }
-
+            else
+            {
+                animator.SetBool("Idle", false);
+            }
         }
 
         remainingDashAttackCooldown -= Time.deltaTime;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class GeckoAnimationTransitions : MonoBehaviour
 {
     [SerializeField] private MeshCollider attackCollider;
+    [SerializeField] private BoxCollider geckoCollider;
     public void EnableAttackCollider()
     {
         attackCollider.enabled = true;
@@ -13,5 +14,15 @@ public class GeckoAnimationTransitions : MonoBehaviour
     public void DisableAttackCollider()
     {
         attackCollider.enabled = false;
+    }
+
+    public void EnableGeckoCollider()
+    {
+        geckoCollider.enabled = true;
+    }
+
+    public void DisableGeckoCollider()
+    {
+        geckoCollider.enabled = true;
     }
 }
