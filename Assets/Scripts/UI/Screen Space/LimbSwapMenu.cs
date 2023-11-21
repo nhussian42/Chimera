@@ -188,7 +188,6 @@ public class LimbSwapMenu : MonoBehaviour
     // Right Arm variant
     public void SetToRightArm()
     {
-
         displayedArm = SideOfPlayer.Right;
 
         foreach (Arm arm in playerController.allArms)
@@ -320,7 +319,7 @@ public class LimbSwapMenu : MonoBehaviour
                     break;
                 }
         }
-        Destroy(proposedLimbDrop.gameObject);
+
         playerController.EnableAllDefaultControls();
     }
 
@@ -328,7 +327,6 @@ public class LimbSwapMenu : MonoBehaviour
     public void ScrapLimb()
     {
         OnScrap?.Invoke(50); // replace with OnScrap?.Invoke(proposedLimb.BonesValue) when property is added to Limb class
-        Destroy(proposedLimbDrop.gameObject);
         playerController.EnableAllDefaultControls();
     }
 
