@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LimbDrop : Drop
 {
+    
     [Header("Limb information")]
     [SerializeField] protected Weight weight;
     [SerializeField] protected Classification classification;

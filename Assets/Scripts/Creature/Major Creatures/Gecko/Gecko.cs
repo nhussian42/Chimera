@@ -6,6 +6,7 @@ using UnityEngine.Animations.Rigging;
 
 public class Gecko : NotBossAI
 {
+    
     [SerializeField, Tooltip("How long it stops once in range before beginning the charge")] private float chargeDelay = 0.5f;
     [SerializeField, Tooltip("How fast it charges")] private float chargeSpeed = 15f;
     [SerializeField, Tooltip("How long it charges for")] private float chargeTime = 0.5f;
