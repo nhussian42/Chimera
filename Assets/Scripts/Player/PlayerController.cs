@@ -969,7 +969,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         OnDie?.Invoke();
         DisableAllDefaultControls();
-        
+        ToggleInvincibility();
     }
 
     // This function is obsolete, delete later when other scripts refactor 

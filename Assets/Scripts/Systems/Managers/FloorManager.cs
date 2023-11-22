@@ -34,6 +34,7 @@ public class FloorManager : Singleton<FloorManager>
     {
         LoadNextRoom += LoadNextRoomIndex;
         AllCreaturesDefeated += GenerateNewCombatRooms;
+        PostRunSummaryController.OnPressedMainMenu += LoadMainMenu;
         //PlayerController.OnDie += LoadMainMenu;
     }
 
@@ -41,6 +42,7 @@ public class FloorManager : Singleton<FloorManager>
     {
         LoadNextRoom -= LoadNextRoomIndex;
         AllCreaturesDefeated -= GenerateNewCombatRooms;
+        PostRunSummaryController.OnPressedMainMenu -= LoadMainMenu;
         //PlayerController.OnDie -= LoadMainMenu;
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,10 @@ public class PostRunSummaryController : MonoBehaviour
     // Exposed
     [SerializeField] MasterTrinketList masterTrinketList;
     [SerializeField] List<Image> trinketSlots;
+
+    // Events
+    public static Action OnPressedMainMenu;
+    public static Action OnPressedRetry;
 
     // Exposed UI
     [SerializeField] TextMeshProUGUI timerText;
@@ -58,14 +63,18 @@ public class PostRunSummaryController : MonoBehaviour
     private IEnumerator PlayTimerText()
     {
         // displays and formats timer text
-        yield return null;
+        timerText.text = timerCount.ToString();
+        yield return new WaitForSeconds(0.01f);
+        if (timerCount < pRSManager.currentTime)
+            timerCount++;
+            StartCoroutine(PlayTimerText());
     }
 
     private IEnumerator PlayRoomsClearedText()
     {
         // displays and formats 'rooms cleared' text
-        roomsClearedText.text = "Rooms: " + roomsCount.ToString();
-        yield return new WaitForSeconds(1.5f);
+        roomsClearedText.text = roomsCount.ToString();
+        yield return new WaitForSeconds(0.25f);
         if (roomsCount < pRSManager.roomsCleared)
             roomsCount++;
             StartCoroutine(PlayRoomsClearedText());
@@ -95,7 +104,7 @@ public class PostRunSummaryController : MonoBehaviour
             legs.sprite = pRSManager.legsInRun[snapshotIndex];
         else
             legs.sprite = pRSManager.legsInRun[pRSManager.leftArmsInRun.Count];
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         if (snapshotIndex < pRSManager.headsInRun.Count 
             || snapshotIndex < pRSManager.leftArmsInRun.Count 
             || snapshotIndex < pRSManager.rightArmsInRun.Count 
@@ -106,7 +115,13 @@ public class PostRunSummaryController : MonoBehaviour
         }
     }
 
-    //Retry function?
+    public void PressedMainMenu()
+    {
+        OnPressedMainMenu?.Invoke();
+    }
 
-    //Main Menu function?
+    //public void PressedRetry()
+    //{
+    //    MainMenu.LoadFirstRoom?.Invoke();
+    //}
 }

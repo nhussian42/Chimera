@@ -32,9 +32,10 @@ public class PostRunSummaryManager : Singleton<PostRunSummaryManager>
         DebugControls.TestTimerStart += StartTimer; // Debug Timer
         DebugControls.TestTimerStop += StopTimer;
 
+        MainMenu.StartPressed += Initialize;
         FloorManager.AllCreaturesDefeated += AddClearedRoom;
         PlayerController.OnDie += StopTimer;
-        PlayerController.OnDie += ReadPlayerLimbs;
+        //PlayerController.OnDie += ReadPlayerLimbs;
         FloorManager.LeaveRoom += StopTimer;
         FloorManager.LeaveRoom += ReadPlayerLimbs;
         FloorManager.NextRoomLoaded += StartTimer;
@@ -46,9 +47,10 @@ public class PostRunSummaryManager : Singleton<PostRunSummaryManager>
         DebugControls.TestTimerStart -= StartTimer; // Debug Timer
         DebugControls.TestTimerStop -= StopTimer;
 
+        MainMenu.StartPressed -= Initialize;
         FloorManager.AllCreaturesDefeated -= AddClearedRoom;
         PlayerController.OnDie -= StopTimer;
-        PlayerController.OnDie -= ReadPlayerLimbs;
+        //PlayerController.OnDie -= ReadPlayerLimbs;
         FloorManager.LeaveRoom -= StopTimer;
         FloorManager.LeaveRoom -= ReadPlayerLimbs;
         FloorManager.NextRoomLoaded -= StartTimer;
