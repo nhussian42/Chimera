@@ -18,10 +18,10 @@ public class PostRunSummaryManager : Singleton<PostRunSummaryManager>
     private bool timerStarted = false;
     public float currentTime { get; private set; } = 0;
     public int roomsCleared { get; private set; } = 0;
-    public List<Sprite> headsInRun { get; private set; }
-    public List<Sprite> leftArmsInRun { get; private set; }
-    public List<Sprite> rightArmsInRun { get; private set; }
-    public List<Sprite> legsInRun { get; private set; }
+    public List<Sprite> headsInRun { get; private set; } = new List<Sprite>();
+    public List<Sprite> leftArmsInRun { get; private set; } = new List<Sprite>();
+    public List<Sprite> rightArmsInRun { get; private set; } = new List<Sprite>();
+    public List<Sprite> legsInRun { get; private set; } = new List<Sprite>();
 
     // Events
     public static Action OnTimerUpdate;
@@ -32,7 +32,9 @@ public class PostRunSummaryManager : Singleton<PostRunSummaryManager>
         DebugControls.TestTimerStart += StartTimer; // Debug Timer
         DebugControls.TestTimerStop += StopTimer;
 
-        FloorManager.AllCreaturesDefeated += AddClearedRoom; 
+        FloorManager.AllCreaturesDefeated += AddClearedRoom;
+        PlayerController.OnDie += StopTimer;
+        PlayerController.OnDie += ReadPlayerLimbs;
         FloorManager.LeaveRoom += StopTimer;
         FloorManager.LeaveRoom += ReadPlayerLimbs;
         FloorManager.NextRoomLoaded += StartTimer;
@@ -45,6 +47,8 @@ public class PostRunSummaryManager : Singleton<PostRunSummaryManager>
         DebugControls.TestTimerStop -= StopTimer;
 
         FloorManager.AllCreaturesDefeated -= AddClearedRoom;
+        PlayerController.OnDie -= StopTimer;
+        PlayerController.OnDie -= ReadPlayerLimbs;
         FloorManager.LeaveRoom -= StopTimer;
         FloorManager.LeaveRoom -= ReadPlayerLimbs;
         FloorManager.NextRoomLoaded -= StartTimer;

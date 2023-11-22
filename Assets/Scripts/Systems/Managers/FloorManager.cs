@@ -34,14 +34,14 @@ public class FloorManager : Singleton<FloorManager>
     {
         LoadNextRoom += LoadNextRoomIndex;
         AllCreaturesDefeated += GenerateNewCombatRooms;
-        PlayerController.OnDie += LoadMainMenu;
+        //PlayerController.OnDie += LoadMainMenu;
     }
 
     private void OnDisable()
     {
         LoadNextRoom -= LoadNextRoomIndex;
         AllCreaturesDefeated -= GenerateNewCombatRooms;
-        PlayerController.OnDie -= LoadMainMenu;
+        //PlayerController.OnDie -= LoadMainMenu;
     }
 
     private void Start()

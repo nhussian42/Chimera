@@ -28,16 +28,13 @@ public class PostRunSummaryController : MonoBehaviour
     void Start()
     {
         pRSManager = PostRunSummaryManager.Instance;
+        PlayerController.OnDie += Display;
+        gameObject.SetActive(false);
     }
 
-    private void OnEnable()
+    private void OnDestroy()
     {
-        // subscribe to C# events here
-    }
-
-    private void OnDisable()
-    {
-        // unsubscribe to C# events here
+        PlayerController.OnDie -= Display;
     }
 
     private void Initialize()
@@ -49,7 +46,13 @@ public class PostRunSummaryController : MonoBehaviour
 
     private void Display()
     {
+        Debug.Log("Display() Called");
         // Uses coroutines to display information in order
+        gameObject.SetActive(true);
+        Initialize();
+        StartCoroutine(PlayTimerText());
+        StartCoroutine(PlayRoomsClearedText());
+        StartCoroutine(PlayLimbsTimelapse());
     }
 
     private IEnumerator PlayTimerText()
@@ -62,7 +65,7 @@ public class PostRunSummaryController : MonoBehaviour
     {
         // displays and formats 'rooms cleared' text
         roomsClearedText.text = "Rooms: " + roomsCount.ToString();
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(1.5f);
         if (roomsCount < pRSManager.roomsCleared)
             roomsCount++;
             StartCoroutine(PlayRoomsClearedText());
@@ -73,25 +76,33 @@ public class PostRunSummaryController : MonoBehaviour
         // uses the master trinket list to display player's trinket inventory
     }
 
-    private IEnumerator StartLimbsTimelapse()
+    private IEnumerator PlayLimbsTimelapse()
     {
         // gets lists from PostRunSummaryManager to display a snapshot of player's limb build after each room in sequential order
         if (snapshotIndex <= pRSManager.headsInRun.Count)
             head.sprite = pRSManager.headsInRun[snapshotIndex];
+        else
+            head.sprite = pRSManager.headsInRun[pRSManager.headsInRun.Count];
         if (snapshotIndex <= pRSManager.leftArmsInRun.Count)
             leftArm.sprite = pRSManager.leftArmsInRun[snapshotIndex];
+        else
+            leftArm.sprite = pRSManager.leftArmsInRun[pRSManager.leftArmsInRun.Count];
         if (snapshotIndex <= pRSManager.rightArmsInRun.Count)
             rightArm.sprite = pRSManager.rightArmsInRun[snapshotIndex];
+        else
+            rightArm.sprite = pRSManager.rightArmsInRun[pRSManager.rightArmsInRun.Count];
         if (snapshotIndex <= pRSManager.leftArmsInRun.Count)
             legs.sprite = pRSManager.legsInRun[snapshotIndex];
-        yield return new WaitForSeconds(0.25f);
+        else
+            legs.sprite = pRSManager.legsInRun[pRSManager.leftArmsInRun.Count];
+        yield return new WaitForSeconds(1.5f);
         if (snapshotIndex < pRSManager.headsInRun.Count 
             || snapshotIndex < pRSManager.leftArmsInRun.Count 
             || snapshotIndex < pRSManager.rightArmsInRun.Count 
             || snapshotIndex < pRSManager.leftArmsInRun.Count)
         {
             snapshotIndex++;
-            StartCoroutine(StartLimbsTimelapse());
+            StartCoroutine(PlayLimbsTimelapse());
         }
     }
 
