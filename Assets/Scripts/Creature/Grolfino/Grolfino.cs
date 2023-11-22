@@ -12,6 +12,8 @@ public class Grolfino : BossAI
     [SerializeField] private float timeBetweenSpikes;
     [SerializeField] private float spikeDamage;
     [SerializeField] private float distanceBetweenSpikes;
+    [SerializeField] private float spikeSpawnOffset;
+    [SerializeField] private float angleBeteenSpikes;
     [SerializeField] private GameObject spike;
 
 
@@ -22,7 +24,7 @@ public class Grolfino : BossAI
     [SerializeField] private GameObject projectile;
     [SerializeField] private float angleBetweenProjectiles;
     [SerializeField] private float projectileSpeed;
-
+    [SerializeField] private float projectileSpawnOffset;
 
     [Header("Sweep Attack")]
     [SerializeField] private int sweepAngle;
@@ -101,15 +103,15 @@ public class Grolfino : BossAI
     {
         //Calculates forward direction for attacks
         Vector3 dir = Quaternion.AngleAxis(0, Vector3.up) * transform.forward;
-        Vector3 dir2 = Quaternion.AngleAxis(30, Vector3.up) * transform.forward;
-        Vector3 dir3 = Quaternion.AngleAxis(-30, Vector3.up) * transform.forward;
+        Vector3 dir2 = Quaternion.AngleAxis(angleBeteenSpikes, Vector3.up) * transform.forward;
+        Vector3 dir3 = Quaternion.AngleAxis(-angleBeteenSpikes, Vector3.up) * transform.forward;
 
         //Instantiates spikes in a straight line with slightly random rotation
         for (int i = 0; i < numberOfSpikes; i++)
         {
-            GameObject s = Instantiate(spike, transform.position + (dir * distanceBetweenSpikes * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
-            GameObject s2 = Instantiate(spike, transform.position + (dir2 * distanceBetweenSpikes * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
-            GameObject s3 = Instantiate(spike, transform.position + (dir3 * distanceBetweenSpikes * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
+            GameObject s = Instantiate(spike, transform.position + (dir * distanceBetweenSpikes * (i + spikeSpawnOffset)), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
+            GameObject s2 = Instantiate(spike, transform.position + (dir2 * distanceBetweenSpikes * (i + spikeSpawnOffset)), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
+            GameObject s3 = Instantiate(spike, transform.position + (dir3 * distanceBetweenSpikes * (i + spikeSpawnOffset)), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
 
             Vector3 newScale = new Vector3(1 + (i * 0.1f), 1 + (i * 0.1f), 1 + (i * 0.1f));
             s.transform.localScale = newScale;
@@ -130,12 +132,13 @@ public class Grolfino : BossAI
         //Creatures projectiles in an arc in front of the boss
         //All projectiles are instantiated rotated away from the boss
         //Projectiles are automatically destroyed after 2.5s   
+
         for (int i = 0; i < numberOfProjectiles; i++)
         {
             float yRot = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).y;
             float maximumNegativeAngle = (numberOfProjectiles - 1) / 2 * angleBetweenProjectiles;
-            Vector3 angle = Quaternion.Euler(0, maximumNegativeAngle + (angleBetweenProjectiles * i), 0) * transform.forward;
-            GameObject s = Instantiate(projectile, transform.position + angle, Quaternion.Euler(0, yRot - maximumNegativeAngle + (angleBetweenProjectiles * i), 0));
+            Vector3 dir = Quaternion.AngleAxis(-maximumNegativeAngle + (angleBetweenProjectiles * i), Vector3.up) * transform.forward;
+            GameObject s = Instantiate(projectile, transform.position + (dir * projectileSpawnOffset), Quaternion.Euler(0, yRot - maximumNegativeAngle + (angleBetweenProjectiles * i), 0));
             s.GetComponent<GrolfinoProjectile>().projectileDamage = projectileDamage;
             s.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, projectileSpeed));
             Destroy(s, 2.5f);
@@ -173,21 +176,21 @@ public class Grolfino : BossAI
             //Randomly picks an attack to perform
             //Once an attack is performed, it is removed from the list
             //When every attack has been performed, the list is refilled
-            
+
             if (bossAttack.Count == 0)
             {
                 StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes, distanceBetweenSpikes));
                 bossAttack.Add("ProjectileAttack");
                 bossAttack.Add("SweepAttack");
             }
-            else 
+            else
             {
                 int r = Random.Range(0, bossAttack.Count);
                 if (bossAttack[r] == "ProjectileAttack")
                 {
                     StartCoroutine(StartRangedAttack(numberOfProjectiles, timeBetweenProjectiles));
                     bossAttack.Remove("ProjectileAttack");
-                } 
+                }
                 else if (bossAttack[r] == "SweepAttack")
                 {
                     StartCoroutine(StartSweepAttack(sweepAngle, sweepDuration));
