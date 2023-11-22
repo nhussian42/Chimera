@@ -25,7 +25,7 @@ public class Hedgehog : NotBossAI
         //Stops the movement
         knockbackForce = chargeKnockback;
         animator.SetBool("Charging", true);
-        OLDAudioManager.Instance.PlayMinEnemySFX("HedgehogSqueak");
+        // OLDAudioManager.Instance.PlayMinEnemySFX("HedgehogSqueak");
         attacking = true;
         agent.velocity = Vector3.zero;
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -66,6 +66,6 @@ public class Hedgehog : NotBossAI
     protected override void Die()
     {
         base.Die();
-        OLDAudioManager.Instance.PlayMinEnemySFX("HedgehogDie");
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnHedgehogDeath, transform.position);
     }
 }

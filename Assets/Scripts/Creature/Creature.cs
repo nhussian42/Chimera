@@ -85,6 +85,9 @@ public abstract class Creature : MonoBehaviour
             iFrame = true;
             Invoke("IFrame", iFrameDuration);
             animator.SetTrigger("TakeDamage");
+            
+            // Blanket audio event for all creatures taking damage, may be replaced by individual creature sounds
+            AudioManager.PlaySound3D(AudioEvents.Instance.OnCreatureDamaged, transform.position);
         }
     }
 

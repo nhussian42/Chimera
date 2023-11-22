@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine.EventSystems;
+using FMOD.Studio;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
@@ -94,7 +95,7 @@ public class PlayerController : Singleton<PlayerController>
     public Transform AttackRangeLeftOrigin { get { return attackRangeLeftOrigin; } }
     public Transform AttackRangeRightOrigin { get { return attackRangeRightOrigin; } }
 
-    //public static Action PlayerSpawned;
+    private EventInstance footsteps;
 
     public static Action OnDamageReceived;
     public static Action OnArmSwapped;
@@ -334,6 +335,7 @@ public class PlayerController : Singleton<PlayerController>
         // _mainCamera = Camera.main;
 
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
+        footsteps = AudioManager.Instance.CreateEventInstance(AudioEvents.Instance.OnPlayerWalk);
     }
 
     // Debug
@@ -353,13 +355,15 @@ public class PlayerController : Singleton<PlayerController>
         movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z);
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
+
+        animator.SetFloat("Speed", movementValues.magnitude * _movementSpeed / 10f);
+        PlayFootstepAudio(movementVector.magnitude);
         
         if(transform.position.y > 1.5f)
         {
             SetPlayerPosition(new Vector3(transform.position.x, 0, transform.position.z));
             Debug.Log("Artifical Gravity activated");
         }
-        animator.SetFloat("Speed", movementValues.magnitude * _movementSpeed / 10f);
         
         if (movementVector != Vector3.zero)
             RotatePlayer(movementVector); 
@@ -935,9 +939,9 @@ public class PlayerController : Singleton<PlayerController>
         if (isInvincible == false)
         {
             animator.SetTrigger("TakeDamage");
-            OLDAudioManager.Instance.PlayPlayerSFX("MinHit");
-            List<Limb> damagedLimbs = new List<Limb>();
+            DetermineDamageAudio(damage);
 
+            List<Limb> damagedLimbs = new List<Limb>();
             damagedLimbs.Add(core);
 
             if (currentLeftArm != coreLeftArm)
@@ -965,9 +969,22 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    private void DetermineDamageAudio(float damage)
+    {
+        if (damage <= core.MaxHealth / 3f)
+        {
+            AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerDamagedSmall);
+        }
+        else
+        {
+             AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerDamagedLarge);
+        }
+    }
+
     private void Die()
     {
         DisableAllDefaultControls();
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerDeath);
         OnDie?.Invoke();
     }
 
@@ -1018,8 +1035,20 @@ public class PlayerController : Singleton<PlayerController>
         gameObject.SetActive(false);
     }
 
-    private void PlayFootstepAudio()
+    private void PlayFootstepAudio(float movementSpeed)
     {
-        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerWalk);
+        if (movementSpeed > 0)
+        {
+            PLAYBACK_STATE playbackState;
+            footsteps.getPlaybackState(out playbackState);
+            if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                footsteps.start();
+            }
+        }
+        else
+        {
+            footsteps.stop(STOP_MODE.ALLOWFADEOUT);
+        }
     }
 }

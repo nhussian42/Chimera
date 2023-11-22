@@ -76,6 +76,7 @@ public class Crocodile : NotBossAI
             }
             yield return null;
         }
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCrocAttack, transform.position);
         yield return new WaitForSeconds(0.5f);
 
         animator.SetBool("Charge", false);
@@ -99,6 +100,7 @@ public class Crocodile : NotBossAI
         agent.isStopped = true;
         agent.speed = burrowSpeed;
         GetComponentInChildren<Canvas>().enabled = false;
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCrocBurrow, transform.position);
         yield return new WaitForSeconds(2f);
 
         //Allows the croc to start chasing until within range
@@ -110,6 +112,7 @@ public class Crocodile : NotBossAI
         animator.SetBool("Burrow", false);
         agent.isStopped = true;
         agent.speed = baseSpeed;
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCrocResurface, transform.position);
         yield return new WaitForSeconds(0.5f);
 
         //Damage gets dealt here
@@ -155,6 +158,7 @@ public class Crocodile : NotBossAI
     protected override void Die()
     {
         base.Die();
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCrocDeath, transform.position);
         animator.Play("Death");
     }
 

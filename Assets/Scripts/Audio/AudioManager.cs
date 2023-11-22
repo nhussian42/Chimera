@@ -1,12 +1,14 @@
 using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
+using System.Collections.Generic;
 
 public class AudioManager : Singleton<AudioManager>
 {
     private StudioListener audioListener;
     private AudioEvents audioEvents;
     private EventInstance currentMusic;
+    private List<EventInstance> instantiatedEventInstances = new List<EventInstance>();
     private int previousSceneMusicIndex = -1;
 
     private void OnEnable()
@@ -15,12 +17,14 @@ public class AudioManager : Singleton<AudioManager>
 
         ChimeraSceneManager.OnSceneSwitched += StartNewSceneMusic;
         FloorManager.AllCreaturesDefeated += FadeOutCombatMusic;
+        FloorManager.LeaveRoom += CleanUpInstances;
     }
 
     private void OnDisable()
     {
         ChimeraSceneManager.OnSceneSwitched -= StartNewSceneMusic;
         FloorManager.AllCreaturesDefeated -= FadeOutCombatMusic;
+        FloorManager.LeaveRoom -= CleanUpInstances;
     }
     
     public static void PlaySound2D(EventReference audioEvent)
@@ -36,10 +40,23 @@ public class AudioManager : Singleton<AudioManager>
     public EventInstance CreateEventInstance(EventReference eventReference)
     {
         EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
+        instantiatedEventInstances.Add(eventInstance);
         return eventInstance;
     }
 
-    public void CrossFadeMusic(EventInstance currentInstance, EventInstance newInstance)
+    public EventInstance CreatePersistentEventInstance(EventReference eventReference)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
+        return eventInstance;
+    }
+
+    public void RemoveEventInstance(EventInstance instanceToRemove)
+    {
+        instantiatedEventInstances.Remove(instanceToRemove);
+        instanceToRemove.release();
+    }
+
+    public void CrossFadeMusic(EventInstance newInstance)
     {
         currentMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         currentMusic.release();
@@ -54,15 +71,15 @@ public class AudioManager : Singleton<AudioManager>
 
         if (buildIndex == 0)
         {
-            newMusicInstance = CreateEventInstance(audioEvents.OnMainMenuStarted);
+            newMusicInstance = CreatePersistentEventInstance(audioEvents.OnMainMenuStarted);
         }
         else if (buildIndex == 1 && previousSceneMusicIndex != buildIndex)
         {
-            newMusicInstance = CreateEventInstance(audioEvents.OnGameplayStarted);
+            newMusicInstance = CreatePersistentEventInstance(audioEvents.OnGameplayStarted);
         }
         else if (buildIndex == 1 && previousSceneMusicIndex == buildIndex)
         {
-            newMusicInstance = CreateEventInstance(audioEvents.OnCombatStarted);
+            newMusicInstance = CreatePersistentEventInstance(audioEvents.OnCombatStarted);
         }
         else
         {
@@ -71,11 +88,21 @@ public class AudioManager : Singleton<AudioManager>
         
         previousSceneMusicIndex = buildIndex;
 
-        CrossFadeMusic(currentMusic, newMusicInstance);
+        CrossFadeMusic(newMusicInstance);
     }
 
     private void FadeOutCombatMusic()
     {
-        CrossFadeMusic(currentMusic, CreateEventInstance(audioEvents.OnGameplayStarted));
+        CrossFadeMusic(CreateEventInstance(audioEvents.OnGameplayStarted));
+    }
+
+    private void CleanUpInstances()
+    {
+        foreach (EventInstance instance in instantiatedEventInstances)
+        {
+            instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            instance.release();
+        }
+        instantiatedEventInstances.Clear();
     }
 }

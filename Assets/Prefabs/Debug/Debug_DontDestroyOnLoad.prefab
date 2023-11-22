@@ -556,7 +556,7 @@ Transform:
   - {fileID: 8204979400922181322}
   - {fileID: 1448948696143510991}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7857498733618933282
 MonoBehaviour:
@@ -706,75 +706,145 @@ MonoBehaviour:
     Path: event:/SFXEvents/UIEvents/OnGameStart
   <OnGameQuit>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1113803468
+      Data2: 1266214649
+      Data3: 301632702
+      Data4: -439173791
+    Path: event:/SFXEvents/UIEvents/OnGameQuit
   <OnMenuButtonSelected>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 685501850
+      Data2: 1092298549
+      Data3: -1134576503
+      Data4: 665214974
+    Path: event:/SFXEvents/UIEvents/OnMenuButtonSelected
   <OnMenuButtonClicked>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1251185890
+      Data2: 1204224853
+      Data3: -1710551651
+      Data4: 1450980379
+    Path: event:/SFXEvents/UIEvents/OnMenuButtonClicked
   <OnPlayerWalk>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 50850565
+      Data2: 1135418477
+      Data3: 2138481565
+      Data4: -1841804550
+    Path: event:/SFXEvents/PlayerEvents/OnPlayerWalk
   <OnPlayerBaseAttack>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  <OnPlayerLightAttack>k__BackingField:
+      Data1: -1269243886
+      Data2: 1215373532
+      Data3: 638011821
+      Data4: -84484965
+    Path: event:/SFXEvents/PlayerEvents/OnBaseAttack
+  <OnPlayerWolfAttack>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  <OnPlayerHeavyAttack>k__BackingField:
+      Data1: -368650395
+      Data2: 1310063934
+      Data3: 1328744374
+      Data4: -581942903
+    Path: event:/SFXEvents/PlayerEvents/OnWolfAttack
+  <OnPlayerCrocAttack>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  <OnHedgehogSpawn>k__BackingField:
+      Data1: -447829144
+      Data2: 1073912198
+      Data3: -428092026
+      Data4: 1141084713
+    Path: event:/SFXEvents/CreatureEvents/Major/Croc/OnCrocAttack
+  <OnPlayerRhinoAttack>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1776982309
+      Data2: 1237844618
+      Data3: -840552001
+      Data4: -621180343
+    Path: event:/SFXEvents/CreatureEvents/Major/Rhino/OnRhinoAttack
+  <OnPlayerGeckoAttack>k__BackingField:
+    Guid:
+      Data1: -1086583531
+      Data2: 1168439794
+      Data3: 738150562
+      Data4: 1558705782
+    Path: event:/SFXEvents/CreatureEvents/Major/Gecko/OnGeckoAttack
+  <OnPlayerDamagedSmall>k__BackingField:
+    Guid:
+      Data1: -1572611737
+      Data2: 1141673173
+      Data3: 1711124611
+      Data4: -646125464
+    Path: event:/SFXEvents/ImpactEvents/OnPlayerDamagedSmall
+  <OnPlayerDamagedLarge>k__BackingField:
+    Guid:
+      Data1: 1374043560
+      Data2: 1266574293
+      Data3: 431651252
+      Data4: 758261805
+    Path: event:/SFXEvents/ImpactEvents/OnPlayerDamagedLarge
+  <OnPlayerLimbLost>k__BackingField:
+    Guid:
+      Data1: 154899710
+      Data2: 1110422339
+      Data3: -1085779540
+      Data4: 365532846
+    Path: event:/SFXEvents/ImpactEvents/OnLimbLost
+  <OnPlayerDeath>k__BackingField:
+    Guid:
+      Data1: -2002733094
+      Data2: 1103886783
+      Data3: -871274356
+      Data4: 1915009582
+    Path: event:/SFXEvents/ImpactEvents/OnPlayerDeath
+  <OnPlayerHitConnected>k__BackingField:
+    Guid:
+      Data1: 1205870750
+      Data2: 1130633115
+      Data3: -331363966
+      Data4: 1557596291
+    Path: event:/SFXEvents/ImpactEvents/OnPlayerHitConnected
+  <OnCreatureDamaged>k__BackingField:
+    Guid:
+      Data1: 1503164527
+      Data2: 1297736544
+      Data3: 578502801
+      Data4: -893293765
+    Path: event:/SFXEvents/CreatureEvents/AllCreatures/OnCreatureDamaged
   <OnHedgehogAttack>k__BackingField:
     Guid:
       Data1: 774069184
       Data2: 1331029672
       Data3: -2013322852
       Data4: -379771369
-    Path: event:/SFXEvents/CreatureEvents/OnHedgehogAttack
-  <OnHedgehogDeath>k__BackingField:
+    Path: event:/SFXEvents/CreatureEvents/Minor/Hedgehog/OnHedgehogAttack
+  <OnHedgehogDamaged>k__BackingField:
     Guid:
       Data1: 0
       Data2: 0
       Data3: 0
       Data4: 0
     Path: 
-  <OnWolfSpawn>k__BackingField:
+  <OnHedgehogDeath>k__BackingField:
+    Guid:
+      Data1: -447843195
+      Data2: 1148876083
+      Data3: 2048412309
+      Data4: -1227311311
+    Path: event:/SFXEvents/CreatureEvents/Minor/Hedgehog/OnHedgehogDeath
+  <OnTortoiseAttack>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnTortoiseDamaged>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <OnTortoiseDeath>k__BackingField:
     Guid:
       Data1: 0
       Data2: 0
@@ -783,6 +853,13 @@ MonoBehaviour:
     Path: 
   <OnWolfAttack>k__BackingField:
     Guid:
+      Data1: 816090745
+      Data2: 1169581522
+      Data3: 1711738527
+      Data4: 767953812
+    Path: event:/SFXEvents/CreatureEvents/Major/Wolf/OnWolfAttack
+  <OnWolfDamaged>k__BackingField:
+    Guid:
       Data1: 0
       Data2: 0
       Data3: 0
@@ -790,19 +867,33 @@ MonoBehaviour:
     Path: 
   <OnWolfDeath>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  <OnCrocSpawn>k__BackingField:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1306455846
+      Data2: 1184041069
+      Data3: 826067097
+      Data4: -1045052983
+    Path: event:/SFXEvents/CreatureEvents/Major/Wolf/OnWolfDeath
   <OnCrocAttack>k__BackingField:
+    Guid:
+      Data1: -447829144
+      Data2: 1073912198
+      Data3: -428092026
+      Data4: 1141084713
+    Path: event:/SFXEvents/CreatureEvents/Major/Croc/OnCrocAttack
+  <OnCrocBurrow>k__BackingField:
+    Guid:
+      Data1: 1344912245
+      Data2: 1320313992
+      Data3: 1268020126
+      Data4: 1559839130
+    Path: event:/SFXEvents/CreatureEvents/Major/Croc/OnCrocBurrow
+  <OnCrocResurface>k__BackingField:
+    Guid:
+      Data1: 862666751
+      Data2: 1254466509
+      Data3: -1138661738
+      Data4: -2132726523
+    Path: event:/SFXEvents/CreatureEvents/Major/Croc/OnCrocResurface
+  <OnCrocDamaged>k__BackingField:
     Guid:
       Data1: 0
       Data2: 0
@@ -811,19 +902,26 @@ MonoBehaviour:
     Path: 
   <OnCrocDeath>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  <OnRhinoSpawn>k__BackingField:
+      Data1: -1576700104
+      Data2: 1092604361
+      Data3: -671142230
+      Data4: -1935103852
+    Path: event:/SFXEvents/CreatureEvents/Major/Croc/OnCrocDeath
+  <OnRhinoSlam>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  <OnRhinoAttack>k__BackingField:
+      Data1: 1923591712
+      Data2: 1315022066
+      Data3: 1294924186
+      Data4: 2056183825
+    Path: event:/SFXEvents/CreatureEvents/Major/Rhino/OnRhinoSlam
+  <OnRhinoCharge>k__BackingField:
+    Guid:
+      Data1: 1647228876
+      Data2: 1285358226
+      Data3: -1321435486
+      Data4: -1581961197
+    Path: event:/SFXEvents/CreatureEvents/Major/Rhino/OnRhinoCharge
+  <OnRhinoDamaged>k__BackingField:
     Guid:
       Data1: 0
       Data2: 0
@@ -832,18 +930,39 @@ MonoBehaviour:
     Path: 
   <OnRhinoDeath>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  <OnBoss1Spawn>k__BackingField:
+      Data1: 805231882
+      Data2: 1257883980
+      Data3: -1991005260
+      Data4: -863446566
+    Path: event:/SFXEvents/CreatureEvents/Major/Rhino/OnRhinoDeath
+  <OnGeckoAttack>k__BackingField:
+    Guid:
+      Data1: -1086583531
+      Data2: 1168439794
+      Data3: 738150562
+      Data4: 1558705782
+    Path: event:/SFXEvents/CreatureEvents/Major/Gecko/OnGeckoAttack
+  <OnGeckoDash>k__BackingField:
+    Guid:
+      Data1: 459484704
+      Data2: 1118139054
+      Data3: 1466577536
+      Data4: -1834303342
+    Path: event:/SFXEvents/CreatureEvents/Major/Gecko/OnGeckoDash
+  <OnGeckoDamaged>k__BackingField:
     Guid:
       Data1: 0
       Data2: 0
       Data3: 0
       Data4: 0
     Path: 
+  <OnGeckoDeath>k__BackingField:
+    Guid:
+      Data1: 1636041948
+      Data2: 1269922067
+      Data3: 557892225
+      Data4: 1158221721
+    Path: event:/SFXEvents/CreatureEvents/Major/Gecko/OnGeckoDeath
   <OnBoss1Attack>k__BackingField:
     Guid:
       Data1: 0
@@ -860,19 +979,26 @@ MonoBehaviour:
     Path: 
   <OnRoomCleared>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1639764711
+      Data2: 1307738433
+      Data3: -1947273316
+      Data4: -2042534385
+    Path: event:/SFXEvents/RoomEvents/OnRoomCleared
   <OnPotBroken>k__BackingField:
+    Guid:
+      Data1: 1566566548
+      Data2: 1323511516
+      Data3: 2122357180
+      Data4: -1560425796
+    Path: event:/SFXEvents/RoomEvents/OnPotBroken
+  <OnSpikeTrapActivated>k__BackingField:
     Guid:
       Data1: 0
       Data2: 0
       Data3: 0
       Data4: 0
     Path: 
-  <OnWaterfallApproached>k__BackingField:
+  <OnSpikeTrapRetracted>k__BackingField:
     Guid:
       Data1: 0
       Data2: 0

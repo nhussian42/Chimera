@@ -12,8 +12,6 @@ public class ChimeraSceneManager : Singleton<ChimeraSceneManager>
     public static Action<float> FadeValueChanged;
     public static Action<int> OnSceneSwitched;
 
-    private static int lastBuildIndex = -1;
-
     private void OnEnable()
     {
         FloorManager.LeaveRoom += FadeOutToBlack;

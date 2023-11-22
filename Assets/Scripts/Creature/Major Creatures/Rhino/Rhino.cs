@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using FMOD.Studio;
+
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Animations;
@@ -73,6 +75,11 @@ public class Rhino : NotBossAI
         agent.angularSpeed = chargingTurnSpeed;
         agent.acceleration = chargeAcceleration;
         animator.SetBool("Charge", true);
+
+        FMOD.Studio.EventInstance RhinoCharge = AudioManager.Instance.CreateEventInstance(AudioEvents.Instance.OnRhinoCharge);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(RhinoCharge, transform);
+        RhinoCharge.start();
+        
         yield return new WaitForSeconds(chargeDelay);
 
         //Rhino runs towards player until within slam attack range
@@ -99,6 +106,8 @@ public class Rhino : NotBossAI
         //Starts slam attack
         animator.SetBool("Charge", false);
         StartCoroutine(SlamAttack());
+        RhinoCharge.stop(STOP_MODE.ALLOWFADEOUT);
+        RhinoCharge.release();
         yield return new WaitForSeconds(0.5f);
         yield break;
     }
@@ -169,6 +178,7 @@ public class Rhino : NotBossAI
     protected override void Die()
     {
         animator.Play("Death");
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnRhinoDeath, transform.position);
         agent.isStopped = true;
         Rigidbody rb = GetComponent<Rigidbody>();
         alive = false;

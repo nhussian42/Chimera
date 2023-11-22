@@ -34,6 +34,7 @@ public class FloorManager : Singleton<FloorManager>
     {
         LoadNextRoom += LoadNextRoomIndex;
         AllCreaturesDefeated += GenerateNewCombatRooms;
+        AllCreaturesDefeated += () => AudioManager.PlaySound2D(AudioEvents.Instance.OnRoomCleared);
         PlayerController.OnDie += LoadMainMenu;
     }
 
@@ -41,6 +42,7 @@ public class FloorManager : Singleton<FloorManager>
     {
         LoadNextRoom -= LoadNextRoomIndex;
         AllCreaturesDefeated -= GenerateNewCombatRooms;
+        AllCreaturesDefeated -= () => AudioManager.PlaySound2D(AudioEvents.Instance.OnRoomCleared);
         PlayerController.OnDie -= LoadMainMenu;
     }
 

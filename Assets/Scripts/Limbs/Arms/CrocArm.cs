@@ -7,6 +7,6 @@ public class CrocArm : Arm
     public override void Attack()
     {
         base.Attack();
-        //Debug.Log("Wolf Arm Attack");
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerCrocAttack);
     }
 }
