@@ -1450,7 +1450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6608862860715862042
 Transform:
   m_ObjectHideFlags: 0
@@ -1460,11 +1460,11 @@ Transform:
   m_GameObject: {fileID: 1268627170049391402}
   m_LocalRotation: {x: 0.50000006, y: 0.5, z: -0.5, w: 0.50000006}
   m_LocalPosition: {x: -0.38935474, y: 0.41675097, z: -0.13573419}
-  m_LocalScale: {x: 0.22079872, y: 0.35852674, z: -0.29501262}
+  m_LocalScale: {x: 0.22079872, y: 0.3585267, z: -0.29501262}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8471863349571553325}
-  m_Father: {fileID: 7527269425214929412}
+  m_Father: {fileID: 8991297454954664251}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &5718742033606308833
@@ -1487,7 +1487,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dcd1701bf7a4b334aa9258069270128e, type: 2}
+  - {fileID: 2100000, guid: ae930ebb06b1ccd4b8c5ef4b9e868b1c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1823,7 +1823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4581629218521488624
 Transform:
   m_ObjectHideFlags: 0
@@ -1833,11 +1833,11 @@ Transform:
   m_GameObject: {fileID: 2097319250565417517}
   m_LocalRotation: {x: 0.50000006, y: 0.5, z: -0.5, w: 0.50000006}
   m_LocalPosition: {x: -0.38935474, y: 0.41675097, z: -0.13573419}
-  m_LocalScale: {x: 0.22079872, y: 0.35852674, z: -0.29501262}
+  m_LocalScale: {x: 0.22079872, y: 0.3585267, z: -0.29501262}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2276047122709217080}
-  m_Father: {fileID: 7527269425214929412}
+  m_Father: {fileID: 8991297454954664251}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &1898071254211261894
@@ -2503,7 +2503,7 @@ GameObject:
   - component: {fileID: 7697647668054100860}
   - component: {fileID: 53259469810433876}
   m_Layer: 6
-  m_Name: ChimeraWCRG
+  m_Name: ChimeraVS
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2526,7 +2526,7 @@ Transform:
   - {fileID: 7120051725487143016}
   - {fileID: 6976358354469409987}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3048959359936504127
 Animator:
@@ -4043,6 +4043,65 @@ Transform:
   m_Father: {fileID: 3009440694786060674}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -31.613317, y: -61.431557, z: 6.2201324}
+--- !u!1 &4594758420240113667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8991297454954664251}
+  - component: {fileID: 8622150590115026277}
+  m_Layer: 6
+  m_Name: GeckLegs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &8991297454954664251
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4594758420240113667}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6608862860715862042}
+  - {fileID: 4581629218521488624}
+  m_Father: {fileID: 7527269425214929412}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8622150590115026277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4594758420240113667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bdbcc7a79ec1a743ac061f5bef3e6e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  classification: 1
+  weight: 2
+  limbName: 2
+  stringName: 
+  defaultHealth: 0
+  defaultMaxHealth: 0
+  limbSprite: {fileID: 0}
+  selectedSprite: {fileID: 0}
+  defaultMovementSpeed: 0
+  defaultCooldownTime: 0
+  dashDistance: 0
+  dashSpeed: 0
+  defaultDashCharges: 0
 --- !u!1 &4605634163737293447
 GameObject:
   m_ObjectHideFlags: 0
@@ -4616,8 +4675,7 @@ Transform:
   - {fileID: 5965809188634240895}
   - {fileID: 1724023295717900274}
   - {fileID: 711338802340608421}
-  - {fileID: 6608862860715862042}
-  - {fileID: 4581629218521488624}
+  - {fileID: 8991297454954664251}
   - {fileID: 6519269652912546412}
   - {fileID: 1521876387260107616}
   - {fileID: 5964361807935114637}
