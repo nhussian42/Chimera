@@ -32,7 +32,7 @@ public class Hedgehog : NotBossAI
         yield return new WaitForSeconds(chargeDelay);
 
         //Charges foward
-        OLDAudioManager.Instance.PlayMinEnemySFX("HedgehogAttack");
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnHedgehogAttack, transform.position);
         animator.SetBool("Attacking", true);
         agent.isStopped = true;
         float timer = 0;

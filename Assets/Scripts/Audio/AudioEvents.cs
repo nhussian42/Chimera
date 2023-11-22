@@ -25,6 +25,11 @@ public class AudioEvents : Singleton<AudioEvents>
     [field: SerializeField] public EventReference OnPlayerHeavyAttack { get; private set; }
 
     [field: Header("Enemy SFX Events")]
+    [field: Header("Hedgehog")]
+    [field: SerializeField] public EventReference OnHedgehogSpawn { get; private set; }
+    [field: SerializeField] public EventReference OnHedgehogAttack { get; private set; }
+    [field: SerializeField] public EventReference OnHedgehogDeath { get; private set; }
+    
     [field: Header("Wolf")]
     [field: SerializeField] public EventReference OnWolfSpawn { get; private set; }
     [field: SerializeField] public EventReference OnWolfAttack { get; private set; }
@@ -53,4 +58,17 @@ public class AudioEvents : Singleton<AudioEvents>
 
     [field: Header("Ambience Events")]
     [field: SerializeField] public EventReference OnWaterfallApproached { get; private set; }
+
+
+
+
+    private void OnEnable()
+    {
+        MainMenu.StartPressed += () => AudioManager.PlaySound2D(OnGameStart);
+    }
+
+    private void OnDisable()
+    {
+        MainMenu.StartPressed -= () => AudioManager.PlaySound2D(OnGameStart);
+    }
 }

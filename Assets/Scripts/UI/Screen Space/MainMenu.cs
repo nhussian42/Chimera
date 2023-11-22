@@ -28,14 +28,12 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        OLDAudioManager.Instance.PlayMenuSFX("SelectPlay");
-        OLDAudioManager.Instance.musicSource.Stop();
-        OLDAudioManager.Instance.PlayMusic("DungeonMusic");
-
         foreach (Button child in GetComponentsInChildren<Button>())
         {
             child.interactable = false;
         }
+
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnGameStart);
         
         StartPressed?.Invoke();
     }

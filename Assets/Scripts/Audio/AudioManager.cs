@@ -23,12 +23,12 @@ public class AudioManager : Singleton<AudioManager>
         FloorManager.AllCreaturesDefeated -= FadeOutCombatMusic;
     }
     
-    public void PlaySound2D(EventReference audioEvent)
+    public static void PlaySound2D(EventReference audioEvent)
     {
-        RuntimeManager.PlayOneShot(audioEvent, audioListener.transform.position);
+        RuntimeManager.PlayOneShot(audioEvent);
     }
 
-    public void PlaySound3D(EventReference audioEvent, Vector3 position)
+    public static void PlaySound3D(EventReference audioEvent, Vector3 position)
     {
         RuntimeManager.PlayOneShot(audioEvent, position);
     }

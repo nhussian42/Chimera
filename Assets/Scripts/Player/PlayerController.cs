@@ -1018,4 +1018,8 @@ public class PlayerController : Singleton<PlayerController>
         gameObject.SetActive(false);
     }
 
+    private void PlayFootstepAudio()
+    {
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerWalk);
+    }
 }
