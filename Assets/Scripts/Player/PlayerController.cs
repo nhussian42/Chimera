@@ -107,11 +107,7 @@ public class PlayerController : Singleton<PlayerController>
     //bool firstMove = false;
 
     // for when player should not be able to be damaged - Amon
-    public bool isInvincible { get; private set; } = false;
-
-    private bool isLeftWolfArm = false;
-    private bool isRightWolfArm = false;
-   
+    public bool isInvincible { get; private set; } = false;   
 
     private Vector2 movementValues;
     public Vector3 movementDir { get; private set; }
@@ -357,7 +353,7 @@ public class PlayerController : Singleton<PlayerController>
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
 
         animator.SetFloat("Speed", movementValues.magnitude * _movementSpeed / 10f);
-        PlayFootstepAudio(movementVector.magnitude);
+        //PlayFootstepAudio(movementVector.magnitude);
         
         if(transform.position.y > 1.5f)
         {
@@ -378,12 +374,6 @@ public class PlayerController : Singleton<PlayerController>
 
             animator.SetTrigger("BaseAttack");
             animator.SetBool("LeftSide", false);
-
-            // // Need new audio implementation
-            // if (isRightWolfArm)
-            //     AudioManager.Instance.PlayPlayerSFX("WolfArm");
-            // else
-            //     AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
         if (_attackLeft.triggered && canAttack)
@@ -394,11 +384,6 @@ public class PlayerController : Singleton<PlayerController>
             DetermineAttackAnimation(currentLeftArm, SideOfPlayer.Left);
 
             OnAttack?.Invoke();
-
-            // if (isLeftWolfArm)
-            //     AudioManager.Instance.PlayPlayerSFX("WolfArm");
-            // else
-            //     AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
         if(_legsAbility.triggered == true && currentLegs.CanActivate == true)
@@ -699,7 +684,6 @@ public class PlayerController : Singleton<PlayerController>
             {
                 if (originalArm.Side == SideOfPlayer.Right)
                 {
-                    isRightWolfArm = true; // Refactor later to be have sounds play for all limbs
                     if (currentRightArm != null)
                     {
                         currentRightArm.Terminate();
@@ -716,7 +700,6 @@ public class PlayerController : Singleton<PlayerController>
                 }
                 else if (originalArm.Side == SideOfPlayer.Left)
                 {
-                    isLeftWolfArm = true; // Refactor later to be have sounds play for all limbs
                     if (currentLeftArm != null)
                     {
                         currentLeftArm.Terminate();
@@ -1035,20 +1018,23 @@ public class PlayerController : Singleton<PlayerController>
         gameObject.SetActive(false);
     }
 
-    private void PlayFootstepAudio(float movementSpeed)
+    private void PlayFootstepAudio()
     {
-        if (movementSpeed > 0)
-        {
-            PLAYBACK_STATE playbackState;
-            footsteps.getPlaybackState(out playbackState);
-            if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
-            {
-                footsteps.start();
-            }
-        }
-        else
-        {
-            footsteps.stop(STOP_MODE.ALLOWFADEOUT);
-        }
+        // if (movementSpeed > 0)
+        // {
+        //     PLAYBACK_STATE playbackState;
+        //     footsteps.getPlaybackState(out playbackState);
+        //     if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+        //     {
+        //         footsteps.start();
+        //     }
+        // }
+        // else
+        // {
+        //     footsteps.stop(STOP_MODE.ALLOWFADEOUT);
+        // }
+
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerWalk);
+        print("walky");
     }
 }
