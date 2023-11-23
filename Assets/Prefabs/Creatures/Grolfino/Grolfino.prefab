@@ -142,28 +142,27 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  numberOfSpikes: 18
-  timeBetweenSpikes: 0.15
+  numberOfSpikes: 9
+  timeBetweenSpikes: 0.2
   spikeDamage: 5
+  angleBeteenSpikes: 45
   distanceBetweenSpikes: 2
-  spikeSpawnOffset: 3
-  angleBeteenSpikes: 30
+  spikeSpawnOffset: 7
   spike: {fileID: 7992538046275668304, guid: e95dafa6e69e7b149b89ffead601b0fb, type: 3}
   numberOfProjectiles: 7
-  timeBetweenProjectiles: 0.4
+  timeBetweenProjectiles: 0.35
   projectileDamage: 10
+  angleBetweenProjectiles: 25
+  projectileSpeed: 700
+  projectileSpawnOffset: 9
   projectile: {fileID: 7992538046275668304, guid: 9df0a173dc0afa14d928ec572e9af16d,
     type: 3}
-  angleBetweenProjectiles: 30
-  projectileSpeed: 700
-  projectileSpawnOffset: 5
   sweepAngle: 150
   sweepDuration: 2
   sweepAttackCollider: {fileID: 3264562288825394453}
-  burrowCooldown: 8
+  timeBeforeAttack: 2
+  amountOfTimeBurrowed: 3
   teleportRange: 10
-  minorCreatures:
-  - {fileID: 2808466385115696920, guid: f49d9933ae83d2e4a834171b58798e9a, type: 3}
   bossMesh: {fileID: 3945894084706364008}
   bossAttack: []
 --- !u!1 &3195776303206709816
