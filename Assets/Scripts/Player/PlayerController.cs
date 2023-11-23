@@ -1035,6 +1035,5 @@ public class PlayerController : Singleton<PlayerController>
         // }
 
         AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerWalk);
-        print("walky");
     }
 }

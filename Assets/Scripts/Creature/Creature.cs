@@ -48,13 +48,13 @@ public abstract class Creature : MonoBehaviour
     //     //Sets current room
     // }
 
-    public void OnEnable()
+    protected virtual void OnEnable()
     {
         DebugControls.DamageAllCreatures += TakeDamage;
         FloorManager.AllCreaturesDefeated += DestroyCreature;
     }
 
-    public void OnDisable()
+    protected virtual void OnDisable()
     {
         DebugControls.DamageAllCreatures -= TakeDamage;
         FloorManager.AllCreaturesDefeated -= DestroyCreature;

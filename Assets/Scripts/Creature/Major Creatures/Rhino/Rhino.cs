@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using FMOD.Studio;
+using Unity.VisualScripting;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -32,6 +33,8 @@ public class Rhino : NotBossAI
 
     private Rigidbody rb;
     private float baseAttackDamage;
+
+    FMOD.Studio.EventInstance RhinoCharge;
 
     private void Start()
     {
@@ -76,7 +79,7 @@ public class Rhino : NotBossAI
         agent.acceleration = chargeAcceleration;
         animator.SetBool("Charge", true);
 
-        FMOD.Studio.EventInstance RhinoCharge = AudioManager.Instance.CreateEventInstance(AudioEvents.Instance.OnRhinoCharge);
+        RhinoCharge = AudioManager.Instance.CreateEventInstance(AudioEvents.Instance.OnRhinoCharge);
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(RhinoCharge, transform);
         RhinoCharge.start();
         
@@ -106,7 +109,7 @@ public class Rhino : NotBossAI
         //Starts slam attack
         animator.SetBool("Charge", false);
         StartCoroutine(SlamAttack());
-        RhinoCharge.stop(STOP_MODE.ALLOWFADEOUT);
+        RhinoCharge.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         RhinoCharge.release();
         yield return new WaitForSeconds(0.5f);
         yield break;
@@ -185,6 +188,13 @@ public class Rhino : NotBossAI
         CreatureManager.AnyCreatureDied?.Invoke();
         Destroy(this.gameObject, 3.5f);
         StopAllCoroutines();
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        RhinoCharge.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        RhinoCharge.release();
     }
 
 }
