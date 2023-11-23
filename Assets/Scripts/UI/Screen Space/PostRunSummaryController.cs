@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PostRunSummaryController : MonoBehaviour
@@ -20,6 +21,7 @@ public class PostRunSummaryController : MonoBehaviour
     [SerializeField] MasterTrinketList masterTrinketList;
     [SerializeField] GameObject trinketInventoryGrid;
     [SerializeField] TrinketCellSlot trinketCellPrefab;
+    [SerializeField] Button mainMenuButton;
 
     // Events
     public static Action OnPressedMainMenu;
@@ -60,6 +62,9 @@ public class PostRunSummaryController : MonoBehaviour
     {
         // Uses coroutines to display information in order
         gameObject.SetActive(true);
+        PlayerController.Instance.DisableAllDefaultControls();
+        PlayerController.Instance.EnableAllUIControls();
+        EventSystem.current.SetSelectedGameObject(mainMenuButton.gameObject);
         Initialize();
         ReadPlayerTrinketInventory();
         StartCoroutine(PlayTimerText());
