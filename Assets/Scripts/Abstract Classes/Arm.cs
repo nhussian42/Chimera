@@ -36,13 +36,11 @@ public abstract class Arm : Limb
 
     // Public variables
     public ObjectPool<AttackRange> AttackRangePool { get; private set; }
-    
 
     // Called by Player Controller on animation event
     public virtual void Attack()
     {
         AttackRange attackRange = AttackRangePool.Get();
-        
 
         // May possibly need to set an attack range origin for every single arm instead
         if (Side == SideOfPlayer.Left)
@@ -57,7 +55,15 @@ public abstract class Arm : Limb
         }
         
         //StartCoroutine(Cooldown());
-        
+        if (weight == Weight.Heavy)
+        {
+            CameraShake.Instance.HeavyAttackShake();
+        }
+
+        if (weight == Weight.Light)
+        {
+            // CameraShake.Instance.LightAttackShake();
+        }
         //StartCoroutine(ActivateAttackRange());
     }
 

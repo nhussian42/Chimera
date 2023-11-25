@@ -11,6 +11,7 @@ public class CrocodileAnimationEvents : MonoBehaviour
 
     public void EnableResurfaceAttackCollider()
     {
+        CameraShake.Instance.CreatureAttackShake();
         resurfaceAttackCollider.enabled = true;
         crocCollider.enabled = true;
     }

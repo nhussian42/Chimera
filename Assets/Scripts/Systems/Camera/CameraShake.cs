@@ -3,33 +3,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-public class CameraShake : MonoBehaviour
+public class CameraShake : Singleton<CameraShake>
 {
     private CinemachineVirtualCamera CinemachineVirtualCamera;
 
+    [Header("Player Camera Shake:")]
     [SerializeField]
-    private float heavyAttackShake = 3f;
+    private float heavyAttackShake;
     [SerializeField]
-    private float lightAttackShake = 1f;
+    private float lightAttackShake;
     [SerializeField]
-    private float takeHeavyDamageShake = 3f;
+    private float takeHeavyDamageShake;
     [SerializeField]
-    private float takeLightDamageShake = 1f;
+    private float takeLightDamageShake;
 
     [SerializeField]
-    private float heavyAttackShakeTime = 0.2f;
+    private float heavyAttackShakeTime;
     [SerializeField]
-    private float lightAttackShakeTime = 0.2f;
+    private float lightAttackShakeTime;
     [SerializeField]
-    private float takeHeavyDamageShakeTime = 0.2f;
+    private float takeHeavyDamageShakeTime;
     [SerializeField]
-    private float takeLightDamageShakeTime = 0.2f;
+    private float takeLightDamageShakeTime;
+
+    [Header("Creature Camera Shake:")]
+    [SerializeField]
+    private float creatureAttackShake;
+    [SerializeField]
+    private float creatureAttackShakeTime;
+    
+    [SerializeField]
+    private float creatureBurrowShake;
+    [SerializeField]
+    private float bossAttackShake;
+    [SerializeField]
+    private float bossAttackShakeTime;
+    [SerializeField]
+    private float bossBurrowShake;
+
 
     // TODO camera shake for heavy enemies/boss attacks
     private float timer;
     private CinemachineBasicMultiChannelPerlin cbmcp;
 
-    void Awake()
+    protected override void Init()
     {
         CinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
     }
@@ -58,7 +75,28 @@ public class CameraShake : MonoBehaviour
     {
         ShakeCamera(takeHeavyDamageShake, takeHeavyDamageShakeTime);
     }
-    public void ShakeCamera(float shakeIntensity, float shakeTime)
+
+    public void CreatureAttackShake()
+    {
+        ShakeCamera(creatureAttackShake, creatureAttackShakeTime);
+    }
+
+    public void BossAttackShake()
+    {
+        ShakeCamera(bossAttackShake, bossAttackShakeTime);
+    }
+
+    public void CreatureBurrowShake(bool isBurrow)
+    {
+        ConditionalShakeCamera(creatureBurrowShake, isBurrow);
+    }
+
+    public void BossBurrowShake(bool isBurrow)
+    {
+        ConditionalShakeCamera(bossBurrowShake, isBurrow);
+    }
+    
+    private void ShakeCamera(float shakeIntensity, float shakeTime)
     {
         CinemachineBasicMultiChannelPerlin cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cbmcp.m_AmplitudeGain = shakeIntensity;
@@ -66,7 +104,21 @@ public class CameraShake : MonoBehaviour
         timer = shakeTime;
     }
 
-    void StopShake()
+    private void ConditionalShakeCamera(float shakeIntensity, bool condition)
+    {
+        if (condition)
+        {
+            CinemachineBasicMultiChannelPerlin cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            cbmcp.m_AmplitudeGain = shakeIntensity;
+        }
+        else
+        {
+            CinemachineBasicMultiChannelPerlin cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            cbmcp.m_AmplitudeGain = 0f;
+        }
+    }
+
+    private void StopShake()
     {
         CinemachineBasicMultiChannelPerlin cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cbmcp.m_AmplitudeGain = 0f;
@@ -74,7 +126,7 @@ public class CameraShake : MonoBehaviour
         timer = 0;
     }
 
-    void Update()
+    private void Update()
     {
         if (timer > 0)
         {

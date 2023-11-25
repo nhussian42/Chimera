@@ -22,6 +22,7 @@ public class RhinoAnimationEvents : MonoBehaviour
     public void EnableSlamAttackCollider()
     {
         slamAttackCollider.enabled = true;
+        CameraShake.Instance.CreatureAttackShake();
         GameObject s = Instantiate(slamParticleSystem, transform.position + (transform.forward * 2), transform.rotation);
         Destroy(s, 2f);
     }
