@@ -30,6 +30,7 @@ public class DefaultLegs : Legs
     {
         t = 0;
         activated = true;
+        StartCoroutine(Cooldown());
     }
 
 }
