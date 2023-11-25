@@ -7,7 +7,7 @@ public class AudioManager : Singleton<AudioManager>
 {
     private StudioListener audioListener;
     private AudioEvents audioEvents;
-    private EventInstance currentMusic;
+    public EventInstance CurrentMusic { get; private set; }
     private List<EventInstance> instantiatedEventInstances = new List<EventInstance>();
     private int previousSceneMusicIndex = -1;
 
@@ -37,6 +37,17 @@ public class AudioManager : Singleton<AudioManager>
         RuntimeManager.PlayOneShot(audioEvent, position);
     }
 
+    public static void SetFloat(EventInstance instance, string parameterName, float parameterValue)
+    {
+        instance.setParameterByName(parameterName, parameterValue);
+    }
+
+    public static void SetBool(EventInstance instance, string parameterName, bool parameterBool)
+    {
+        float parameterValue = parameterBool ? 1 : 0;
+        instance.setParameterByName(parameterName, parameterValue);
+    }
+
     public EventInstance CreateEventInstance(EventReference eventReference)
     {
         EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
@@ -58,16 +69,16 @@ public class AudioManager : Singleton<AudioManager>
 
     public void CrossFadeMusic(EventInstance newInstance)
     {
-        currentMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        currentMusic.release();
-        currentMusic = newInstance;
-        currentMusic.start();
+        CurrentMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        CurrentMusic.release();
+        CurrentMusic = newInstance;
+        CurrentMusic.start();
     }
 
     private void StartNewSceneMusic(int buildIndex)
     {
         audioListener = GameObject.FindObjectOfType<StudioListener>();
-        EventInstance newMusicInstance = currentMusic;
+        EventInstance newMusicInstance = CurrentMusic;
 
         if (buildIndex == 0)
         {

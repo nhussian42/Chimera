@@ -678,18 +678,18 @@ MonoBehaviour:
     Path: event:/MusicEvents/OnOutOfCombat
   <OnCombatStarted>k__BackingField:
     Guid:
-      Data1: -1343699256
-      Data2: 1185675293
-      Data3: -1206212735
-      Data4: -636483742
-    Path: event:/MusicEvents/OnMainMenuStart
-  <OnBoss1Started>k__BackingField:
+      Data1: -1226496128
+      Data2: 1115898422
+      Data3: -1924879725
+      Data4: -122532258
+    Path: event:/MusicEvents/OnCombatStarted
+  <OnDungeonBossStarted>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -699270073
+      Data2: 1233582946
+      Data3: 922381490
+      Data4: 556180753
+    Path: event:/MusicEvents/OnDungeonBossStarted
   <OnShopEntered>k__BackingField:
     Guid:
       Data1: 0
@@ -718,13 +718,13 @@ MonoBehaviour:
       Data3: -1134576503
       Data4: 665214974
     Path: event:/SFXEvents/UIEvents/OnMenuButtonSelected
-  <OnMenuButtonClicked>k__BackingField:
+  <OnMenuButtonHovered>k__BackingField:
     Guid:
       Data1: -1251185890
       Data2: 1204224853
       Data3: -1710551651
       Data4: 1450980379
-    Path: event:/SFXEvents/UIEvents/OnMenuButtonClicked
+    Path: event:/SFXEvents/UIEvents/OnMenuButtonHovered
   <OnPlayerWalk>k__BackingField:
     Guid:
       Data1: 50850565
@@ -748,25 +748,25 @@ MonoBehaviour:
     Path: event:/SFXEvents/PlayerEvents/OnWolfAttack
   <OnPlayerCrocAttack>k__BackingField:
     Guid:
-      Data1: -447829144
-      Data2: 1073912198
-      Data3: -428092026
-      Data4: 1141084713
-    Path: event:/SFXEvents/CreatureEvents/Major/Croc/OnCrocAttack
+      Data1: -681218064
+      Data2: 1299120804
+      Data3: -547252850
+      Data4: 44927513
+    Path: event:/SFXEvents/PlayerEvents/OnCrocAttack
   <OnPlayerRhinoAttack>k__BackingField:
     Guid:
-      Data1: 1776982309
-      Data2: 1237844618
-      Data3: -840552001
-      Data4: -621180343
-    Path: event:/SFXEvents/CreatureEvents/Major/Rhino/OnRhinoAttack
+      Data1: 516096427
+      Data2: 1102657164
+      Data3: -1430651230
+      Data4: -262689342
+    Path: event:/SFXEvents/PlayerEvents/OnRhinoAttack
   <OnPlayerGeckoAttack>k__BackingField:
     Guid:
-      Data1: -1086583531
-      Data2: 1168439794
-      Data3: 738150562
-      Data4: 1558705782
-    Path: event:/SFXEvents/CreatureEvents/Major/Gecko/OnGeckoAttack
+      Data1: -2024165031
+      Data2: 1142569170
+      Data3: 2055963776
+      Data4: -2022532806
+    Path: event:/SFXEvents/PlayerEvents/OnGeckoAttack
   <OnPlayerDamagedSmall>k__BackingField:
     Guid:
       Data1: -1572611737
@@ -809,6 +809,13 @@ MonoBehaviour:
       Data3: 578502801
       Data4: -893293765
     Path: event:/SFXEvents/CreatureEvents/AllCreatures/OnCreatureDamaged
+  <OnBossDefeated>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   <OnHedgehogAttack>k__BackingField:
     Guid:
       Data1: 774069184
@@ -984,6 +991,20 @@ MonoBehaviour:
       Data3: -1947273316
       Data4: -2042534385
     Path: event:/SFXEvents/RoomEvents/OnRoomCleared
+  <OnDoorOpened>k__BackingField:
+    Guid:
+      Data1: -282667500
+      Data2: 1079244810
+      Data3: 1120519067
+      Data4: -1445081715
+    Path: event:/SFXEvents/RoomEvents/OnDoorOpened
+  <OnBossDoorOpened>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   <OnPotBroken>k__BackingField:
     Guid:
       Data1: 1566566548
@@ -993,18 +1014,18 @@ MonoBehaviour:
     Path: event:/SFXEvents/RoomEvents/OnPotBroken
   <OnSpikeTrapActivated>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1919478426
+      Data2: 1161489081
+      Data3: 1803985313
+      Data4: 1401135037
+    Path: event:/SFXEvents/RoomEvents/OnSpikeTrapActivated
   <OnSpikeTrapRetracted>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1035679069
+      Data2: 1251921192
+      Data3: -1634587767
+      Data4: -1462636530
+    Path: event:/SFXEvents/RoomEvents/OnSpikeTrapRetracted
 --- !u!1 &5713194264434595104
 GameObject:
   m_ObjectHideFlags: 0

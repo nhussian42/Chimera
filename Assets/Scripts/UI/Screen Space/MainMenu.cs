@@ -43,4 +43,14 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
+    public void PlayButtonHoveredSound()
+    {
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnMenuButtonHovered);
+    }
+
+    public void PlayButtonSelectedSound()
+    {
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnMenuButtonSelected);
+    }
+
 }

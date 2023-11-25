@@ -922,7 +922,7 @@ public class PlayerController : Singleton<PlayerController>
         if (isInvincible == false)
         {
             animator.SetTrigger("TakeDamage");
-            DetermineDamageAudio(damage);
+            DetermineDamageEffects(damage);
 
             List<Limb> damagedLimbs = new List<Limb>();
             damagedLimbs.Add(core);
@@ -952,7 +952,7 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
-    private void DetermineDamageAudio(float damage)
+    private void DetermineDamageEffects(float damage)
     {
         if (damage <= core.MaxHealth / 3f)
         {

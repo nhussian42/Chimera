@@ -7,7 +7,7 @@ public class AudioEvents : Singleton<AudioEvents>
     [field: SerializeField] public EventReference OnMainMenuStarted { get; private set; }
     [field: SerializeField] public EventReference OnGameplayStarted { get; private set; }
     [field: SerializeField] public EventReference OnCombatStarted { get; private set; }
-    [field: SerializeField] public EventReference OnBoss1Started { get; private set; }
+    [field: SerializeField] public EventReference OnDungeonBossStarted { get; private set; }
     [field: SerializeField] public EventReference OnShopEntered { get; private set; }
 
     [field: Header("SFX Events")]
@@ -16,7 +16,7 @@ public class AudioEvents : Singleton<AudioEvents>
     [field: SerializeField] public EventReference OnGameStart { get; private set; }
     [field: SerializeField] public EventReference OnGameQuit { get; private set; }
     [field: SerializeField] public EventReference OnMenuButtonSelected { get; private set; }
-    [field: SerializeField] public EventReference OnMenuButtonClicked { get; private set; }
+    [field: SerializeField] public EventReference OnMenuButtonHovered { get; private set; }
 
     [field: Header("Player SFX Events")]
     [field: SerializeField] public EventReference OnPlayerWalk { get; private set; }
@@ -36,6 +36,7 @@ public class AudioEvents : Singleton<AudioEvents>
     [field: Header("Creature SFX Events")]
     [field: Header("All Creatures")]
     [field: SerializeField] public EventReference OnCreatureDamaged { get; private set; } // Placeholder for all creatures take damage events
+    [field: SerializeField] public EventReference OnBossDefeated { get; private set; }
 
     [field: Header("Hedgehog")]
     [field: SerializeField] public EventReference OnHedgehogAttack { get; private set; }
@@ -78,6 +79,8 @@ public class AudioEvents : Singleton<AudioEvents>
 
     [field: Header("Room SFX Events")]
     [field: SerializeField] public EventReference OnRoomCleared { get; private set; }
+    [field: SerializeField] public EventReference OnDoorOpened { get; private set; }
+    [field: SerializeField] public EventReference OnBossDoorOpened { get; private set; }
     [field: SerializeField] public EventReference OnPotBroken { get; private set; }
     [field: SerializeField] public EventReference OnSpikeTrapActivated { get; private set; }
     [field: SerializeField] public EventReference OnSpikeTrapRetracted { get; private set; }

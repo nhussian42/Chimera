@@ -72,22 +72,24 @@ public abstract class Creature : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        healthbar.UpdateHealthBar(currentHealth, health);
-        if (currentHealth <= 0 && alive == true)
-        {
-            Die();
-            //TrinketManager.Instance.StartKillSkills();  - commented this out temporarily - Amon
-
-        }
-        else if (alive == true && iFrame == false)
+        if (alive == true && iFrame == false)
         {
             iFrame = true;
             Invoke("IFrame", iFrameDuration);
+
+            currentHealth -= damage;
+            healthbar.UpdateHealthBar(currentHealth, health);
+
             animator.SetTrigger("TakeDamage");
             
             // Blanket audio event for all creatures taking damage, may be replaced by individual creature sounds
             AudioManager.PlaySound3D(AudioEvents.Instance.OnCreatureDamaged, transform.position);
+        }
+
+        if (currentHealth <= 0 && alive == true)
+        {
+            Die();
+            //TrinketManager.Instance.StartKillSkills();  - commented this out temporarily - Amon
         }
     }
 
