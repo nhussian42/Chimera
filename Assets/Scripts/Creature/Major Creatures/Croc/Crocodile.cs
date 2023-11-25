@@ -59,16 +59,16 @@ public class Crocodile : NotBossAI
     {
         //Walks up to the player and attacks in a small cone
         knockbackForce = regularAttackKnockback;
-        agent.stoppingDistance = 6;
+        agent.stoppingDistance = 8;
         yield return new WaitUntil(() => agent.remainingDistance <= agent.stoppingDistance);
 
         animator.SetBool("Charge", true);
         float timer = 0;
         Vector3 endPos = player.transform.position;
+        transform.LookAt(player.transform.position);
         while (timer < chargeTime)
         {
             timer += Time.deltaTime;
-            transform.LookAt(player.transform.position);
             transform.position = Vector3.MoveTowards(transform.position, endPos, chargeMultiplier * Time.deltaTime);
             if (Vector3.Distance(transform.position, player.transform.position) < 2f)
             {

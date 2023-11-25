@@ -27,8 +27,6 @@ public class Hedgehog : NotBossAI
         animator.SetBool("Charging", true);
         // OLDAudioManager.Instance.PlayMinEnemySFX("HedgehogSqueak");
         attacking = true;
-        agent.velocity = Vector3.zero;
-        Rigidbody rb = GetComponent<Rigidbody>();
         yield return new WaitForSeconds(chargeDelay);
 
         //Charges foward
@@ -48,13 +46,11 @@ public class Hedgehog : NotBossAI
             }
             yield return null;
         }
-        //rb.AddForce(gameObject.transform.forward * chargeSpeed, ForceMode.Impulse);
         yield return new WaitForSeconds(chargeTime);
 
         //Sets velocity to 0 and resumes movement
         animator.SetBool("Attacking", false);
         animator.SetBool("Charging", false);
-        rb.velocity = Vector3.zero;
         agent.isStopped = false;
         yield return new WaitForSeconds(attackCooldown);
 

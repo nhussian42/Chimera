@@ -109,8 +109,6 @@ public abstract class Creature : MonoBehaviour
         if (creatureType == CreatureType.Minor)
             DestroyCreature();
 
-        healthbar.gameObject.SetActive(false);
-
         //Destroy(this.gameObject, 1.5f);
         StopAllCoroutines();
         //Something happens
