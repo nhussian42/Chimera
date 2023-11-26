@@ -954,9 +954,10 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Die()
     {
-        DisableAllDefaultControls();
         AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerDeath);
         OnDie?.Invoke();
+        DisableAllDefaultControls();
+        ToggleInvincibility();
     }
 
     // This function is obsolete, delete later when other scripts refactor 
