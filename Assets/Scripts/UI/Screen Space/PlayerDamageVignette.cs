@@ -58,6 +58,7 @@ public class PlayerDamageVignette : MonoBehaviour
         {
             curTime += Time.deltaTime;
             vignette.intensity.value = Mathf.Lerp(startingIntensity, 0, curTime/fadeOutTime);
+            AudioManager.SetFloat(AudioManager.Instance.CurrentMusic, "DamageTaken", vignette.intensity.value);
             yield return null;
         }
     }

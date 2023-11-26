@@ -2455,8 +2455,8 @@ MonoBehaviour:
   selectedSprite: {fileID: 21300000, guid: b111b0144038e9547a6df29b0543c0eb, type: 3}
   defaultMovementSpeed: 24
   defaultCooldownTime: 3
-  dashDistance: 200
-  dashSpeed: 10
+  dashDistance: 100
+  dashSpeed: 8
 --- !u!1 &2891874491551660047
 GameObject:
   m_ObjectHideFlags: 0
@@ -2526,7 +2526,7 @@ Transform:
   - {fileID: 7120051725487143016}
   - {fileID: 6976358354469409987}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3048959359936504127
 Animator:
@@ -2871,10 +2871,13 @@ MonoBehaviour:
   - {fileID: 4875431189693882085}
   - {fileID: 5184887656719626218}
   - {fileID: 8922459511799846915}
+  - {fileID: 538913524339659890}
+  - {fileID: 6606615101093391278}
   allLegs:
   - {fileID: 1225942169148807824}
   - {fileID: 3824944412148831068}
   - {fileID: 3840664417998227876}
+  - {fileID: 8622150590115026277}
   publicClassesSO: {fileID: 11400000, guid: 0f4d75e79e2d23f4f913dca15a1c7691, type: 2}
   currentBaseStatsSO: {fileID: 11400000, guid: 0170559690b19234cad4fb247a96fac2, type: 2}
   modifiedStatsSO: {fileID: 11400000, guid: ed99c6de0e6944d4f928e53dd5c6cc4b, type: 2}
@@ -3516,6 +3519,7 @@ GameObject:
   - component: {fileID: 1724023295717900274}
   - component: {fileID: 2158232620763883214}
   - component: {fileID: 4230828920518323014}
+  - component: {fileID: 538913524339659890}
   m_Layer: 6
   m_Name: GeckArm_L
   m_TagString: Untagged
@@ -3613,6 +3617,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   undissolvedHeight: 4
   fullyDissolvedHeight: -1
+--- !u!114 &538913524339659890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3886064911780067998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c4306f7754b6db4c9992d9f6c5bb48c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  classification: 1
+  weight: 2
+  limbName: 2
+  stringName: Gecko Arm
+  defaultHealth: 20
+  defaultMaxHealth: 20
+  limbSprite: {fileID: 21300000, guid: 4eee1bf4fe4ed0549b656a906d6806da, type: 3}
+  selectedSprite: {fileID: 21300000, guid: c07ca37f5e55be848a97c47a22e826dd, type: 3}
+  defaultAttackDamage: 7.2
+  defaultAttackSpeed: 2.2
+  side: 1
+  attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
+    type: 3}
 --- !u!1 &4167420556579896603
 GameObject:
   m_ObjectHideFlags: 0
@@ -4092,16 +4121,16 @@ MonoBehaviour:
   classification: 1
   weight: 2
   limbName: 2
-  stringName: 
-  defaultHealth: 0
-  defaultMaxHealth: 0
-  limbSprite: {fileID: 0}
-  selectedSprite: {fileID: 0}
-  defaultMovementSpeed: 0
-  defaultCooldownTime: 0
-  dashDistance: 0
-  dashSpeed: 0
-  defaultDashCharges: 0
+  stringName: Gecko Legs
+  defaultHealth: 30
+  defaultMaxHealth: 30
+  limbSprite: {fileID: 21300000, guid: 9f2d0ff00438fd2408f8160f9934d933, type: 3}
+  selectedSprite: {fileID: 21300000, guid: 3083191b95fd751449e70859d7f8723e, type: 3}
+  defaultMovementSpeed: 24
+  defaultCooldownTime: 3
+  dashDistance: 65
+  dashSpeed: 8
+  defaultDashCharges: 3
 --- !u!1 &4605634163737293447
 GameObject:
   m_ObjectHideFlags: 0
@@ -6321,6 +6350,7 @@ GameObject:
   - component: {fileID: 711338802340608421}
   - component: {fileID: 1592144169742192711}
   - component: {fileID: 4976585743293805535}
+  - component: {fileID: 6606615101093391278}
   m_Layer: 6
   m_Name: GeckArm_R
   m_TagString: Untagged
@@ -6418,6 +6448,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   undissolvedHeight: 4
   fullyDissolvedHeight: -1
+--- !u!114 &6606615101093391278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6760450074781414939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c4306f7754b6db4c9992d9f6c5bb48c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  classification: 1
+  weight: 2
+  limbName: 2
+  stringName: Gecko Arm
+  defaultHealth: 20
+  defaultMaxHealth: 20
+  limbSprite: {fileID: 21300000, guid: 12a24fb0d30358e40910ea1df5c55202, type: 3}
+  selectedSprite: {fileID: 21300000, guid: c07ca37f5e55be848a97c47a22e826dd, type: 3}
+  defaultAttackDamage: 7.2
+  defaultAttackSpeed: 2.2
+  side: 0
+  attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
+    type: 3}
 --- !u!1 &6888725712489403274
 GameObject:
   m_ObjectHideFlags: 0

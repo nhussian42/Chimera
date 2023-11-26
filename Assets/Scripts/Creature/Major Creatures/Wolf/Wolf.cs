@@ -128,10 +128,10 @@ public class Wolf : NotBossAI
     {
         knockbackForce = pounceKnockback;
         animator.SetBool("Attack", true);
-        AudioManager.Instance.PlayMajEnemySFX("WolfBark");
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         StartCoroutine(RotateTowardsTarget(player.transform.position, chargeDelay));
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnWolfAttack, transform.position);
         yield return new WaitForSeconds(chargeDelay);
 
         attacking = true;
@@ -177,5 +177,11 @@ public class Wolf : NotBossAI
             yield return null;
         }
         yield return null;
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnWolfDeath, transform.position);
     }
 }

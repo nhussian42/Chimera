@@ -52,6 +52,8 @@ public abstract class Limb : MonoBehaviour
         if (dissolving) return;
         dissolving = true;
 
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerLimbLost);
+
         foreach (LimbDissolve limb in GetComponentsInChildren<LimbDissolve>())
         {
             limb.Dissolve();
