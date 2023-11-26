@@ -33,11 +33,14 @@ public class Rhino : NotBossAI
 
     private Rigidbody rb;
     private float baseAttackDamage;
+    private bool moving = true;
 
     FMOD.Studio.EventInstance RhinoCharge;
 
     private void Start()
     {
+        agent.updatePosition = false;
+
         baseAttackDamage = attackDamage;
         initialTurnSpeed = agent.angularSpeed;
         initialMovementSpeed = agent.speed;
@@ -65,33 +68,37 @@ public class Rhino : NotBossAI
                 }
             }
         }
+
+        if (moving == true)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + transform.forward, Time.deltaTime * agent.speed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.steeringTarget - transform.position), Time.deltaTime);
+        }
     }
 
     public override IEnumerator Attack()
     {
         //Rhino stops
         StartCoroutine(FacePlayer(2));
-        yield return new WaitForSeconds(1f);
+        yield return new WaitUntil(() => Physics.Raycast(transform.position, transform.forward, Mathf.Infinity, playerLayerMask));
 
-        agent.isStopped = true;
+        Debug.Log("We see the player");
+        moving = false;
         agent.speed = chargeSpeed;
         agent.angularSpeed = chargingTurnSpeed;
         agent.acceleration = chargeAcceleration;
         animator.SetBool("Charge", true);
 
+        yield return new WaitForSeconds(chargeDelay);
+        moving = true;
+        //Rhino runs towards player until within slam attack range
         RhinoCharge = AudioManager.Instance.CreateEventInstance(AudioEvents.Instance.OnRhinoCharge);
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(RhinoCharge, transform);
         RhinoCharge.start();
-        
-        yield return new WaitForSeconds(chargeDelay);
-
-        //Rhino runs towards player until within slam attack range
-        agent.isStopped = false;
         float timer = 1f;
         while (Physics.CheckSphere(transform.position, slamAttackRange, playerLayerMask) == false)
         {
             agent.destination = player.transform.position;
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(agent.steeringTarget - transform.position), Time.deltaTime);
             timer -= Time.deltaTime;
             if (timer < 0)
             {
@@ -119,18 +126,15 @@ public class Rhino : NotBossAI
     {
         //Stops the rhino
         knockbackForce = slamKnockback;
-        agent.isStopped = true;
+        moving = false;
         animator.SetBool("Slam", true);
 
         //Attack is performed
-        agent.velocity = Vector3.zero;
-        agent.isStopped = false;
         yield return new WaitUntil(() => slammed == true);
 
         //Attack ends, resets rhino to normal movement
-        agent.angularSpeed = initialTurnSpeed;
+        moving = true;
         agent.speed = initialMovementSpeed;
-        agent.acceleration = initialAcceleration;
         animator.SetBool("Slam", false);
         slammed = false;
 
@@ -143,7 +147,7 @@ public class Rhino : NotBossAI
             yield return null;
         }
 
-        yield return new WaitUntil(() => agent.remainingDistance < 4f);
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, agent.destination) < 2f);
         attacking = false;
 
         yield return null;
