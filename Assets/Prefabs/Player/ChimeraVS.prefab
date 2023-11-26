@@ -2502,6 +2502,7 @@ GameObject:
   - component: {fileID: 2793159458867588477}
   - component: {fileID: 7697647668054100860}
   - component: {fileID: 53259469810433876}
+  - component: {fileID: 7518603077873416174}
   m_Layer: 6
   m_Name: ChimeraVS
   m_TagString: Player
@@ -2526,7 +2527,7 @@ Transform:
   - {fileID: 7120051725487143016}
   - {fileID: 6976358354469409987}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3048959359936504127
 Animator:
@@ -2892,6 +2893,27 @@ MonoBehaviour:
   <LimbDissolveDuration>k__BackingField: 1.5
   totalBones: 0
   bonesMultiplier: 0
+--- !u!114 &7518603077873416174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3047811335271670910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfca4f58197c34396438168a7f6131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPool:
+  - {fileID: 6755447452877946996, guid: 9171dcec1dec67b49b8cf28282d0284e, type: 3}
+  - {fileID: 7937426487983829427, guid: dbcce601d3442aa438271b7491ae394c, type: 3}
+  - {fileID: 3450614229154006231, guid: 74894700abc37fc4e9efa48b667084d3, type: 3}
+  - {fileID: 8465967043707308671, guid: d6fcae7f3c1d6ff428a21ff15d19325a, type: 3}
+  - {fileID: 7937426487983829427, guid: c553972cb9b63c148a5184b729a20b4d, type: 3}
+  - {fileID: 3583152938891452061, guid: 90e82dbc55b9d164a93bd1470c3edeba, type: 3}
+  - {fileID: 8372370546128528112, guid: 61fc4bc92a199aa4fb905c9915e08e41, type: 3}
+  _spawnCondition: 2
 --- !u!1 &3125528580234289208
 GameObject:
   m_ObjectHideFlags: 0

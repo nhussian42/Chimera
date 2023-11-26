@@ -6,7 +6,9 @@ public enum SpawnCondition
 {
     OnLevelLoaded,
 
-    OnAllEnemiesDefeated
+    OnAllEnemiesDefeated,
+
+    OnDebugKeyPressed
 }
 
 public class Spawner : MonoBehaviour
@@ -30,6 +32,9 @@ public class Spawner : MonoBehaviour
             case SpawnCondition.OnAllEnemiesDefeated:
                 SubscribeToAllEnemiesDefeatedEvents();
                 break;
+            case SpawnCondition.OnDebugKeyPressed:
+                SubscribeToDebugKeyPressedEvents();
+                break;
         }        
     }
 
@@ -42,6 +47,9 @@ public class Spawner : MonoBehaviour
                 break;
             case SpawnCondition.OnAllEnemiesDefeated:
                 UnsubscribeFromAllEnemiesDefeatedEvents();
+                break;
+            case SpawnCondition.OnDebugKeyPressed:
+                UnubscribeToDebugKeyPressedEvents();
                 break;
         }
     }
@@ -64,6 +72,16 @@ public class Spawner : MonoBehaviour
     private void UnsubscribeFromAllEnemiesDefeatedEvents()
     {
         FloorManager.AllCreaturesDefeated -= SpawnRandomObjectFromList;
+    }
+
+    private void SubscribeToDebugKeyPressedEvents()
+    {
+        DebugControls.SpawnRandomLimb += SpawnRandomObjectFromList;
+    }
+
+    private void UnubscribeToDebugKeyPressedEvents()
+    {
+        DebugControls.SpawnRandomLimb -= SpawnRandomObjectFromList;
     }
 
     private void SpawnRandomObjectFromList()
