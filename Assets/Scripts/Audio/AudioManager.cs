@@ -10,6 +10,21 @@ public class AudioManager : Singleton<AudioManager>
     private List<EventInstance> instantiatedEventInstances = new List<EventInstance>();
     private int previousSceneMusicIndex = -1;
 
+    [SerializeField] [Range(0, 1)] public float masterVolume = 0.5f;
+    [SerializeField] [Range(0, 1)] public float musicVolume = 1f;
+    [SerializeField] [Range(0, 1)] public float SFXVolume = 1f;
+
+    public Bus MasterBus { get; private set; }
+    public Bus MusicBus { get; private set; }
+    public Bus SFXBus { get; private set; }
+
+    protected override void Init()
+    {
+        MasterBus = RuntimeManager.GetBus("bus:/");
+        MusicBus = RuntimeManager.GetBus("Bus:/Music");
+        SFXBus = RuntimeManager.GetBus("Bus:/SFX");
+    }
+
     private void OnEnable()
     {
         ChimeraSceneManager.OnSceneSwitched += StartNewSceneMusic;
@@ -43,6 +58,11 @@ public class AudioManager : Singleton<AudioManager>
     {
         float parameterValue = parameterBool ? 1 : 0;
         instance.setParameterByName(parameterName, parameterValue);
+    }
+
+    public static void SetVolume(Bus volumeBus, float volume)
+    {
+        volumeBus.setVolume(volume);
     }
 
     public EventInstance CreateEventInstance(EventReference eventReference)
