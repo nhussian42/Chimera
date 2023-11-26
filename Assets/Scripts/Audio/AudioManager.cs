@@ -6,15 +6,12 @@ using System.Collections.Generic;
 public class AudioManager : Singleton<AudioManager>
 {
     private StudioListener audioListener;
-    private AudioEvents audioEvents;
     public EventInstance CurrentMusic { get; private set; }
     private List<EventInstance> instantiatedEventInstances = new List<EventInstance>();
     private int previousSceneMusicIndex = -1;
 
     private void OnEnable()
     {
-        audioEvents = AudioEvents.Instance;
-
         ChimeraSceneManager.OnSceneSwitched += StartNewSceneMusic;
         FloorManager.AllCreaturesDefeated += FadeOutCombatMusic;
         FloorManager.LeaveRoom += CleanUpInstances;
@@ -82,15 +79,15 @@ public class AudioManager : Singleton<AudioManager>
 
         if (buildIndex == 0)
         {
-            newMusicInstance = CreatePersistentEventInstance(audioEvents.OnMainMenuStarted);
+            newMusicInstance = CreatePersistentEventInstance(AudioEvents.Instance.OnMainMenuStarted);
         }
         else if (buildIndex == 1 && previousSceneMusicIndex != buildIndex)
         {
-            newMusicInstance = CreatePersistentEventInstance(audioEvents.OnGameplayStarted);
+            newMusicInstance = CreatePersistentEventInstance(AudioEvents.Instance.OnGameplayStarted);
         }
         else if (buildIndex == 1 && previousSceneMusicIndex == buildIndex)
         {
-            newMusicInstance = CreatePersistentEventInstance(audioEvents.OnCombatStarted);
+            newMusicInstance = CreatePersistentEventInstance(AudioEvents.Instance.OnCombatStarted);
         }
         else
         {
@@ -104,7 +101,7 @@ public class AudioManager : Singleton<AudioManager>
 
     private void FadeOutCombatMusic()
     {
-        CrossFadeMusic(CreateEventInstance(audioEvents.OnGameplayStarted));
+        CrossFadeMusic(CreateEventInstance(AudioEvents.Instance.OnGameplayStarted));
     }
 
     private void CleanUpInstances()

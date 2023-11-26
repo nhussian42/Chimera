@@ -1,20 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
-using UnityEngine.SceneManagement;
-
 using UnityEngine.Events;
-
-using System.Runtime.CompilerServices;
-
-using Unity.Burst.Intrinsics;
-using Unity.VisualScripting.Dependencies.Sqlite;
-using UnityEngine.EventSystems;
 using FMOD.Studio;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
