@@ -43,6 +43,7 @@ public class EMScript : MonoBehaviour
         {
             trinketList.Add(trinket);
         }
+
     }
 
     private void Hide()

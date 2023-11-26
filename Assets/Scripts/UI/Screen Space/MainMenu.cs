@@ -11,6 +11,8 @@ public class MainMenu : MonoBehaviour
     public static Action StartPressed;
     public static Action LoadFirstRoom;
 
+    [SerializeField] private MasterTrinketList _masterTrinketList;
+
     private void OnEnable()
     {
         LoadFirstRoom += LoadFirstRoomScene;
@@ -38,6 +40,8 @@ public class MainMenu : MonoBehaviour
         }
         
         StartPressed?.Invoke();
+
+        _masterTrinketList.FullReset();
     }
 
     public void QuitGame()
