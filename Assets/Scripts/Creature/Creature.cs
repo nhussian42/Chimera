@@ -48,13 +48,13 @@ public abstract class Creature : MonoBehaviour
     //     //Sets current room
     // }
 
-    public void OnEnable()
+    protected virtual void OnEnable()
     {
         DebugControls.DamageAllCreatures += TakeDamage;
         FloorManager.AllCreaturesDefeated += DestroyCreature;
     }
 
-    public void OnDisable()
+    protected virtual void OnDisable()
     {
         DebugControls.DamageAllCreatures -= TakeDamage;
         FloorManager.AllCreaturesDefeated -= DestroyCreature;
@@ -72,19 +72,24 @@ public abstract class Creature : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        healthbar.UpdateHealthBar(currentHealth, health);
+        if (alive == true && iFrame == false)
+        {
+            iFrame = true;
+            Invoke("IFrame", iFrameDuration);
+
+            currentHealth -= damage;
+            healthbar.UpdateHealthBar(currentHealth, health);
+
+            animator.SetTrigger("TakeDamage");
+            
+            // Blanket audio event for all creatures taking damage, may be replaced by individual creature sounds
+            AudioManager.PlaySound3D(AudioEvents.Instance.OnCreatureDamaged, transform.position);
+        }
+
         if (currentHealth <= 0 && alive == true)
         {
             Die();
             //TrinketManager.Instance.StartKillSkills();  - commented this out temporarily - Amon
-
-        }
-        else if (alive == true && iFrame == false)
-        {
-            iFrame = true;
-            Invoke("IFrame", iFrameDuration);
-            animator.SetTrigger("TakeDamage");
         }
     }
 

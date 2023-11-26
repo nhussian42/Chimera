@@ -50,6 +50,6 @@ public class Tortoise : NotBossAI
     protected override void Die()
     {
         base.Die();
-        AudioManager.Instance.PlayMinEnemySFX("Die");
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnTortoiseDeath, transform.position);
     }
 }

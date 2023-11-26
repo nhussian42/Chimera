@@ -42,6 +42,7 @@ public class Gecko : NotBossAI
         Vector3 endPos = Vector3.Lerp(transform.position, player.transform.position, 0.5f);
         Vector3 middlePos = Vector3.Lerp(transform.position, endPos, 0.3f);
         animator.SetBool("Dash", true);
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnGeckoDash, transform.position);
         transform.LookAt(middlePos);
         float timer = 0;
         while (timer < chargeTime)
@@ -52,6 +53,7 @@ public class Gecko : NotBossAI
         }
         animator.SetBool("Dash", false);
         animator.SetBool("DashAttack", true);
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnGeckoAttack, transform.position);
         endPos = Vector3.Lerp(transform.position, player.transform.position, 0.5f);
         transform.LookAt(endPos);
         timer = 0;
@@ -64,6 +66,7 @@ public class Gecko : NotBossAI
         yield return new WaitForSeconds(0.25f);
         animator.SetBool("DashAttack", false);
         animator.SetBool("DashBack", true);
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnGeckoDash, transform.position);
         timer = 0;
         while (timer < chargeTime)
         {
@@ -147,5 +150,11 @@ public class Gecko : NotBossAI
     {
         float a = angle * Mathf.PI / 180f;
         return center + new Vector3(Mathf.Sin(a), 0, Mathf.Cos(a)) * radius;
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnGeckoDeath, transform.position);
     }
 }
