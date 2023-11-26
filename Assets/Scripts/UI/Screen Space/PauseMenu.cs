@@ -20,4 +20,9 @@ public class PauseMenu : MonoBehaviour
     {
         UIManager.QuitPressed?.Invoke();
     }
+
+    public void RestartGame()
+    {
+        ChimeraSceneManager.Instance.LoadScene(0);
+    }
 }

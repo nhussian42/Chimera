@@ -8,6 +8,7 @@ public class RelicInteract : MonoBehaviour
     [SerializeField] private GameObject RelicMenu;
     private bool menuToggle;
     public bool pickedYes;
+    private bool isInside;
 
     public static RelicInteract instance;
     void Start()
@@ -24,23 +25,12 @@ public class RelicInteract : MonoBehaviour
         Debug.Log("Detected");
         if (other.CompareTag("Player") && (menuToggle == false))
         {
-
-                RelicMenu.SetActive(true);
-                menuToggle = !menuToggle;
-                //if (menuToggle) PlayerController.Instance.Pause();
+            isInside = true;
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.R) && !menuToggle && !pickedYes)
-        {
-            Debug.Log("Player Pressed R");
-            RelicMenu.SetActive(true);
-            menuToggle = !menuToggle;
-            if (menuToggle) PlayerController.Instance.Pause();
-
-        }
         if (Input.GetKeyDown(KeyCode.R) && menuToggle)
         {
             RelicMenu.SetActive(false);
@@ -52,7 +42,18 @@ public class RelicInteract : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        isInside = false;
         menuToggle = false;
     }
+    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && !menuToggle && !pickedYes && isInside)
+        {
+            Debug.Log("Player Pressed R");
+            RelicMenu.SetActive(true);
+            menuToggle = !menuToggle;
 
+        }
+    }
 }
