@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SaveManager : Singleton<SaveManager>
 {
+    private Head savedHead;
     private Arm savedLeftArm;
     private Arm savedRightArm;
     private Core savedCore;
@@ -13,6 +14,7 @@ public class SaveManager : Singleton<SaveManager>
     public bool firstLoad { get; private set; }
 
     // Public getters
+    public Head SavedHead { get { return savedHead; } }
     public Arm SavedLeftArm { get { return savedLeftArm; } }
     public Arm SavedRightArm { get { return savedRightArm; } }
     public Core SavedCore { get { return savedCore; } }
@@ -24,9 +26,10 @@ public class SaveManager : Singleton<SaveManager>
         DontDestroyOnLoad(this);
     }
 
-    public void SaveLimbData(Arm leftArm, Arm rightArm, Core core, Legs legs)
+    public void SaveLimbData(Head head, Arm leftArm, Arm rightArm, Core core, Legs legs)
     {
         // Add legs and head data here and in parameters later
+        savedHead = head;
         savedLeftArm = leftArm;
         savedRightArm = rightArm;
         savedCore = core;

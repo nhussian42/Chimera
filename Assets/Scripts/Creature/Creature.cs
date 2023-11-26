@@ -99,15 +99,12 @@ public abstract class Creature : MonoBehaviour
         // SpawnDrop();
         animator.Play("Death");
         agent.isStopped = true;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        //rb.isKinematic = true;
         alive = false;
+        GetComponent<BoxCollider>().enabled = false;
 
         CreatureManager.AnyCreatureDied?.Invoke();
         if (creatureType == CreatureType.Minor)
             DestroyCreature();
-
-        healthbar.gameObject.SetActive(false);
 
         //Destroy(this.gameObject, 1.5f);
         StopAllCoroutines();
@@ -128,20 +125,14 @@ public abstract class Creature : MonoBehaviour
             Rigidbody rb = GetComponent<Rigidbody>();
             if (GetComponent<Rigidbody>() != null)
             {
-                rb.AddForce(knockbackDir.normalized * knockbackForce, ForceMode.Impulse);
+                float timer = 0;
+                while (timer < knockbackDuration)
+                {
+                    timer += Time.deltaTime;
+                    transform.position = Vector3.MoveTowards(transform.position, knockbackDir * knockbackForce, Time.deltaTime);
+                }
             }
 
-            float timer = knockbackDuration;
-            agent.isStopped = true;
-            while (timer > 0)
-            {
-                timer -= Time.deltaTime;
-            }
-            if (timer <= 0 && rb != null)
-            {
-                rb.velocity = Vector3.zero;
-                agent.isStopped = false;
-            }
         }
 
     }
