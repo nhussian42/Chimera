@@ -5,6 +5,7 @@ using UnityEngine;
 using Cinemachine;
 public class CameraShake : Singleton<CameraShake>
 {
+    // public CameraZoom cameraZoom;
     private CinemachineVirtualCamera CinemachineVirtualCamera;
 
     [Header("Player Camera Shake:")]
@@ -63,6 +64,7 @@ public class CameraShake : Singleton<CameraShake>
 
     public void HeavyAttackShake()
     {
+        // cameraZoom.ZoomCamera(heavyAttackShake, heavyAttackShakeTime);
         ShakeCamera(heavyAttackShake, heavyAttackShakeTime);
     }
 
@@ -101,7 +103,14 @@ public class CameraShake : Singleton<CameraShake>
         CinemachineBasicMultiChannelPerlin cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cbmcp.m_AmplitudeGain = shakeIntensity;
 
-        timer = shakeTime;
+        StartCoroutine(ShakeDuration(shakeTime));
+    }
+
+    private IEnumerator ShakeDuration(float shakeTime)
+    {
+        yield return new WaitForSeconds(shakeTime);
+        StopShake();
+        yield return null;
     }
 
     private void ConditionalShakeCamera(float shakeIntensity, bool condition)
@@ -113,8 +122,7 @@ public class CameraShake : Singleton<CameraShake>
         }
         else
         {
-            CinemachineBasicMultiChannelPerlin cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-            cbmcp.m_AmplitudeGain = 0f;
+            StopShake();
         }
     }
 
@@ -122,20 +130,5 @@ public class CameraShake : Singleton<CameraShake>
     {
         CinemachineBasicMultiChannelPerlin cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cbmcp.m_AmplitudeGain = 0f;
-
-        timer = 0;
-    }
-
-    private void Update()
-    {
-        if (timer > 0)
-        {
-            timer -= Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                StopShake();
-            }
-        }
     }
 }
