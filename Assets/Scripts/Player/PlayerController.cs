@@ -967,8 +967,9 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Die()
     {
-        DisableAllDefaultControls();
         OnDie?.Invoke();
+        DisableAllDefaultControls();
+        ToggleInvincibility();
     }
 
     // This function is obsolete, delete later when other scripts refactor 
