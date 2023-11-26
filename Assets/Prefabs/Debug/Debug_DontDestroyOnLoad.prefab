@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 7857498733618933282}
   - component: {fileID: 8402245830762764459}
   - component: {fileID: 1156952753494874463}
-  - component: {fileID: 1688542997686930998}
   - component: {fileID: 7870981516171893762}
   - component: {fileID: 411329455017490570}
   - component: {fileID: 1342185827794412421}
+  - component: {fileID: 7354286375882629849}
   m_Layer: 0
   m_Name: Debug_DontDestroyOnLoad
   m_TagString: Untagged
@@ -118,50 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5a026bed61df84ba8187b2eed8884c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &411329455017490570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4992577390909611129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ff72975fd5b1554c91e5f565e80d99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultBones: 0
-  maxBones: 999
-  bonesMultiplier: 1
-  defaultEssence: 0
-  maxEssence: 999
---- !u!114 &1342185827794412421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4992577390909611129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9de55130a7d6d8543b08ca941f09f902, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &5713194264434595104
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4992577390909611129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e0e1670c882fb64d84d4e6c2db0a6da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  masterVolume: 0.484
-  musicVolume: 1
-  SFXVolume: 1
 --- !u!114 &7870981516171893762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,3 +494,47 @@ MonoBehaviour:
       Data3: -1634587767
       Data4: -1462636530
     Path: event:/SFXEvents/RoomEvents/OnSpikeTrapRetracted
+--- !u!114 &411329455017490570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4992577390909611129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ff72975fd5b1554c91e5f565e80d99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultBones: 0
+  maxBones: 999
+  bonesMultiplier: 1
+  defaultEssence: 0
+  maxEssence: 999
+--- !u!114 &1342185827794412421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4992577390909611129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de55130a7d6d8543b08ca941f09f902, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7354286375882629849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4992577390909611129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e0e1670c882fb64d84d4e6c2db0a6da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolume: 0.5
+  musicVolume: 1
+  SFXVolume: 1
