@@ -9,16 +9,22 @@ public class BodyShopMenu : MonoBehaviour
 {
 
     [SerializeField] private List<Button> ItemButtonList;
-    [SerializeField] private List<float> ItemCostList;
-    [SerializeField] private List<Image> ItemImageList;
-    [SerializeField] private List<TextMeshProUGUI> ItemTextList;
-    [SerializeField] private List<TextMeshProUGUI> descList;
-
     [SerializeField] private Button HealItemButton;
-    [SerializeField] private TextMeshProUGUI HealItemText;
+    [SerializeField] private Button ExitButton;
+
+    [SerializeField] private List<float> ItemCostList;
     [SerializeField] private float HealCost;
 
-    [SerializeField] private Button ExitButton;
+    [SerializeField] private List<Image> ItemImageList;
+
+    [SerializeField] private List<TextMeshProUGUI> ItemTextList;
+    [SerializeField] private TextMeshProUGUI HealItemText;
+
+    [SerializeField] private List<TextMeshProUGUI> descList;
+    [SerializeField] private List<GameObject> descObjList;
+
+
+
     [SerializeField] private Button firstSelect;
 
     [SerializeField] private TextMeshProUGUI CurrentBones;
@@ -38,6 +44,17 @@ public class BodyShopMenu : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(firstSelect.gameObject);
+        if (!firstSelect.gameObject.activeSelf)
+        {
+            for(int i = 1; i < ItemButtonList.Count; i++)
+            {
+                EventSystem.current.SetSelectedGameObject(ItemButtonList[i].gameObject);
+                if (ItemButtonList[i].gameObject.activeSelf)
+                {
+                    break;
+                }                              
+            }
+        }
     }
     // Update is called once per frame
     void Update()
@@ -77,17 +94,39 @@ public class BodyShopMenu : MonoBehaviour
 
     private void SetupDescriptions()
     {
-
+        descList[0].text = null;
+        descList[1].text = null;
+        descList[2].text = null;
+        descList[3].text = null;
     }
 
     public void PurchaseOption(int i)
     {
-        Debug.Log("bought?!?!");
         if (ItemCostList[i] < PlayerController.Instance.totalBones)
         {
-            Debug.Log("bought");
             PlayerController.Instance.totalBones -= ItemCostList[i];
-            BodyShop.Instance.DestroyOption(i);
+            BodyShop.Instance.DestroyOption(i); 
+            EventSystem.current.SetSelectedGameObject(null);
+            if (ItemButtonList[i] != ItemButtonList[2])
+            {
+                if (ItemButtonList[i + 1].gameObject.activeSelf)
+                {
+                    EventSystem.current.SetSelectedGameObject(ItemButtonList[i+1].gameObject);
+                }
+                else
+                {
+                    EventSystem.current.SetSelectedGameObject(ExitButton.gameObject);
+                }
+            }
+            else if (ItemButtonList[i] == ItemButtonList[2])
+            {
+                EventSystem.current.SetSelectedGameObject(HealItemButton.gameObject);
+            }
+            if(!HealItemButton.gameObject.activeSelf)
+            {
+                EventSystem.current.SetSelectedGameObject(ExitButton.gameObject);
+            }
+
             DestroyButton(i);
         }
     }
@@ -100,15 +139,22 @@ public class BodyShopMenu : MonoBehaviour
             PlayerController.Instance.currentLeftArm.UpdateCurrentHealth(5);
             PlayerController.Instance.currentRightArm.UpdateCurrentHealth(5);
             PlayerController.Instance.UpdateCoreHealth(5);
+
             HealItemButton.gameObject.SetActive(false);
+            ItemImageList[3].gameObject.SetActive(false);
+            descObjList[3].gameObject.SetActive(false);
             BodyShop.Instance.DestroyOption(3);
+
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(ExitButton.gameObject);
         }
     }
 
     private void DestroyButton(int i)
     {
+        descObjList[i].gameObject.SetActive(false);
         ItemButtonList[i].gameObject.SetActive(false);
-
+        ItemImageList[i].gameObject.SetActive(false);
     }
 
 }
