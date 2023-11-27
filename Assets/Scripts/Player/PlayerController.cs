@@ -379,20 +379,9 @@ public class PlayerController : Singleton<PlayerController>
         {
             OnDash.Invoke();
 
-            // This will need refactoring for special leg animations, the line below will probably
-            // be called by an animation event like the triggers above.
-
-            // Temporary fix for using different animations for different limbs until we can implement a more complex solution - Amon
-            if (currentLegs.Classification == Classification.Mammalian && currentLegs.Weight == Weight.Light)
-            {
-                Debug.Log("Shift Pressed");
-                animator.SetTrigger("Pounce");
-            }
-            else
-            {
-                //animator.SetTrigger("Dash");
-                currentLegs.ActivateAbility();
-            }
+            // Plays the animation of the current legs which will call ActivateAbility() with an animation event
+            currentLegs.PlayAnim();
+            
         }
 
         if (_swapLimbs.triggered == true)
