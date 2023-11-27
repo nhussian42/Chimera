@@ -1216,7 +1216,6 @@ GameObject:
   - component: {fileID: 460351763}
   - component: {fileID: 460351762}
   - component: {fileID: 460351766}
-  - component: {fileID: 460351767}
   m_Layer: 5
   m_Name: MainMenuCanvas
   m_TagString: Untagged
@@ -1323,27 +1322,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _masterTrinketList: {fileID: 11400000, guid: 33b2419e5fd22424fabcb3347cdccfd2, type: 2}
---- !u!114 &460351767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 460351761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87a96ed1164ad094e9c59d5bfee6e001, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _masterSlider: {fileID: 1504512598}
-  _musicSlider: {fileID: 514953499}
-  _sfxSlider: {fileID: 1665451478}
-  SettingsGO: {fileID: 969297857}
-  masterPercent: {fileID: 421015476}
-  musicPercent: {fileID: 663658369}
-  sfxPercent: {fileID: 1127524307}
-  fullScreenToggle: {fileID: 697798958}
-  mixer: {fileID: 24100000, guid: 4019c35615a1a90449c481eea6434dd5, type: 2}
 --- !u!1 &469896813
 GameObject:
   m_ObjectHideFlags: 0
@@ -2683,7 +2661,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 460351767}
+      - m_Target: {fileID: 1201561667}
         m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
         m_MethodName: SelectSettingsMenu
         m_Mode: 1
@@ -3352,6 +3330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1201561666}
+  - component: {fileID: 1201561667}
   m_Layer: 5
   m_Name: Settings Screen
   m_TagString: Untagged
@@ -3386,6 +3365,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: -66.12897}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1201561667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201561665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87a96ed1164ad094e9c59d5bfee6e001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _masterSlider: {fileID: 1504512598}
+  _musicSlider: {fileID: 514953499}
+  _sfxSlider: {fileID: 1665451478}
+  SettingsGO: {fileID: 969297857}
+  masterPercent: {fileID: 421015476}
+  musicPercent: {fileID: 663658369}
+  sfxPercent: {fileID: 1127524307}
+  fullScreenToggle: {fileID: 697798958}
+  mixer: {fileID: 24100000, guid: 4019c35615a1a90449c481eea6434dd5, type: 2}
 --- !u!1 &1222204700
 GameObject:
   m_ObjectHideFlags: 0
@@ -3898,7 +3898,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 460351767}
+      - m_Target: {fileID: 1201561667}
         m_TargetAssemblyTypeName: SettingsController, Assembly-CSharp
         m_MethodName: ReSelectSettings
         m_Mode: 1
