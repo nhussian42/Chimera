@@ -2,31 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class BodyShopMenu : MonoBehaviour
 {
 
-    public List<Button> ItemButtonList;
-    public List<float> ItemCostList;
-    public Button HealItemButton;
-    public float HealCost;
-    public Button ExitButton;
-    public GameObject self;
+    [SerializeField] private List<Button> ItemButtonList;
+    [SerializeField] private List<float> ItemCostList;
+    [SerializeField] private List<Image> ItemImageList;
+    [SerializeField] private List<TextMeshProUGUI> ItemTextList;
+    [SerializeField] private List<TextMeshProUGUI> descList;
 
+    [SerializeField] private Button HealItemButton;
+    [SerializeField] private TextMeshProUGUI HealItemText;
+    [SerializeField] private float HealCost;
 
-    public List<TextMeshProUGUI> ItemTextList;
-    public TextMeshProUGUI HealItemText;
-    public TextMeshProUGUI CurrentBones;
+    [SerializeField] private Button ExitButton;
+    [SerializeField] private Button firstSelect;
 
+    [SerializeField] private TextMeshProUGUI CurrentBones;
+
+    [SerializeField] private GameObject self;
+    
     
     // Start is called before the first frame update
     void Start()
     {
         SetupPrices();
-
+        SetupSprites();
+        SetupDescriptions();
     }
 
+    private void OnEnable()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(firstSelect.gameObject);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -55,6 +67,17 @@ public class BodyShopMenu : MonoBehaviour
         }
 
         HealItemText.text = $"Cost: {HealCost.ToString()}";
+    }
+
+    private void SetupSprites()
+    {
+        ItemImageList[0].sprite = BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().limbSprite;
+        ItemImageList[1].sprite = BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>().limbSprite;
+    }
+
+    private void SetupDescriptions()
+    {
+
     }
 
     public void PurchaseOption(int i)

@@ -994,8 +994,6 @@ public class PlayerController : Singleton<PlayerController>
         {
             totalBones += amount;
         }
-
-        Debug.Log(totalBones.ToString("F2"));
     }
 
     private void Deactivate()

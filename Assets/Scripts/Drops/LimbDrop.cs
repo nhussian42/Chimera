@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LimbDrop : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class LimbDrop : MonoBehaviour
     [SerializeField] protected LimbType type;
     [SerializeField] protected Name limbName;
     [SerializeField] public float limbCost;
+    [SerializeField] public Sprite limbSprite;
 
     private float limbHealth;
 
@@ -19,6 +21,7 @@ public class LimbDrop : MonoBehaviour
     public Name Name { get { return limbName; } } 
     public float LimbHealth { get { return limbHealth; } }
     public float LimbCost { get { return limbCost; } }
+    public Sprite LimbSprite { get {  return limbSprite; } }
 
     private void OnEnable()
     {

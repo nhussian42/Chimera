@@ -13,14 +13,17 @@ public class BodyShop : Singleton<BodyShop>
     public List<GameObject> LegList;
     public List<GameObject> HeadList;
     public List<GameObject> ItemLocations;
+    public List<GameObject> PurchaseLocations;
 
     public GameObject SpawnedArm;
     public GameObject SpawnedLeg;
     public GameObject SpawnedHead;
     private GameObject SpawnedHealItem;
 
+    public GameObject HealItem;
     public GameObject ShopMenu;
-    public bool IsMenuActive;
+
+    private bool IsMenuActive;
 
     int randomArm;
     int randomLeg;
@@ -29,7 +32,7 @@ public class BodyShop : Singleton<BodyShop>
 
 
 
-    public GameObject HealItem;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -78,10 +81,10 @@ public class BodyShop : Singleton<BodyShop>
         {
 
             case 0:
-                SpawnedArm.gameObject.SetActive(false);
+                SpawnedArm.transform.position = PurchaseLocations[0].transform.position;
                 break;
             case 1:
-                SpawnedLeg.gameObject.SetActive(false);
+                SpawnedLeg.transform.position = PurchaseLocations[1].transform.position;
                 break;
             case 2:
                 SpawnedHead.gameObject.SetActive(false);
