@@ -13,16 +13,17 @@ public class Wolf : NotBossAI
     [SerializeField, Tooltip("Multiplier to how fast the wolf charges")] private float chargeMultiplier;
     [SerializeField] private float pounceKnockback;
 
-
+    private float circleTimer;
     private bool inAttackRange = false; //Keeps track of if the wolf is in attack range
     private Vector3 dir;    //Stores direction towards the player
     private float angle;    //Stores the angle around the player
     private bool randomPositiveNegative; //Determines if the wolf runs clockwise or counterclockwise
-    bool agentNearEdge = false; //Keeps track of if the wolf is near the edge of the navmesh
     float attackResetTime = 2f; //How long the wolf runs away before engaging again
     bool changeDirectionCooldown = false;
     public bool attackCompleted = false;
     private bool circling = false;
+
+    
 
     private void Start()
     {
@@ -54,29 +55,11 @@ public class Wolf : NotBossAI
             }
 
             agent.FindClosestEdge(out NavMeshHit hit);
-            if (Vector3.Distance(transform.position, hit.position) < 1.5f)
-            {
-                agentNearEdge = true;
-            }
-            else
-            {
-                agentNearEdge = false;
-            }
-
-            if (agentNearEdge == true && changeDirectionCooldown == false)
+            if ((Vector3.Distance(agent.destination, hit.position) < 2f) && changeDirectionCooldown == false)
             {
                 changeDirectionCooldown = true;
                 Invoke("ResetCooldown", 1f);
                 randomPositiveNegative = !randomPositiveNegative;
-                if (randomPositiveNegative == true)
-                {
-                    angle += 30;
-                }
-                else
-                {
-                    angle -= 30;
-                }
-                agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
             }
         }
     }
@@ -92,35 +75,37 @@ public class Wolf : NotBossAI
     {
         //Circle the player for a set period of time
         randomPositiveNegative = Random.value > 0.5f;
-        int randomValue = Random.Range(10, 21);
+        circleTimer = Random.Range(3, 6);
 
         dir = (player.transform.position - transform.position).normalized;
         angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + 180;
+        agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
+        yield return new WaitUntil(() => agent.remainingDistance < 1f);
 
-        for (int i = 0; i < randomValue; i++)
+        float timer = 0;
+        while (timer < circleTimer)
         {
-            if (randomPositiveNegative == true)
+            timer += Time.deltaTime;
+            agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
+            if (randomPositiveNegative)
             {
-                angle += 30;
+                angle += 4;
             }
             else
             {
-                angle -= 30;
+                angle -= 4;
             }
 
-            agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
-
-            if (Vector3.Distance(player.transform.position, transform.position) < 4f)
+            if (Vector3.Distance(transform.position, player.transform.position) < 5)
             {
-                StartCoroutine(Pounce());
-                yield break;
+                break;
             }
 
-            yield return new WaitUntil(() => agent.remainingDistance < 2f);
+            yield return new WaitForSeconds(0.001f);
+            yield return null;
         }
 
         StartCoroutine(Pounce());
-
         yield return null;
     }
 
@@ -152,8 +137,8 @@ public class Wolf : NotBossAI
         attacking = false;
 
         agent.destination = PointOnXZCircle(transform.position, attackRange * 2, Random.Range(-45, 46));
-        attackResetTime = 3f;
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, player.transform.position) > attackRange * 1.5f || attackResetTime < 0f);
+        attackResetTime = 2f;
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, agent.destination) < 1f || attackResetTime < 0f);
 
         circling = false;
         yield return null;
