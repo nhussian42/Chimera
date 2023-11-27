@@ -1,26 +1,42 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using Unity.Burst.Intrinsics;
+using Unity.VisualScripting;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System;
+using static UnityEngine.Rendering.DebugUI;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
+
+// Swap Limb behavior checklist
+/*
+ * walk over limb 
+ * pickup limb
+ * limb swap menu appears
+ * choose which limb to equip
+ * limb gets equipped in equipment menu
+ * 
+*/
+
+// Stats displayed for each limb:
+/*
+ * Head: HP (current/maximum)
+ * Arms: ATK, SPD(hit/sec), HP (current/maximum)
+ * Legs: SPD, CD(sec), HP(current/maximum)
+ * 
+ */
 
 public class LimbSwapMenu : MonoBehaviour
 {
     private PlayerController playerController;
 
     [Header("UI Elements")]
-    [SerializeField] private Button equipButton;
     [SerializeField] private TextMeshProUGUI currentLimbName;
     [SerializeField] private TextMeshProUGUI proposedLimbName;
 
-    [SerializeField] private Image currentHeadIcon;
-    [SerializeField] private Image currentLeftArmIcon;
-    [SerializeField] private Image currentRightArmIcon;
-    [SerializeField] private Image currentLegsIcon;
-    [SerializeField] private Image proposedHeadIcon;
-    [SerializeField] private Image proposedLeftArmIcon;
-    [SerializeField] private Image proposedRightArmIcon;
-    [SerializeField] private Image proposedLegsIcon;
+    [SerializeField] private Image currentLimbIcon; 
+    [SerializeField] private Image proposedLimbIcon;
 
     [SerializeField] private TextMeshProUGUI statText1; // 1-3 reserved for current limb stats
     [SerializeField] private TextMeshProUGUI statText2;
@@ -33,22 +49,19 @@ public class LimbSwapMenu : MonoBehaviour
     [SerializeField] private Color downgradeColor;
 
     [SerializeField] private TextMeshProUGUI scrapText;
+
     [SerializeField] private TextMeshProUGUI switchArmText;
 
     public LimbType proposedLimbType { get; private set; }   
     private LimbDrop proposedLimbDrop;
-    private Limb proposedLimb;
-    private SideOfPlayer displayedArm;
-
-    // Actions
-    public static Action<int> OnScrap;
+    private SideOfPlayer displayedArm;      
 
     private void Start()
     {
         playerController = PlayerController.Instance;
         playerController.limbSwapMenu = this;
         gameObject.SetActive(false);
-        //Debug.Log("Called Start() on LimbSwapMenu");
+        Debug.Log("Called Start() on LimbSwapMenu");
     }
 
     public void Enable(LimbDrop proposedLimb)
@@ -57,9 +70,6 @@ public class LimbSwapMenu : MonoBehaviour
         SetMenu();
         scrapText.text = "Scrap(50)";
         gameObject.SetActive(true);
-        playerController.DisableAllDefaultControls();
-        playerController.EnableAllUIControls();
-        EventSystem.current.SetSelectedGameObject(equipButton.gameObject);
     }
 
     // Determines which limb swap menu variant will display
@@ -98,25 +108,15 @@ public class LimbSwapMenu : MonoBehaviour
         {
             if (head.Classification == proposedLimbDrop.Classification && head.Weight == proposedLimbDrop.Weight)
             {
-                proposedLimb = head;
-                currentLimbName.text = playerController.currentHead.StringName;
-                proposedLimbName.text = head.StringName;
+                currentLimbName.text = playerController.currentHead.name;
+                proposedLimbName.text = head.name;
 
                 // Check if the health value on the limb has been altered, if not use the default max health value on the limb
                 float headHealth = proposedLimbDrop.LimbHealth;
                 if (proposedLimbDrop.LimbHealth <= 0)
                     headHealth = head.DefaultMaxHealth;
 
-                currentHeadIcon.gameObject.SetActive(true);
-                currentHeadIcon.sprite = playerController.currentHead.LimbSprite;
-                currentLeftArmIcon.gameObject.SetActive(false);
-                currentRightArmIcon.gameObject.SetActive(false);
-                currentLegsIcon.gameObject.SetActive(false);
-                proposedHeadIcon.gameObject.SetActive(true);
-                proposedHeadIcon.sprite = head.LimbSprite;
-                proposedLeftArmIcon.gameObject.SetActive(false);
-                proposedRightArmIcon.gameObject.SetActive(false);
-                proposedLegsIcon.gameObject.SetActive(false);
+                // Set icons here later
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentHead.Health + "/" + playerController.currentHead.DefaultMaxHealth + ")"; // current head's HP (current/maximum)
@@ -142,27 +142,16 @@ public class LimbSwapMenu : MonoBehaviour
         {
             if (arm.Classification == proposedLimbDrop.Classification && arm.Weight == proposedLimbDrop.Weight && arm.Side == SideOfPlayer.Left)
             {
-                proposedLimb = arm;
-
                 // Set these to the exposed Name attribute of the limbs later
-                currentLimbName.text = playerController.currentLeftArm.StringName + "(L)";
-                proposedLimbName.text = arm.StringName;
+                currentLimbName.text = playerController.currentLeftArm.name;
+                proposedLimbName.text = arm.name;
 
                 // Check if the health value on the limb has been altered, if not use the default max health value on the limb
                 float armHealth = proposedLimbDrop.LimbHealth;
                 if (proposedLimbDrop.LimbHealth <= 0)
                     armHealth = arm.DefaultMaxHealth;
 
-                currentHeadIcon.gameObject.SetActive(false);
-                currentLeftArmIcon.gameObject.SetActive(true);
-                currentLeftArmIcon.sprite = playerController.currentLeftArm.LimbSprite;
-                currentRightArmIcon.gameObject.SetActive(false);
-                currentLegsIcon.gameObject.SetActive(false);
-                proposedHeadIcon.gameObject.SetActive(false);
-                proposedLeftArmIcon.gameObject.SetActive(true);
-                proposedLeftArmIcon.sprite = arm.LimbSprite;
-                proposedRightArmIcon.gameObject.SetActive(false);
-                proposedLegsIcon.gameObject.SetActive(false);
+                // Set icons here later
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentLeftArm.Health + "/" + playerController.currentLeftArm.DefaultMaxHealth + ")";
@@ -183,33 +172,23 @@ public class LimbSwapMenu : MonoBehaviour
     // Right Arm variant
     public void SetToRightArm()
     {
+
         displayedArm = SideOfPlayer.Right;
 
         foreach (Arm arm in playerController.allArms)
         {
             if (arm.Classification == proposedLimbDrop.Classification && arm.Weight == proposedLimbDrop.Weight && arm.Side == SideOfPlayer.Right)
             {
-                proposedLimb = arm;
-
                 // Set these to the exposed Name attribute of the limbs later
-                currentLimbName.text = playerController.currentRightArm.StringName + "(R)";
-                proposedLimbName.text = arm.StringName;
+                currentLimbName.text = playerController.currentRightArm.name;
+                proposedLimbName.text = arm.name;
 
                 // Check if the health value on the limb has been altered, if not use the default max health value on the limb
                 float armHealth = proposedLimbDrop.LimbHealth;
                 if (proposedLimbDrop.LimbHealth <= 0)
                     armHealth = arm.DefaultMaxHealth;
 
-                currentHeadIcon.gameObject.SetActive(false);
-                currentLeftArmIcon.gameObject.SetActive(false);
-                currentRightArmIcon.gameObject.SetActive(true);
-                currentRightArmIcon.sprite = playerController.currentRightArm.LimbSprite;
-                currentLegsIcon.gameObject.SetActive(false);
-                proposedHeadIcon.gameObject.SetActive(false);
-                proposedLeftArmIcon.gameObject.SetActive(false);
-                proposedRightArmIcon.gameObject.SetActive(true);
-                proposedRightArmIcon.sprite = arm.LimbSprite;
-                proposedLegsIcon.gameObject.SetActive(false);
+                // Set icons here later
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentRightArm.Health + "/" + playerController.currentRightArm.DefaultMaxHealth + ")";
@@ -247,27 +226,16 @@ public class LimbSwapMenu : MonoBehaviour
         {
             if (legs.Classification == proposedLimbDrop.Classification && legs.Weight == proposedLimbDrop.Weight)
             {
-                proposedLimb = legs;
-
                 // Set these to the exposed Name attribute of the limbs later
-                currentLimbName.text = playerController.currentLegs.StringName;
-                proposedLimbName.text = legs.StringName;
+                currentLimbName.text = playerController.currentLegs.name;
+                proposedLimbName.text = legs.name;
 
                 // Check if the health value on the limb has been altered, if not use the default max health value on the limb
                 float legsHealth = proposedLimbDrop.LimbHealth;
                 if (proposedLimbDrop.LimbHealth <= 0)
                     legsHealth = legs.DefaultMaxHealth;
 
-                currentHeadIcon.gameObject.SetActive(false);
-                currentLeftArmIcon.gameObject.SetActive(false);
-                currentRightArmIcon.gameObject.SetActive(false);
-                currentLegsIcon.gameObject.SetActive(true);
-                currentLegsIcon.sprite = playerController.currentLegs.LimbSprite;
-                proposedHeadIcon.gameObject.SetActive(false);
-                proposedLeftArmIcon.gameObject.SetActive(false);
-                proposedRightArmIcon.gameObject.SetActive(false);
-                proposedLegsIcon.gameObject.SetActive(true);
-                proposedLegsIcon.sprite = legs.LimbSprite;
+                // Set icons here later
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
                 statText1.text = "HP: " + "(" + playerController.currentLegs.Health + "/" + playerController.currentLegs.DefaultMaxHealth + ")";
@@ -314,14 +282,15 @@ public class LimbSwapMenu : MonoBehaviour
                     break;
                 }
         }
-
+        Destroy(proposedLimbDrop.gameObject);
         playerController.EnableAllDefaultControls();
     }
 
     // Called by button to scrap the proposed limb
     public void ScrapLimb()
     {
-        OnScrap?.Invoke(50); // replace with OnScrap?.Invoke(proposedLimb.BonesValue) when property is added to Limb class
+        playerController.AddBones(50); //replace with the exposed amount on the proposed limb
+        Destroy(proposedLimbDrop.gameObject);
         playerController.EnableAllDefaultControls();
     }
 
@@ -336,6 +305,5 @@ public class LimbSwapMenu : MonoBehaviour
     public void Exit()
     {
         playerController.EnableAllDefaultControls();
-        playerController.DisableAllUIControls();
     }
 }

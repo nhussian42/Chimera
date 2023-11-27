@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3407757157518717809}
   - component: {fileID: 1655160509507524419}
+  - component: {fileID: 4091825544149799010}
   - component: {fileID: 1425246405880160637}
   - component: {fileID: 6758442766472848861}
   - component: {fileID: 7745065286947643751}
@@ -47,6 +48,48 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233234247686443704}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &4091825544149799010
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233234247686443704}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!195 &1425246405880160637
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -142,27 +185,25 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  numberOfSpikes: 9
-  timeBetweenSpikes: 0.2
+  numberOfSpikes: 18
+  timeBetweenSpikes: 0.15
   spikeDamage: 5
-  angleBeteenSpikes: 45
   distanceBetweenSpikes: 2
-  spikeSpawnOffset: 7
   spike: {fileID: 7992538046275668304, guid: e95dafa6e69e7b149b89ffead601b0fb, type: 3}
   numberOfProjectiles: 7
-  timeBetweenProjectiles: 0.35
+  timeBetweenProjectiles: 0.4
   projectileDamage: 10
-  angleBetweenProjectiles: 25
-  projectileSpeed: 700
-  projectileSpawnOffset: 9
   projectile: {fileID: 7992538046275668304, guid: 9df0a173dc0afa14d928ec572e9af16d,
     type: 3}
+  angleBetweenProjectiles: 20
+  projectileSpeed: 700
   sweepAngle: 150
   sweepDuration: 2
   sweepAttackCollider: {fileID: 3264562288825394453}
-  timeBeforeAttack: 2
-  amountOfTimeBurrowed: 3
+  burrowCooldown: 8
   teleportRange: 10
+  minorCreatures:
+  - {fileID: 2808466385115696920, guid: f49d9933ae83d2e4a834171b58798e9a, type: 3}
   bossMesh: {fileID: 3945894084706364008}
   bossAttack: []
 --- !u!1 &3195776303206709816

@@ -10,7 +10,6 @@ public class ChimeraSceneManager : Singleton<ChimeraSceneManager>
     [SerializeField] private float _fadeInTime;
 
     public static Action<float> FadeValueChanged;
-    public static Action<int> OnSceneSwitched;
 
     private void OnEnable()
     {
@@ -28,12 +27,6 @@ public class ChimeraSceneManager : Singleton<ChimeraSceneManager>
 
         MainMenu.StartPressed -= FadeOutToBlack;
     }
-
-    private void Start()
-    {
-        OnSceneSwitched?.Invoke(SceneManager.GetActiveScene().buildIndex);
-    }
-
     private void FadeOutToBlack()
     {
         StartCoroutine(FadeOut(_fadeOutTime));
@@ -91,4 +84,5 @@ public class ChimeraSceneManager : Singleton<ChimeraSceneManager>
             yield return null;
         }
     }
+
 }

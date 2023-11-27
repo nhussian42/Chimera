@@ -7,6 +7,6 @@ public class WolfArm : Arm
     public override void Attack()
     {
         base.Attack();
-        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerWolfAttack);
+        //Debug.Log("Wolf Arm Attack");
     }
 }

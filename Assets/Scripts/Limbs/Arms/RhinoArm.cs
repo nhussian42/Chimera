@@ -7,6 +7,6 @@ public class RhinoArm : Arm
     public override void Attack()
     {
         base.Attack();
-        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerRhinoAttack);
+        //Debug.Log("Rhino Arm Attack");
     }
 }

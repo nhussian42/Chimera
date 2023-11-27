@@ -35,7 +35,7 @@ public class GameManager : Singleton<GameManager>
 
         _currentGameState = GameState.IsPaused;
         Time.timeScale = 0f;
-        AudioManager.SetBool(AudioManager.Instance.CurrentMusic, "Paused", true);
+        AudioListener.pause = true;
     }
 
     private void UnpauseGame()
@@ -46,7 +46,7 @@ public class GameManager : Singleton<GameManager>
 
         _currentGameState = GameState.IsPlaying;
         Time.timeScale = 1f;
-        AudioManager.SetBool(AudioManager.Instance.CurrentMusic, "Paused", false);
+        AudioListener.pause = false;
 
         OnUnpause?.Invoke();
     }

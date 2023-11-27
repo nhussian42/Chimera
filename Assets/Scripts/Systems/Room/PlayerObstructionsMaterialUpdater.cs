@@ -21,7 +21,6 @@ public class PlayerObstructionsMaterialUpdater : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (player != null)
-            mat.SetVector("_PlayerWorldPos", player.transform.position);
+        mat.SetVector("_PlayerWorldPos", player.transform.position);
     }
 }

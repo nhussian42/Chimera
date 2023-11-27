@@ -48,13 +48,13 @@ public abstract class Creature : MonoBehaviour
     //     //Sets current room
     // }
 
-    protected virtual void OnEnable()
+    public void OnEnable()
     {
         DebugControls.DamageAllCreatures += TakeDamage;
         FloorManager.AllCreaturesDefeated += DestroyCreature;
     }
 
-    protected virtual void OnDisable()
+    public void OnDisable()
     {
         DebugControls.DamageAllCreatures -= TakeDamage;
         FloorManager.AllCreaturesDefeated -= DestroyCreature;
@@ -72,24 +72,19 @@ public abstract class Creature : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
-        if (alive == true && iFrame == false)
-        {
-            iFrame = true;
-            Invoke("IFrame", iFrameDuration);
-
-            currentHealth -= damage;
-            healthbar.UpdateHealthBar(currentHealth, health);
-
-            animator.SetTrigger("TakeDamage");
-            
-            // Blanket audio event for all creatures taking damage, may be replaced by individual creature sounds
-            AudioManager.PlaySound3D(AudioEvents.Instance.OnCreatureDamaged, transform.position);
-        }
-
+        currentHealth -= damage;
+        healthbar.UpdateHealthBar(currentHealth, health);
         if (currentHealth <= 0 && alive == true)
         {
             Die();
             //TrinketManager.Instance.StartKillSkills();  - commented this out temporarily - Amon
+
+        }
+        else if (alive == true && iFrame == false)
+        {
+            iFrame = true;
+            Invoke("IFrame", iFrameDuration);
+            animator.SetTrigger("TakeDamage");
         }
     }
 
@@ -104,12 +99,15 @@ public abstract class Creature : MonoBehaviour
         // SpawnDrop();
         animator.Play("Death");
         agent.isStopped = true;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        //rb.isKinematic = true;
         alive = false;
-        GetComponent<BoxCollider>().enabled = false;
 
         CreatureManager.AnyCreatureDied?.Invoke();
         if (creatureType == CreatureType.Minor)
             DestroyCreature();
+
+        healthbar.gameObject.SetActive(false);
 
         //Destroy(this.gameObject, 1.5f);
         StopAllCoroutines();
@@ -130,14 +128,20 @@ public abstract class Creature : MonoBehaviour
             Rigidbody rb = GetComponent<Rigidbody>();
             if (GetComponent<Rigidbody>() != null)
             {
-                float timer = 0;
-                while (timer < knockbackDuration)
-                {
-                    timer += Time.deltaTime;
-                    transform.position = Vector3.MoveTowards(transform.position, knockbackDir * knockbackForce, Time.deltaTime);
-                }
+                rb.AddForce(knockbackDir.normalized * knockbackForce, ForceMode.Impulse);
             }
 
+            float timer = knockbackDuration;
+            agent.isStopped = true;
+            while (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            if (timer <= 0 && rb != null)
+            {
+                rb.velocity = Vector3.zero;
+                agent.isStopped = false;
+            }
         }
 
     }

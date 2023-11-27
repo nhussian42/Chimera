@@ -19,10 +19,8 @@ public class SettingsController : MonoBehaviour
     [SerializeField]
     private GameObject fullScreenToggle;
 
-    private float changeTracker = 0;
-
-    // [SerializeField]
-    // private AudioMixer mixer;
+    [SerializeField]
+    private AudioMixer mixer;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +30,7 @@ public class SettingsController : MonoBehaviour
         _sfxSlider.value = SaveValues.sfxVolume;
 
         fullScreenToggle.GetComponent<Toggle>().isOn = SaveValues.isFullscreen;
+
     }
 
     public void SelectSettingsMenu()
@@ -49,37 +48,27 @@ public class SettingsController : MonoBehaviour
     public void MasterVolume()
     {
         masterPercent.text = Mathf.RoundToInt(_masterSlider.value * 100) + "%";
-        // mixer.SetFloat ("MasterVol", Mathf.Log10 (_masterSlider.value) * 20);
-        AudioManager.SetVolume(AudioManager.Instance.MasterBus, _masterSlider.value);
+        mixer.SetFloat ("MasterVol", Mathf.Log10 (_masterSlider.value) * 20);
+        //AudioManager.Instance.MasterVolume(_masterSlider.value);
         SaveValues.masterVolume = _masterSlider.value;
 
-        PlayVolumeChangeSound();
     }
 
     public void MusicVolume()
     {
         musicPercent.text = Mathf.RoundToInt(_musicSlider.value * 100) + "%";
-        AudioManager.SetVolume(AudioManager.Instance.MusicBus, _musicSlider.value);
+        AudioManager.Instance.MusicVolume(_musicSlider.value);
         SaveValues.musicVolume = _musicSlider.value;
-
-        PlayVolumeChangeSound();
     }
     public void SFXVolume()
     {
         sfxPercent.text = Mathf.RoundToInt(_sfxSlider.value * 100) + "%";
-        AudioManager.SetVolume(AudioManager.Instance.SFXBus, _sfxSlider.value);
+        AudioManager.Instance.MenuSFXVolume(_sfxSlider.value); 
+        AudioManager.Instance.WorldSFXVolume(_sfxSlider.value);
+        AudioManager.Instance.MinEnemySFXVolume(_sfxSlider.value);
+        AudioManager.Instance.MajEnemySFXVolume(_sfxSlider.value);
+        AudioManager.Instance.PlayerSFXVolume(_sfxSlider.value);
         SaveValues.sfxVolume = _sfxSlider.value;
-
-        PlayVolumeChangeSound();
-    }
-
-    private void PlayVolumeChangeSound()
-    {
-        if (changeTracker++ > 5)
-        {
-            AudioManager.PlaySound2D(AudioEvents.Instance.OnMenuButtonHovered);
-            changeTracker = 0;
-        }
     }
 
     public void SetFullScreen(bool isFullscreen)

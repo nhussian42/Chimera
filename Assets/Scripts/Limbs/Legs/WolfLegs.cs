@@ -23,16 +23,13 @@ public class WolfLegs : Legs
         if (t >= 1)
         {
             activated = false;
-            player.EnableAllDefaultControls();
         }
     }
 
     public override void ActivateAbility()
     {
-        Debug.Log("pounce");
         t = 0;
         activated = true;
-        player.DisableAttackControls();
         StartCoroutine(Cooldown());
     }
 }
