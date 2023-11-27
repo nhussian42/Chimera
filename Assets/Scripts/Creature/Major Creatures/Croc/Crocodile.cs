@@ -65,16 +65,19 @@ public class Crocodile : NotBossAI
         animator.SetBool("Charge", true);
         float timer = 0;
         Vector3 endPos = player.transform.position;
-        transform.LookAt(player.transform.position);
-        while (timer < chargeTime)
+        transform.LookAt(endPos);
+        if (Vector3.Distance(transform.position, player.transform.position) > agent.stoppingDistance)
         {
-            timer += Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, endPos, chargeMultiplier * Time.deltaTime);
-            if (Vector3.Distance(transform.position, player.transform.position) < 2f)
+            while (timer < chargeTime)
             {
-                break;
+                timer += Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, endPos, chargeMultiplier * Time.deltaTime);
+                if (Vector3.Distance(transform.position, player.transform.position) < 2f)
+                {
+                    break;
+                }
+                yield return null;
             }
-            yield return null;
         }
         AudioManager.PlaySound3D(AudioEvents.Instance.OnCrocAttack, transform.position);
         yield return new WaitForSeconds(0.5f);
@@ -97,7 +100,7 @@ public class Crocodile : NotBossAI
         animator.SetBool("Burrow", true);
         burrowing = true;
         crocBodyCollider.enabled = false;
-        agent.stoppingDistance = 2;
+        agent.stoppingDistance = 4;
         agent.isStopped = true;
         agent.speed = burrowSpeed;
         GetComponentInChildren<Canvas>().enabled = false;
@@ -106,7 +109,7 @@ public class Crocodile : NotBossAI
 
         //Allows the croc to start chasing until within range
         agent.isStopped = false;
-        yield return new WaitUntil(() => agent.remainingDistance < 4f);
+        yield return new WaitUntil(() => agent.remainingDistance < 6f);
 
         //When in range, unburrows and resets speed
         CameraShake.Instance.CreatureBurrowShake(false);
@@ -122,13 +125,17 @@ public class Crocodile : NotBossAI
         yield return new WaitForSeconds(0.75f);
 
         //Burrow attack collider disabled, croc can take damage again, attack damage reset, goes back to chasing
+        animator.SetBool("Idle", true);
         crocBodyCollider.enabled = true;
         attackDamage = regularAttackDamage;
         GetComponentInChildren<Canvas>().enabled = true;
         burrowing = false;
-        agent.isStopped = false;
         agent.updateRotation = true;
         remainingDigCooldown = digCooldown;
+        yield return new WaitForSeconds(1f);
+
+        animator.SetBool("Idle", false);
+        agent.isStopped = false;
         attacking = false;
         yield return null;
     }
@@ -137,7 +144,6 @@ public class Crocodile : NotBossAI
     {
         if (alive == true)
         {
-            FaceTarget(agent.destination);
             agent.destination = player.transform.position;
 
             if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
@@ -148,13 +154,6 @@ public class Crocodile : NotBossAI
         }
 
         remainingDigCooldown -= Time.deltaTime;
-    }
-
-    private void FaceTarget(Vector3 destination)
-    {
-        Vector3 lookPos = destination - transform.position;
-        Quaternion rotation = Quaternion.LookRotation(lookPos);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 2);
     }
 
     protected override void Die()

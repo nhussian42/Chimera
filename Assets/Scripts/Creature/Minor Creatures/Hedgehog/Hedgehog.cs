@@ -40,7 +40,7 @@ public class Hedgehog : NotBossAI
             timer += Time.deltaTime;
             transform.LookAt(player.transform.position);
             transform.position = Vector3.MoveTowards(transform.position, endPos, chargeMultiplier * Time.deltaTime);
-            if (Vector3.Distance(transform.position, player.transform.position) < 1f)
+            if (Vector3.Distance(transform.position, player.transform.position) < 2f)
             {
                 break;
             }
