@@ -53,8 +53,8 @@ public class Gecko : NotBossAI
                 transform.position = Vector3.MoveTowards(transform.position, middlePos + (transform.right * 3), chargeSpeed * Time.deltaTime);
                 yield return null;
             }
-            animator.SetBool("Dash", false);
         }
+        animator.SetBool("Dash", false);
 
         animator.SetBool("DashAttack", true);
         AudioManager.PlaySound3D(AudioEvents.Instance.OnGeckoAttack, transform.position);
@@ -88,7 +88,6 @@ public class Gecko : NotBossAI
             transform.position = Vector3.MoveTowards(transform.position, startPos, chargeSpeed * Time.deltaTime);
             yield return null;
         }
-
         animator.SetBool("Fleeing", true);
         animator.SetBool("DashBack", false);
         agent.isStopped = false;
