@@ -1,13 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
-using UnityEditorInternal;
 using System;
-using Unity.Burst.Intrinsics;
 
 public class LimbSwapMenu : MonoBehaviour
 {

@@ -6,7 +6,7 @@ using UnityEngine.Animations.Rigging;
 
 public class Gecko : NotBossAI
 {
-    
+
     [SerializeField, Tooltip("How long it stops once in range before beginning the charge")] private float chargeDelay = 0.5f;
     [SerializeField, Tooltip("How fast it charges")] private float chargeSpeed = 15f;
     [SerializeField, Tooltip("How long it charges for")] private float chargeTime = 0.5f;
@@ -42,28 +42,44 @@ public class Gecko : NotBossAI
         Vector3 endPos = Vector3.Lerp(transform.position, player.transform.position, 0.5f);
         Vector3 middlePos = Vector3.Lerp(transform.position, endPos, 0.3f);
         animator.SetBool("Dash", true);
-        transform.LookAt(middlePos);
         float timer = 0;
-        while (timer < chargeTime)
+        if (Vector3.Distance(transform.position, player.transform.position) > agent.stoppingDistance)
         {
-            timer += Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, middlePos + (transform.right * 3), chargeSpeed * Time.deltaTime);
-            yield return null;
+            AudioManager.PlaySound3D(AudioEvents.Instance.OnGeckoDash, transform.position);
+            transform.LookAt(middlePos);
+            while (timer < chargeTime)
+            {
+                timer += Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, middlePos + (transform.right * 3), chargeSpeed * Time.deltaTime);
+                yield return null;
+            }
         }
         animator.SetBool("Dash", false);
+
         animator.SetBool("DashAttack", true);
-        endPos = Vector3.Lerp(transform.position, player.transform.position, 0.5f);
-        transform.LookAt(endPos);
-        timer = 0;
-        while (timer < chargeTime)
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnGeckoAttack, transform.position);
+        if (Vector3.Distance(transform.position, player.transform.position) > agent.stoppingDistance)
         {
-            timer += Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, chargeSpeed * Time.deltaTime);
-            yield return null;
+            endPos = Vector3.Lerp(transform.position, player.transform.position, 0.5f);
+            transform.LookAt(endPos);
+            timer = 0;
+            while (timer < chargeTime)
+            {
+                timer += Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, chargeSpeed * Time.deltaTime);
+                if (Vector3.Distance(transform.position, player.transform.position) < agent.stoppingDistance)
+                {
+                    break;
+                }
+                yield return null;
+            }
         }
         yield return new WaitForSeconds(0.25f);
+
         animator.SetBool("DashAttack", false);
         animator.SetBool("DashBack", true);
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnGeckoDash, transform.position);
+
         timer = 0;
         while (timer < chargeTime)
         {
@@ -147,5 +163,11 @@ public class Gecko : NotBossAI
     {
         float a = angle * Mathf.PI / 180f;
         return center + new Vector3(Mathf.Sin(a), 0, Mathf.Cos(a)) * radius;
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnGeckoDeath, transform.position);
     }
 }

@@ -3094,6 +3094,8 @@ GameObject:
   - component: {fileID: 8594053627007270568}
   - component: {fileID: 1534634844181843379}
   - component: {fileID: 8156032211501480992}
+  - component: {fileID: 3950513051219201761}
+  - component: {fileID: 283468717397203034}
   m_Layer: 7
   m_Name: Gecko1
   m_TagString: Enemy
@@ -3129,11 +3131,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 6
+  m_Speed: 12
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 360
-  m_StoppingDistance: 0
+  m_StoppingDistance: 4
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -3181,7 +3183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 50
-  attackRange: 7
+  attackRange: 10
   currentHealth: 0
   attackDamage: 5
   iFrameDuration: 1
@@ -3220,6 +3222,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 10, z: 5}
   m_Center: {x: 0, y: 5, z: 0}
+--- !u!114 &3950513051219201761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6338043990084125171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfca4f58197c34396438168a7f6131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPool:
+  - {fileID: 3583152938891452061, guid: 90e82dbc55b9d164a93bd1470c3edeba, type: 3}
+  - {fileID: 8372370546128528112, guid: 61fc4bc92a199aa4fb905c9915e08e41, type: 3}
+  _spawnCondition: 1
+--- !u!114 &283468717397203034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6338043990084125171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfca4f58197c34396438168a7f6131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPool:
+  - {fileID: 1991673379962358034, guid: 54d36cfbd2e769f4ba14012ccd0896ea, type: 3}
+  _spawnCondition: 1
 --- !u!1 &6469150912136691095
 GameObject:
   m_ObjectHideFlags: 0
