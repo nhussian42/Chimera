@@ -24,7 +24,6 @@ public abstract class Limb : MonoBehaviour
     public Weight Weight { get { return weight; } }
     public float Health { get { return currentHealth; } set { currentHealth = Mathf.Clamp(value, minHealth, maxHealth); }}
     public float MaxHealth { get { return maxHealth; } }
-
     public float DefaultHealth { get { return defaultHealth; } }
     public float DefaultMaxHealth { get { return defaultMaxHealth; } }
 

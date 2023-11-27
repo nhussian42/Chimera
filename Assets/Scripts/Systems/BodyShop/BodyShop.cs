@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Runtime.CompilerServices;
+using TMPro;
 
 public class BodyShop : Singleton<BodyShop>
 {
@@ -13,9 +14,9 @@ public class BodyShop : Singleton<BodyShop>
     public List<GameObject> HeadList;
     public List<GameObject> ItemLocations;
 
-    private GameObject SpawnedArm;
-    private GameObject SpawnedLeg;
-    private GameObject SpawnedHead;
+    public GameObject SpawnedArm;
+    public GameObject SpawnedLeg;
+    public GameObject SpawnedHead;
     private GameObject SpawnedHealItem;
 
     public GameObject ShopMenu;
@@ -43,11 +44,8 @@ public class BodyShop : Singleton<BodyShop>
         SpawnedHead = Instantiate(HeadList[randomHead], ItemLocations[2].transform.position, Quaternion.identity);
         SpawnedHealItem = Instantiate(HealItem, ItemLocations[3].transform.position, Quaternion.identity);
 
+       
 
-
-
-        //for (int i = 0; i < ArmList.Length; i++) ArmList[i] = Resources.Load("Prefabs/Prefab" + i) as GameObject; 
-        //Instantiate(ArmList[Random.Range(0, ArmList.Length)]);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -93,5 +91,5 @@ public class BodyShop : Singleton<BodyShop>
                 break;
         }
     }
-
+    
 }

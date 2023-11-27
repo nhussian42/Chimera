@@ -19,7 +19,7 @@ public class BodyShopMenu : MonoBehaviour
     public TextMeshProUGUI HealItemText;
     public TextMeshProUGUI CurrentBones;
 
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -45,9 +45,12 @@ public class BodyShopMenu : MonoBehaviour
 
     private void SetupPrices()
     {
-        for(int i = 0; i < (ItemTextList.Count); i++) 
+        ItemCostList[0] = BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().limbCost;
+        ItemCostList[1] = BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>().limbCost;
+        //ItemCostList[2] = BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>().limbCost;
+     
+        for (int i = 0; i < (ItemTextList.Count); i++) 
         {
-            ItemCostList[i] = Random.Range(10, 100);
             ItemTextList[i].text = $"Cost: {ItemCostList[i].ToString()}";
         }
 
