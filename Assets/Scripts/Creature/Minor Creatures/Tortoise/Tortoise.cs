@@ -33,7 +33,7 @@ public class Tortoise : NotBossAI
             timer += Time.deltaTime;
             transform.LookAt(player.transform.position);
             transform.position = Vector3.MoveTowards(transform.position, endPos, chargeSpeed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, player.transform.position) < 0.5f)
+            if (Vector3.Distance(transform.position, player.transform.position) < 2.25f)
             {
                 break;
             }
