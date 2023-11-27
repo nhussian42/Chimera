@@ -23,24 +23,25 @@ public class Grolfino : BossAI
     [SerializeField] private float projectileSpeed;
     [SerializeField, Tooltip("Distance in front of the boss that the attack spawns")] private float projectileSpawnOffset;
     [SerializeField] private GameObject projectile;
-
-    [Header("Sweep Attack")]
-    [SerializeField] private int sweepAngle;
-    [SerializeField] private float sweepDuration;
-    [SerializeField] private GameObject sweepAttackCollider;
+    [SerializeField] private Transform projectileSpawnPos;
 
 
     [Header("Movement")]
     [SerializeField] private float timeBeforeAttack;
     [SerializeField] private float amountOfTimeBurrowed;
     [SerializeField] private float teleportRange = 30f;
+    [SerializeField] private float burrowDelay;
 
 
     private bool halfHealthThresholdReached = false;
     private float currentBurrowCooldown = 0f;
     [SerializeField] private GameObject bossMesh;
-    private BoxCollider boxCollider;
     [SerializeField] private List<string> bossAttack;
+
+    public bool burrowed = false;
+    public bool slamAttack;
+    public bool projectileAttack;
+    public bool sweepAttack;
 
 
     private void Start()
@@ -48,23 +49,14 @@ public class Grolfino : BossAI
         bossAttack.Add("ProjectileAttack");
         bossAttack.Add("SweepAttack");
 
-        boxCollider = GetComponent<BoxCollider>();
+        animator = GetComponentInChildren<Animator>();
         agent.isStopped = true;
-
-        StartCoroutine(Burrow());
+        transform.LookAt(player.transform.position);
     }
     private void Update()
     {
         //This always makes the boss look at the player, can be disabled
         agent.destination = player.transform.position;
-
-        //Keeps track of when the boss burrows
-        // currentBurrowCooldown -= Time.deltaTime;
-        // if (currentBurrowCooldown < 0)
-        // {
-        //     StartCoroutine(Burrow());
-        //     currentBurrowCooldown = burrowCooldown;
-        // }
 
         //When boss reaches 50% health, attacks faster and more frequently
         if (currentHealth < health / 2 && halfHealthThresholdReached == false)
@@ -73,29 +65,20 @@ public class Grolfino : BossAI
             timeBetweenProjectiles /= 1.5f;
             projectileSpeed *= 2f;
             timeBetweenSpikes /= 1.5f;
-            sweepDuration /= 1.5f;
         }
     }
 
-    private IEnumerator StartSweepAttack(int angle, float duration)
+    private IEnumerator StartSweepAttack()
     {
         //Sweep attack animation goes here
+        animator.SetBool("Sweep", true);
         //Makes collider active and sets the starting rotation
-        sweepAttackCollider.SetActive(true);
-        // UnityEditor.TransformUtils.SetInspectorRotation(sweepAttackCollider.transform, new Vector3(0, -angle / 2, 0));
-
-        //Lerps the angle and sets the rotation
-        float timer = 0;
-        while (timer < duration)
-        {
-            timer += Time.deltaTime;
-            float rotatedAngle = Mathf.Lerp(-angle / 2, angle / 2, timer / duration);
-            // UnityEditor.TransformUtils.SetInspectorRotation(sweepAttackCollider.transform, new Vector3(0, rotatedAngle, 0));
-            yield return null;
-        }
+        yield return new WaitUntil(() => sweepAttack == true);
 
         //Makes the collider inactive
-        sweepAttackCollider.SetActive(false);
+        animator.SetBool("Sweep", false);
+        sweepAttack = false;
+        yield return new WaitForSeconds(burrowDelay);
         StartCoroutine(Burrow());
         yield return null;
     }
@@ -103,7 +86,9 @@ public class Grolfino : BossAI
     private IEnumerator StartSpikeAttack(int numberOfSpikes, float timeBetweenSpikes, float distanceBetweenSpikes)
     {
         //Slam attack animation goes here
+        animator.SetBool("GroundSlam", true);
         //Calculates forward direction for attacks
+        yield return new WaitUntil(() => slamAttack == true);
         Vector3 spawnPos = transform.position + (transform.forward * spikeSpawnOffset);
         Vector3 dir = Quaternion.AngleAxis(0, Vector3.up) * transform.forward;
         Vector3 dir2 = Quaternion.AngleAxis(-angleBeteenSpikes, Vector3.up) * transform.forward;
@@ -135,55 +120,64 @@ public class Grolfino : BossAI
 
             yield return new WaitForSeconds(timeBetweenSpikes);
         }
+        animator.SetBool("GroundSlam", false);
+        slamAttack = false;
+        yield return new WaitForSeconds(burrowDelay);
         StartCoroutine(Burrow());
         yield return null;
     }
 
-    private IEnumerator StartRangedAttack(int numberOfProjectiles, float timeBetweenProjectiles)
+    private IEnumerator StartRangedAttack(float timeBetweenProjectiles)
     {
         //Projectile attack animation goes here
+        animator.SetInteger("ProjectileVariation", Random.Range(1, 3));
+        animator.SetBool("Projectile", true);
+        yield return new WaitUntil(() => projectileAttack == true);
         //Creatures projectiles in an arc in front of the boss
         //All projectiles are instantiated rotated away from the boss
         //Projectiles are automatically destroyed after 2.5s   
 
-        for (int i = 0; i < numberOfProjectiles; i++)
+        while (projectileAttack == true)
         {
-            float yRot = 0; //UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).y;
-            float maximumNegativeAngle = (numberOfProjectiles - 1) / 2 * angleBetweenProjectiles;
-            Vector3 dir = Quaternion.AngleAxis(-maximumNegativeAngle + (angleBetweenProjectiles * i), Vector3.up) * transform.forward;
-            GameObject s = Instantiate(projectile, transform.position + (dir * projectileSpawnOffset), Quaternion.Euler(0, yRot - maximumNegativeAngle + (angleBetweenProjectiles * i), 0));
+            Vector3 spawnPos = new Vector3(projectileSpawnPos.position.x, 0, projectileSpawnPos.position.z);
+            Vector3 bossPos = new Vector3(transform.position.x, 0, transform.position.z);
+            Quaternion spawnRotation = Quaternion.LookRotation(spawnPos - (bossPos + transform.forward * 12));
+            GameObject s = Instantiate(projectile, spawnPos + (Vector3.up * 2), spawnRotation);
             s.GetComponent<GrolfinoProjectile>().projectileDamage = projectileDamage;
             s.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, projectileSpeed));
             Destroy(s, 2.5f);
             yield return new WaitForSeconds(timeBetweenProjectiles);
         }
+        animator.SetBool("Projectile", false);
+        yield return new WaitForSeconds(burrowDelay);
         StartCoroutine(Burrow());
         yield return null;
     }
 
-    private IEnumerator Burrow()
+    public IEnumerator Burrow()
     {
         //Burrow animation goes here
-
-        //Disables mesh renderer and collider
+        animator.SetInteger("BurrowVariation", Random.Range(1, 3));
+        animator.SetBool("Burrow", true);
         Vector3 targetPos;
-        boxCollider.enabled = false;
-        bossMesh.SetActive(false);
-        yield return new WaitForSeconds(amountOfTimeBurrowed);
+        yield return new WaitUntil(() => burrowed == true);
 
         //Teleports to the targeted position and enables renderer and collider
         if (RandomPoint(player.transform.position, teleportRange, out targetPos))
         {
+            animator.SetInteger("BurrowVariation", Random.Range(1, 3));
+            yield return new WaitForSeconds(amountOfTimeBurrowed);
             //Unburrow animation goes here
+            animator.SetBool("Burrow", false);
+            animator.SetBool("Idle", true);
             transform.position = new Vector3(targetPos.x, transform.position.y, targetPos.z);
             transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
-            boxCollider.enabled = true;
-            bossMesh.SetActive(true);
+            yield return new WaitUntil(() => burrowed == false);
             yield return new WaitForSeconds(timeBeforeAttack);
-
             //Randomly picks an attack to perform
             //Once an attack is performed, it is removed from the list
             //When every attack has been performed, the list is refilled
+            animator.SetBool("Idle", false);
             if (bossAttack.Count == 0)
             {
                 StartCoroutine(StartSpikeAttack(numberOfSpikes, timeBetweenSpikes, distanceBetweenSpikes));
@@ -195,12 +189,12 @@ public class Grolfino : BossAI
                 int r = Random.Range(0, bossAttack.Count);
                 if (bossAttack[r] == "ProjectileAttack")
                 {
-                    StartCoroutine(StartRangedAttack(numberOfProjectiles, timeBetweenProjectiles));
+                    StartCoroutine(StartRangedAttack(timeBetweenProjectiles));
                     bossAttack.Remove("ProjectileAttack");
                 }
                 else if (bossAttack[r] == "SweepAttack")
                 {
-                    StartCoroutine(StartSweepAttack(sweepAngle, sweepDuration));
+                    StartCoroutine(StartSweepAttack());
                     bossAttack.Remove("SweepAttack");
                 }
             }
@@ -217,9 +211,10 @@ public class Grolfino : BossAI
         //If it is invalid, it runs again
         //Currently runs 30 times, technically there's a chance it doesn't find a valid point in 30 tries
         //If it doesn't, it currently sets the position to it's current location
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 200; i++)
         {
-            Vector3 randomPoint = center + Random.onUnitSphere * range;
+            Vector2 circlePoint = Random.insideUnitCircle.normalized * range;
+            Vector3 randomPoint = center + new Vector3(circlePoint.x, 0, circlePoint.y);
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
             {
@@ -229,5 +224,14 @@ public class Grolfino : BossAI
         }
         result = transform.position;
         return false;
+    }
+
+    protected override void Die()
+    {
+        animator.Play("Death");
+        agent.isStopped = true;
+        alive = false;
+        StopAllCoroutines();
+        Destroy(this.gameObject, 2.5f);
     }
 }
