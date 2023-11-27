@@ -60,7 +60,7 @@ public class FloorManager : Singleton<FloorManager>
         }
     }
 
-    private void LoadMainMenu()
+    public void LoadMainMenu()
     {
         _currentRoomIndex = 0;
         ChimeraSceneManager.Instance.LoadScene(0);

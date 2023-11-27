@@ -23,6 +23,6 @@ public class PauseMenu : MonoBehaviour
 
     public void RestartGame()
     {
-        ChimeraSceneManager.Instance.LoadScene(0);
+        FloorManager.Instance.LoadMainMenu();
     }
 }
