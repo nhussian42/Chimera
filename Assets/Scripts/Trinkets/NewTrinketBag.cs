@@ -11,7 +11,6 @@ public class NewTrinketBag : MonoBehaviour
     private void Start()
     {
         trinketManager = NewTrinketManager.Instance;
-        Debug.Log(trinketManager);
 
     }
     private void OnTriggerEnter(Collider other)

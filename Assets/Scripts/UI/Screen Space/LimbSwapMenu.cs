@@ -61,7 +61,6 @@ public class LimbSwapMenu : MonoBehaviour
         playerController = PlayerController.Instance;
         playerController.limbSwapMenu = this;
         gameObject.SetActive(false);
-        Debug.Log("Called Start() on LimbSwapMenu");
     }
 
     public void Enable(LimbDrop proposedLimb)
