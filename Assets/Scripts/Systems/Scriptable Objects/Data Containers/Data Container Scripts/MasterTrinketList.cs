@@ -10,7 +10,7 @@ public class MasterTrinketList : ScriptableObject
     List<Trinket> masterList; //(trinkets are NEVER added/removed from this list at runtime)
 
     [SerializeField][Tooltip("A list of all trinkets that the player has picked up (DO NOT ADD TRINKETS TO THIS LIST)")]
-    public List<Trinket> playerInventory;
+    public List<Trinket> playerInventory; // get; private set; later for OOP purposes - Amon
 
     [SerializeField][Tooltip("A list of trinkets that are in the current run (DO NOT ADD TRINKETS TO THIS LIST)")]
     List<Trinket> gameInventory; // (initialized at start, trinkets that are OneTime trinkets are removed from here at runtime)

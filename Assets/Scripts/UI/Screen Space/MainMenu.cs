@@ -30,14 +30,12 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        AudioManager.Instance.PlayMenuSFX("SelectPlay");
-        AudioManager.Instance.musicSource.Stop();
-        AudioManager.Instance.PlayMusic("DungeonMusic");
-
         foreach (Button child in GetComponentsInChildren<Button>())
         {
             child.interactable = false;
         }
+
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnGameStart);
         
         StartPressed?.Invoke();
 
@@ -47,6 +45,16 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void PlayButtonHoveredSound()
+    {
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnMenuButtonHovered);
+    }
+
+    public void PlayButtonSelectedSound()
+    {
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnMenuButtonSelected);
     }
 
 }
