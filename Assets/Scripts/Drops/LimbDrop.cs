@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LimbDrop : MonoBehaviour
+public class LimbDrop : Drop
 {
     
     [SerializeField] protected Weight weight;
