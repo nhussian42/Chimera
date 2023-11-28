@@ -742,13 +742,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heavyAttackShake: 3
-  lightAttackShake: 1.75
+  lightAttackShake: 1
   takeHeavyDamageShake: 3
-  takeLightDamageShake: 1.75
+  takeLightDamageShake: 1
   heavyAttackShakeTime: 0.4
-  lightAttackShakeTime: 0.3
+  lightAttackShakeTime: 0.2
   takeHeavyDamageShakeTime: 0.4
-  takeLightDamageShakeTime: 0.3
+  takeLightDamageShakeTime: 0.2
   creatureAttackShake: 4.5
   creatureAttackShakeTime: 0.5
   creatureBurrowShake: 1
@@ -767,10 +767,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f08b32d90798aa94d8336129e9aa8d1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  introOrthoSizeMin: 6
+  introOrthoSizeMax: 11
+  introZoomSpeed: 4
   orthoSizeMin: 9
   orthoSizeMax: 14
   orthoSizeIncrease: 2
-  zoomSpeed: 0.2
 --- !u!4 &292723508 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8638392938306188172, guid: 398e09c0f65fb944889f7c64bd605ad5,
@@ -925,7 +927,7 @@ PrefabInstance:
     - target: {fileID: 8250771451517536236, guid: 1fcd2f1e4ce2f61458c73b81b352cc5d,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -23.99997
+      value: -23.999939
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
