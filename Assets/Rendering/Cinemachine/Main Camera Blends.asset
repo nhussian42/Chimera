@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Main Camera Blends
   m_EditorClassIdentifier: 
   m_CustomBlends:
-  - m_From: Intro Virtual Camera
-    m_To: Default Virtual Camera
+  - m_From: Intro VCAM
+    m_To: Default VCAM
     m_Blend:
-      m_Style: 7
-      m_Time: 5
+      m_Style: 5
+      m_Time: 4
       m_CustomCurve:
         serializedVersion: 2
         m_Curve:
@@ -69,8 +69,8 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 0
-  - m_From: Default Virtual Camera
-    m_To: Death Virtual Camera
+  - m_From: Default VCAM
+    m_To: Death VCAM
     m_Blend:
       m_Style: 1
       m_Time: 2
@@ -80,8 +80,8 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: Default Virtual Camera
-    m_To: Boss Virtual Camera
+  - m_From: Default VCAM
+    m_To: Boss VCAM
     m_Blend:
       m_Style: 1
       m_Time: 2
@@ -91,8 +91,19 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: Boss Virtual Camera
-    m_To: Default Virtual Camera
+  - m_From: Boss VCAM
+    m_To: Default VCAM
+    m_Blend:
+      m_Style: 1
+      m_Time: 2
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: Boss VCAM
+    m_To: Death VCAM
     m_Blend:
       m_Style: 1
       m_Time: 2

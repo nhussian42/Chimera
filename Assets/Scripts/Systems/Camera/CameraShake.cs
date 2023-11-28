@@ -6,7 +6,8 @@ using Cinemachine;
 public class CameraShake : Singleton<CameraShake>
 {
     // public CameraZoom cameraZoom;
-    private CinemachineVirtualCamera CinemachineVirtualCamera;
+    [SerializeField] private CinemachineBrain _cinemachineBrain;
+    private CinemachineStateDrivenCamera _cinemachineStateDrivenCamera;
 
     [Header("Player Camera Shake:")]
     [SerializeField]
@@ -47,7 +48,7 @@ public class CameraShake : Singleton<CameraShake>
 
     protected override void Init()
     {
-        CinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
+        _cinemachineStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
     }
 
     private void Start()
@@ -98,7 +99,9 @@ public class CameraShake : Singleton<CameraShake>
     
     private void ShakeCamera(float shakeIntensity, float shakeTime)
     {
-        CinemachineBasicMultiChannelPerlin cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        CinemachineVirtualCamera vc = GetActiveCamera(_cinemachineStateDrivenCamera);
+        CinemachineBasicMultiChannelPerlin cbmcp = vc.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        Debug.Log(cbmcp.gameObject.name);
         cbmcp.m_AmplitudeGain = shakeIntensity;
 
         StartCoroutine(ShakeDuration(shakeTime));
@@ -115,7 +118,8 @@ public class CameraShake : Singleton<CameraShake>
     {
         if (condition)
         {
-            CinemachineBasicMultiChannelPerlin cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            CinemachineVirtualCamera vc = GetActiveCamera(_cinemachineStateDrivenCamera);
+            CinemachineBasicMultiChannelPerlin cbmcp = vc.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             cbmcp.m_AmplitudeGain = shakeIntensity;
         }
         else
@@ -124,9 +128,29 @@ public class CameraShake : Singleton<CameraShake>
         }
     }
 
-    private void StopShake()
+    public void StopShake()
     {
-        CinemachineBasicMultiChannelPerlin cbmcp = CinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        Debug.Log("camera s");
+        CinemachineVirtualCamera vc = GetActiveCamera(_cinemachineStateDrivenCamera);
+        CinemachineBasicMultiChannelPerlin cbmcp = vc.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cbmcp.m_AmplitudeGain = 0f;
+    }
+
+    private CinemachineVirtualCamera GetActiveCamera(CinemachineStateDrivenCamera stateCamera)
+    {
+        foreach (CinemachineVirtualCamera child in stateCamera.GetComponentsInChildren<CinemachineVirtualCamera>())
+        {
+            if (child.isActiveAndEnabled)
+            {
+                return child;
+            }
+        }
+        return null;
+    }
+
+    private IEnumerator WaitForActiveCamera()
+    {
+        yield return null;
+
     }
 }

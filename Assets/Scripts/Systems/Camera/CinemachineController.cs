@@ -6,20 +6,24 @@ using Cinemachine;
 public class CinemachineController : MonoBehaviour
 {
     private Animator animator;
-    private bool introCam = true;
-
+    private bool isIntro = true;
+ 
     [SerializeField]
-    private float delayTime;
+    private float introDelay;
     void Awake()
     {
         animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
         IntroCam();
     }
 
     private void IntroCam()
     {
-        StartCoroutine(IntroDelay(delayTime));
-        // SwitchCam();
+        StartCoroutine(IntroDelay(introDelay));
+        //SwitchCam();
 
     }
 
@@ -32,7 +36,7 @@ public class CinemachineController : MonoBehaviour
 
     private void SwitchCam()
     {
-        if (introCam)
+        if (isIntro)
         {
             animator.Play("DefaultCam");
         }
