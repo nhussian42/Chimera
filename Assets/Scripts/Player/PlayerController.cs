@@ -429,7 +429,7 @@ public class PlayerController : Singleton<PlayerController>
         if (transform.position.y >= startingYPos + 0.01 || transform.position.y <= startingYPos - 0.01)
         {
             SetPlayerPosition(new Vector3(transform.position.x, startingYPos, transform.position.z));
-            Debug.Log("yPos = " + transform.position.y);
+            // Debug.Log("yPos = " + transform.position.y);
         }
     }
 
@@ -514,7 +514,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         SetPlayerPosition(FloorManager.Instance.StartTransform.position);
         startingYPos = transform.position.y;
-        Debug.Log("startingYPos = " + startingYPos);
+        // Debug.Log("startingYPos = " + startingYPos);
     }
     
     private void SetPlayerPosition(Vector3 to)
