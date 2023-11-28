@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 
 public class Grolfino : BossAI
 {
@@ -84,7 +82,7 @@ public class Grolfino : BossAI
         //Sweep attack animation goes here
         //Makes collider active and sets the starting rotation
         sweepAttackCollider.SetActive(true);
-        UnityEditor.TransformUtils.SetInspectorRotation(sweepAttackCollider.transform, new Vector3(0, -angle / 2, 0));
+        // UnityEditor.TransformUtils.SetInspectorRotation(sweepAttackCollider.transform, new Vector3(0, -angle / 2, 0));
 
         //Lerps the angle and sets the rotation
         float timer = 0;
@@ -92,7 +90,7 @@ public class Grolfino : BossAI
         {
             timer += Time.deltaTime;
             float rotatedAngle = Mathf.Lerp(-angle / 2, angle / 2, timer / duration);
-            UnityEditor.TransformUtils.SetInspectorRotation(sweepAttackCollider.transform, new Vector3(0, rotatedAngle, 0));
+            // UnityEditor.TransformUtils.SetInspectorRotation(sweepAttackCollider.transform, new Vector3(0, rotatedAngle, 0));
             yield return null;
         }
 
@@ -150,7 +148,7 @@ public class Grolfino : BossAI
 
         for (int i = 0; i < numberOfProjectiles; i++)
         {
-            float yRot = UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).y;
+            float yRot = 0; //UnityEditor.TransformUtils.GetInspectorRotation(gameObject.transform).y;
             float maximumNegativeAngle = (numberOfProjectiles - 1) / 2 * angleBetweenProjectiles;
             Vector3 dir = Quaternion.AngleAxis(-maximumNegativeAngle + (angleBetweenProjectiles * i), Vector3.up) * transform.forward;
             GameObject s = Instantiate(projectile, transform.position + (dir * projectileSpawnOffset), Quaternion.Euler(0, yRot - maximumNegativeAngle + (angleBetweenProjectiles * i), 0));

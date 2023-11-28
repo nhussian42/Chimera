@@ -1,20 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
-using UnityEngine.SceneManagement;
-
 using UnityEngine.Events;
-
-using System.Runtime.CompilerServices;
-
-using Unity.Burst.Intrinsics;
-using Unity.VisualScripting.Dependencies.Sqlite;
-using UnityEngine.EventSystems;
+using FMOD.Studio;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : Singleton<PlayerController>
@@ -94,7 +83,7 @@ public class PlayerController : Singleton<PlayerController>
     public Transform AttackRangeLeftOrigin { get { return attackRangeLeftOrigin; } }
     public Transform AttackRangeRightOrigin { get { return attackRangeRightOrigin; } }
 
-    //public static Action PlayerSpawned;
+    private EventInstance footsteps;
 
     public static Action OnDamageReceived;
     public static Action OnArmSwapped;
@@ -102,21 +91,18 @@ public class PlayerController : Singleton<PlayerController>
     public static Action ToggleMenuPause;
     public static Action OnDie;
 
-    //float startingYPos;  I don't think we need these anymore  - Amon
-    //bool firstMove = false;
+    // Fixing the floating bug
+    float startingYPos;
+    bool firstMove;
 
     // for when player should not be able to be damaged - Amon
-    public bool isInvincible { get; private set; } = false;
-
-    private bool isLeftWolfArm = false;
-    private bool isRightWolfArm = false;
-   
+    public bool isInvincible { get; private set; } = false;   
 
     private Vector2 movementValues;
     public Vector3 movementDir { get; private set; }
     private Vector3 movementVector;
 
-    public float totalBones;
+    public float totalBones; // delete these and hook up bones to new currency manager - Amon
     public float bonesMultiplier;
 
     private bool canAttack = true;
@@ -334,6 +320,7 @@ public class PlayerController : Singleton<PlayerController>
         // _mainCamera = Camera.main;
 
         _isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
+        footsteps = AudioManager.Instance.CreateEventInstance(AudioEvents.Instance.OnPlayerWalk);
     }
 
     // Debug
@@ -353,13 +340,15 @@ public class PlayerController : Singleton<PlayerController>
         movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
         Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z);
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
-        
-        if(transform.position.y > 1.5f)
-        {
-            SetPlayerPosition(new Vector3(transform.position.x, 0, transform.position.z));
-            Debug.Log("Artifical Gravity activated");
-        }
+
         animator.SetFloat("Speed", movementValues.magnitude * _movementSpeed / 10f);
+        //PlayFootstepAudio(movementVector.magnitude);
+        
+        //if(transform.position.y > 1.5f)
+        //{
+        //    SetPlayerPosition(new Vector3(transform.position.x, 0, transform.position.z));
+        //    Debug.Log("Artifical Gravity activated");
+        //}
         
         if (movementVector != Vector3.zero)
             RotatePlayer(movementVector); 
@@ -374,12 +363,6 @@ public class PlayerController : Singleton<PlayerController>
 
             animator.SetTrigger("BaseAttack");
             animator.SetBool("LeftSide", false);
-
-            // // Need new audio implementation
-            // if (isRightWolfArm)
-            //     AudioManager.Instance.PlayPlayerSFX("WolfArm");
-            // else
-            //     AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
         if (_attackLeft.triggered && canAttack)
@@ -390,31 +373,15 @@ public class PlayerController : Singleton<PlayerController>
             DetermineAttackAnimation(currentLeftArm, SideOfPlayer.Left);
 
             OnAttack?.Invoke();
-
-            // if (isLeftWolfArm)
-            //     AudioManager.Instance.PlayPlayerSFX("WolfArm");
-            // else
-            //     AudioManager.Instance.PlayPlayerSFX("DefaultAttack");
         }
 
         if(_legsAbility.triggered == true && currentLegs.CanActivate == true)
         {
             OnDash.Invoke();
 
-            // This will need refactoring for special leg animations, the line below will probably
-            // be called by an animation event like the triggers above.
-
-            // Temporary fix for using different animations for different limbs until we can implement a more complex solution - Amon
-            if (currentLegs.Classification == Classification.Mammalian && currentLegs.Weight == Weight.Light)
-            {
-                Debug.Log("Shift Pressed");
-                animator.SetTrigger("Pounce");
-            }
-            else
-            {
-                //animator.SetTrigger("Dash");
-                currentLegs.ActivateAbility();
-            }
+            // Plays the animation of the current legs which will call ActivateAbility() with an animation event
+            currentLegs.PlayAnim();
+            
         }
 
         if (_swapLimbs.triggered == true)
@@ -455,7 +422,16 @@ public class PlayerController : Singleton<PlayerController>
         }
 
         interacting = _interact.triggered;
-    }  
+    }
+    private void LateUpdate()
+    {
+        // FIXES FLOATING BUG (We hope) - Amon
+        if (transform.position.y >= startingYPos + 0.01 || transform.position.y <= startingYPos - 0.01)
+        {
+            SetPlayerPosition(new Vector3(transform.position.x, startingYPos, transform.position.z));
+            // Debug.Log("yPos = " + transform.position.y);
+        }
+    }
 
     private void DetermineAttackAnimation(Arm arm, SideOfPlayer side)
     {
@@ -490,11 +466,6 @@ public class PlayerController : Singleton<PlayerController>
         animator.ResetTrigger("BaseAttack");
         animator.ResetTrigger("HeavyAttack");
         animator.ResetTrigger("LightAttack");
-    }
-
-    private void FixedUpdate()
-    {
-        //SetPlayerPosition(new Vector3(transform.position.x, startingYPos, transform.position.z));
     }
 
     public void AddToDrops(Drop drop) { touchedDrops.Add(drop); SelectNearestDrop(); }
@@ -542,6 +513,8 @@ public class PlayerController : Singleton<PlayerController>
     private void SetStartPosition()
     {
         SetPlayerPosition(FloorManager.Instance.StartTransform.position);
+        startingYPos = transform.position.y;
+        // Debug.Log("startingYPos = " + startingYPos);
     }
     
     private void SetPlayerPosition(Vector3 to)
@@ -695,7 +668,6 @@ public class PlayerController : Singleton<PlayerController>
             {
                 if (originalArm.Side == SideOfPlayer.Right)
                 {
-                    isRightWolfArm = true; // Refactor later to be have sounds play for all limbs
                     if (currentRightArm != null)
                     {
                         currentRightArm.Terminate();
@@ -712,7 +684,6 @@ public class PlayerController : Singleton<PlayerController>
                 }
                 else if (originalArm.Side == SideOfPlayer.Left)
                 {
-                    isLeftWolfArm = true; // Refactor later to be have sounds play for all limbs
                     if (currentLeftArm != null)
                     {
                         currentLeftArm.Terminate();
@@ -935,9 +906,9 @@ public class PlayerController : Singleton<PlayerController>
         if (isInvincible == false)
         {
             animator.SetTrigger("TakeDamage");
-            AudioManager.Instance.PlayPlayerSFX("MinHit");
-            List<Limb> damagedLimbs = new List<Limb>();
+            DetermineDamageEffects(damage);
 
+            List<Limb> damagedLimbs = new List<Limb>();
             damagedLimbs.Add(core);
 
             if (currentLeftArm != coreLeftArm)
@@ -965,8 +936,21 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    private void DetermineDamageEffects(float damage)
+    {
+        if (damage <= core.MaxHealth / 3f)
+        {
+            AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerDamagedSmall);
+        }
+        else
+        {
+             AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerDamagedLarge);
+        }
+    }
+
     private void Die()
     {
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerDeath);
         OnDie?.Invoke();
         DisableAllDefaultControls();
         ToggleInvincibility();
@@ -1019,4 +1003,22 @@ public class PlayerController : Singleton<PlayerController>
         gameObject.SetActive(false);
     }
 
+    private void PlayFootstepAudio()
+    {
+        // if (movementSpeed > 0)
+        // {
+        //     PLAYBACK_STATE playbackState;
+        //     footsteps.getPlaybackState(out playbackState);
+        //     if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+        //     {
+        //         footsteps.start();
+        //     }
+        // }
+        // else
+        // {
+        //     footsteps.stop(STOP_MODE.ALLOWFADEOUT);
+        // }
+
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerWalk);
+    }
 }

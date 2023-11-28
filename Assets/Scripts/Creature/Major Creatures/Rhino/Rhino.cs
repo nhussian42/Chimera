@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
+
+
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Animations;
@@ -30,6 +33,8 @@ public class Rhino : NotBossAI
 
     private Rigidbody rb;
     private float baseAttackDamage;
+
+    FMOD.Studio.EventInstance RhinoCharge;
 
     private void Start()
     {
@@ -73,9 +78,12 @@ public class Rhino : NotBossAI
         agent.angularSpeed = chargingTurnSpeed;
         agent.acceleration = chargeAcceleration;
         animator.SetBool("Charge", true);
+        
         yield return new WaitForSeconds(chargeDelay);
-
         //Rhino runs towards player until within slam attack range
+        RhinoCharge = AudioManager.Instance.CreateEventInstance(AudioEvents.Instance.OnRhinoCharge);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(RhinoCharge, transform);
+        RhinoCharge.start();
         agent.isStopped = false;
         float timer = 1f;
         while (Physics.CheckSphere(transform.position, slamAttackRange, playerLayerMask) == false)
@@ -99,6 +107,8 @@ public class Rhino : NotBossAI
         //Starts slam attack
         animator.SetBool("Charge", false);
         StartCoroutine(SlamAttack());
+        RhinoCharge.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        RhinoCharge.release();
         yield return new WaitForSeconds(0.5f);
         yield break;
     }
@@ -111,11 +121,10 @@ public class Rhino : NotBossAI
         animator.SetBool("Slam", true);
 
         //Attack is performed
-        agent.velocity = Vector3.zero;
-        agent.isStopped = false;
         yield return new WaitUntil(() => slammed == true);
 
         //Attack ends, resets rhino to normal movement
+        agent.isStopped = false;
         agent.angularSpeed = initialTurnSpeed;
         agent.speed = initialMovementSpeed;
         agent.acceleration = initialAcceleration;
@@ -127,7 +136,6 @@ public class Rhino : NotBossAI
         if (RandomPoint(player.transform.position, attackRange, out targetPos))
         {
             agent.destination = new Vector3(targetPos.x, transform.position.y, targetPos.z);
-            yield return new WaitForSeconds(1);
             yield return null;
         }
 
@@ -152,9 +160,10 @@ public class Rhino : NotBossAI
 
     private bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 200; i++)
         {
-            Vector3 randomPoint = center + Random.onUnitSphere * range;
+            Vector2 circlePoint = Random.insideUnitCircle.normalized * range;
+            Vector3 randomPoint = center + new Vector3(circlePoint.x, 0, circlePoint.y);
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
             {
@@ -169,6 +178,9 @@ public class Rhino : NotBossAI
     protected override void Die()
     {
         animator.Play("Death");
+        RhinoCharge.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        RhinoCharge.release();
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnRhinoDeath, transform.position);
         agent.isStopped = true;
         Rigidbody rb = GetComponent<Rigidbody>();
         alive = false;
@@ -176,5 +188,4 @@ public class Rhino : NotBossAI
         Destroy(this.gameObject, 3.5f);
         StopAllCoroutines();
     }
-
 }

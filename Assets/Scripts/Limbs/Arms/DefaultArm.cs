@@ -7,6 +7,6 @@ public class DefaultArm : Arm
     public override void Attack()
     {
         base.Attack();
-        //Debug.Log("Default attack");
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerBaseAttack);
     }
 }

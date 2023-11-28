@@ -64,6 +64,7 @@ public class MoveDoor : MonoBehaviour
     public void TriggerDoorOpen()
     {
         anim.SetTrigger("Open");
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnDoorOpened, transform.position);
     }
 
     public void TriggerDoorClose()

@@ -1,171 +1,136 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
+using FMODUnity;
+using FMOD.Studio;
+using System.Collections.Generic;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : Singleton<AudioManager>
 {
-    public static AudioManager Instance;
+    private StudioListener audioListener;
+    public EventInstance CurrentMusic { get; private set; }
+    private List<EventInstance> instantiatedEventInstances = new List<EventInstance>();
+    private int previousSceneMusicIndex = -1;
 
-    public Sound[] musicSounds, menuSFXSounds, worldSFXSounds, playerSFXSounds, minEnemySFXSounds, majEnemySFXSounds;
-    public AudioSource musicSource, menuSFXSource, worldSFXSource, playerSFXSource, minEnemySFXSource, majEnemySFXSource;
+    [SerializeField] [Range(0, 1)] public float masterVolume = 0.5f;
+    [SerializeField] [Range(0, 1)] public float musicVolume = 1f;
+    [SerializeField] [Range(0, 1)] public float SFXVolume = 1f;
 
-    private void Awake()
+    public Bus MasterBus { get; private set; }
+    public Bus MusicBus { get; private set; }
+    public Bus SFXBus { get; private set; }
+
+    protected override void Init()
     {
-        if (Instance == null)
+        MasterBus = RuntimeManager.GetBus("bus:/");
+        MusicBus = RuntimeManager.GetBus("Bus:/Music");
+        SFXBus = RuntimeManager.GetBus("Bus:/SFX");
+    }
+
+    private void OnEnable()
+    {
+        ChimeraSceneManager.OnSceneSwitched += StartNewSceneMusic;
+        FloorManager.AllCreaturesDefeated += FadeOutCombatMusic;
+        FloorManager.LeaveRoom += CleanUpInstances;
+    }
+
+    private void OnDisable()
+    {
+        ChimeraSceneManager.OnSceneSwitched -= StartNewSceneMusic;
+        FloorManager.AllCreaturesDefeated -= FadeOutCombatMusic;
+        FloorManager.LeaveRoom -= CleanUpInstances;
+    }
+    
+    public static void PlaySound2D(EventReference audioEvent)
+    {
+        RuntimeManager.PlayOneShot(audioEvent);
+    }
+
+    public static void PlaySound3D(EventReference audioEvent, Vector3 position)
+    {
+        RuntimeManager.PlayOneShot(audioEvent, position);
+    }
+
+    public static void SetFloat(EventInstance instance, string parameterName, float parameterValue)
+    {
+        instance.setParameterByName(parameterName, parameterValue);
+    }
+
+    public static void SetBool(EventInstance instance, string parameterName, bool parameterBool)
+    {
+        float parameterValue = parameterBool ? 1 : 0;
+        instance.setParameterByName(parameterName, parameterValue);
+    }
+
+    public static void SetVolume(Bus volumeBus, float volume)
+    {
+        volumeBus.setVolume(volume);
+    }
+
+    public EventInstance CreateEventInstance(EventReference eventReference)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
+        instantiatedEventInstances.Add(eventInstance);
+        return eventInstance;
+    }
+
+    public EventInstance CreatePersistentEventInstance(EventReference eventReference)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
+        return eventInstance;
+    }
+
+    public void RemoveEventInstance(EventInstance instanceToRemove)
+    {
+        instantiatedEventInstances.Remove(instanceToRemove);
+        instanceToRemove.release();
+    }
+
+    public void CrossFadeMusic(EventInstance newInstance)
+    {
+        CurrentMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        CurrentMusic.release();
+        CurrentMusic = newInstance;
+        CurrentMusic.start();
+    }
+
+    private void StartNewSceneMusic(int buildIndex)
+    {
+        audioListener = GameObject.FindObjectOfType<StudioListener>();
+        EventInstance newMusicInstance = CurrentMusic;
+
+        if (buildIndex == 0)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            newMusicInstance = CreatePersistentEventInstance(AudioEvents.Instance.OnMainMenuStarted);
+        }
+        else if (buildIndex == 1 && previousSceneMusicIndex != buildIndex)
+        {
+            newMusicInstance = CreatePersistentEventInstance(AudioEvents.Instance.OnGameplayStarted);
+        }
+        else if (buildIndex == 1 && previousSceneMusicIndex == buildIndex)
+        {
+            newMusicInstance = CreatePersistentEventInstance(AudioEvents.Instance.OnCombatStarted);
         }
         else
         {
-            Destroy(gameObject);
+            Debug.LogError($"Could not start new scene music at build index \"{buildIndex}\"");
         }
+        
+        previousSceneMusicIndex = buildIndex;
+
+        CrossFadeMusic(newMusicInstance);
     }
 
-    private void Start()
+    private void FadeOutCombatMusic()
     {
-        PlayMusic("MenuMusic");
+        CrossFadeMusic(CreateEventInstance(AudioEvents.Instance.OnGameplayStarted));
     }
 
-    public void PlayMusic(string name) 
+    private void CleanUpInstances()
     {
-        Sound s = Array.Find(musicSounds, x => x.name == name);
-
-        if (s == null)
+        foreach (EventInstance instance in instantiatedEventInstances)
         {
-            Debug.Log("Sound Not Found");
+            instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            instance.release();
         }
-        else
-        {
-            musicSource.clip = s.clip;
-            musicSource.Play();
-        }
-    }
-    public void PlayMenuSFX(string name)
-    {
-        Sound s = Array.Find(menuSFXSounds, x => x.name == name);
-
-        if (s == null)
-        {
-            Debug.Log("Sound Not Found");
-        }
-        else
-        {
-            menuSFXSource.PlayOneShot(s.clip);
-        }
-    }
-
-    public void PlayWorldSFX(string name)
-    {
-        Sound s = Array.Find(worldSFXSounds, x => x.name == name);
-
-        if (s == null)
-        {
-            Debug.Log("Sound Not Found");
-        }
-        else
-        {
-            worldSFXSource.PlayOneShot(s.clip);
-        }
-    }
-    public void PlayMinEnemySFX(string name)
-    {
-        Sound s = Array.Find(minEnemySFXSounds, x => x.name == name);
-
-        if (s == null)
-        {
-            Debug.Log("Sound Not Found");
-        }
-        else
-        {
-            minEnemySFXSource.PlayOneShot(s.clip);
-        }
-    }
-
-    public void PlayMajEnemySFX(string name)
-    {
-        Sound s = Array.Find(majEnemySFXSounds, x => x.name == name);
-
-        if (s == null)
-        {
-            Debug.Log("Sound Not Found");
-        }
-        else
-        {
-            majEnemySFXSource.PlayOneShot(s.clip);
-        }
-    }
-
-   public void PlayPlayerSFX(string name)
-    {
-        Sound s = Array.Find(playerSFXSounds, x => x.name == name);
-
-        if (s == null)
-        {
-            Debug.Log("Sound Not Found");
-        }
-        else
-        {
-            playerSFXSource.PlayOneShot(s.clip);
-        }
-    }
-
-    public void ToggleMusic()
-    {
-        musicSource.mute = !musicSource.mute;
-    }
-
-    public void ToggleMenuSFX()
-    {
-        menuSFXSource.mute = !menuSFXSource.mute;
-    }
-
-    public void ToggleWorldSFX()
-    {
-        worldSFXSource.mute = !worldSFXSource.mute;
-    }
-
-    public void ToggleMinEnemySFX()
-    {
-        minEnemySFXSource.mute = !minEnemySFXSource.mute;
-    }
-
-    public void ToggleMajEnemySFX()
-    {
-        majEnemySFXSource.mute = !majEnemySFXSource.mute;
-    }
-
-    public void TogglePlayerSFX()
-    {
-        playerSFXSource.mute = !playerSFXSource.mute;
-    }
-
-    public void MusicVolume(float volume)
-    {
-        musicSource.volume = volume;
-    }
-
-    public void MenuSFXVolume(float volume)
-    {
-        menuSFXSource.volume = volume;
-    }
-    public void WorldSFXVolume(float volume)
-    {
-        worldSFXSource.volume = volume;
-    }
-    public void MinEnemySFXVolume(float volume)
-    {
-        minEnemySFXSource.volume = volume;
-    }
-
-    public void MajEnemySFXVolume(float volume)
-    {
-        majEnemySFXSource.volume = volume;
-    }
-
-    public void PlayerSFXVolume(float volume)
-    {
-        playerSFXSource.volume = volume;
+        instantiatedEventInstances.Clear();
     }
 }
