@@ -43,7 +43,6 @@ public class CameraShake : Singleton<CameraShake>
 
 
     // TODO camera shake for heavy enemies/boss attacks
-    private float timer;
     private CinemachineBasicMultiChannelPerlin cbmcp;
 
     protected override void Init()
