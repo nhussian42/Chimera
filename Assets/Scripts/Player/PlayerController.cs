@@ -945,12 +945,12 @@ public class PlayerController : Singleton<PlayerController>
         if (damage <= core.MaxHealth / 3f)
         {
             AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerDamagedSmall);
-            CameraShake.Instance.TakeLightDmgShake();
+            // CameraShake.Instance.TakeLightDmgShake();
         }
         else
         {
             AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerDamagedLarge);
-            CameraShake.Instance.TakeHeavyDmgShake();
+            // CameraShake.Instance.TakeHeavyDmgShake();
         }
     }
 

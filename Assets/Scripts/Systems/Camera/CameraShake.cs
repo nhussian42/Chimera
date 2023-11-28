@@ -12,18 +12,17 @@ public class CameraShake : Singleton<CameraShake>
     [SerializeField]
     private float heavyAttackShake;
     [SerializeField]
-    private float lightAttackShake;
-    [SerializeField]
-    private float takeHeavyDamageShake;
-    [SerializeField]
-    private float takeLightDamageShake;
-
-    [SerializeField]
     private float heavyAttackShakeTime;
+    [SerializeField]
+    private float lightAttackShake;
     [SerializeField]
     private float lightAttackShakeTime;
     [SerializeField]
+    private float takeHeavyDamageShake;
+    [SerializeField]
     private float takeHeavyDamageShakeTime;
+    [SerializeField]
+    private float takeLightDamageShake;
     [SerializeField]
     private float takeLightDamageShakeTime;
 
