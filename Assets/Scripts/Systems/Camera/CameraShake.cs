@@ -6,8 +6,10 @@ using Cinemachine;
 public class CameraShake : Singleton<CameraShake>
 {
     // public CameraZoom cameraZoom;
-    [SerializeField] private CinemachineBrain _cinemachineBrain;
-    private CinemachineStateDrivenCamera _cinemachineStateDrivenCamera;
+    // [SerializeField] private CinemachineBrain _cinemachineBrain;
+    // private CinemachineStateDrivenCamera _cinemachineStateDrivenCamera;
+
+    private CinemachineVirtualCamera _cinemachineVirtualCamera;
 
     [Header("Player Camera Shake:")]
     [SerializeField]
@@ -48,7 +50,8 @@ public class CameraShake : Singleton<CameraShake>
 
     protected override void Init()
     {
-        _cinemachineStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
+        // _cinemachineStateDrivenCamera = GetComponent<CinemachineStateDrivenCamera>();
+        _cinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
     }
 
     private void Start()
@@ -99,9 +102,10 @@ public class CameraShake : Singleton<CameraShake>
     
     private void ShakeCamera(float shakeIntensity, float shakeTime)
     {
-        CinemachineVirtualCamera vc = GetActiveCamera(_cinemachineStateDrivenCamera);
-        CinemachineBasicMultiChannelPerlin cbmcp = vc.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        Debug.Log(cbmcp.gameObject.name);
+        //CinemachineVirtualCamera vc = GetActiveCamera(_cinemachineStateDrivenCamera);
+        //CinemachineBasicMultiChannelPerlin cbmcp = vc.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        // Debug.Log(cbmcp.gameObject.name);
+        CinemachineBasicMultiChannelPerlin cbmcp = _cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cbmcp.m_AmplitudeGain = shakeIntensity;
 
         StartCoroutine(ShakeDuration(shakeTime));
@@ -118,8 +122,9 @@ public class CameraShake : Singleton<CameraShake>
     {
         if (condition)
         {
-            CinemachineVirtualCamera vc = GetActiveCamera(_cinemachineStateDrivenCamera);
-            CinemachineBasicMultiChannelPerlin cbmcp = vc.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            // CinemachineVirtualCamera vc = GetActiveCamera(_cinemachineStateDrivenCamera);
+            // CinemachineBasicMultiChannelPerlin cbmcp = vc.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            CinemachineBasicMultiChannelPerlin cbmcp = _cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
             cbmcp.m_AmplitudeGain = shakeIntensity;
         }
         else
@@ -130,27 +135,28 @@ public class CameraShake : Singleton<CameraShake>
 
     public void StopShake()
     {
-        Debug.Log("camera s");
-        CinemachineVirtualCamera vc = GetActiveCamera(_cinemachineStateDrivenCamera);
-        CinemachineBasicMultiChannelPerlin cbmcp = vc.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        // Debug.Log("camera s");
+        // CinemachineVirtualCamera vc = GetActiveCamera(_cinemachineStateDrivenCamera);
+        // CinemachineBasicMultiChannelPerlin cbmcp = vc.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        CinemachineBasicMultiChannelPerlin cbmcp = _cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cbmcp.m_AmplitudeGain = 0f;
     }
 
-    private CinemachineVirtualCamera GetActiveCamera(CinemachineStateDrivenCamera stateCamera)
-    {
-        foreach (CinemachineVirtualCamera child in stateCamera.GetComponentsInChildren<CinemachineVirtualCamera>())
-        {
-            if (child.isActiveAndEnabled)
-            {
-                return child;
-            }
-        }
-        return null;
-    }
+    //  private CinemachineVirtualCamera GetActiveCamera(CinemachineStateDrivenCamera stateCamera)
+    //  {
+    //      foreach (CinemachineVirtualCamera child in stateCamera.GetComponentsInChildren<CinemachineVirtualCamera>())
+    //      {
+    //          if (child.isActiveAndEnabled)
+    //          {
+    //              return child;
+    //          }
+    //      }
+    //      return null;
+    //  }
 
-    private IEnumerator WaitForActiveCamera()
-    {
-        yield return null;
-
-    }
+    //  private IEnumerator WaitForActiveCamera()
+    //  {
+    //      yield return null;
+    //
+    //  }
 }

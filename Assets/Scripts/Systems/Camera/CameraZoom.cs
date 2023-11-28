@@ -6,73 +6,109 @@ using Cinemachine;
 public class CameraZoom : MonoBehaviour
 {
     private CinemachineVirtualCamera CinemachineVirtualCamera;
+    private float timeElapsed = 0f;
 
-    private float targetOrthoSize = 11f;
+    // private float targetOrthoSize = 11f;
+    [SerializeField]
+    private float defaultOrthoSize = 11f;
+
     [Header("Intro Zoom Parameters:")]
     [SerializeField]
-    private float introOrthoSizeMin;
+    private float introOrthoSize;
     [SerializeField]
-    private float introOrthoSizeMax;
+    private float introDelay;
     [SerializeField]
-    private float introZoomSpeed;
-    [Header("Default Zoom Parameters:")]
-    [SerializeField]
-    private float orthoSizeMin, orthoSizeMax;
+    private float introLerpDuration;
 
+    [Header("Death Zoom Parameters:")]
     [SerializeField]
-    private float orthoSizeIncrease = 2f;
-    
-    // [SerializeField]
-    // private float zoomSpeed = 3f;
+    private float deathOrthoSize;
+    [SerializeField]
+    private float deathLerpDuration;
+
+    [Header("Boss Zoom Parameters:")]
+    [SerializeField]
+    private float bossOrthoSize;
+    [SerializeField]
+    private float bossDelay;
+    [SerializeField]
+    private float bossLerpDuration;
+
+    private static bool introComplete = false;
+    private static bool inBossRoom = false;
 
     void Awake()
     {
         CinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = targetOrthoSize;
-
-        // IntroZoom();
-        // targetOrthoSize = Mathf.Clamp(targetOrthoSize, orthoSizeMin, orthoSizeMax);
     }
-    
+
+    void Start()
+    {
+        if (!introComplete)
+        {
+            CinemachineVirtualCamera.m_Lens.OrthographicSize = introOrthoSize;
+            StartCoroutine(IntroLerp(introDelay));
+            introComplete = true;
+        }
+        else
+        {
+            CinemachineVirtualCamera.m_Lens.OrthographicSize = defaultOrthoSize;
+        }
+    }
+
+    // If we decide to make a controller for transitions/cutscenes
     public void IntroZoom()
     {
-        ZoomOut(introOrthoSizeMin, introOrthoSizeMax, introZoomSpeed);
+        if (!introComplete)
+        {
+            CinemachineVirtualCamera.m_Lens.OrthographicSize = introOrthoSize;
+            StartCoroutine(IntroLerp(introDelay));
+            introComplete = true;
+        }
+        else
+        {
+            CinemachineVirtualCamera.m_Lens.OrthographicSize = defaultOrthoSize;
+        }
     }
 
-    // public void DeathZoom()
-    // {
-
-    // }
-
-    public void ZoomOut(float min, float max, float zoomSpeed)
+    public void DeathZoom()
     {
-        float difference = max - min;
-        min += difference;
+        StartCoroutine(DeathLerp());
+    }
 
-        print(CinemachineVirtualCamera.m_Lens.OrthographicSize);
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(CinemachineVirtualCamera.m_Lens.OrthographicSize, max, Time.deltaTime * zoomSpeed);
-        print(CinemachineVirtualCamera.m_Lens.OrthographicSize);
+    private IEnumerator IntroLerp(float delay)
+    {
+        yield return new WaitForSeconds(delay);
 
-        // StartCoroutine(ZoomDuration(zoomTime));
+        while (timeElapsed < introLerpDuration)
+        {
+            Zoom(introOrthoSize, defaultOrthoSize, introLerpDuration);
+            yield return null;
+        }
+
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = defaultOrthoSize;
+    }
+
+    private IEnumerator DeathLerp()
+    {
+        // yield return new WaitForSeconds(delay);
+
+        while (timeElapsed < introLerpDuration)
+        {
+            Zoom(defaultOrthoSize, deathOrthoSize, deathLerpDuration);
+            yield return null;
+        }
+
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = deathOrthoSize;
+    }
+    private void Zoom(float start, float end, float lerpDuration)
+    {
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(start, end, timeElapsed / lerpDuration);
+        timeElapsed += Time.deltaTime;
     }
 
     // public void ZoomIn()
     // {
 
-    // }
-
-    public void ZoomCamera(float zoomSpeed, float zoomTime)
-    {
-        targetOrthoSize -= orthoSizeIncrease;
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(CinemachineVirtualCamera.m_Lens.OrthographicSize, targetOrthoSize, Time.deltaTime * zoomSpeed);
-        // StartCoroutine(ZoomDuration(zoomTime));
-    }
-    // private IEnumerator ZoomDuration(float zoomTime)
-    // {
-    //     yield return new WaitForSeconds(zoomTime);
-    //     targetOrthoSize += orthoSizeIncrease;
-    //     CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(CinemachineVirtualCamera.m_Lens.OrthographicSize, targetOrthoSize, Time.deltaTime * zoomSpeed);
-
-    //     yield return null;
     // }
 }
