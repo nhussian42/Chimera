@@ -91,8 +91,9 @@ public class PlayerController : Singleton<PlayerController>
     public static Action ToggleMenuPause;
     public static Action OnDie;
 
-    //float startingYPos;  I don't think we need these anymore  - Amon
-    //bool firstMove = false;
+    // Fixing the floating bug
+    float startingYPos;
+    bool firstMove;
 
     // for when player should not be able to be damaged - Amon
     public bool isInvincible { get; private set; } = false;   
@@ -101,7 +102,7 @@ public class PlayerController : Singleton<PlayerController>
     public Vector3 movementDir { get; private set; }
     private Vector3 movementVector;
 
-    public float totalBones;
+    public float totalBones; // delete these and hook up bones to new currency manager - Amon
     public float bonesMultiplier;
 
     private bool canAttack = true;
@@ -343,11 +344,11 @@ public class PlayerController : Singleton<PlayerController>
         animator.SetFloat("Speed", movementValues.magnitude * _movementSpeed / 10f);
         //PlayFootstepAudio(movementVector.magnitude);
         
-        if(transform.position.y > 1.5f)
-        {
-            SetPlayerPosition(new Vector3(transform.position.x, 0, transform.position.z));
-            Debug.Log("Artifical Gravity activated");
-        }
+        //if(transform.position.y > 1.5f)
+        //{
+        //    SetPlayerPosition(new Vector3(transform.position.x, 0, transform.position.z));
+        //    Debug.Log("Artifical Gravity activated");
+        //}
         
         if (movementVector != Vector3.zero)
             RotatePlayer(movementVector); 
@@ -378,20 +379,9 @@ public class PlayerController : Singleton<PlayerController>
         {
             OnDash.Invoke();
 
-            // This will need refactoring for special leg animations, the line below will probably
-            // be called by an animation event like the triggers above.
-
-            // Temporary fix for using different animations for different limbs until we can implement a more complex solution - Amon
-            if (currentLegs.Classification == Classification.Mammalian && currentLegs.Weight == Weight.Light)
-            {
-                Debug.Log("Shift Pressed");
-                animator.SetTrigger("Pounce");
-            }
-            else
-            {
-                //animator.SetTrigger("Dash");
-                currentLegs.ActivateAbility();
-            }
+            // Plays the animation of the current legs which will call ActivateAbility() with an animation event
+            currentLegs.PlayAnim();
+            
         }
 
         if (_swapLimbs.triggered == true)
@@ -432,7 +422,16 @@ public class PlayerController : Singleton<PlayerController>
         }
 
         interacting = _interact.triggered;
-    }  
+    }
+    private void LateUpdate()
+    {
+        // FIXES FLOATING BUG (We hope) - Amon
+        if (transform.position.y >= startingYPos + 0.01 || transform.position.y <= startingYPos - 0.01)
+        {
+            SetPlayerPosition(new Vector3(transform.position.x, startingYPos, transform.position.z));
+            Debug.Log("yPos = " + transform.position.y);
+        }
+    }
 
     private void DetermineAttackAnimation(Arm arm, SideOfPlayer side)
     {
@@ -467,11 +466,6 @@ public class PlayerController : Singleton<PlayerController>
         animator.ResetTrigger("BaseAttack");
         animator.ResetTrigger("HeavyAttack");
         animator.ResetTrigger("LightAttack");
-    }
-
-    private void FixedUpdate()
-    {
-        //SetPlayerPosition(new Vector3(transform.position.x, startingYPos, transform.position.z));
     }
 
     public void AddToDrops(Drop drop) { touchedDrops.Add(drop); SelectNearestDrop(); }
@@ -519,6 +513,8 @@ public class PlayerController : Singleton<PlayerController>
     private void SetStartPosition()
     {
         SetPlayerPosition(FloorManager.Instance.StartTransform.position);
+        startingYPos = transform.position.y;
+        Debug.Log("startingYPos = " + startingYPos);
     }
     
     private void SetPlayerPosition(Vector3 to)

@@ -26,6 +26,11 @@ public class DefaultLegs : Legs
         }
     }
 
+    public override void PlayAnim()
+    {
+        player.Animator.SetTrigger("Dash");
+    }
+
     public override void ActivateAbility()
     {
         t = 0;
