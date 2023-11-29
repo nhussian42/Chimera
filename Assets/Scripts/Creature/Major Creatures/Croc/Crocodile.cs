@@ -96,6 +96,7 @@ public class Crocodile : NotBossAI
     {
         //Disables collider, increases speed, makes the croc burrow
         knockbackForce = burrowAttackKnockback;
+        CameraShake.Instance.CreatureBurrowShake(true);
         animator.SetBool("Burrow", true);
         burrowing = true;
         crocBodyCollider.enabled = false;
@@ -111,6 +112,7 @@ public class Crocodile : NotBossAI
         yield return new WaitUntil(() => agent.remainingDistance < 6f);
 
         //When in range, unburrows and resets speed
+        CameraShake.Instance.CreatureBurrowShake(false);
         animator.SetBool("BurrowResurface", true);
         animator.SetBool("Burrow", false);
         agent.isStopped = true;
