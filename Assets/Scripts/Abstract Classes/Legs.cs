@@ -28,6 +28,8 @@ public abstract class Legs : Limb
         player = PlayerController.Instance;
     }
 
+    public abstract void PlayAnim();
+
     // Called by PlayerController on input trigger
     public abstract void ActivateAbility();
 
