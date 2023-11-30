@@ -112,10 +112,11 @@ public abstract class Creature : MonoBehaviour
         agent.isStopped = true;
         alive = false;
         GetComponent<BoxCollider>().enabled = false;
+        healthbar.gameObject.SetActive(false);
 
         CreatureManager.AnyCreatureDied?.Invoke();
-        if (creatureType == CreatureType.Minor)
-            DestroyCreature();
+        // if (creatureType == CreatureType.Minor)
+        //     DestroyCreature();
 
         //Destroy(this.gameObject, 1.5f);
         StopAllCoroutines();
@@ -125,8 +126,10 @@ public abstract class Creature : MonoBehaviour
 
     private void DestroyCreature()
     {
-        // play the dissolve shader
-        Destroy(this.gameObject, 1.5f);
+        foreach (DissolveObject creaturePart in GetComponentsInChildren<DissolveObject>())
+        {
+            creaturePart.Dissolve(false);
+        }
     }
 
     public void Knockback(Vector3 knockbackDir, float knockbackForce, float knockbackDuration)
