@@ -9,7 +9,7 @@ public class BossAI : Creature
     protected GameObject player;
     private bool playeriFrame = false;
     [SerializeField] protected LayerMask playerLayerMask;
-    
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -20,12 +20,14 @@ public class BossAI : Creature
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<CharacterController>() != null && playeriFrame == false)
+        // PlayerController.Instance.isInvincible is temporary for fixing croc knockback while player is burrowing
+        if (other.gameObject.GetComponent<CharacterController>() != null && PlayerController.Instance.isInvincible == false)
         {
-            playeriFrame = true;
-            Invoke("IFrame", 0.5f);
             Debug.Log("Dealt damage to player");
-            PlayerController.Instance.DistributeDamage(attackDamage);     
+
+            PlayerController.Instance.DistributeDamage(attackDamage);
+
+            StartCoroutine(PlayerKnockback((player.transform.position - transform.position).normalized, knockbackForce, 0.4f));
         }
     }
 
