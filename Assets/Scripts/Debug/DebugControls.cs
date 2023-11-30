@@ -12,6 +12,7 @@ public class DebugControls : MonoBehaviour
     public static Action TestTimerStart;
     public static Action TestTimerStop;
     public static Action DestroyAllDrops;
+    public static Action SpawnRandomLimb;
 
 
     #if DEVELOPMENT_BUILD || UNITY_EDITOR
@@ -74,7 +75,10 @@ public class DebugControls : MonoBehaviour
         // W = PlayerInputActions Move
 
         // X
-        // Y
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            SpawnRandomLimb?.Invoke();
+        }
         // Z
 
         // Alpha 1 = PlayerInputActions UI Swap Menu Switch Limb
