@@ -17,25 +17,31 @@ public class RelicMenu : MonoBehaviour
     [SerializeField] private MasterTrinketList masterTrinketList;
     [SerializeField] private Trinket relic;
 
-    private GameObject self;
+    private PlayerController playerController;
+
+    [SerializeField] private GameObject self;
     // Start is called before the first frame update
     void Start()
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(clickYes.gameObject);
-
-        self = this.gameObject;
+        playerController = PlayerController.Instance;
     }
 
     public void Yes()
     {
         masterTrinketList.AddRelic(relic);
-        self.SetActive(false);
+        
         RelicInteract.instance.pickedYes = true;
+        playerController.EnableAllDefaultControls();
+        playerController.DisableAllUIControls();
+        self.SetActive(false);
     }
 
     public void No()
     {
         self.SetActive(false);
+        playerController.EnableAllDefaultControls();
+        playerController.DisableAllUIControls();
     }
 }

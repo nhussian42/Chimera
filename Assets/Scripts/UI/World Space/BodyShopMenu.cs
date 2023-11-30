@@ -7,10 +7,12 @@ using UnityEngine.UI;
 
 public class BodyShopMenu : MonoBehaviour
 {
+    private PlayerController playerController;
 
     [SerializeField] private List<Button> ItemButtonList;
     [SerializeField] private Button HealItemButton;
     [SerializeField] private Button ExitButton;
+    [SerializeField] private Button ConfirmButton;
 
     [SerializeField] private List<float> ItemCostList;
     [SerializeField] private float HealCost;
@@ -22,15 +24,15 @@ public class BodyShopMenu : MonoBehaviour
 
     [SerializeField] private List<TextMeshProUGUI> descList;
     [SerializeField] private List<GameObject> descObjList;
-
-
+    [SerializeField] private GameObject confirmMenu;
 
     [SerializeField] private Button firstSelect;
 
     [SerializeField] private TextMeshProUGUI CurrentBones;
 
     [SerializeField] private GameObject self;
-    
+
+    private int playerChoice;
     
     // Start is called before the first frame update
     void Start()
@@ -38,6 +40,7 @@ public class BodyShopMenu : MonoBehaviour
         SetupPrices();
         SetupSprites();
         SetupDescriptions();
+        playerController = PlayerController.Instance;
     }
 
     private void OnEnable()
@@ -65,11 +68,13 @@ public class BodyShopMenu : MonoBehaviour
     public void ExitMenu()
     {
         self.SetActive(false);
+        playerController.EnableAllDefaultControls();
+        playerController.DisableAllUIControls();
     }
 
     private void UpdateBoneCount()
     {
-        CurrentBones.text = $"Bones: {PlayerController.Instance.totalBones.ToString("F0")}";
+        CurrentBones.text = $"{PlayerController.Instance.totalBones.ToString("F0")}";
     }
 
     private void SetupPrices()
@@ -80,10 +85,10 @@ public class BodyShopMenu : MonoBehaviour
      
         for (int i = 0; i < (ItemTextList.Count); i++) 
         {
-            ItemTextList[i].text = $"Cost: {ItemCostList[i].ToString()}";
+            ItemTextList[i].text = $"Buy: {ItemCostList[i].ToString()}";
         }
 
-        HealItemText.text = $"Cost: {HealCost.ToString()}";
+        HealItemText.text = $"Buy: {HealCost.ToString()}";
     }
 
     private void SetupSprites()
@@ -94,15 +99,21 @@ public class BodyShopMenu : MonoBehaviour
 
     private void SetupDescriptions()
     {
-        descList[0].text = null;
+        descList[0].text = $"{BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().LimbType}";
         descList[1].text = null;
         descList[2].text = null;
         descList[3].text = null;
+
+        
     }
 
     public void PurchaseOption(int i)
     {
-        if (ItemCostList[i] < PlayerController.Instance.totalBones)
+        if(i == 4)
+        {
+            PurchaseHeal();
+        }
+        else if (ItemCostList[i] < PlayerController.Instance.totalBones)
         {
             PlayerController.Instance.totalBones -= ItemCostList[i];
             BodyShop.Instance.DestroyOption(i); 
@@ -157,4 +168,45 @@ public class BodyShopMenu : MonoBehaviour
         ItemImageList[i].gameObject.SetActive(false);
     }
 
+    public void ConfirmPrompt(int i)
+    {
+        confirmMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(ConfirmButton.gameObject);
+        playerChoice = i;
+    }
+
+    public void ConfirmYes()
+    {
+        PurchaseOption(playerChoice);
+        ReSelectMenu();
+        confirmMenu.SetActive(false);
+    }
+
+    public void ConfirmNo()
+    {
+        ReSelectMenu();
+        confirmMenu.SetActive(false);
+    }
+
+    public void ReSelectMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        for(int i = 0; i < 3; i++)
+        {
+            if (ItemButtonList[i].gameObject.activeSelf)
+            {
+                EventSystem.current.SetSelectedGameObject(ItemButtonList[i].gameObject);
+                break;
+            }    
+            else if(HealItemButton.gameObject.activeSelf)
+            {
+                EventSystem.current.SetSelectedGameObject(HealItemButton.gameObject);
+            }
+            else
+            {
+                EventSystem.current.SetSelectedGameObject(ExitButton.gameObject);
+            }
+        }
+    }
 }

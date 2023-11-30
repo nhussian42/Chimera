@@ -29,6 +29,14 @@ public class PlayerInvSlot : MonoBehaviour
     [SerializeField] private MasterTrinketList masterTrinketList;
 
     //public event Action<PlayerInvSlot> OnLimbClicked;
+
+    private void Update()
+    {
+        if(masterTrinketList.Relic != null)
+        {
+            relic.gameObject.SetActive(true);
+        }
+    }
     public void OnSelected(BaseEventData data)
     {
         UnityEngine.Debug.Log(data.selectedObject.name);
