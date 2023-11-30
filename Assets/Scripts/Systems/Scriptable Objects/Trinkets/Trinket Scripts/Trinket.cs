@@ -9,6 +9,7 @@ public class Trinket : EventListener
     [SerializeField] Sprite icon;
     [SerializeField] Rarity rarity;
     [SerializeField] TrinketType type;
+    [SerializeField] bool isRelic;
     [HideInInspector] public int amount;
 
     public string TrinketName { get { return trinketName; } }
@@ -17,6 +18,8 @@ public class Trinket : EventListener
     public Rarity Rarity { get { return rarity; } }
     public TrinketType TrinketType { get { return type; } }
     public int Amount { get { return amount; } }
+
+    public bool IsRelic { get { return isRelic;  } }
 
     public override void Activate() { }
 

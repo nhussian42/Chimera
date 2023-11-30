@@ -16,7 +16,11 @@ public class MasterTrinketList : ScriptableObject
     List<Trinket> gameInventory; // (initialized at start, trinkets that are OneTime trinkets are removed from here at runtime)
 
     [SerializeField][Tooltip("The list of 3 unique, random trinkets that the current trinket bag contains (DO NOT ADD TRINKETS TO THIS LIST)")]
-    List<Trinket> bagInventory; 
+    List<Trinket> bagInventory;
+
+    [SerializeField]
+    [Tooltip("Placeholder for storing Relic Information (DO NOT ADD TRINKETS TO THIS LIST)")]
+    public Trinket Relic;
 
     List<Trinket> rarityInventory; // this list is used to store all trinkets of a specified rarity so the manager can pick from them
 
@@ -31,6 +35,7 @@ public class MasterTrinketList : ScriptableObject
         foreach (Trinket trinket in masterList) { trinket.Disable(); }
         foreach(Trinket trinket in bagInventory) { trinket.Disable(); }
         bagInventory.Clear();
+        Relic = null;
 
         // Game inventory copies master list, this serves as the pool from which trinkets will be pulled from in-game
         foreach (Trinket trinket in masterList) { gameInventory.Add(trinket); }
@@ -108,7 +113,13 @@ public class MasterTrinketList : ScriptableObject
         }
     }
 
-
+    public void AddRelic(Trinket trinket)
+    {
+        Relic = trinket;
+        playerInventory.Add(trinket);
+        trinket.Enable();
+        trinket.Add(1);
+    }
 
 
 

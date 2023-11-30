@@ -106,6 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2979976223868579962}
   - component: {fileID: 3775300480456771488}
+  - component: {fileID: 3233341443885857811}
   m_Layer: 7
   m_Name: Cube.007
   m_TagString: Untagged
@@ -148,7 +149,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 60fc762a1aebe8e42b20b0c12e72cb2c, type: 2}
+  - {fileID: 2100000, guid: 30065d99ad2df3949870623555120c6b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -249,6 +250,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.013288547, y: 0.0053733923, z: -0.00069988065}
     m_Extent: {x: 0.004438906, y: 0.01609837, z: 0.0036960952}
   m_DirtyAABB: 0
+--- !u!114 &3233341443885857811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491331553015334916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a7e184d8500d04fbc3a67fa0e6c964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undissolvedHeight: 10
+  fullyDissolvedHeight: -5
 --- !u!1 &561750916676561917
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,6 +659,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4615945329388652262}
   - component: {fileID: 4496787197895100831}
+  - component: {fileID: 3930438054919651960}
   m_Layer: 7
   m_Name: Cube.005
   m_TagString: Untagged
@@ -686,7 +702,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 906b2bfb2185efe44bdf189c5c14068e, type: 2}
+  - {fileID: 2100000, guid: 8d90b7bc5a4761243936c1e7233e3b5c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -787,6 +803,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0066883434, y: -0.010279713, z: 0.00021933299}
     m_Extent: {x: 0.0060324, y: 0.021022944, z: 0.010586027}
   m_DirtyAABB: 0
+--- !u!114 &3930438054919651960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299045298852939624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a7e184d8500d04fbc3a67fa0e6c964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undissolvedHeight: 10
+  fullyDissolvedHeight: -5
 --- !u!1 &1315509750231938846
 GameObject:
   m_ObjectHideFlags: 0
@@ -2390,6 +2420,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2980327616374057318}
   - component: {fileID: 5032604058843840728}
+  - component: {fileID: 6033623747471474516}
   m_Layer: 7
   m_Name: Icosphere
   m_TagString: Untagged
@@ -2432,7 +2463,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c302a5fa441c79a4a854f2af2daead75, type: 2}
+  - {fileID: 2100000, guid: ea08786ce1f60b04781f936b85d06165, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2533,6 +2564,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.009544209, y: 0.022459462, z: 0.003544704}
     m_Extent: {x: 0.0012490693, y: 0.0013938937, z: 0.0010711077}
   m_DirtyAABB: 0
+--- !u!114 &6033623747471474516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4841688566782684917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a7e184d8500d04fbc3a67fa0e6c964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undissolvedHeight: 10
+  fullyDissolvedHeight: -5
 --- !u!1 &4862144720834022994
 GameObject:
   m_ObjectHideFlags: 0
@@ -3119,7 +3164,7 @@ Transform:
   - {fileID: 7601980101480380422}
   - {fileID: 2717692848384278557}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &6278534666909085761
 NavMeshAgent:
@@ -4008,6 +4053,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5201792885138413337}
   - component: {fileID: 1088496109698428425}
+  - component: {fileID: 3987397475891584284}
   m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
@@ -4050,7 +4096,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 49a9da753c5f2dc46a8f336f420b68b2, type: 2}
+  - {fileID: 2100000, guid: 4e3d3f42789a55c42ae9f00bd4a90dbd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4151,6 +4197,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0064447206, y: -0.0012610909, z: 0.00007189158}
     m_Extent: {x: 0.012639239, y: 0.030938273, z: 0.015545326}
   m_DirtyAABB: 0
+--- !u!114 &3987397475891584284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8090443445779700211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a7e184d8500d04fbc3a67fa0e6c964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undissolvedHeight: 10
+  fullyDissolvedHeight: -5
 --- !u!1 &8098162180909598744
 GameObject:
   m_ObjectHideFlags: 0
@@ -4519,6 +4579,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7540012026928096783}
   - component: {fileID: 6303256785210952130}
+  - component: {fileID: 7203835834081353347}
   m_Layer: 7
   m_Name: Cube.008
   m_TagString: Untagged
@@ -4562,7 +4623,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7cf9b510174930499edf39f82eb1e89, type: 2}
+  - {fileID: 2100000, guid: de6002b38c3fe654186eaaed67bd9538, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4663,6 +4724,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.006555209, y: 0.025048763, z: 0.000023318222}
     m_Extent: {x: 0.0013025345, y: 0.0033150446, z: 0.003259899}
   m_DirtyAABB: 0
+--- !u!114 &7203835834081353347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8656550450273234752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a7e184d8500d04fbc3a67fa0e6c964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undissolvedHeight: 10
+  fullyDissolvedHeight: -5
 --- !u!1 &8806757163534385501
 GameObject:
   m_ObjectHideFlags: 0
@@ -4776,6 +4851,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6493273130175021053}
   - component: {fileID: 4431952431964303798}
+  - component: {fileID: 1901186189348964621}
   m_Layer: 7
   m_Name: Icosphere.001
   m_TagString: Untagged
@@ -4818,7 +4894,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c302a5fa441c79a4a854f2af2daead75, type: 2}
+  - {fileID: 2100000, guid: ea08786ce1f60b04781f936b85d06165, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4919,6 +4995,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00954415, y: 0.022499252, z: -0.003429329}
     m_Extent: {x: 0.0012492603, y: 0.001393456, z: 0.0010709512}
   m_DirtyAABB: 0
+--- !u!114 &1901186189348964621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8821154444874396282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a7e184d8500d04fbc3a67fa0e6c964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undissolvedHeight: 10
+  fullyDissolvedHeight: -5
 --- !u!1 &8891784425538766551
 GameObject:
   m_ObjectHideFlags: 0

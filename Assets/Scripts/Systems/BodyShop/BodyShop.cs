@@ -4,38 +4,38 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Runtime.CompilerServices;
+using TMPro;
 
 public class BodyShop : Singleton<BodyShop>
 {
-    
+    private PlayerController playerController;
+
     public List<GameObject> ArmList;
     public List<GameObject> LegList;
     public List<GameObject> HeadList;
     public List<GameObject> ItemLocations;
+    public List<GameObject> PurchaseLocations;
 
-    private GameObject SpawnedArm;
-    private GameObject SpawnedLeg;
-    private GameObject SpawnedHead;
+    public GameObject SpawnedArm;
+    public GameObject SpawnedLeg;
+    public GameObject SpawnedHead;
     private GameObject SpawnedHealItem;
 
+    public GameObject HealItem;
     public GameObject ShopMenu;
-    public bool IsMenuActive;
+
+    private bool IsMenuActive;
 
     int randomArm;
     int randomLeg;
     int randomHead;
 
-
-
-
-    public GameObject HealItem;
-
-    // Start is called before the first frame update
+    private bool menuToggle;
+    private bool isInside;
     void Start()
     {
 
         RandomizeOptions();
-
         ShopMenu = Instantiate(ShopMenu, new Vector3(0, 0, 0), Quaternion.identity);
         ShopMenu.SetActive(false);
         SpawnedArm = Instantiate(ArmList[randomArm], ItemLocations[0].transform.position, Quaternion.identity);
@@ -43,23 +43,38 @@ public class BodyShop : Singleton<BodyShop>
         SpawnedHead = Instantiate(HeadList[randomHead], ItemLocations[2].transform.position, Quaternion.identity);
         SpawnedHealItem = Instantiate(HealItem, ItemLocations[3].transform.position, Quaternion.identity);
 
+        playerController = PlayerController.Instance;
+    }
 
-
-
-        //for (int i = 0; i < ArmList.Length; i++) ArmList[i] = Resources.Load("Prefabs/Prefab" + i) as GameObject; 
-        //Instantiate(ArmList[Random.Range(0, ArmList.Length)]);
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && (menuToggle == false) && isInside)
+        {
+            ShopMenu.SetActive(true);
+            Debug.Log(ShopMenu.gameObject.activeSelf);
+            menuToggle = !menuToggle;
+            playerController.DisableAllDefaultControls();
+            playerController.EnableAllUIControls();
+            Invoke("DelayShopHud", 1);
+        }
+        if (Input.GetKeyDown(KeyCode.R) && menuToggle && isInside && IsMenuActive)
+        {
+            ShopMenu.SetActive(false);
+            menuToggle = !menuToggle;
+            playerController.EnableAllDefaultControls();
+            playerController.DisableAllUIControls();
+            IsMenuActive = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && (IsMenuActive == false)) 
+        if (other.CompareTag("Player")) 
         {
-            ShopMenu.SetActive(true);
-            IsMenuActive = true;
-            Invoke("RefreshShopHud", 3);
+            isInside = true;
+            
         }
     }
-
 
     private void RandomizeOptions()
     {
@@ -68,10 +83,9 @@ public class BodyShop : Singleton<BodyShop>
         randomHead = Random.Range(0, HeadList.Count);
     }
 
-    private void RefreshShopHud()
+    private void DelayShopHud()
     {
-        IsMenuActive = false;
-        Debug.Log("Reset");
+        IsMenuActive = true;
     }
 
     public void DestroyOption(int i)
@@ -80,10 +94,10 @@ public class BodyShop : Singleton<BodyShop>
         {
 
             case 0:
-                SpawnedArm.gameObject.SetActive(false);
+                SpawnedArm.transform.position = PurchaseLocations[0].transform.position;
                 break;
             case 1:
-                SpawnedLeg.gameObject.SetActive(false);
+                SpawnedLeg.transform.position = PurchaseLocations[1].transform.position;
                 break;
             case 2:
                 SpawnedHead.gameObject.SetActive(false);
@@ -93,5 +107,5 @@ public class BodyShop : Singleton<BodyShop>
                 break;
         }
     }
-
+    
 }

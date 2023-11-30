@@ -19,6 +19,12 @@ public class AttackRange : MonoBehaviour
             creature.TakeDamage((int)arm.AttackDamage);
             creature.Knockback(creature.transform.position - transform.position, 20, 0.05f);
         }
+
+        if (other.tag == "Breakable")
+        {
+            other.gameObject.GetComponent<BreakablePot>().SpawnBones();
+            other.gameObject.SetActive(false);
+        }
     }
 
     private void OnEnable()
