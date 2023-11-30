@@ -15,7 +15,7 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected float currentHealth;
     [SerializeField] protected float attackDamage = 5f;
     [SerializeField] protected float iFrameDuration = 0.5f; //iFrame for creatures ONLY controls animations
-    protected float knockbackForce = 5;
+    public float knockbackForce = 5;
     private bool iFrame = false;
 
     [field: SerializeField] public CreatureSO CreatureInfo { get; private set; }
@@ -72,15 +72,21 @@ public abstract class Creature : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
-        if (alive == true && iFrame == false)
+        if (alive == true)
         {
-            iFrame = true;
-            Invoke("IFrame", iFrameDuration);
+
 
             currentHealth -= damage;
-            healthbar.UpdateHealthBar(currentHealth, health);
+            if (healthbar != null)
+                healthbar.UpdateHealthBar(currentHealth, health);
 
-            animator.SetTrigger("TakeDamage");
+            if (iFrame == false)
+            {
+                animator.SetTrigger("TakeDamage");
+                iFrame = true;
+                Invoke("IFrame", iFrameDuration);
+            }
+
 
             // Blanket audio event for all creatures taking damage, may be replaced by individual creature sounds
             AudioManager.PlaySound3D(AudioEvents.Instance.OnCreatureDamaged, transform.position);
