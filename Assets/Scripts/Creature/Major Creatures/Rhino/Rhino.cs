@@ -177,15 +177,9 @@ public class Rhino : NotBossAI
 
     protected override void Die()
     {
-        animator.Play("Death");
+        base.Die();
         RhinoCharge.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         RhinoCharge.release();
         AudioManager.PlaySound3D(AudioEvents.Instance.OnRhinoDeath, transform.position);
-        agent.isStopped = true;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        alive = false;
-        CreatureManager.AnyCreatureDied?.Invoke();
-        Destroy(this.gameObject, 3.5f);
-        StopAllCoroutines();
     }
 }
