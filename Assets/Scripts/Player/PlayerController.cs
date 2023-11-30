@@ -400,10 +400,18 @@ public class PlayerController : Singleton<PlayerController>
             EquipMenu.gameObject.SetActive(!EquipMenu.gameObject.activeSelf);
             menuToggle = !menuToggle;
             EMScript.Instance.ListTrinkets();
-            
-            if (menuToggle) Pause();
-                 
-            if (menuToggle == false) UIManager.ResumePressed();         
+
+            if (menuToggle)
+            {
+                DisableAllDefaultControls();
+                EnableAllUIControls();
+            }
+
+            if (menuToggle == false)
+            {
+                EnableAllDefaultControls();
+                DisableAllUIControls();
+            }         
         }
 
         if (_interact.triggered)
@@ -654,7 +662,7 @@ public class PlayerController : Singleton<PlayerController>
                 currentLegs = legs;
                 _movementSpeed = currentLegs.MovementSpeed;
                 if (newLegs.LimbHealth <= 0) { newLegs.OverwriteLimbHealth(currentLegs.DefaultMaxHealth); }
-                currentLegs.Health = newLegs.LimbHealth;
+                currentLegs.Health = newLegs.LimbHealth;    
             }
         }
         OnSwapLimbs.Invoke();
@@ -996,8 +1004,6 @@ public class PlayerController : Singleton<PlayerController>
         {
             totalBones += amount;
         }
-
-        Debug.Log(totalBones.ToString("F2"));
     }
 
     private void Deactivate()

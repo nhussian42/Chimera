@@ -19,6 +19,9 @@ public class CurrentBaseStatsSO : ScriptableObject
 
     //Add head SOs here
 
+    [Header("Current currency values:")]
+    public FloatVar bones;
+
     [Header("Current base core stats:")]
     public FloatVar coreMaxHealth;
     public FloatVar coreHealth;
@@ -58,6 +61,7 @@ public class CurrentBaseStatsSO : ScriptableObject
         UpdateLeftArm();
         UpdateRightArm();
         UpdateLegs();
+        UpdateCurrency();
 
         if(debug == true)
         {
@@ -83,6 +87,10 @@ public class CurrentBaseStatsSO : ScriptableObject
         } // Debugging
     }
 
+    private void UpdateCurrency()
+    {
+        bones.Write(PlayerController.Instance.totalBones);
+    }
     private void UpdateCore()
     {
         coreMaxHealth.Write(core.DefaultMaxHealth);
