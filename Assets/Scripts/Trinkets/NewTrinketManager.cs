@@ -43,6 +43,7 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(OptionOneGO);
 
+        Invoke("debug", 1);
         PlayerController.Instance.Pause();
 
         trinketOne = masterTrinketList.GetRandomTrinket();
@@ -93,4 +94,10 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
         gameObject.SetActive(false);
         UIManager.ResumePressed();
     }
+
+
+    private void debug()
+    {
+        Debug.Log(EventSystem.current.currentSelectedGameObject);
+    }   
 }
