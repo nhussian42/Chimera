@@ -61,6 +61,8 @@ public class CameraZoom : MonoBehaviour
         Boss1CutsceneTrigger.Boss1Cutscene += BossZoom;
         // Replace w/ CutsceneController.BossZoom += BossZoom;
 
+
+        Grolfino.BossDead += DefaultZoom;
         // BossDead.BossDead += DefaultZoom;
     }
 
@@ -73,6 +75,7 @@ public class CameraZoom : MonoBehaviour
         Boss1CutsceneTrigger.Boss1Cutscene -= BossZoom;
         // Replace w/ CutsceneController.BossZoom -= BossZoom;
 
+        Grolfino.BossDead -= DefaultZoom;
         // BossDead.BossDead -= DefaultZoom;
 
     }
@@ -115,14 +118,11 @@ public class CameraZoom : MonoBehaviour
 
     public void DefaultZoom()
     {
+        // For some reason this isn't working even though it should
         StartCoroutine(ZoomLerp(defaultDelay, CinemachineVirtualCamera.m_Lens.OrthographicSize, defaultOrthoSize, defaultDuration, defaultCurve));
+
     }
 
-    private void Zoom(float start, float end, float lerpDuration, AnimationCurve animCurve)
-    {
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(start, end, animCurve.Evaluate(timeElapsed / lerpDuration));
-        timeElapsed += Time.deltaTime;
-    }
     private IEnumerator ZoomLerp(float delay, float startOrthoSize, float endOrthoSize, float duration, AnimationCurve animCurve)
     {
         yield return new WaitForSeconds(delay);
@@ -134,5 +134,10 @@ public class CameraZoom : MonoBehaviour
         }
 
         CinemachineVirtualCamera.m_Lens.OrthographicSize = endOrthoSize;
+    }
+    private void Zoom(float start, float end, float lerpDuration, AnimationCurve animCurve)
+    {
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(start, end, animCurve.Evaluate(timeElapsed / lerpDuration));
+        timeElapsed += Time.deltaTime;
     }
 }
