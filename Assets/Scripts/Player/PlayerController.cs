@@ -10,7 +10,7 @@ public class PlayerController : Singleton<PlayerController>
 {
     private PlayerInputActions _playerInputActions;
     private PlayerInput _playerInput;
-    private InputAction _movement;
+    public InputAction _movement { get; private set; }
     private InputAction _look; // for keyboard/mouse attack direction
     public InputAction _attackRight { get; private set; } // get, set these controls so other scripts can control when player shouldn't be able to do stuff
     public InputAction _attackLeft { get; private set; }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
+using UnityEngine.VFX.Utility;
 
 public class CrocLegs : Legs
 {
@@ -19,17 +21,22 @@ public class CrocLegs : Legs
 
     public override void PlayAnim()
     {
+        canActivate = false;
+        StartCoroutine(Cooldown());
+        player.DisableAllDefaultControls();
         player.Animator.SetTrigger("Burrow");
-        //Vector3 burrowPos = new Vector3(player.transform.position.x, , player.transform.position.z);
         burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
+        VisualEffect burrowEffect = burrowParticleFX.GetComponentInChildren<VisualEffect>();
+        burrowEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
     }
 
     public override void ActivateAbility()
     {
-        if(isUnderground == false)
+        Destroy(burrowParticleFX);
+        if (isUnderground == false)
         {
+            player.EnableAllDefaultControls();
             isUnderground = true;
-            Destroy(burrowParticleFX);
 
             // Get the Skinned Mesh Renderers of all the current limbs
             // (probably bad for performance to be getting all these components like this) but it could be fine?
@@ -42,13 +49,16 @@ public class CrocLegs : Legs
             Vector3 trailPos = new Vector3(player.transform.position.x, 0, player.transform.position.z);
             trailParticleFX = Instantiate(trailParticlePrefab, trailPos, Quaternion.identity, player.transform);
             StartCoroutine(Burrow());
-            StartCoroutine(Cooldown());
+            Debug.Log("Ability activated, isUnderground = " + isUnderground);
         }
         else
         {
+            Destroy(burrowParticleFX);
             SetMeshVisibility(true);
             player.ToggleInvincibility();
             isUnderground = false;
+            player.EnableAllDefaultControls();
+            Debug.Log("Ability activated, isUnderground = " + isUnderground);
         }
 
     }
@@ -61,6 +71,10 @@ public class CrocLegs : Legs
         yield return new WaitForSeconds(burrowDuration);
 
         Destroy(trailParticleFX);
+        player.DisableAllDefaultControls();
+        burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
+        VisualEffect burrowEffect = burrowParticleFX.GetComponentInChildren<VisualEffect>();
+        burrowEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
         player.Animator.SetTrigger("Surface");
     }
 
