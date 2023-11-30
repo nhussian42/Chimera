@@ -27,9 +27,14 @@ public class WolfLegs : Legs
         }
     }
 
+    public override void PlayAnim()
+    {
+        player.Animator.SetTrigger("Pounce");
+    }
+
     public override void ActivateAbility()
     {
-        Debug.Log("pounce");
+        //Debug.Log("pounce");
         t = 0;
         activated = true;
         player.DisableAttackControls();
