@@ -286,7 +286,8 @@ public class PlayerController : Singleton<PlayerController>
             LoadSavedLimb(saveManager.SavedRightArm);
             LoadSavedLimb(saveManager.SavedCore);
             LoadSavedLimb(saveManager.SavedLegs);
-            
+            Debug.Log("loaded saved limbs");
+
         }
         else
         {
@@ -306,6 +307,7 @@ public class PlayerController : Singleton<PlayerController>
             
             core.LoadDefaultStats();
         }
+        //Debug.Log(currentHead);
 
         canAttack = true;
         ResetAttackTriggers();
@@ -629,15 +631,16 @@ public class PlayerController : Singleton<PlayerController>
         if(newHead.LimbType == LimbType.Head)
         foreach (Head head in allHeads)
         {
-            if (head.Weight == newHead.Weight && head.Classification == newHead.Classification)
-            {
-                originalHead.gameObject.SetActive(false);
-                head.gameObject.SetActive(true);
-                head.LoadDefaultStats();
-                currentHead = head;
-                if (newHead.LimbHealth <= 0) { newHead.OverwriteLimbHealth(currentHead.DefaultMaxHealth); }
-                currentHead.Health = newHead.LimbHealth;
+                if (head.Weight == newHead.Weight && head.Classification == newHead.Classification)
+                {
+                    originalHead.gameObject.SetActive(false);
+                    head.gameObject.SetActive(true);
+                    head.LoadDefaultStats();
+                    currentHead = head;
+                    if (newHead.LimbHealth <= 0) { newHead.OverwriteLimbHealth(currentHead.DefaultMaxHealth); }
+                    currentHead.Health = newHead.LimbHealth;
                 }
+                Debug.Log(currentHead);
         }
         OnSwapLimbs.Invoke();
     }
@@ -721,6 +724,8 @@ public class PlayerController : Singleton<PlayerController>
                 {
                     currentHead.gameObject.SetActive(false);
                 }
+                Debug.Log("currentHead: " + currentHead.StringName);
+                Debug.Log("savedHead: " + savedHead.StringName);
                 head.gameObject.SetActive(true);
                 currentHead = head;
                 currentHead.LoadStats(savedHead.MaxHealth, savedHead.Health);
