@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossCutsceneTrigger : MonoBehaviour
+public class IntroCutsceneTrigger : MonoBehaviour
 {
     private bool _triggered;
 
     // private Collider cutsceneTrigger;
 
-    public static Action BossCutscene;
+    public static Action IntroCutscene;
 
     void Awake()
     {
@@ -18,10 +18,11 @@ public class BossCutsceneTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         if (!_triggered && other.gameObject.GetComponent<PlayerController>() != null)
         {
             _triggered = true;
-            BossCutscene?.Invoke();
+            IntroCutscene?.Invoke();
         }
     }
 }

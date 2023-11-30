@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +10,12 @@ public class CutsceneController : MonoBehaviour
 {
     public PlayableDirector cutsceneDirector;
 
+    public static Action IntroZoom;
+    public static Action BossZoom;
+
     private Animator animator;
     private bool isShop = true;
  
-    [SerializeField]
-    private float introDelay;
     void Awake()
     {
         // animator = GetComponent<Animator>();
@@ -21,12 +23,14 @@ public class CutsceneController : MonoBehaviour
 
     private void OnEnable()
     {
-        BossCutsceneTrigger.BossCutscene += StartBossCutscene;
+        IntroCutsceneTrigger.IntroCutscene += StartIntroCutscene;
+        Boss1CutsceneTrigger.Boss1Cutscene += StartBossCutscene;
     }
 
     private void OnDisable()
     {
-        BossCutsceneTrigger.BossCutscene -= StartBossCutscene;
+        IntroCutsceneTrigger.IntroCutscene -= StartIntroCutscene;
+        Boss1CutsceneTrigger.Boss1Cutscene -= StartBossCutscene;
     }
 
     private void Start()
@@ -34,14 +38,13 @@ public class CutsceneController : MonoBehaviour
 
     }
 
+    private void StartIntroCutscene()
+    {
+        // cutsceneDirector.Play();
+    }
     private void StartBossCutscene()
     {
         print("Cutscene playing!");
-        //cutsceneDirector.Play();
-    }
-
-    private void StartIntroCutscene()
-    {
         // cutsceneDirector.Play();
     }
 
