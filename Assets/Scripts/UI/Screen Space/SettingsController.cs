@@ -10,6 +10,7 @@ public class SettingsController : MonoBehaviour
 {
     [SerializeField]
     private Slider _masterSlider, _musicSlider, _sfxSlider;
+
     [SerializeField]
     private GameObject SettingsGO;
     [SerializeField]
