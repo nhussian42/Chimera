@@ -11,30 +11,26 @@ public class Grolfino : BossAI
     [SerializeField] private float spikeDamage;
     [SerializeField] private float angleBeteenSpikes;
     [SerializeField] private float distanceBetweenSpikes;
-    [SerializeField, Tooltip("Distance in front of the boss that the attack starts")] private float spikeSpawnOffset;
+    private float spikeSpawnOffset = 17;
     [SerializeField] private GameObject spike;
 
 
     [Header("Projectile Attack")]
-    [SerializeField] private int numberOfProjectiles;
     [SerializeField] private float timeBetweenProjectiles;
     [SerializeField] private float projectileDamage;
-    [SerializeField] private float angleBetweenProjectiles;
     [SerializeField] private float projectileSpeed;
-    [SerializeField, Tooltip("Distance in front of the boss that the attack spawns")] private float projectileSpawnOffset;
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform projectileSpawnPos;
 
 
     [Header("Movement")]
-    [SerializeField] private float timeBeforeAttack;
-    [SerializeField] private float amountOfTimeBurrowed;
-    [SerializeField] private float teleportRange = 30f;
-    [SerializeField] private float burrowDelay;
+    [SerializeField, Tooltip("Time after unburrowing before attacking")] private float timeBeforeAttack;
+    [SerializeField, Tooltip("Amount of time before unburrowing")] private float amountOfTimeBurrowed;
+    [SerializeField, Tooltip("How far away from the player the boss unburrows")] private float teleportRange = 30f;
+    [SerializeField, Tooltip("How long after an attack before the boss burrows again")] private float burrowDelay;
 
 
     private bool halfHealthThresholdReached = false;
-    private float currentBurrowCooldown = 0f;
     [SerializeField] private GameObject bossMesh;
     [SerializeField] private List<string> bossAttack;
 
@@ -59,13 +55,13 @@ public class Grolfino : BossAI
         agent.destination = player.transform.position;
 
         //When boss reaches 50% health, attacks faster and more frequently
-        if (currentHealth < health / 2 && halfHealthThresholdReached == false)
-        {
-            halfHealthThresholdReached = true;
-            timeBetweenProjectiles /= 1.5f;
-            projectileSpeed *= 2f;
-            timeBetweenSpikes /= 1.5f;
-        }
+        // if (currentHealth < health / 2 && halfHealthThresholdReached == false)
+        // {
+        //     halfHealthThresholdReached = true;
+        //     timeBetweenProjectiles /= 1.5f;
+        //     projectileSpeed *= 2f;
+        //     timeBetweenSpikes /= 1.5f;
+        // }
     }
 
     private IEnumerator StartSweepAttack()

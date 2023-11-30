@@ -11,6 +11,7 @@ public class GrolfinoAnimationEvents : MonoBehaviour
     [SerializeField] private BoxCollider bossHeadCollider;
     [SerializeField] private CapsuleCollider bossHornsColliders;
     [SerializeField] private SphereCollider slamCollider;
+    [SerializeField] private CapsuleCollider slamAttackCollider;
     private Grolfino grolfino;
     private void Start()
     {
@@ -47,7 +48,14 @@ public class GrolfinoAnimationEvents : MonoBehaviour
     {
         grolfino.slamAttack = true;
         slamCollider.enabled = true;
+        slamAttackCollider.enabled = true;
         grolfino.knockbackForce = 75f;
+        
+    }
+
+    public void ResetGroundSlamCollider()
+    {
+        slamAttackCollider.enabled = false;
     }
 
     public void EndGroundSlam()
