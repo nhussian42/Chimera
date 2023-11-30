@@ -1981,7 +1981,7 @@ Transform:
   - {fileID: 3164324287134795664}
   - {fileID: 6683347705734182763}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7750759834911352121
 Rigidbody:
@@ -2049,6 +2049,7 @@ MonoBehaviour:
   currentHealth: 0
   attackDamage: 10
   iFrameDuration: 1
+  knockbackForce: 5
   <CreatureInfo>k__BackingField: {fileID: 11400000, guid: 39d666424d149754b897c7db600f34d1,
     type: 2}
   <classification>k__BackingField: 0
@@ -2096,7 +2097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnPool:
   - {fileID: 7937426487983829427, guid: dbcce601d3442aa438271b7491ae394c, type: 3}
-  - {fileID: 6755447452877946996, guid: 9171dcec1dec67b49b8cf28282d0284e, type: 3}
+  - {fileID: 3450614229154006231, guid: 8fd2e70130d4fd44299b88a77f3438b3, type: 3}
   _spawnCondition: 1
 --- !u!65 &2223943163951464368
 BoxCollider:
