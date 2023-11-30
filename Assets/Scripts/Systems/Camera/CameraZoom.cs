@@ -18,21 +18,25 @@ public class CameraZoom : MonoBehaviour
     [SerializeField]
     private float introDelay;
     [SerializeField]
-    private float introLerpDuration;
+    private float introDuration;
+    [SerializeField]
+    private AnimationCurve introCurve;
 
     [Header("Death Zoom Parameters:")]
     [SerializeField]
     private float deathOrthoSize;
     [SerializeField]
-    private float deathLerpDuration;
+    private float deathDuration;
+    [SerializeField]
+    private AnimationCurve deathCurve;
 
     [Header("Boss Zoom Parameters:")]
     [SerializeField]
     private float bossOrthoSize;
     [SerializeField]
-    private float bossDelay;
+    private float bossDuration;
     [SerializeField]
-    private float bossLerpDuration;
+    private AnimationCurve bossCurve;
 
     private static bool introComplete = false;
     private static bool inBossRoom = false;
@@ -42,6 +46,17 @@ public class CameraZoom : MonoBehaviour
         CinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
     }
 
+    private void OnEnable()
+    {
+        PlayerController.OnDie += DeathZoom;
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.OnDie -= DeathZoom;
+    }
+
+    // Currently intro zoom working through this function, need to setup with CutsceneController
     void Start()
     {
         if (!introComplete)
@@ -56,7 +71,6 @@ public class CameraZoom : MonoBehaviour
         }
     }
 
-    // If we decide to make a controller for transitions/cutscenes
     public void IntroZoom()
     {
         if (!introComplete)
@@ -73,37 +87,55 @@ public class CameraZoom : MonoBehaviour
 
     public void DeathZoom()
     {
-        StartCoroutine(DeathLerp());
+        StartCoroutine(DeathLerp(0f));
+    }
+
+    public void BossZoom()
+    {
+        StartCoroutine(BossLerp(0f));
     }
 
     private IEnumerator IntroLerp(float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        while (timeElapsed < introLerpDuration)
+        while (timeElapsed < introDuration)
         {
-            Zoom(introOrthoSize, defaultOrthoSize, introLerpDuration);
+            Zoom(introOrthoSize, defaultOrthoSize, introDuration, introCurve);
             yield return null;
         }
 
         CinemachineVirtualCamera.m_Lens.OrthographicSize = defaultOrthoSize;
     }
 
-    private IEnumerator DeathLerp()
+    private IEnumerator DeathLerp(float delay)
     {
-        // yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay);
 
-        while (timeElapsed < introLerpDuration)
+        while (timeElapsed < introDuration)
         {
-            Zoom(defaultOrthoSize, deathOrthoSize, deathLerpDuration);
+            Zoom(CinemachineVirtualCamera.m_Lens.OrthographicSize, deathOrthoSize, deathDuration, deathCurve);
             yield return null;
         }
 
         CinemachineVirtualCamera.m_Lens.OrthographicSize = deathOrthoSize;
     }
-    private void Zoom(float start, float end, float lerpDuration)
+
+    private IEnumerator BossLerp(float delay)
     {
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(start, end, timeElapsed / lerpDuration);
+        yield return new WaitForSeconds(delay);
+
+        while (timeElapsed < introDuration)
+        {
+            Zoom(defaultOrthoSize, bossOrthoSize, bossDuration, bossCurve);
+            yield return null;
+        }
+
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = deathOrthoSize;
+    }
+    private void Zoom(float start, float end, float lerpDuration, AnimationCurve animCurve)
+    {
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(start, end, animCurve.Evaluate(timeElapsed / lerpDuration));
         timeElapsed += Time.deltaTime;
     }
 
