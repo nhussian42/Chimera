@@ -50,7 +50,7 @@ public class CurrencyManager : Singleton<CurrencyManager>
     {
         currentBones = defaultBones;
         OnBonesUpdate?.Invoke();
-        Debug.Log("InitializeBones()");
+        // Debug.Log("InitializeBones()");
     }
 
     private void ResetEssence()
