@@ -49,7 +49,7 @@ public class NotBossAI : Creature
         {
             playerIFrame = true;
             Invoke("PlayerIFrame", 0.5f);
-            Debug.Log("Dealt damage to player");
+            //Debug.Log("Dealt damage to player");
 
             PlayerController.Instance.DistributeDamage(attackDamage);
 
