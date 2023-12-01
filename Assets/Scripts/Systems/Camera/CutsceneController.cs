@@ -44,7 +44,7 @@ public class CutsceneController : MonoBehaviour
     }
     private void StartBossCutscene()
     {
-        print("Cutscene playing!");
+        // print("Cutscene playing!");
         cutsceneDirector.Play();
     }
 
