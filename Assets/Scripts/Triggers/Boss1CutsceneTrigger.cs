@@ -9,6 +9,8 @@ public class Boss1CutsceneTrigger : MonoBehaviour
     private bool _triggered;
     [SerializeField] private GameObject boss;
     [SerializeField] private GameObject gate;
+    [SerializeField] private float gateCloseTime;
+    [SerializeField] private float timeUntilPlayerMovementRestored;
 
     // private Collider cutsceneTrigger;
 
@@ -26,10 +28,10 @@ public class Boss1CutsceneTrigger : MonoBehaviour
         {
             _triggered = true;
             Boss1Cutscene?.Invoke();
-            StartCoroutine(CloseGate());
+            StartCoroutine(CloseGate(gateCloseTime));
             Invoke("SpawnBoss", 3f);
             PlayerController.Instance.DisableAllDefaultControls();
-            Invoke("ResumePlayerControls", 4f);
+            Invoke("ResumePlayerControls", timeUntilPlayerMovementRestored);
         }
     }
 
@@ -38,13 +40,13 @@ public class Boss1CutsceneTrigger : MonoBehaviour
         boss.SetActive(true);
     }
 
-    private IEnumerator CloseGate()
+    private IEnumerator CloseGate(float closeTime)
     {
         float timer = 0;
-        while (timer < 0.5)
+        while (timer < closeTime)
         {
             timer += Time.deltaTime;
-            gate.transform.position = new Vector3(gate.transform.position.x, Mathf.Lerp(8, 0, timer / 0.5f), gate.transform.position.z);
+            gate.transform.position = new Vector3(gate.transform.position.x, Mathf.Lerp(8, 0, timer / closeTime), gate.transform.position.z);
             yield return null;
         }
         yield return null;
