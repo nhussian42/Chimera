@@ -1611,6 +1611,7 @@ MonoBehaviour:
   gate: {fileID: 3074577897849998393}
   gateCloseTime: 1
   timeUntilPlayerMovementRestored: 7.5
+  bossSpawnDelay: 3
 --- !u!1 &2353132567417333272
 GameObject:
   m_ObjectHideFlags: 0
@@ -1791,7 +1792,7 @@ MonoBehaviour:
   - {fileID: 196465115970369777}
   exitDoors:
   - {fileID: 4355537660122137552}
-  bossCreature: {fileID: 5102497965850196730, guid: e893beaa5397529448c624a809d642fc,
+  bossCreature: {fileID: 7236270839568758342, guid: b7c560fb5b1305a43839cc15bb842dae,
     type: 3}
 --- !u!1 &2759037566619630348
 GameObject:
@@ -7561,7 +7562,7 @@ PrefabInstance:
     - target: {fileID: 5414978280556518508, guid: 2687328f66cb45242b4696dbbfb96384,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 5414978280556518508, guid: 2687328f66cb45242b4696dbbfb96384,
         type: 3}
