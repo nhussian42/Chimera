@@ -107,7 +107,6 @@ public class CameraShake : Singleton<CameraShake>
         // Debug.Log(cbmcp.gameObject.name);
         CinemachineBasicMultiChannelPerlin cbmcp = _cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cbmcp.m_AmplitudeGain = shakeIntensity;
-
         StartCoroutine(ShakeDuration(shakeTime));
     }
 
