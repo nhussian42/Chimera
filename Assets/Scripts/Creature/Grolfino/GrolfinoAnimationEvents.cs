@@ -37,11 +37,14 @@ public class GrolfinoAnimationEvents : MonoBehaviour
     {
         bossMesh.SetActive(false);
         grolfino.burrowed = true;
+        CameraShake.Instance.BossBurrowShake(true);
     }
 
     public void EndBurrow()
     {
         bossMesh.SetActive(true);
+        CameraShake.Instance.BossBurrowShake(false);
+        CameraShake.Instance.BossAttackShake();
     }
 
     public void GroundSlam()
@@ -50,7 +53,7 @@ public class GrolfinoAnimationEvents : MonoBehaviour
         slamCollider.enabled = true;
         slamAttackCollider.enabled = true;
         grolfino.knockbackForce = 75f;
-        
+        CameraShake.Instance.BossAttackShake();
     }
 
     public void ResetGroundSlamCollider()

@@ -2,31 +2,63 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class BodyShopMenu : MonoBehaviour
 {
+    private PlayerController playerController;
 
-    public List<Button> ItemButtonList;
-    public List<float> ItemCostList;
-    public Button HealItemButton;
-    public float HealCost;
-    public Button ExitButton;
-    public GameObject self;
+    [SerializeField] private List<Button> ItemButtonList;
+    [SerializeField] private Button HealItemButton;
+    [SerializeField] private Button ExitButton;
+    [SerializeField] private Button ConfirmButton;
 
+    [SerializeField] private List<float> ItemCostList;
+    [SerializeField] private float HealCost;
 
-    public List<TextMeshProUGUI> ItemTextList;
-    public TextMeshProUGUI HealItemText;
-    public TextMeshProUGUI CurrentBones;
+    [SerializeField] private List<Image> ItemImageList;
 
+    [SerializeField] private List<TextMeshProUGUI> ItemTextList;
+    [SerializeField] private TextMeshProUGUI HealItemText;
 
+    [SerializeField] private List<TextMeshProUGUI> descList;
+    [SerializeField] private List<GameObject> descObjList;
+    [SerializeField] private GameObject confirmMenu;
+
+    [SerializeField] private Button firstSelect;
+
+    [SerializeField] private TextMeshProUGUI CurrentBones;
+
+    [SerializeField] private GameObject self;
+
+    private int playerChoice;
+    
     // Start is called before the first frame update
     void Start()
     {
         SetupPrices();
-
+        SetupSprites();
+        SetupDescriptions();
+        playerController = PlayerController.Instance;
     }
 
+    private void OnEnable()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(firstSelect.gameObject);
+        if (!firstSelect.gameObject.activeSelf)
+        {
+            for(int i = 1; i < ItemButtonList.Count; i++)
+            {
+                EventSystem.current.SetSelectedGameObject(ItemButtonList[i].gameObject);
+                if (ItemButtonList[i].gameObject.activeSelf)
+                {
+                    break;
+                }                              
+            }
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -36,32 +68,76 @@ public class BodyShopMenu : MonoBehaviour
     public void ExitMenu()
     {
         self.SetActive(false);
+        playerController.EnableAllDefaultControls();
+        playerController.DisableAllUIControls();
     }
 
     private void UpdateBoneCount()
     {
-        CurrentBones.text = $"Bones: {PlayerController.Instance.totalBones.ToString("F0")}";
+        CurrentBones.text = $"{PlayerController.Instance.totalBones.ToString("F0")}";
     }
 
     private void SetupPrices()
     {
-        for(int i = 0; i < (ItemTextList.Count); i++) 
+        ItemCostList[0] = BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().limbCost;
+        ItemCostList[1] = BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>().limbCost;
+        //ItemCostList[2] = BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>().limbCost;
+     
+        for (int i = 0; i < (ItemTextList.Count); i++) 
         {
-            ItemCostList[i] = Random.Range(10, 100);
-            ItemTextList[i].text = $"Cost: {ItemCostList[i].ToString()}";
+            ItemTextList[i].text = $"Buy: {ItemCostList[i].ToString()}";
         }
 
-        HealItemText.text = $"Cost: {HealCost.ToString()}";
+        HealItemText.text = $"Buy: {HealCost.ToString()}";
+    }
+
+    private void SetupSprites()
+    {
+        ItemImageList[0].sprite = BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().limbSprite;
+        ItemImageList[1].sprite = BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>().limbSprite;
+    }
+
+    private void SetupDescriptions()
+    {
+        descList[0].text = $"{BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().LimbType}";
+        descList[1].text = null;
+        descList[2].text = null;
+        descList[3].text = null;
+
+        
     }
 
     public void PurchaseOption(int i)
     {
-        Debug.Log("bought?!?!");
-        if (ItemCostList[i] < PlayerController.Instance.totalBones)
+        if(i == 4)
         {
-            Debug.Log("bought");
+            PurchaseHeal();
+        }
+        else if (ItemCostList[i] < PlayerController.Instance.totalBones)
+        {
             PlayerController.Instance.totalBones -= ItemCostList[i];
-            BodyShop.Instance.DestroyOption(i);
+            BodyShop.Instance.DestroyOption(i); 
+            EventSystem.current.SetSelectedGameObject(null);
+            if (ItemButtonList[i] != ItemButtonList[2])
+            {
+                if (ItemButtonList[i + 1].gameObject.activeSelf)
+                {
+                    EventSystem.current.SetSelectedGameObject(ItemButtonList[i+1].gameObject);
+                }
+                else
+                {
+                    EventSystem.current.SetSelectedGameObject(ExitButton.gameObject);
+                }
+            }
+            else if (ItemButtonList[i] == ItemButtonList[2])
+            {
+                EventSystem.current.SetSelectedGameObject(HealItemButton.gameObject);
+            }
+            if(!HealItemButton.gameObject.activeSelf)
+            {
+                EventSystem.current.SetSelectedGameObject(ExitButton.gameObject);
+            }
+
             DestroyButton(i);
         }
     }
@@ -74,15 +150,63 @@ public class BodyShopMenu : MonoBehaviour
             PlayerController.Instance.currentLeftArm.UpdateCurrentHealth(5);
             PlayerController.Instance.currentRightArm.UpdateCurrentHealth(5);
             PlayerController.Instance.UpdateCoreHealth(5);
+
             HealItemButton.gameObject.SetActive(false);
+            ItemImageList[3].gameObject.SetActive(false);
+            descObjList[3].gameObject.SetActive(false);
             BodyShop.Instance.DestroyOption(3);
+
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(ExitButton.gameObject);
         }
     }
 
     private void DestroyButton(int i)
     {
+        descObjList[i].gameObject.SetActive(false);
         ItemButtonList[i].gameObject.SetActive(false);
-
+        ItemImageList[i].gameObject.SetActive(false);
     }
 
+    public void ConfirmPrompt(int i)
+    {
+        confirmMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(ConfirmButton.gameObject);
+        playerChoice = i;
+    }
+
+    public void ConfirmYes()
+    {
+        PurchaseOption(playerChoice);
+        ReSelectMenu();
+        confirmMenu.SetActive(false);
+    }
+
+    public void ConfirmNo()
+    {
+        ReSelectMenu();
+        confirmMenu.SetActive(false);
+    }
+
+    public void ReSelectMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        for(int i = 0; i < 3; i++)
+        {
+            if (ItemButtonList[i].gameObject.activeSelf)
+            {
+                EventSystem.current.SetSelectedGameObject(ItemButtonList[i].gameObject);
+                break;
+            }    
+            else if(HealItemButton.gameObject.activeSelf)
+            {
+                EventSystem.current.SetSelectedGameObject(HealItemButton.gameObject);
+            }
+            else
+            {
+                EventSystem.current.SetSelectedGameObject(ExitButton.gameObject);
+            }
+        }
+    }
 }

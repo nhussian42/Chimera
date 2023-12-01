@@ -482,6 +482,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 53259469810433876, guid: 398e09c0f65fb944889f7c64bd605ad5,
         type: 3}
+      propertyPath: EquipMenu
+      value: 
+      objectReference: {fileID: 1931134467}
+    - target: {fileID: 53259469810433876, guid: 398e09c0f65fb944889f7c64bd605ad5,
+        type: 3}
       propertyPath: _mainCamera
       value: 
       objectReference: {fileID: 4887858241783400865}
@@ -1250,12 +1255,12 @@ PrefabInstance:
     - target: {fileID: 5984451950563705918, guid: ca9034841ed887d408b0411cb8a7bd27,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -60.000183
+      value: -60.000244
       objectReference: {fileID: 0}
     - target: {fileID: 5984451950563705918, guid: ca9034841ed887d408b0411cb8a7bd27,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -42.00003
+      value: -42
       objectReference: {fileID: 0}
     - target: {fileID: 6491386089414425319, guid: ca9034841ed887d408b0411cb8a7bd27,
         type: 3}
@@ -1394,6 +1399,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PostRunSummaryUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2621483749463170129, guid: 26a19b2345383b94ca267cbe202e0e19,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4532540184823632516, guid: 26a19b2345383b94ca267cbe202e0e19,
         type: 3}
@@ -1751,6 +1761,8 @@ MonoBehaviour:
   m_ParentHash:
   - m_Hash: -1341779082
     m_ParentHash: 756556552
+  - m_Hash: -918243715
+    m_ParentHash: 756556552
 --- !u!95 &1004724311
 Animator:
   serializedVersion: 5
@@ -1784,7 +1796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37d133eddf8275940a3793ff43e74be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  introDelay: 4
+  cutsceneDirector: {fileID: 0}
 --- !u!224 &1074947951 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6993718041274590861, guid: 8ba7fb819226b9a44819e301edab40b2,
@@ -1946,7 +1958,7 @@ MonoBehaviour:
     NearClipPlane: -50
     FarClipPlane: 1000
     Dutch: 0
-    ModeOverride: 0
+    ModeOverride: 1
     LensShift: {x: 0, y: 0}
     GateFit: 2
     FocusDistance: 10
@@ -1992,20 +2004,117 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1278137258}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f08b32d90798aa94d8336129e9aa8d1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOrthoSize: 11
-  introOrthoSize: 6
-  introDelay: 4
-  introLerpDuration: 3
-  deathOrthoSize: 0
-  deathLerpDuration: 0
-  bossOrthoSize: 0
-  bossDelay: 0
-  bossLerpDuration: 0
+  defaultDelay: 3
+  defaultDuration: 3
+  defaultCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  introOrthoSize: 7
+  introDelay: 3
+  introDuration: 4
+  introCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  deathOrthoSize: 6
+  deathDuration: 3
+  deathCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  bossOrthoSize: 15
+  bossDuration: 2
+  bossCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1542492312 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5252917493137791230, guid: b1f91e54c233e5c45aa8d994dfe6fd72,
@@ -2191,6 +2300,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6463649699711676213, guid: 508296c8b1cde5b46af487a0fc0487b8,
     type: 3}
   m_PrefabInstance: {fileID: 6988844034549204692}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1931134467 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3346927322668887821, guid: ca9034841ed887d408b0411cb8a7bd27,
+    type: 3}
+  m_PrefabInstance: {fileID: 977221036}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2057520916
 GameObject:
