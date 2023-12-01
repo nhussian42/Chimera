@@ -126,30 +126,40 @@ public class Gecko : NotBossAI
 
     protected override void Update()
     {
-        if (alive == true && remainingDashAttackCooldown < 0)
+        if (stunned != true)
         {
-            FaceTarget(agent.destination);
-            agent.destination = player.transform.position;
+            Debug.Log("Update() called");
+            if (alive == true && remainingDashAttackCooldown < 0)
+            {
+                FaceTarget(agent.destination);
+                agent.destination = player.transform.position;
 
-            if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
-            {
-                StartCoroutine(DashAttack());
-                attacking = true;
+                if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
+                {
+                    StartCoroutine(DashAttack());
+                    attacking = true;
+                }
             }
-        }
-        else if (alive == true)
-        {
-            if (agent.remainingDistance < 0.1f && fleeing == true)
+            else if (alive == true)
             {
-                animator.SetBool("Idle", true);
+                if (agent.remainingDistance < 0.1f && fleeing == true)
+                {
+                    animator.SetBool("Idle", true);
+                }
+                else
+                {
+                    animator.SetBool("Idle", false);
+                }
             }
-            else
-            {
-                animator.SetBool("Idle", false);
-            }
-        }
 
-        remainingDashAttackCooldown -= Time.deltaTime;
+            remainingDashAttackCooldown -= Time.deltaTime;
+        }
+    }
+
+    public override void ResetAttackBooleans()
+    {
+        base.ResetAttackBooleans();
+        fleeing = false;
     }
 
     private void FaceTarget(Vector3 destination)

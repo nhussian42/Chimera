@@ -31,18 +31,22 @@ public class NotBossAI : Creature
 
     protected virtual void Update()
     {
-        agent.destination = player.transform.position;
-
-        if (attacking == false && alive == true)
+        if(stunned != true)
         {
-            if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
+            Debug.Log("Update() called");
+            agent.destination = player.transform.position;
+
+            if (attacking == false && alive == true)
             {
-                //Player is in range
-                //Perform attack coroutine
-                StartCoroutine(Attack());
-                attacking = true;
+                if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
+                {
+                    //Player is in range
+                    //Perform attack coroutine
+                    StartCoroutine(Attack());
+                    attacking = true;
+                }
             }
-        }
+        }        
     }
 
     public virtual void OnTriggerEnter(Collider other)
@@ -70,11 +74,17 @@ public class NotBossAI : Creature
         yield return null;
     }
 
+    public virtual void ResetAttackBooleans()
+    {
+        attacking = false;
+    }
+
     public void Stun(float duration, GameObject stunFX)
     {
         if(stunnable == true)
         {
             //Debug.Log("Called Stun()");
+            StopAllCoroutines();
             StartCoroutine(Stunned(duration, stunFX));
         }      
     }
@@ -84,17 +94,18 @@ public class NotBossAI : Creature
     {
         // Debug.Log("Called Stunned()");
         // set stunned bool to true for length of duration then set it back to false, instantiate stunned VFX at pos (See Update() function) - Amon 
-        alive = false;
-        agent.isStopped = true;
+
+        stunned = true;
+
         StartCoroutine(StunCooldown(3.0f));
         //GameObject stunnedFX = Instantiate(stunFX, stunSpawnTransform); // Instantiate particle effect passed from RhinoHead, get VisualEffect component in children and set pos
         //VisualEffect effect = stunnedFX.GetComponentInChildren<VisualEffect>();
         //effect.SetVector3("Position", stunSpawnTransform.position);
         yield return new WaitForSeconds(duration);
         //Destroy(stunnedFX);
-        alive = true;
-        if (dead != true)
-            agent.isStopped = false;
+
+        ResetAttackBooleans();
+        stunned = false;
     }
 
     protected IEnumerator StunCooldown(float duration)

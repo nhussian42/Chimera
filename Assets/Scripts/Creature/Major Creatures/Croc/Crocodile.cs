@@ -142,18 +142,29 @@ public class Crocodile : NotBossAI
 
     protected override void Update()
     {
-        if (alive == true)
+        if(stunned != true)
         {
-            agent.destination = player.transform.position;
-
-            if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
+            Debug.Log("Update() called");
+            if (alive == true)
             {
-                StartCoroutine(Attack());
-                attacking = true;
+                agent.destination = player.transform.position;
+
+                if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask) && attacking == false)
+                {
+                    StartCoroutine(Attack());
+                    attacking = true;
+                }
             }
+
+            remainingDigCooldown -= Time.deltaTime;
+
         }
 
-        remainingDigCooldown -= Time.deltaTime;
+    }
+
+    public override void ResetAttackBooleans()
+    {
+        base.ResetAttackBooleans();
     }
 
     protected override void Die()
