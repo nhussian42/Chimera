@@ -17,6 +17,7 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected float iFrameDuration = 0.5f; //iFrame for creatures ONLY controls animations
     public float knockbackForce = 5;
     private bool iFrame = false;
+    protected bool dead = false;
 
     [field: SerializeField] public CreatureSO CreatureInfo { get; private set; }
 
@@ -108,6 +109,7 @@ public abstract class Creature : MonoBehaviour
     protected virtual void Die()
     {
         // SpawnDrop();
+        dead = true;
         animator.Play("Death");
         agent.isStopped = true;
         alive = false;

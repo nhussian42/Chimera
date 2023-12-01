@@ -2526,7 +2526,7 @@ Transform:
   - {fileID: 7120051725487143016}
   - {fileID: 6976358354469409987}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3048959359936504127
 Animator:
@@ -2861,8 +2861,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   allHeads:
-  - {fileID: 822374487050714662}
   - {fileID: 2845596060274842395}
+  - {fileID: 822374487050714662}
   allArms:
   - {fileID: 4953931813178917154}
   - {fileID: 6543709977600552567}
@@ -2886,7 +2886,7 @@ MonoBehaviour:
   coreLeftArm: {fileID: 4953931813178917154}
   coreRightArm: {fileID: 6543709977600552567}
   coreLegs: {fileID: 1225942169148807824}
-  coreHead: {fileID: 822374487050714662}
+  coreHead: {fileID: 2845596060274842395}
   attackRangeLeftOrigin: {fileID: 865760508072513655}
   attackRangeRightOrigin: {fileID: 4585391653819130557}
   animator: {fileID: 3048959359936504127}
@@ -3140,6 +3140,8 @@ MonoBehaviour:
   defaultMaxHealth: 50
   limbSprite: {fileID: 21300000, guid: f97cab7106e097749ac0cbadf3bcf937, type: 3}
   selectedSprite: {fileID: 21300000, guid: ca4f3b51120f02a47b68422d419404e3, type: 3}
+  vfxPrefab: {fileID: 4876879602382407549, guid: 089877d33523c43089a535c8b704deae,
+    type: 3}
 --- !u!1 &3281926577933013807
 GameObject:
   m_ObjectHideFlags: 0

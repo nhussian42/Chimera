@@ -50,7 +50,6 @@ public class Rhino : NotBossAI
 
     protected override void Update()
     {
-
         if (alive == true)
         {
             if (attacking == false)

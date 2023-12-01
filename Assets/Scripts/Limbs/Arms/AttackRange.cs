@@ -18,6 +18,11 @@ public class AttackRange : MonoBehaviour
             AudioManager.PlaySound3D(AudioEvents.Instance.OnPlayerHitConnected, other.transform.position);
             creature.TakeDamage((int)arm.AttackDamage);
             creature.Knockback(creature.transform.position - transform.position, 20, 0.05f);
+            
+            // Temp stun code, refactor later
+            if (PlayerController.Instance.currentHead.TryGetComponent<RhinoHead>(out RhinoHead rhinoHead))
+                if (creature.TryGetComponent<NotBossAI>(out NotBossAI creatureAI))
+                    creatureAI.Stun(5.0f, rhinoHead.VFXPrefab);
         }
 
         if (other.tag == "Breakable")

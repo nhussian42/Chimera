@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class RhinoHead : Head
 {
-    
+    [SerializeField] GameObject vfxPrefab;
+    public GameObject VFXPrefab { get { return vfxPrefab; } }
 }

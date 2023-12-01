@@ -49,7 +49,6 @@ public class CrocLegs : Legs
             Vector3 trailPos = new Vector3(player.transform.position.x, 0, player.transform.position.z);
             trailParticleFX = Instantiate(trailParticlePrefab, trailPos, Quaternion.identity, player.transform);
             StartCoroutine(Burrow());
-            Debug.Log("Ability activated, isUnderground = " + isUnderground);
         }
         else
         {
@@ -58,7 +57,6 @@ public class CrocLegs : Legs
             player.ToggleInvincibility();
             isUnderground = false;
             player.EnableAllDefaultControls();
-            Debug.Log("Ability activated, isUnderground = " + isUnderground);
         }
 
     }

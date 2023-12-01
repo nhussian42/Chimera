@@ -732,8 +732,6 @@ public class PlayerController : Singleton<PlayerController>
                 {
                     currentHead.gameObject.SetActive(false);
                 }
-                Debug.Log("currentHead: " + currentHead.StringName);
-                Debug.Log("savedHead: " + savedHead.StringName);
                 head.gameObject.SetActive(true);
                 currentHead = head;
                 currentHead.LoadStats(savedHead.MaxHealth, savedHead.Health);

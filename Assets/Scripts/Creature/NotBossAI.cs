@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.VFX;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(Rigidbody))]
 public class NotBossAI : Creature
 {
     protected GameObject player;
     private bool playerIFrame = false;
+    protected bool stunned = false; //temp variable for stun behavior, refactor this later - Amon
+    protected bool stunnable = true;
+    [SerializeField] private Transform stunSpawnTransform;
     [SerializeField] protected LayerMask playerLayerMask;    //Used to check distance from the player
 
     [SerializeField] protected bool attacking = false;   //Keeps track of if the creature is currently attacking
@@ -39,7 +43,6 @@ public class NotBossAI : Creature
                 attacking = true;
             }
         }
-
     }
 
     public virtual void OnTriggerEnter(Collider other)
@@ -65,5 +68,40 @@ public class NotBossAI : Creature
     public virtual IEnumerator Attack()
     {
         yield return null;
+    }
+
+    public void Stun(float duration, GameObject stunFX)
+    {
+        if(stunnable == true)
+        {
+            //Debug.Log("Called Stun()");
+            StartCoroutine(Stunned(duration, stunFX));
+        }      
+    }
+
+    // temp function for stun behavior, refactor this later - Amon
+    protected IEnumerator Stunned(float duration, GameObject stunFX)
+    {
+        // Debug.Log("Called Stunned()");
+        // set stunned bool to true for length of duration then set it back to false, instantiate stunned VFX at pos (See Update() function) - Amon 
+        alive = false;
+        agent.isStopped = true;
+        StartCoroutine(StunCooldown(3.0f));
+        //GameObject stunnedFX = Instantiate(stunFX, stunSpawnTransform); // Instantiate particle effect passed from RhinoHead, get VisualEffect component in children and set pos
+        //VisualEffect effect = stunnedFX.GetComponentInChildren<VisualEffect>();
+        //effect.SetVector3("Position", stunSpawnTransform.position);
+        yield return new WaitForSeconds(duration);
+        //Destroy(stunnedFX);
+        alive = true;
+        if (dead != true)
+            agent.isStopped = false;
+    }
+
+    protected IEnumerator StunCooldown(float duration)
+    {
+        //Debug.Log("Called StunCooldown()");
+        stunnable = false;
+        yield return new WaitForSeconds(duration);
+        stunnable = true;
     }
 }
