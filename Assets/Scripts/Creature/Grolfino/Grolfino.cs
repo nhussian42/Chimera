@@ -233,6 +233,7 @@ public class Grolfino : BossAI
         alive = false;
         StopAllCoroutines();
         Destroy(this.gameObject, 3f);
+        CreatureManager.AnyCreatureDied?.Invoke();
 
         // Another addition to my list of crimes -Gabe
         BossDead?.Invoke();
