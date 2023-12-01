@@ -15,7 +15,7 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected float currentHealth;
     [SerializeField] protected float attackDamage = 5f;
     [SerializeField] protected float iFrameDuration = 0.5f; //iFrame for creatures ONLY controls animations
-    protected float knockbackForce = 5;
+    public float knockbackForce = 5;
     private bool iFrame = false;
 
     [field: SerializeField] public CreatureSO CreatureInfo { get; private set; }
@@ -72,15 +72,21 @@ public abstract class Creature : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
-        if (alive == true && iFrame == false)
+        if (alive == true)
         {
-            iFrame = true;
-            Invoke("IFrame", iFrameDuration);
+
 
             currentHealth -= damage;
-            healthbar.UpdateHealthBar(currentHealth, health);
+            if (healthbar != null)
+                healthbar.UpdateHealthBar(currentHealth, health);
 
-            animator.SetTrigger("TakeDamage");
+            if (iFrame == false)
+            {
+                animator.SetTrigger("TakeDamage");
+                iFrame = true;
+                Invoke("IFrame", iFrameDuration);
+            }
+
 
             // Blanket audio event for all creatures taking damage, may be replaced by individual creature sounds
             AudioManager.PlaySound3D(AudioEvents.Instance.OnCreatureDamaged, transform.position);
@@ -106,10 +112,11 @@ public abstract class Creature : MonoBehaviour
         agent.isStopped = true;
         alive = false;
         GetComponent<BoxCollider>().enabled = false;
+        healthbar.gameObject.SetActive(false);
 
         CreatureManager.AnyCreatureDied?.Invoke();
-        if (creatureType == CreatureType.Minor)
-            DestroyCreature();
+        // if (creatureType == CreatureType.Minor)
+        //     DestroyCreature();
 
         //Destroy(this.gameObject, 1.5f);
         StopAllCoroutines();
@@ -119,8 +126,10 @@ public abstract class Creature : MonoBehaviour
 
     private void DestroyCreature()
     {
-        // play the dissolve shader
-        Destroy(this.gameObject, 1.5f);
+        foreach (DissolveObject creaturePart in GetComponentsInChildren<DissolveObject>())
+        {
+            creaturePart.Dissolve(false);
+        }
     }
 
     public void Knockback(Vector3 knockbackDir, float knockbackForce, float knockbackDuration)

@@ -8,6 +8,7 @@ public class DebugControls : MonoBehaviour
 {
     public static Action<int> DamageAllCreatures;
     public static Action SpawnDebugCreature;
+    public static Action SpawnRandomCreature;
     public static Action toggleTrinketBuffMenu;
     public static Action TestTimerStart;
     public static Action TestTimerStop;
@@ -33,7 +34,10 @@ public class DebugControls : MonoBehaviour
 
         // F
         // G
-        // H
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            SpawnRandomCreature?.Invoke();
+        }
         
         if (Input.GetKeyDown(KeyCode.I))
         {

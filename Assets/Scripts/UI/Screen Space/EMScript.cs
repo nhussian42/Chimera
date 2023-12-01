@@ -43,11 +43,7 @@ public class EMScript : MonoBehaviour
         {
             trinketList.Add(trinket);
         }
-    }
 
-    private void Update()
-    {
-      
     }
 
     private void Hide()
@@ -57,7 +53,7 @@ public class EMScript : MonoBehaviour
 
     public void AddTrinket(Trinket trinket)
     {
-        if (trinketList.Contains(trinket))
+        if (trinketList.Contains(trinket) && (trinket.IsRelic == false))
         {
             return;
         }

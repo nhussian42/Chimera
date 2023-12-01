@@ -13,11 +13,13 @@ public class Room : MonoBehaviour
     protected virtual void OnEnable()
     {
         CreatureManager.AnyCreatureDied += SubtractCreature;
+        DebugControls.SpawnRandomCreature += SpawnRandomCreature;
     }
 
     protected virtual void OnDisable()
     {
         CreatureManager.AnyCreatureDied -= SubtractCreature;
+        DebugControls.SpawnRandomCreature += SpawnRandomCreature;
     }
 
     private void SubtractCreature()
@@ -28,5 +30,13 @@ public class Room : MonoBehaviour
             FloorManager.AllCreaturesDefeated?.Invoke();
             // spawn limb at currentmajorcreature transform?????
         }
-    } 
+    }
+
+    private void SpawnRandomCreature()
+    {
+        List<Creature> creatures = FloorManager.Instance.currentFloor.spawnableMajorCreatures;
+        int index = UnityEngine.Random.Range(0, creatures.Count);
+        Instantiate(creatures[index], Vector3.zero, Quaternion.identity);
+        _numCreaturesAlive++;
+    }
 }
