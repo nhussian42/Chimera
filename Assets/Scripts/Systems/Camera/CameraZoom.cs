@@ -108,6 +108,7 @@ public class CameraZoom : MonoBehaviour
 
     public void DeathZoom()
     {
+        // BUG: Snapping to 7 and lerping to 6 in boss room
         StartCoroutine(ZoomLerp(0f, CinemachineVirtualCamera.m_Lens.OrthographicSize, deathOrthoSize, deathDuration, deathCurve));
     }
 
@@ -118,26 +119,26 @@ public class CameraZoom : MonoBehaviour
 
     public void DefaultZoom()
     {
-        // For some reason this isn't working even though it should
+        // BUG: Snapping to 11.5 and lerping to 11 in boss room
         StartCoroutine(ZoomLerp(defaultDelay, CinemachineVirtualCamera.m_Lens.OrthographicSize, defaultOrthoSize, defaultDuration, defaultCurve));
 
     }
 
-    private IEnumerator ZoomLerp(float delay, float startOrthoSize, float endOrthoSize, float duration, AnimationCurve animCurve)
+    private IEnumerator ZoomLerp(float delay, float start, float end, float duration, AnimationCurve animCurve)
     {
+        // print(CinemachineVirtualCamera.m_Lens.OrthographicSize);
         yield return new WaitForSeconds(delay);
+        // print(CinemachineVirtualCamera.m_Lens.OrthographicSize);
 
         while (timeElapsed < duration)
-        {
-            Zoom(startOrthoSize, endOrthoSize, duration, animCurve);
+        {        
+            // print(CinemachineVirtualCamera.m_Lens.OrthographicSize);
+
+            CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(start, end, animCurve.Evaluate(timeElapsed / duration));
+            timeElapsed += Time.deltaTime;            
             yield return null;
         }
 
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = endOrthoSize;
-    }
-    private void Zoom(float start, float end, float lerpDuration, AnimationCurve animCurve)
-    {
-        CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(start, end, animCurve.Evaluate(timeElapsed / lerpDuration));
-        timeElapsed += Time.deltaTime;
+        CinemachineVirtualCamera.m_Lens.OrthographicSize = end;
     }
 }

@@ -6,7 +6,8 @@ using UnityEngine;
 public class Boss1CutsceneTrigger : MonoBehaviour
 {
     private bool _triggered;
-
+    [SerializeField]
+    GameObject bossCutsceneTimeline;
     // private Collider cutsceneTrigger;
 
     public static Action Boss1Cutscene;
@@ -23,6 +24,7 @@ public class Boss1CutsceneTrigger : MonoBehaviour
         {
             _triggered = true;
             Boss1Cutscene?.Invoke();
+            bossCutsceneTimeline.SetActive(true);
         }
     }
 }
