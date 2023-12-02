@@ -44,7 +44,8 @@ public class NewTrinketManager : Singleton<NewTrinketManager>
         EventSystem.current.SetSelectedGameObject(OptionOneGO);
 
         Invoke("debug", 1);
-        PlayerController.Instance.Pause();
+        PlayerController.Instance.DisableAllDefaultControls();
+        PlayerController.Instance.EnableAllUIControls();
 
         trinketOne = masterTrinketList.GetRandomTrinket();
         trinketTwo = masterTrinketList.GetRandomTrinket();
