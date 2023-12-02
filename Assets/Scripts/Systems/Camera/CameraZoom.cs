@@ -36,7 +36,7 @@ public class CameraZoom : MonoBehaviour
     [SerializeField]
     private AnimationCurve deathCurve;
 
-    [Header("Zoom To Boss Parameters:")]
+    [Header("[CUTSCENE REWORK NEEDED] Zoom To Boss Parameters:")]
     [SerializeField]
     private float bossOrthoSize;
     [SerializeField]
