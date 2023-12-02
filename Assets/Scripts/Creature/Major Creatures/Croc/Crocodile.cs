@@ -25,7 +25,6 @@ public class Crocodile : NotBossAI
     [SerializeField] private float regularAttackKnockback;
     [SerializeField] private float burrowAttackKnockback;
     [SerializeField] private GameObject burrowVFX;
-    private ParticleSystem trailParticle;
     private GameObject particle;
     private bool burrowing;
 
@@ -43,7 +42,6 @@ public class Crocodile : NotBossAI
         agent.destination = player.transform.position;
         animator = GetComponentInChildren<Animator>();
         baseSpeed = agent.speed;
-        trailParticle = GetComponentInChildren<ParticleSystem>();
     }
 
     public override IEnumerator Attack()
@@ -112,7 +110,6 @@ public class Crocodile : NotBossAI
         agent.stoppingDistance = 4;
         agent.isStopped = true;
         agent.speed = burrowSpeed;
-        //trailParticle.Play();
         GetComponentInChildren<Canvas>().enabled = false;
         AudioManager.PlaySound3D(AudioEvents.Instance.OnCrocBurrow, transform.position);
         yield return new WaitForSeconds(2f);
@@ -123,7 +120,6 @@ public class Crocodile : NotBossAI
 
         //When in range, unburrows and resets speed
         CameraShake.Instance.CreatureBurrowShake(false);
-        //trailParticle.Stop();
         animator.SetBool("BurrowResurface", true);
         animator.SetBool("Burrow", false);
         agent.isStopped = true;
