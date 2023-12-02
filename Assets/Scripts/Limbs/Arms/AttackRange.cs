@@ -33,6 +33,11 @@ public class AttackRange : MonoBehaviour
         transform.localScale = Vector3.one;
     }
 
+    private void OnDisable()
+    {
+        AttackEnded?.Invoke();
+    }
+
     private void DisableAttackRange()
     {
         AttackEnded?.Invoke();

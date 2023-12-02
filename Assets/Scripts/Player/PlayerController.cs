@@ -337,7 +337,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         movementValues = _movement.ReadValue<Vector2>();
         movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
-        Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z);
+        Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
 
         animator.SetFloat("Speed", movementValues.magnitude * _movementSpeed / 10f);
@@ -447,7 +447,8 @@ public class PlayerController : Singleton<PlayerController>
         switch (arm.Weight)
         {
             case Weight.Core:
-            _movementSpeed *= 0.5f;
+                DisableAttackControls();
+                _movementSpeed *= 0.5f;
                 animator.SetTrigger("BaseAttack");
                 break;
             case Weight.Heavy: // Covers croc + rhino, but not shark (may need to be a ground slam instead???)
@@ -462,7 +463,7 @@ public class PlayerController : Singleton<PlayerController>
                 break;
             case Weight.Light:
                 DisableAttackControls();
-                _movementSpeed *= 0.3f;
+                _movementSpeed *= 0.5f;
                 animator.SetTrigger("LightAttack");
                 break;
         }

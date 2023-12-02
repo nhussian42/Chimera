@@ -16,7 +16,7 @@ public abstract class Arm : Limb
     private float attackDamage;
     private float attackSpeed;
 
-    private static GameObject attackRangeParent;
+    private GameObject attackRangeParent;
     
     //Hidden properties
 
@@ -79,7 +79,7 @@ public abstract class Arm : Limb
         // Create the attack range parent
         if (attackRangeParent == null)
         {
-            Transform parent = Weight == Weight.Light ? PlayerController.Instance.transform : null;
+            Transform parent = Weight == Weight.Light || Weight == Weight.Core ? PlayerController.Instance.transform : null;
             attackRangeParent = Instantiate(new GameObject(), parent);
             attackRangeParent.name = "Attack Range Pool";
         }
