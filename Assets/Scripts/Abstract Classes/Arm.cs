@@ -79,7 +79,7 @@ public abstract class Arm : Limb
         // Create the attack range parent
         if (attackRangeParent == null)
         {
-            attackRangeParent = Instantiate(new GameObject());
+            attackRangeParent = Instantiate(new GameObject(), PlayerController.Instance.transform);
             attackRangeParent.name = "Attack Range Pool";
         }
 

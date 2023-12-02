@@ -78,7 +78,6 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] Transform attackRangeRightOrigin;
 
     [SerializeField] Animator animator;
-    [field: SerializeField] public float LimbDissolveDuration { get; private set; }
     public Animator Animator { get { return animator; } }
     public Transform AttackRangeLeftOrigin { get { return attackRangeLeftOrigin; } }
     public Transform AttackRangeRightOrigin { get { return attackRangeRightOrigin; } }
