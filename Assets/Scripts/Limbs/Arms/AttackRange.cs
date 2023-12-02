@@ -20,9 +20,10 @@ public class AttackRange : MonoBehaviour
             creature.Knockback(creature.transform.position - transform.position, 20, 0.05f);
             
             // Temp stun code, refactor later
-            if (PlayerController.Instance.currentHead.TryGetComponent<RhinoHead>(out RhinoHead rhinoHead))
-                if (creature.TryGetComponent<NotBossAI>(out NotBossAI creatureAI))
-                    creatureAI.Stun(5.0f, rhinoHead.VFXPrefab);
+            if (PlayerController.Instance.currentHead.TryGetComponent<RhinoHead>(out RhinoHead rhinoHead) 
+                && creature.TryGetComponent<NotBossAI>(out NotBossAI creatureAI))
+                if (creature.CurrentHealth > 0)
+                    creatureAI.Stun(0.75f, rhinoHead.VFXPrefab);
         }
 
         if (other.tag == "Breakable")

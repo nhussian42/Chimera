@@ -12,6 +12,7 @@ public class NotBossAI : Creature
     private bool playerIFrame = false;
     protected bool stunned = false; //temp variable for stun behavior, refactor this later - Amon
     protected bool stunnable = true;
+    protected GameObject stunnedFX;
     [SerializeField] private Transform stunSpawnTransform;
     [SerializeField] protected LayerMask playerLayerMask;    //Used to check distance from the player
 
@@ -96,9 +97,8 @@ public class NotBossAI : Creature
         // set stunned bool to true for length of duration then set it back to false, instantiate stunned VFX at pos (See Update() function) - Amon 
         stunned = true;
         StartCoroutine(StunCooldown(3.0f));
-        GameObject stunnedFX = Instantiate(stunFX, stunSpawnTransform); // Instantiate particle effect passed from RhinoHead, get VisualEffect component in children and set pos
-        VisualEffect effect = stunnedFX.GetComponentInChildren<VisualEffect>();
-        effect.SetVector3("Position", stunSpawnTransform.position);
+        if(stunnedFX == null)
+            stunnedFX = Instantiate(stunFX, stunSpawnTransform);
         yield return new WaitForSeconds(duration);
         Destroy(stunnedFX);
         ResetAttackBooleans();
@@ -111,5 +111,11 @@ public class NotBossAI : Creature
         stunnable = false;
         yield return new WaitForSeconds(duration);
         stunnable = true;
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        Destroy(stunnedFX);
     }
 }

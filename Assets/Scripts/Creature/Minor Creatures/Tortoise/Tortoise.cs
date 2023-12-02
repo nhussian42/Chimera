@@ -51,5 +51,6 @@ public class Tortoise : NotBossAI
     {
         base.Die();
         AudioManager.PlaySound3D(AudioEvents.Instance.OnTortoiseDeath, transform.position);
+        Destroy(stunnedFX);
     }
 }

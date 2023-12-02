@@ -10,8 +10,10 @@ public class CrocLegs : Legs
     [SerializeField] GameObject trailParticlePrefab;
     private GameObject burrowParticleFX;
     private GameObject trailParticleFX;
+    private VisualEffect trailEffect;
     [SerializeField] float burrowDuration;
     bool isUnderground = false;
+    bool fullBurrow = false;
 
     private SkinnedMeshRenderer[] headRenderer = new SkinnedMeshRenderer[2];
     private SkinnedMeshRenderer coreRenderer;
@@ -21,13 +23,35 @@ public class CrocLegs : Legs
 
     public override void PlayAnim()
     {
-        canActivate = false;
-        StartCoroutine(Cooldown());
-        player.DisableAllDefaultControls();
-        player.Animator.SetTrigger("Burrow");
-        burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
-        VisualEffect burrowEffect = burrowParticleFX.GetComponentInChildren<VisualEffect>();
-        burrowEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
+        Debug.Log("PlayAnim()");
+        if (fullBurrow == false)
+        {
+            Debug.Log("if");
+            Destroy(trailParticleFX);
+            player.DisableAllDefaultControls();
+            burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
+            VisualEffect burrowEffect1 = burrowParticleFX.GetComponentInChildren<VisualEffect>();
+            burrowEffect1.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
+            player.Animator.SetTrigger("Surface");
+        }
+        else
+        {
+            Debug.Log("else");
+            player.DisableAllDefaultControls();
+            player.Animator.SetTrigger("Burrow");
+            burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
+            VisualEffect burrowEffect = burrowParticleFX.GetComponentInChildren<VisualEffect>();
+            burrowEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
+        }
+
+    }
+
+    private void Update()
+    {
+        if(isUnderground == true && trailEffect != null)
+        {
+            trailEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
+        }
     }
 
     public override void ActivateAbility()
@@ -36,6 +60,7 @@ public class CrocLegs : Legs
         if (isUnderground == false)
         {
             player.EnableAllDefaultControls();
+            player.ToggleInvincibility();
             isUnderground = true;
 
             // Get the Skinned Mesh Renderers of all the current limbs
@@ -48,6 +73,7 @@ public class CrocLegs : Legs
 
             Vector3 trailPos = new Vector3(player.transform.position.x, 0, player.transform.position.z);
             trailParticleFX = Instantiate(trailParticlePrefab, trailPos, Quaternion.identity, player.transform);
+            trailEffect = trailParticleFX.GetComponentInChildren<VisualEffect>();
             StartCoroutine(Burrow());
         }
         else
@@ -56,18 +82,20 @@ public class CrocLegs : Legs
             SetMeshVisibility(true);
             player.ToggleInvincibility();
             isUnderground = false;
+            fullBurrow = false;
             player.EnableAllDefaultControls();
+            StartCoroutine(Cooldown());
         }
 
     }
 
     private IEnumerator Burrow()
     {
-        player.ToggleInvincibility();
         SetMeshVisibility(false);
 
         yield return new WaitForSeconds(burrowDuration);
 
+        fullBurrow = true;
         Destroy(trailParticleFX);
         player.DisableAllDefaultControls();
         burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);

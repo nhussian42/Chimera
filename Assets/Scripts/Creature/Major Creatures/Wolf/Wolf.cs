@@ -179,5 +179,6 @@ public class Wolf : NotBossAI
     {
         base.Die();
         AudioManager.PlaySound3D(AudioEvents.Instance.OnWolfDeath, transform.position);
+        Destroy(stunnedFX);
     }
 }

@@ -52,7 +52,6 @@ public class Rhino : NotBossAI
     {
         if(stunned != true)
         {
-            Debug.Log("Update() called");
             if (alive == true)
             {
                 if (attacking == false)
@@ -191,5 +190,6 @@ public class Rhino : NotBossAI
         RhinoCharge.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         RhinoCharge.release();
         AudioManager.PlaySound3D(AudioEvents.Instance.OnRhinoDeath, transform.position);
+        Destroy(stunnedFX);
     }
 }

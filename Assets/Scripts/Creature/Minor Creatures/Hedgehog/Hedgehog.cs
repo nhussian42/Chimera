@@ -63,5 +63,6 @@ public class Hedgehog : NotBossAI
     {
         base.Die();
         AudioManager.PlaySound3D(AudioEvents.Instance.OnHedgehogDeath, transform.position);
+        Destroy(stunnedFX);
     }
 }

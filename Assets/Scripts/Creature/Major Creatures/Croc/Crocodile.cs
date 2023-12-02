@@ -171,6 +171,7 @@ public class Crocodile : NotBossAI
     {
         base.Die();
         AudioManager.PlaySound3D(AudioEvents.Instance.OnCrocDeath, transform.position);
+        Destroy(stunnedFX);
     }
 
     public override void TakeDamage(int damage)

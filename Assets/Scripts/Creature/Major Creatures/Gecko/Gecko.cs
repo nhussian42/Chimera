@@ -179,5 +179,6 @@ public class Gecko : NotBossAI
     {
         base.Die();
         AudioManager.PlaySound3D(AudioEvents.Instance.OnGeckoDeath, transform.position);
+        Destroy(stunnedFX);
     }
 }
