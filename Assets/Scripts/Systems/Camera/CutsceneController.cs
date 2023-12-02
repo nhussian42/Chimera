@@ -44,8 +44,8 @@ public class CutsceneController : MonoBehaviour
     }
     private void StartBossCutscene()
     {
-        print("Cutscene playing!");
-        // cutsceneDirector.Play();
+        // print("Cutscene playing!");
+        cutsceneDirector.Play();
     }
 
     private void SwitchCam()
