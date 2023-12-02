@@ -78,7 +78,7 @@ public class Rhino : NotBossAI
         agent.angularSpeed = chargingTurnSpeed;
         agent.acceleration = chargeAcceleration;
         animator.SetBool("Charge", true);
-        
+
         yield return new WaitForSeconds(chargeDelay);
         //Rhino runs towards player until within slam attack range
         RhinoCharge = AudioManager.Instance.CreateEventInstance(AudioEvents.Instance.OnRhinoCharge);
@@ -98,7 +98,7 @@ public class Rhino : NotBossAI
                 agent.acceleration += 1;
                 timer = 2f;
                 attackDamage = Mathf.RoundToInt(agent.velocity.magnitude);
-                knockbackForce = Mathf.Clamp(knockbackForce, Mathf.RoundToInt(agent.velocity.magnitude), 50f);
+                knockbackForce = Mathf.Clamp(knockbackForce + 0.1f, 1, 25f);
             }
             yield return null;
         }
@@ -177,15 +177,9 @@ public class Rhino : NotBossAI
 
     protected override void Die()
     {
-        animator.Play("Death");
+        base.Die();
         RhinoCharge.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         RhinoCharge.release();
         AudioManager.PlaySound3D(AudioEvents.Instance.OnRhinoDeath, transform.position);
-        agent.isStopped = true;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        alive = false;
-        CreatureManager.AnyCreatureDied?.Invoke();
-        Destroy(this.gameObject, 3.5f);
-        StopAllCoroutines();
     }
 }

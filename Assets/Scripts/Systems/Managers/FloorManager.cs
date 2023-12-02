@@ -64,7 +64,7 @@ public class FloorManager : Singleton<FloorManager>
         }
     }
 
-    private void LoadMainMenu()
+    public void LoadMainMenu()
     {
         _currentRoomIndex = 0;
         ChimeraSceneManager.Instance.LoadScene(0);
@@ -142,7 +142,7 @@ public class FloorManager : Singleton<FloorManager>
         else if (_currentRoom is BossRoom)
         {
             BossRoom _currentBossRoom = (BossRoom)_currentRoom;
-            _currentBossRoom.SpawnBoss(currentFloor, environmentParent.transform);
+            //_currentBossRoom.SpawnBoss(currentFloor, environmentParent.transform);
         }
         
         //StartCoroutine(WaitForRoomLoad(room, 10f));

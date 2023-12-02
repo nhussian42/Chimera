@@ -2525,8 +2525,9 @@ Transform:
   - {fileID: 7379795005805327082}
   - {fileID: 7120051725487143016}
   - {fileID: 6976358354469409987}
+  - {fileID: 2260742047345967660}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3048959359936504127
 Animator:
@@ -2889,7 +2890,6 @@ MonoBehaviour:
   attackRangeLeftOrigin: {fileID: 865760508072513655}
   attackRangeRightOrigin: {fileID: 4585391653819130557}
   animator: {fileID: 3048959359936504127}
-  <LimbDissolveDuration>k__BackingField: 1.5
   totalBones: 0
   bonesMultiplier: 0
 --- !u!1 &3125528580234289208
@@ -3638,9 +3638,9 @@ MonoBehaviour:
   limbSprite: {fileID: 21300000, guid: 4eee1bf4fe4ed0549b656a906d6806da, type: 3}
   selectedSprite: {fileID: 21300000, guid: c07ca37f5e55be848a97c47a22e826dd, type: 3}
   defaultAttackDamage: 7.2
-  defaultAttackSpeed: 2.2
+  defaultAttackSpeed: 1.5
   side: 1
-  attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
+  attackRangePrefab: {fileID: 5182243123753938400, guid: 4c8a2c55321cb98459c2d827cfbb2b49,
     type: 3}
 --- !u!1 &4167420556579896603
 GameObject:
@@ -5868,12 +5868,12 @@ MonoBehaviour:
   weight: 2
   limbName: 0
   stringName: Wolf Arm
-  defaultHealth: 20
-  defaultMaxHealth: 20
+  defaultHealth: 24
+  defaultMaxHealth: 24
   limbSprite: {fileID: 21300000, guid: aee2ab2ef12c91748b0ee3a7cfb07650, type: 3}
   selectedSprite: {fileID: 21300000, guid: d71c29b366085c3428b51a00fdfeb509, type: 3}
-  defaultAttackDamage: 30
-  defaultAttackSpeed: 1.5
+  defaultAttackDamage: 6.6
+  defaultAttackSpeed: 1
   side: 0
   attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
     type: 3}
@@ -5925,6 +5925,37 @@ Transform:
   - {fileID: 2754597557766433802}
   - {fileID: 7468070426187057712}
   m_Father: {fileID: 711338802340608421}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6274477249200582823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2260742047345967660}
+  m_Layer: 6
+  m_Name: VC_Follow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2260742047345967660
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6274477249200582823}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8638392938306188172}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6290571462761198063
@@ -6469,9 +6500,9 @@ MonoBehaviour:
   limbSprite: {fileID: 21300000, guid: 12a24fb0d30358e40910ea1df5c55202, type: 3}
   selectedSprite: {fileID: 21300000, guid: c07ca37f5e55be848a97c47a22e826dd, type: 3}
   defaultAttackDamage: 7.2
-  defaultAttackSpeed: 2.2
+  defaultAttackSpeed: 1.5
   side: 0
-  attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
+  attackRangePrefab: {fileID: 5182243123753938400, guid: 4c8a2c55321cb98459c2d827cfbb2b49,
     type: 3}
 --- !u!1 &6888725712489403274
 GameObject:
@@ -6791,12 +6822,12 @@ MonoBehaviour:
   weight: 2
   limbName: 0
   stringName: Wolf Arm
-  defaultHealth: 20
-  defaultMaxHealth: 20
+  defaultHealth: 24
+  defaultMaxHealth: 24
   limbSprite: {fileID: 21300000, guid: 2ec0f54e68e7c8342bc14e00139c939e, type: 3}
   selectedSprite: {fileID: 21300000, guid: 0c31214fd48a0034e8263e5cd688466e, type: 3}
-  defaultAttackDamage: 30
-  defaultAttackSpeed: 1.5
+  defaultAttackDamage: 6.6
+  defaultAttackSpeed: 1
   side: 1
   attackRangePrefab: {fileID: 5182243123753938400, guid: 84367a2218f207c4fa26cf238980f5ff,
     type: 3}
