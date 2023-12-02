@@ -76,6 +76,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2314066411903441404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 114530366082459280}
+  m_Layer: 0
+  m_Name: StunSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &114530366082459280
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2314066411903441404}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.064, z: 0.579}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1130122857050022754}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4555294273419761940
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,8 +464,9 @@ Transform:
   - {fileID: 7505987393195399869}
   - {fileID: 1392399125855653087}
   - {fileID: 4770798994666926644}
+  - {fileID: 114530366082459280}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7476901055269709529
 MeshFilter:
@@ -510,11 +542,13 @@ MonoBehaviour:
   currentHealth: 0
   attackDamage: 10
   iFrameDuration: 0.5
+  knockbackForce: 5
   <CreatureInfo>k__BackingField: {fileID: 11400000, guid: 444150a0f3666174ba2a659c1397e3a5,
     type: 2}
   <classification>k__BackingField: 0
   creatureType: 1
   healthbar: {fileID: 4992417300023761576}
+  stunSpawnTransform: {fileID: 114530366082459280}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64

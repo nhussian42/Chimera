@@ -94,16 +94,13 @@ public class NotBossAI : Creature
     {
         // Debug.Log("Called Stunned()");
         // set stunned bool to true for length of duration then set it back to false, instantiate stunned VFX at pos (See Update() function) - Amon 
-
         stunned = true;
-
         StartCoroutine(StunCooldown(3.0f));
-        //GameObject stunnedFX = Instantiate(stunFX, stunSpawnTransform); // Instantiate particle effect passed from RhinoHead, get VisualEffect component in children and set pos
-        //VisualEffect effect = stunnedFX.GetComponentInChildren<VisualEffect>();
-        //effect.SetVector3("Position", stunSpawnTransform.position);
+        GameObject stunnedFX = Instantiate(stunFX, stunSpawnTransform); // Instantiate particle effect passed from RhinoHead, get VisualEffect component in children and set pos
+        VisualEffect effect = stunnedFX.GetComponentInChildren<VisualEffect>();
+        effect.SetVector3("Position", stunSpawnTransform.position);
         yield return new WaitForSeconds(duration);
-        //Destroy(stunnedFX);
-
+        Destroy(stunnedFX);
         ResetAttackBooleans();
         stunned = false;
     }
