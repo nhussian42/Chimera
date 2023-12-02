@@ -49,6 +49,7 @@ public class Boss1CutsceneTrigger : MonoBehaviour
 
     private IEnumerator CloseGate(float closeTime)
     {
+        yield return new WaitForSeconds(0.3f);
         float timer = 0;
         float startPosY = gate.transform.position.y;
         while (timer < closeTime)
@@ -63,6 +64,7 @@ public class Boss1CutsceneTrigger : MonoBehaviour
 
     private void ResumePlayerControls()
     {
+        print("Player input reenabled");
         PlayerController.Instance.EnableAllDefaultControls();
     }
 }
