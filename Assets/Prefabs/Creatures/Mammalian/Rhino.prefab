@@ -233,7 +233,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 2
   m_Speed: 10
-  m_Acceleration: 8
+  m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 4
@@ -305,7 +305,7 @@ MonoBehaviour:
   chargeSpeed: 12
   slamAttackRange: 6
   slamDelay: 2.2
-  chargeKnockback: 1
+  chargeKnockback: 2
   slamKnockback: 50
   slammed: 0
 --- !u!65 &5409585568701026752
@@ -321,14 +321,14 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1.5895672, y: 8, z: 2.8225784}
-  m_Center: {x: -0.038012028, y: 4, z: -0.047697008}
+  m_Center: {x: 0, y: 4, z: 0}
 --- !u!114 &260096233365818866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,7 +405,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -464,7 +464,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 2, y: 7, z: 2}
+  m_Size: {x: 2, y: 7, z: 3}
   m_Center: {x: 0, y: 0.5, z: 3}
 --- !u!1 &7432104306457178633
 GameObject:

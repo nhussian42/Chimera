@@ -78,7 +78,6 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] Transform attackRangeRightOrigin;
 
     [SerializeField] Animator animator;
-    [field: SerializeField] public float LimbDissolveDuration { get; private set; }
     public Animator Animator { get { return animator; } }
     public Transform AttackRangeLeftOrigin { get { return attackRangeLeftOrigin; } }
     public Transform AttackRangeRightOrigin { get { return attackRangeRightOrigin; } }
@@ -110,13 +109,20 @@ public class PlayerController : Singleton<PlayerController>
     private List<Drop> touchedDrops;
     private Drop nearestDrop;
 
+    // cringe and evil static bool
+    private static bool hasWoken = false;
+
     protected override void Init()
     {
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
         _controller = GetComponent<CharacterController>();
         touchedDrops = new List<Drop>();
-        
+
+        if (!hasWoken)
+        {
+            PlayWakeUp();
+        }
     }
 
     // Enable new player input actions in this method
@@ -149,6 +155,9 @@ public class PlayerController : Singleton<PlayerController>
         _select = _playerInputActions.UI.Select;
         _switchToLeftArm = _playerInputActions.UI.SwitchToLeftArm;
         _switchToRightArm = _playerInputActions.UI.SwitchToRightArm;
+
+        // Temp trigger for forcing wakeup anim to play
+        // IntroCutsceneTrigger.IntroWakeUp += PlayWakeUp;
     }
 
     // Disable new player input actions in this method
@@ -162,6 +171,10 @@ public class PlayerController : Singleton<PlayerController>
         FloorManager.LeaveRoom -= DisableAllDefaultControls;
         AttackRange.AttackEnded -= EnableAllDefaultControls;
         AttackRange.AttackEnded -= () => _movementSpeed = currentLegs.MovementSpeed;
+
+        // Temp trigger for forcing wakeup anim to play
+        // IntroCutsceneTrigger.IntroWakeUp -= PlayWakeUp;
+
         // FloorManager.EnableFloor -= EnableAllDefaultControls;
 
         DisableAllDefaultControls();
@@ -340,7 +353,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         movementValues = _movement.ReadValue<Vector2>();
         movementDir = movementValues.y * _mainCamera.transform.forward + movementValues.x * _mainCamera.transform.right;
-        Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z);
+        Vector3 movementVector = new Vector3(movementDir.x, 0, movementDir.z).normalized;
         _controller.Move(movementVector * Time.deltaTime * _movementSpeed);
 
         animator.SetFloat("Speed", movementValues.magnitude * _movementSpeed / 10f);
@@ -450,7 +463,8 @@ public class PlayerController : Singleton<PlayerController>
         switch (arm.Weight)
         {
             case Weight.Core:
-            _movementSpeed *= 0.5f;
+                DisableAttackControls();
+                _movementSpeed *= 0.5f;
                 animator.SetTrigger("BaseAttack");
                 break;
             case Weight.Heavy: // Covers croc + rhino, but not shark (may need to be a ground slam instead???)
@@ -465,7 +479,7 @@ public class PlayerController : Singleton<PlayerController>
                 break;
             case Weight.Light:
                 DisableAttackControls();
-                _movementSpeed *= 0.3f;
+                _movementSpeed *= 0.5f;
                 animator.SetTrigger("LightAttack");
                 break;
         }
@@ -964,6 +978,7 @@ public class PlayerController : Singleton<PlayerController>
     private void Die()
     {
         AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerDeath);
+        animator.SetBool("Death", true);
         OnDie?.Invoke();
         DisableAllDefaultControls();
         ToggleInvincibility();
@@ -1032,4 +1047,10 @@ public class PlayerController : Singleton<PlayerController>
 
         AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerWalk);
     }
+
+    private void PlayWakeUp()
+    {
+        animator.SetBool("WakeUp", true);
+        hasWoken = true;
+    }   
 }
