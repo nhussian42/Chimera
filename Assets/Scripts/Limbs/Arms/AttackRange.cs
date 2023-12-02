@@ -10,6 +10,7 @@ public class AttackRange : MonoBehaviour
     //[SerializeField] private ParticleSystem vfx;
     public static Action AttackEnded;
     private Arm arm;
+    private Quaternion startRotation;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -35,7 +36,26 @@ public class AttackRange : MonoBehaviour
     private void DisableAttackRange()
     {
         AttackEnded?.Invoke();
+        //transform.GetChild(0).rotation = startRotation;
+        Invoke(nameof(ReleaseRange), 2f);
+    }
+
+    private void ReleaseRange()
+    {
         arm.AttackRangePool.Release(this);
+    }
+
+    public void InputArmReference(Arm controllingArm, SideOfPlayer side, float angle)
+    {
+        arm = controllingArm;
+        //startRotation = transform.GetChild(0).localRotation;
+
+        // spaghetti code for getting the gecko/wolf claws to rotate
+        if (side == SideOfPlayer.Right)
+            angle = -angle;
+
+        if (controllingArm.Weight == Weight.Light)
+            transform.GetChild(0).localEulerAngles = new Vector3(angle, -90, 0);
     }
 
     public void InputArmReference(Arm controllingArm)
