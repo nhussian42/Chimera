@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.UIElements;
+using UnityEngine.VFX;
 
 public class Crocodile : NotBossAI
 {
@@ -21,6 +24,9 @@ public class Crocodile : NotBossAI
     [SerializeField] private BoxCollider crocBodyCollider;
     [SerializeField] private float regularAttackKnockback;
     [SerializeField] private float burrowAttackKnockback;
+    [SerializeField] private GameObject burrowVFX;
+    private ParticleSystem trailParticle;
+    private GameObject particle;
     private bool burrowing;
 
     protected override void InitializeStats(float percentDamageIncrease, float percentHealthIncrease)
@@ -37,6 +43,7 @@ public class Crocodile : NotBossAI
         agent.destination = player.transform.position;
         animator = GetComponentInChildren<Animator>();
         baseSpeed = agent.speed;
+        trailParticle = GetComponentInChildren<ParticleSystem>();
     }
 
     public override IEnumerator Attack()
@@ -97,12 +104,15 @@ public class Crocodile : NotBossAI
         //Disables collider, increases speed, makes the croc burrow
         knockbackForce = burrowAttackKnockback;
         CameraShake.Instance.CreatureBurrowShake(true);
+        particle = Instantiate(burrowVFX, transform.position + (transform.forward * 2), Quaternion.identity, this.transform);
+        //Destroy(particle, 2f);
         animator.SetBool("Burrow", true);
         burrowing = true;
         crocBodyCollider.enabled = false;
         agent.stoppingDistance = 4;
         agent.isStopped = true;
         agent.speed = burrowSpeed;
+        //trailParticle.Play();
         GetComponentInChildren<Canvas>().enabled = false;
         AudioManager.PlaySound3D(AudioEvents.Instance.OnCrocBurrow, transform.position);
         yield return new WaitForSeconds(2f);
@@ -113,6 +123,7 @@ public class Crocodile : NotBossAI
 
         //When in range, unburrows and resets speed
         CameraShake.Instance.CreatureBurrowShake(false);
+        //trailParticle.Stop();
         animator.SetBool("BurrowResurface", true);
         animator.SetBool("Burrow", false);
         agent.isStopped = true;
@@ -125,6 +136,7 @@ public class Crocodile : NotBossAI
         yield return new WaitForSeconds(0.75f);
 
         //Burrow attack collider disabled, croc can take damage again, attack damage reset, goes back to chasing
+        Destroy(particle);
         animator.SetBool("Idle", true);
         crocBodyCollider.enabled = true;
         attackDamage = regularAttackDamage;
@@ -151,6 +163,8 @@ public class Crocodile : NotBossAI
                 StartCoroutine(Attack());
                 attacking = true;
             }
+            if (particle != null)
+                particle.GetComponentInChildren<VisualEffect>().SetVector3("Position", transform.position + (transform.forward * 2));
         }
 
         remainingDigCooldown -= Time.deltaTime;

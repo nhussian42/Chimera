@@ -8,6 +8,7 @@ public class CrocodileAnimationEvents : MonoBehaviour
     [SerializeField] private SphereCollider resurfaceAttackCollider;
     [SerializeField] private MeshCollider biteAttackCollider;
     [SerializeField] private BoxCollider crocCollider;
+    
 
     public void EnableResurfaceAttackCollider()
     {
