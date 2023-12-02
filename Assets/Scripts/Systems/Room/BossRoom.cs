@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class BossRoom : Room
 {
-    public Creature bossCreature;    
+    public Creature bossCreature;
 
-    public void SpawnBoss(FloorSO floorInfo, Transform parent)
+    public void SpawnBoss()
     {
-        Instantiate(floorInfo.boss, Vector3.zero, Quaternion.identity);
+        Instantiate(bossCreature, new Vector3(transform.position.x, transform.position.y, transform.position.z + 3), Quaternion.identity);
         _numCreaturesAlive++;
     }
 
