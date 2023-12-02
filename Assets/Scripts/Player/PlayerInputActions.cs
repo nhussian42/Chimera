@@ -299,6 +299,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""662d81d2-876f-409e-9fa7-2394a62c025f"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""OpenEM"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""5eed101c-196b-4882-b6cc-e991d4ff2530"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",

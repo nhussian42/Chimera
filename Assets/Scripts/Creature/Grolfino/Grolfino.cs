@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using UnityEngine.AI;
 
 public class Grolfino : BossAI
@@ -39,6 +41,8 @@ public class Grolfino : BossAI
     public bool projectileAttack;
     public bool sweepAttack;
 
+    // Gabe was here and evilly added this to make my life easier.
+    public static Action BossDead;
 
     private void Start()
     {
@@ -228,6 +232,10 @@ public class Grolfino : BossAI
         agent.isStopped = true;
         alive = false;
         StopAllCoroutines();
-        Destroy(this.gameObject, 2.5f);
+        Destroy(this.gameObject, 3f);
+        CreatureManager.AnyCreatureDied?.Invoke();
+
+        // Another addition to my list of crimes -Gabe
+        BossDead?.Invoke();
     }
 }
