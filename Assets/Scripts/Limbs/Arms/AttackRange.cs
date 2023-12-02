@@ -37,6 +37,11 @@ public class AttackRange : MonoBehaviour
     {
         AttackEnded?.Invoke();
         //transform.GetChild(0).rotation = startRotation;
+        Invoke(nameof(ReleaseRange), 2f);
+    }
+
+    private void ReleaseRange()
+    {
         arm.AttackRangePool.Release(this);
     }
 
