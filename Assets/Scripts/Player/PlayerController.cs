@@ -507,8 +507,6 @@ public class PlayerController : Singleton<PlayerController>
 
     private void EnableTrinketMenu()
     {
-        DisableAllDefaultControls();
-        EnableAllUIControls();
         NewTrinketManager.Instance.gameObject.SetActive(true);
     }
 
