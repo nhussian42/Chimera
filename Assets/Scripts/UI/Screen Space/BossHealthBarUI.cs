@@ -23,23 +23,24 @@ public class BossHealthBarUI : MonoBehaviour
     float b = 100;
     bool damaged;
 
-    public void UpdateHealthBar(float currentHealth, float maxHealth)
+  private void Start()
     {
-        bossHealthSliderL.value = currentHealth / maxHealth;
-        bossHealthSliderR.value = currentHealth / maxHealth;
-    }
-
+        entered = true;
+        healthBarFillSpeed = healthBarFillSpeed / 1000;
+        highlightSpeed = highlightSpeed / 100;
+    }    
+    
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyUp(KeyCode.Q)) //Replace with boss taking damage
         {
-            a = a - 5;
+            a = a - 20;
             UpdateHealthBar(a, b);
             
             //Invoke("ShowDamageHighlight", 1);
         }
 
-        if (entered)
+        if (entered) //Meant for when to trigger the healthbar to go up (before/after cutscene?)
         {
             InitiateHealthBar();
         }
@@ -52,10 +53,15 @@ public class BossHealthBarUI : MonoBehaviour
 
             damageHighlightL.value = Mathf.Lerp(damageHighlightL.value, bossHealthSliderL.value, t);
             damageHighlightR.value = Mathf.Lerp(damageHighlightR.value, bossHealthSliderR.value, t);
+            //Creates the highlight effect after boss takes damage
         }
     }
-
-    private void InitiateHealthBar()
+    public void UpdateHealthBar(float currentHealth, float maxHealth)
+    {
+        bossHealthSliderL.value = currentHealth / maxHealth;
+        bossHealthSliderR.value = currentHealth / maxHealth;
+    }
+    private void InitiateHealthBar() //Sets the slider values to max
     {
         bossHealthSliderR.value = bossHealthSliderR.value + healthBarFillSpeed;
         bossHealthSliderL.value = bossHealthSliderL.value + healthBarFillSpeed;
@@ -65,13 +71,6 @@ public class BossHealthBarUI : MonoBehaviour
             damageHighlightL.value = 1;
             damageHighlightR.value = 1; 
         }
-    }
-
-    private void Start()
-    {
-        entered = true;
-        healthBarFillSpeed = healthBarFillSpeed / 1000;
-        highlightSpeed = highlightSpeed / 100;
     }
 
     private float evaluate(float x)

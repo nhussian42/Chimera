@@ -13,6 +13,7 @@ public class BodyShopMenu : MonoBehaviour
     [SerializeField] private Button HealItemButton;
     [SerializeField] private Button ExitButton;
     [SerializeField] private Button ConfirmButton;
+    [SerializeField] private GameObject EnterExit;
 
     [SerializeField] private List<float> ItemCostList;
     [SerializeField] private float HealCost;
@@ -21,14 +22,14 @@ public class BodyShopMenu : MonoBehaviour
 
     [SerializeField] private List<TextMeshProUGUI> ItemTextList;
     [SerializeField] private TextMeshProUGUI HealItemText;
+    [SerializeField] private TextMeshProUGUI limbText;
+
 
     [SerializeField] private List<TextMeshProUGUI> descList;
     [SerializeField] private List<GameObject> descObjList;
     [SerializeField] private GameObject confirmMenu;
 
     [SerializeField] private Button firstSelect;
-
-    [SerializeField] private TextMeshProUGUI CurrentBones;
 
     [SerializeField] private GameObject self;
 
@@ -60,10 +61,6 @@ public class BodyShopMenu : MonoBehaviour
         }
     }
     // Update is called once per frame
-    void Update()
-    {
-        UpdateBoneCount();
-    }
 
     public void ExitMenu()
     {
@@ -71,12 +68,6 @@ public class BodyShopMenu : MonoBehaviour
         playerController.EnableAllDefaultControls();
         playerController.DisableAllUIControls();
     }
-
-    private void UpdateBoneCount()
-    {
-        CurrentBones.text = $"{PlayerController.Instance.totalBones.ToString("F0")}";
-    }
-
     private void SetupPrices()
     {
         ItemCostList[0] = BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().limbCost;
@@ -113,9 +104,9 @@ public class BodyShopMenu : MonoBehaviour
         {
             PurchaseHeal();
         }
-        else if (ItemCostList[i] < PlayerController.Instance.totalBones)
+        else if (ItemCostList[i] < CurrencyManager.Instance.currentBones)
         {
-            PlayerController.Instance.totalBones -= ItemCostList[i];
+            CurrencyManager.Instance.RemoveBones((int)ItemCostList[i]) ;
             BodyShop.Instance.DestroyOption(i); 
             EventSystem.current.SetSelectedGameObject(null);
             if (ItemButtonList[i] != ItemButtonList[2])
@@ -173,13 +164,39 @@ public class BodyShopMenu : MonoBehaviour
         confirmMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(ConfirmButton.gameObject);
+        EnterMenu(false);
         playerChoice = i;
+        switch (i)
+        {
+            case 0:
+                { 
+                    limbText.text = $"{BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().LimbType.ToString()}"+" ?";
+                    break; 
+                }
+            case 1:
+                {
+                    limbText.text = $"{BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>().LimbType.ToString()}"+" ?";
+                    break; 
+                }
+            case 2:
+                {
+                    limbText.text = $"{BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>().LimbType.ToString()}"+" ?";
+                    break; 
+                }
+            case 3:
+                {
+                    limbText.text = $"Heal Grub";
+                    break; 
+                }
+        }
+        
     }
 
     public void ConfirmYes()
     {
         PurchaseOption(playerChoice);
         ReSelectMenu();
+        EnterMenu(true);
         confirmMenu.SetActive(false);
     }
 
@@ -187,6 +204,7 @@ public class BodyShopMenu : MonoBehaviour
     {
         ReSelectMenu();
         confirmMenu.SetActive(false);
+        EnterMenu(true);
     }
 
     public void ReSelectMenu()
@@ -208,5 +226,15 @@ public class BodyShopMenu : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(ExitButton.gameObject);
             }
         }
+    }
+
+    private void Update()
+    {
+        Debug.Log(EventSystem.current.currentSelectedGameObject);
+    }
+
+    private void EnterMenu(bool tf)
+    {
+        EnterExit.gameObject.SetActive(tf);
     }
 }

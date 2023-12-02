@@ -22,7 +22,7 @@ public class BoneDrop : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            PlayerController.Instance.AddBones(value);
+            CurrencyManager.Instance.AddBones((int)value);
             Destroy(gameObject);
             
         }

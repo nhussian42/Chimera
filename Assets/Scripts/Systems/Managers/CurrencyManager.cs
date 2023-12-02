@@ -77,7 +77,7 @@ public class CurrencyManager : Singleton<CurrencyManager>
             bonesMultiplier = newMultiplierValue;
     }
 
-    private void AddBones(int amount)
+    public void AddBones(int amount)
     {
         if (bonesMultiplier > 1)
             amount *= (int)bonesMultiplier;
@@ -89,5 +89,11 @@ public class CurrencyManager : Singleton<CurrencyManager>
     {
         currentEssence = Mathf.Clamp(currentEssence + amount, 0, maxEssence);
         OnEssenceUpdate?.Invoke();
+    }
+
+    public void RemoveBones(int amount)
+    {
+        currentBones = Mathf.Clamp(currentBones - amount, 0, maxBones);
+        OnBonesUpdate?.Invoke();
     }
 }
