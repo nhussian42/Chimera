@@ -55,29 +55,20 @@ public class CameraZoom : MonoBehaviour
     private void OnEnable()
     {
         PlayerController.OnDie += DeathZoom;
-        IntroCutsceneTrigger.IntroCutscene += IntroZoom;
-        // Replace w/ CutsceneController.IntroZoom += IntroZoom;
-
+        IntroCutsceneTrigger.IntroWakeUp += IntroZoom;
         Boss1CutsceneTrigger.Boss1Cutscene += BossZoom;
-        // Replace w/ CutsceneController.BossZoom += BossZoom;
 
 
         Grolfino.BossDead += DefaultZoom;
-        // BossDead.BossDead += DefaultZoom;
     }
 
     private void OnDisable()
     {
         PlayerController.OnDie -= DeathZoom;
-        IntroCutsceneTrigger.IntroCutscene -= IntroZoom;
-        // Replace w/ CutsceneController.IntroZoom -= IntroZoom;
-
+        IntroCutsceneTrigger.IntroWakeUp -= IntroZoom;
         Boss1CutsceneTrigger.Boss1Cutscene -= BossZoom;
-        // Replace w/ CutsceneController.BossZoom -= BossZoom;
 
         Grolfino.BossDead -= DefaultZoom;
-        // BossDead.BossDead -= DefaultZoom;
-
     }
 
     // Currently intro zoom working through this function, need to setup with CutsceneController

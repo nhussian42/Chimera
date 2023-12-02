@@ -64,7 +64,7 @@ public class Boss1CutsceneTrigger : MonoBehaviour
 
     private void ResumePlayerControls()
     {
-        print("Player input reenabled");
+        // print("Player input reenabled");
         PlayerController.Instance.EnableAllDefaultControls();
     }
 }

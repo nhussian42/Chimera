@@ -109,13 +109,20 @@ public class PlayerController : Singleton<PlayerController>
     private List<Drop> touchedDrops;
     private Drop nearestDrop;
 
+    // cringe and evil static bool
+    private static bool hasWoken = false;
+
     protected override void Init()
     {
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
         _controller = GetComponent<CharacterController>();
         touchedDrops = new List<Drop>();
-        
+
+        if (!hasWoken)
+        {
+            PlayWakeUp();
+        }
     }
 
     // Enable new player input actions in this method
@@ -148,6 +155,9 @@ public class PlayerController : Singleton<PlayerController>
         _select = _playerInputActions.UI.Select;
         _switchToLeftArm = _playerInputActions.UI.SwitchToLeftArm;
         _switchToRightArm = _playerInputActions.UI.SwitchToRightArm;
+
+        // Temp trigger for forcing wakeup anim to play
+        // IntroCutsceneTrigger.IntroWakeUp += PlayWakeUp;
     }
 
     // Disable new player input actions in this method
@@ -161,6 +171,10 @@ public class PlayerController : Singleton<PlayerController>
         FloorManager.LeaveRoom -= DisableAllDefaultControls;
         AttackRange.AttackEnded -= EnableAllDefaultControls;
         AttackRange.AttackEnded -= () => _movementSpeed = currentLegs.MovementSpeed;
+
+        // Temp trigger for forcing wakeup anim to play
+        // IntroCutsceneTrigger.IntroWakeUp -= PlayWakeUp;
+
         // FloorManager.EnableFloor -= EnableAllDefaultControls;
 
         DisableAllDefaultControls();
@@ -960,6 +974,7 @@ public class PlayerController : Singleton<PlayerController>
     private void Die()
     {
         AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerDeath);
+        animator.SetBool("Death", true);
         OnDie?.Invoke();
         DisableAllDefaultControls();
         ToggleInvincibility();
@@ -1028,4 +1043,10 @@ public class PlayerController : Singleton<PlayerController>
 
         AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerWalk);
     }
+
+    private void PlayWakeUp()
+    {
+        animator.SetBool("WakeUp", true);
+        hasWoken = true;
+    }   
 }
