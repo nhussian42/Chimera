@@ -78,6 +78,7 @@ public class NotBossAI : Creature
     public virtual void ResetAttackBooleans()
     {
         attacking = false;
+        agent.isStopped = false;
     }
 
     public void Stun(float duration, GameObject stunFX)
@@ -96,6 +97,7 @@ public class NotBossAI : Creature
         // Debug.Log("Called Stunned()");
         // set stunned bool to true for length of duration then set it back to false, instantiate stunned VFX at pos (See Update() function) - Amon 
         stunned = true;
+        agent.isStopped = true;
         StartCoroutine(StunCooldown(3.0f));
         if(stunnedFX == null)
             stunnedFX = Instantiate(stunFX, stunSpawnTransform);

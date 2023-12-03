@@ -2039,6 +2039,37 @@ Transform:
   m_Father: {fileID: 4431097979726183526}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 89.98021, y: 1.8431645e-12, z: 0}
+--- !u!1 &4391173381805222837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5684586906417837920}
+  m_Layer: 0
+  m_Name: StunSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5684586906417837920
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391173381805222837}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0044, y: 0, z: 0.105}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7540012026928096783}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4423720457440279722
 GameObject:
   m_ObjectHideFlags: 0
@@ -3269,6 +3300,7 @@ MonoBehaviour:
   <classification>k__BackingField: 1
   creatureType: 1
   healthbar: {fileID: 160918264024634087}
+  stunSpawnTransform: {fileID: 5684586906417837920}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -4635,6 +4667,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5556972157306733062}
+  - {fileID: 5684586906417837920}
   m_Father: {fileID: 8953681091418999932}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

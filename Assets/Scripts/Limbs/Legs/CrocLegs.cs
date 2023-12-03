@@ -13,7 +13,6 @@ public class CrocLegs : Legs
     private VisualEffect trailEffect;
     [SerializeField] float burrowDuration;
     bool isUnderground = false;
-    bool fullBurrow = false;
 
     private SkinnedMeshRenderer[] headRenderer = new SkinnedMeshRenderer[2];
     private SkinnedMeshRenderer coreRenderer;
@@ -23,27 +22,11 @@ public class CrocLegs : Legs
 
     public override void PlayAnim()
     {
-        Debug.Log("PlayAnim()");
-        if (fullBurrow == false)
-        {
-            Debug.Log("if");
-            Destroy(trailParticleFX);
-            player.DisableAllDefaultControls();
-            burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
-            VisualEffect burrowEffect1 = burrowParticleFX.GetComponentInChildren<VisualEffect>();
-            burrowEffect1.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
-            player.Animator.SetTrigger("Surface");
-        }
-        else
-        {
-            Debug.Log("else");
-            player.DisableAllDefaultControls();
-            player.Animator.SetTrigger("Burrow");
-            burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
-            VisualEffect burrowEffect = burrowParticleFX.GetComponentInChildren<VisualEffect>();
-            burrowEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
-        }
-
+        player.DisableAllDefaultControls();
+        player.Animator.SetTrigger("Burrow");
+        burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
+        VisualEffect burrowEffect = burrowParticleFX.GetComponentInChildren<VisualEffect>();
+        burrowEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
     }
 
     private void Update()
@@ -82,7 +65,6 @@ public class CrocLegs : Legs
             SetMeshVisibility(true);
             player.ToggleInvincibility();
             isUnderground = false;
-            fullBurrow = false;
             player.EnableAllDefaultControls();
             StartCoroutine(Cooldown());
         }
@@ -95,7 +77,6 @@ public class CrocLegs : Legs
 
         yield return new WaitForSeconds(burrowDuration);
 
-        fullBurrow = true;
         Destroy(trailParticleFX);
         player.DisableAllDefaultControls();
         burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);

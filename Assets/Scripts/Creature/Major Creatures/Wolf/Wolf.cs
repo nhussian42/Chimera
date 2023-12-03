@@ -73,6 +73,9 @@ public class Wolf : NotBossAI
         base.ResetAttackBooleans();
         //inAttackRange = false;
         circling = false;
+        attacking = false;
+        animator.SetBool("Attack", false);
+        //ResetCooldown();
     }
 
     private void ResetCooldown()
