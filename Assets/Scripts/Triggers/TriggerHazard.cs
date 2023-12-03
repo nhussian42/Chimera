@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class TriggerHazard : MonoBehaviour
 {
+    private void Start()
+    {
+        hazardRef = GetComponentInChildren<HazardScript>();
+    }
     [SerializeField] private float delay;
+    private HazardScript hazardRef;
     //Activates trap after delay
     private void OnTriggerEnter(Collider other)
     {
-
         if (other.CompareTag("Player"))
         {
             Debug.Log("Detected player");
-            HazardScript.Instance.Invoke("Activate", delay);
+            hazardRef.Invoke("Activate", delay);
+            //HazardScript.Instance.Invoke("Activate", delay);
         }
     }
 
@@ -21,7 +26,7 @@ public class TriggerHazard : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            HazardScript.Instance.playerStay = true;
+            hazardRef.playerStay = true;
         }
     }
 
@@ -29,7 +34,7 @@ public class TriggerHazard : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            HazardScript.Instance.playerStay = false;
+            hazardRef.playerStay = false;
         }
     }
 }

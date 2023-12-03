@@ -106,6 +106,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private bool canAttack = true;
     private bool interacting;
+    public bool nearShop;
     private List<Drop> touchedDrops;
     private Drop nearestDrop;
 
@@ -429,7 +430,12 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_interact.triggered)
         {
-            if (nearestDrop != null)
+
+            if (nearShop)
+            {
+                BodyShop.Instance.ToggleMenu();
+            }
+            else if (nearestDrop != null)
             {
                 if (nearestDrop is LimbDrop)
                     EnableLimbSwapMenu((LimbDrop)nearestDrop);

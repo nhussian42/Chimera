@@ -53,7 +53,7 @@ public class DebugControls : MonoBehaviour
             PlayerController.Instance.UpdateCoreHealth(+10);
 
         if (Input.GetKeyDown(KeyCode.M))
-            PlayerController.Instance.AddBones(100);
+            CurrencyManager.Instance.AddBones((int)100);
 
         // N = PlayerInputActions Swap Button
 

@@ -133,7 +133,7 @@ public class PostRunSummaryController : MonoBehaviour
     {
         // gets lists from PostRunSummaryManager to display a snapshot of player's limb build after each room in sequential order
         if (snapshotIndex <= pRSManager.headsInRun.Count)
-            head.sprite = pRSManager.headsInRun[snapshotIndex];
+        head.sprite = pRSManager.headsInRun[snapshotIndex];
         else
             head.sprite = pRSManager.headsInRun[pRSManager.headsInRun.Count];
         if (snapshotIndex <= pRSManager.leftArmsInRun.Count)

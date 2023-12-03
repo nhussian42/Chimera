@@ -30,32 +30,28 @@ public class LimbHealthBars : MonoBehaviour
         //gets max health of limbs and current health to set the gradient
 
         float CoreHealthMax = PlayerController.Instance.Core.MaxHealth;
-        float LegsHealthMax = PlayerController.Instance.currentLegs.MaxHealth;
+        
         float HeadMaxHealth = PlayerController.Instance.currentHead.MaxHealth;
 
         CoreHealth = PlayerController.Instance.Core.Health / CoreHealthMax;
-        LegsHealth = PlayerController.Instance.currentLegs.Health / LegsHealthMax;
+        
         //HeadHealth = PlayerController.Instance.Head.Health;
 
         CoreImage.color = gradient.Evaluate(CoreHealth);
 
         if (LegsEquipped)
         {
-            if(LegsHealth > 0)
-            {
-                LegsImage.color = gradient.Evaluate(LegsHealth);
-            }
+            float LegsHealthMax = PlayerController.Instance.currentLegs.MaxHealth;
+            LegsHealth = PlayerController.Instance.currentLegs.Health / LegsHealthMax;
+            LegsImage.color = gradient.Evaluate(LegsHealth);
 
             if(LegsHealth == 0)
             {
                 LegsImage.color = Color.white;
                 LegsEquipped = false;
             }
-        }
-        
-
-
-
+            
+        }   
         //HeadImage.color = gradient.Evaluate();
 
         if (LArmEquipped)
@@ -86,8 +82,8 @@ public class LimbHealthBars : MonoBehaviour
 
     void Update()
     {
-        SetHealth();
         OnLimbEquipped();
+        SetHealth();   
         CheckLimbSwap();
 
         if(Input.GetKeyDown(KeyCode.I)) 
@@ -95,6 +91,23 @@ public class LimbHealthBars : MonoBehaviour
             PlayerController.Instance.currentLeftArm.Health -= 10;
             PlayerController.Instance.currentRightArm.Health -= 10;
             PlayerController.Instance.currentLegs.Health -= 10;
+        }
+
+        if (PlayerController.Instance.currentLeftArm.Classification.ToString() == "Core")
+        {
+            LeftArmImage.color = Color.white;
+        }
+        if (PlayerController.Instance.currentRightArm.Classification.ToString() == "Core")
+        {
+            RightArmImage.color = Color.white;
+        }
+        if (PlayerController.Instance.currentLegs.Classification.ToString() == "Core")
+        {
+            LegsImage.color = Color.white;
+        }
+        if (PlayerController.Instance.currentHead.Classification.ToString() == "Core")
+        {
+            HeadImage.color = Color.white;
         }
     }
 
@@ -132,5 +145,12 @@ public class LimbHealthBars : MonoBehaviour
             RArmEquipped = false;
             RightArmImage.color = Color.white;
         }
+        else if (PlayerController.Instance.currentLegs.Classification.ToString() == "Core")
+        {
+            LegsEquipped = false;
+            LegsImage.color = Color.white;
+        }
+
      }
+
 }

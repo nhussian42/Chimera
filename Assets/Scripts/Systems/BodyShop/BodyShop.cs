@@ -67,12 +67,23 @@ public class BodyShop : Singleton<BodyShop>
         }
     }
 
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player")) 
         {
             isInside = true;
-            
+            playerController.nearShop = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isInside = false;
+            playerController.nearShop = false;
         }
     }
 
@@ -108,4 +119,25 @@ public class BodyShop : Singleton<BodyShop>
         }
     }
     
+    public void ToggleMenu()
+    {
+        if ((menuToggle == false) && isInside)
+        {
+            ShopMenu.SetActive(true);
+            Debug.Log(ShopMenu.gameObject.activeSelf);
+            menuToggle = !menuToggle;
+            playerController.DisableAllDefaultControls();
+            playerController.EnableAllUIControls();
+            Invoke("DelayShopHud", 1);
+        }
+        if (menuToggle && isInside && IsMenuActive)
+        {
+            ShopMenu.SetActive(false);
+            menuToggle = !menuToggle;
+            playerController.EnableAllDefaultControls();
+            playerController.DisableAllUIControls();
+            IsMenuActive = false;
+        }
+    }
+
 }
