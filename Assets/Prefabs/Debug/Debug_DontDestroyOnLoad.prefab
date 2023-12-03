@@ -193,13 +193,20 @@ MonoBehaviour:
       Data3: -1710551651
       Data4: 1450980379
     Path: event:/SFXEvents/UIEvents/OnMenuButtonHovered
-  <OnPlayerWalk>k__BackingField:
+  <OnPurchaseItems>k__BackingField:
     Guid:
-      Data1: 50850565
-      Data2: 1135418477
-      Data3: 2138481565
-      Data4: -1841804550
-    Path: event:/SFXEvents/PlayerEvents/OnPlayerWalk
+      Data1: 229649930
+      Data2: 1211602758
+      Data3: 788896152
+      Data4: 1071596303
+    Path: event:/SFXEvents/UIEvents/OnPurchaseItems
+  <OnScrapLimb>k__BackingField:
+    Guid:
+      Data1: -1053452084
+      Data2: 1230231012
+      Data3: 701506224
+      Data4: 390618844
+    Path: event:/SFXEvents/UIEvents/OnScrapLimb
   <OnPlayerBaseAttack>k__BackingField:
     Guid:
       Data1: -1269243886
@@ -235,6 +242,41 @@ MonoBehaviour:
       Data3: 2055963776
       Data4: -2022532806
     Path: event:/SFXEvents/PlayerEvents/OnGeckoAttack
+  <OnPlayerWalk>k__BackingField:
+    Guid:
+      Data1: 50850565
+      Data2: 1135418477
+      Data3: 2138481565
+      Data4: -1841804550
+    Path: event:/SFXEvents/PlayerEvents/OnPlayerWalk
+  <OnPlayerBaseDash>k__BackingField:
+    Guid:
+      Data1: 1544066628
+      Data2: 1125975173
+      Data3: 1734621836
+      Data4: -851539106
+    Path: event:/SFXEvents/PlayerEvents/OnPlayerBaseDash
+  <OnPlayerPounce>k__BackingField:
+    Guid:
+      Data1: 320185319
+      Data2: 1204655022
+      Data3: 1395520164
+      Data4: -1256842036
+    Path: event:/SFXEvents/PlayerEvents/OnPlayerPounce
+  <OnPlayerBurrow>k__BackingField:
+    Guid:
+      Data1: -157258536
+      Data2: 1075264525
+      Data3: -903427184
+      Data4: -452311814
+    Path: event:/SFXEvents/PlayerEvents/OnPlayerBurrow
+  <OnPlayerStun>k__BackingField:
+    Guid:
+      Data1: 402007944
+      Data2: 1306440817
+      Data3: 1690664586
+      Data4: -1254407955
+    Path: event:/SFXEvents/PlayerEvents/OnPlayerStun
   <OnPlayerDamagedSmall>k__BackingField:
     Guid:
       Data1: -1572611737
@@ -263,13 +305,20 @@ MonoBehaviour:
       Data3: -871274356
       Data4: 1915009582
     Path: event:/SFXEvents/ImpactEvents/OnPlayerDeath
-  <OnPlayerHitConnected>k__BackingField:
+  <OnPlayerHitConnectedWeak>k__BackingField:
     Guid:
-      Data1: 1205870750
-      Data2: 1130633115
-      Data3: -331363966
-      Data4: 1557596291
-    Path: event:/SFXEvents/ImpactEvents/OnPlayerHitConnected
+      Data1: 1516878851
+      Data2: 1114714804
+      Data3: 735556030
+      Data4: 335734290
+    Path: event:/SFXEvents/ImpactEvents/OnPlayerHitConnectedWeak
+  <OnPlayerHitConnectedStrong>k__BackingField:
+    Guid:
+      Data1: 1918566024
+      Data2: 1109952158
+      Data3: 867477167
+      Data4: -1119463535
+    Path: event:/SFXEvents/ImpactEvents/OnPlayerHitConnectedStrong
   <OnCreatureDamaged>k__BackingField:
     Guid:
       Data1: 1503164527
@@ -277,13 +326,6 @@ MonoBehaviour:
       Data3: 578502801
       Data4: -893293765
     Path: event:/SFXEvents/CreatureEvents/AllCreatures/OnCreatureDamaged
-  <OnBossDefeated>k__BackingField:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
   <OnHedgehogAttack>k__BackingField:
     Guid:
       Data1: 774069184
@@ -307,11 +349,11 @@ MonoBehaviour:
     Path: event:/SFXEvents/CreatureEvents/Minor/Hedgehog/OnHedgehogDeath
   <OnTortoiseAttack>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1715709255
+      Data2: 1099489286
+      Data3: -1335844222
+      Data4: 690231770
+    Path: event:/SFXEvents/CreatureEvents/Minor/Tortoise/OnTortoiseAttack
   <OnTortoiseDamaged>k__BackingField:
     Guid:
       Data1: 0
@@ -321,11 +363,11 @@ MonoBehaviour:
     Path: 
   <OnTortoiseDeath>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -2115812533
+      Data2: 1254623145
+      Data3: 457287839
+      Data4: -932709601
+    Path: event:/SFXEvents/CreatureEvents/Minor/Tortoise/OnTortoiseDeath
   <OnWolfAttack>k__BackingField:
     Guid:
       Data1: 816090745
@@ -438,20 +480,55 @@ MonoBehaviour:
       Data3: 557892225
       Data4: 1158221721
     Path: event:/SFXEvents/CreatureEvents/Major/Gecko/OnGeckoDeath
-  <OnBoss1Attack>k__BackingField:
+  <OnCentipedeSpawn>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  <OnBoss1Death>k__BackingField:
+      Data1: -1793509902
+      Data2: 1281575080
+      Data3: -1597497689
+      Data4: 1388819911
+    Path: event:/SFXEvents/CreatureEvents/Boss/Centipede/OnCentipedeSpawn
+  <OnCentipedeBurrow>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1100877486
+      Data2: 1221036722
+      Data3: -1573033323
+      Data4: -268766176
+    Path: event:/SFXEvents/CreatureEvents/Boss/Centipede/OnCentipedeBurrow
+  <OnCentipedeSwipeAttack>k__BackingField:
+    Guid:
+      Data1: -24083830
+      Data2: 1184178318
+      Data3: 1429027483
+      Data4: 435838095
+    Path: event:/SFXEvents/CreatureEvents/Boss/Centipede/OnCentipedeSwipeAttack
+  <OnCentipedeScreamAttack>k__BackingField:
+    Guid:
+      Data1: -998665386
+      Data2: 1138767530
+      Data3: 765012627
+      Data4: -45928033
+    Path: event:/SFXEvents/CreatureEvents/Boss/Centipede/OnCentipedeScreamAttack
+  <OnCentipedeStompScreamAttack>k__BackingField:
+    Guid:
+      Data1: -1404062798
+      Data2: 1243590858
+      Data3: 2065951921
+      Data4: -1846977999
+    Path: event:/SFXEvents/CreatureEvents/Boss/Centipede/OnCentipedeStompScreamAttack
+  <OnCentipedeSpreadAttack>k__BackingField:
+    Guid:
+      Data1: 694705194
+      Data2: 1181181764
+      Data3: 1226523016
+      Data4: 549669922
+    Path: event:/SFXEvents/CreatureEvents/Boss/Centipede/OnCentipedeSpreadAttack
+  <OnCentipedeDefeated>k__BackingField:
+    Guid:
+      Data1: -1983138049
+      Data2: 1165981746
+      Data3: -1231139168
+      Data4: -410318539
+    Path: event:/SFXEvents/CreatureEvents/Boss/Centipede/OnCentipedeDefeated
   <OnRoomCleared>k__BackingField:
     Guid:
       Data1: -1639764711
@@ -468,11 +545,11 @@ MonoBehaviour:
     Path: event:/SFXEvents/RoomEvents/OnDoorOpened
   <OnBossDoorOpened>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1042456181
+      Data2: 1089537075
+      Data3: -208015477
+      Data4: -112394356
+    Path: event:/SFXEvents/RoomEvents/OnBossDoorOpened
   <OnPotBroken>k__BackingField:
     Guid:
       Data1: 1566566548

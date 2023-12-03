@@ -16,7 +16,7 @@ public class AttackRange : MonoBehaviour
     {
         if (other.TryGetComponent(out Creature creature))
         {
-            AudioManager.PlaySound3D(AudioEvents.Instance.OnPlayerHitConnected, other.transform.position);
+            AudioManager.PlaySound3D(AudioEvents.Instance.OnPlayerHitConnectedWeak, other.transform.position);
             creature.TakeDamage((int)arm.AttackDamage);
             creature.Knockback(creature.transform.position - transform.position, 20, 0.05f);
         }

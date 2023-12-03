@@ -30,6 +30,7 @@ public class WolfLegs : Legs
     public override void PlayAnim()
     {
         player.Animator.SetTrigger("Pounce");
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerPounce);
     }
 
     public override void ActivateAbility()

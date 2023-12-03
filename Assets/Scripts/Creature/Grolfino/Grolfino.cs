@@ -44,6 +44,8 @@ public class Grolfino : BossAI
     // Gabe was here and evilly added this to make my life easier.
     public static Action BossDead;
 
+    private FMOD.Studio.EventInstance bossBurrow;
+
     private void Start()
     {
         bossAttack.Add("ProjectileAttack");
@@ -74,6 +76,8 @@ public class Grolfino : BossAI
         animator.SetBool("Sweep", true);
         //Makes collider active and sets the starting rotation
         yield return new WaitUntil(() => sweepAttack == true);
+        
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeSwipeAttack,transform.position);
 
         //Makes the collider inactive
         animator.SetBool("Sweep", false);
@@ -95,6 +99,8 @@ public class Grolfino : BossAI
         Vector3 dir3 = Quaternion.AngleAxis(-angleBeteenSpikes * 2, Vector3.up) * transform.forward;
         Vector3 dir4 = Quaternion.AngleAxis(angleBeteenSpikes, Vector3.up) * transform.forward;
         Vector3 dir5 = Quaternion.AngleAxis(angleBeteenSpikes * 2, Vector3.up) * transform.forward;
+
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeStompScreamAttack,transform.position);
 
         //Instantiates spikes in a straight line with slightly random rotation
         for (int i = 0; i < numberOfSpikes; i++)
@@ -135,7 +141,9 @@ public class Grolfino : BossAI
         yield return new WaitUntil(() => projectileAttack == true);
         //Creatures projectiles in an arc in front of the boss
         //All projectiles are instantiated rotated away from the boss
-        //Projectiles are automatically destroyed after 2.5s   
+        //Projectiles are automatically destroyed after 2.5s
+
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeSpreadAttack,transform.position);   
 
         while (projectileAttack == true)
         {
@@ -159,6 +167,9 @@ public class Grolfino : BossAI
         //Burrow animation goes here
         animator.SetInteger("BurrowVariation", Random.Range(1, 3));
         animator.SetBool("Burrow", true);
+        bossBurrow = AudioManager.Instance.CreateEventInstance(AudioEvents.Instance.OnCentipedeBurrow);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(bossBurrow, transform);
+        bossBurrow.start();
         Vector3 targetPos;
         yield return new WaitUntil(() => burrowed == true);
 
@@ -173,6 +184,9 @@ public class Grolfino : BossAI
             transform.position = new Vector3(targetPos.x, transform.position.y, targetPos.z);
             transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
             yield return new WaitUntil(() => burrowed == false);
+            bossBurrow.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            bossBurrow.release();
+            AudioManager.PlaySound3D(AudioEvents.Instance.OnCrocResurface,transform.position); 
             yield return new WaitForSeconds(timeBeforeAttack);
             //Randomly picks an attack to perform
             //Once an attack is performed, it is removed from the list
@@ -200,6 +214,7 @@ public class Grolfino : BossAI
             }
             yield return null;
         }
+        bossBurrow.release();
         yield return null;
     }
 
@@ -229,6 +244,9 @@ public class Grolfino : BossAI
     protected override void Die()
     {
         animator.Play("Death");
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeDefeated,transform.position); 
+        bossBurrow.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        bossBurrow.release(); 
         agent.isStopped = true;
         alive = false;
         StopAllCoroutines();
