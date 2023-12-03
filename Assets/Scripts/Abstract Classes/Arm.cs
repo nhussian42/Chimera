@@ -16,7 +16,7 @@ public abstract class Arm : Limb
     private float attackDamage;
     private float attackSpeed;
 
-    private static GameObject attackRangeParent;
+    private GameObject attackRangeParent;
     
     //Hidden properties
 
@@ -79,13 +79,14 @@ public abstract class Arm : Limb
         // Create the attack range parent
         if (attackRangeParent == null)
         {
-            attackRangeParent = Instantiate(new GameObject());
+            Transform parent = Weight == Weight.Light || Weight == Weight.Core ? PlayerController.Instance.transform : null;
+            attackRangeParent = Instantiate(new GameObject(), parent);
             attackRangeParent.name = "Attack Range Pool";
         }
 
         // Create an object pool so multiple attack ranges can be instantiated at once without instantiating attack ranges during attacks
         AttackRangePool = new ObjectPool<AttackRange>(CreateAttackRange,
-        range => { range.gameObject.SetActive(true); },
+        GetAttackRange,
         range => { range.gameObject.SetActive(false); },
         range => { Destroy(range.gameObject); },
         false,
@@ -99,11 +100,27 @@ public abstract class Arm : Limb
         // attackRange.gameObject.SetActive(false);
     }
 
+    private void GetAttackRange(AttackRange range)
+    {
+        if (Weight == Weight.Light)
+            range.InputArmReference(this, side, 30);
+        else
+            range.InputArmReference(this);
+
+        range.gameObject.SetActive(true);
+    }
+
     private AttackRange CreateAttackRange()
     {
         AttackRange attackRange = Instantiate(attackRangePrefab.gameObject, attackRangeParent.transform).GetComponent<AttackRange>();
-        attackRange.InputArmReference(this);
-        // attackRange.gameObject.SetActive(false);
+
+        // initialization
+        
+        if (Weight == Weight.Light)
+            attackRange.InputArmReference(this, side, 30);
+        else
+            attackRange.InputArmReference(this);
+        
         return attackRange;
     }
 
