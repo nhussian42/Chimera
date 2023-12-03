@@ -92,6 +92,12 @@ public class AudioManager : Singleton<AudioManager>
         CurrentMusic.start();
     }
 
+    public void CrossFadeMusicOut()
+    {
+        CurrentMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        CurrentMusic.release();
+    }
+
     private void StartNewSceneMusic(int buildIndex)
     {
         audioListener = GameObject.FindObjectOfType<StudioListener>();

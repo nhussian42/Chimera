@@ -43,7 +43,8 @@ public class AudioEvents : Singleton<AudioEvents>
     [field: SerializeField] public EventReference OnPlayerDamagedLarge { get; private set; }
     [field: SerializeField] public EventReference OnPlayerLimbLost { get; private set; }
     [field: SerializeField] public EventReference OnPlayerDeath { get; private set; }
-    [field: SerializeField] public EventReference OnPlayerHitConnected { get; private set; }
+    [field: SerializeField] public EventReference OnPlayerHitConnectedWeak { get; private set; } // might need individual limbs to have their own connected sounds
+    [field: SerializeField] public EventReference OnPlayerHitConnectedStrong { get; private set; }
 
     [field: Header("Creature SFX Events")]
 
