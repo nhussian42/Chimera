@@ -12,23 +12,21 @@ public class Room : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        CreatureManager.AnyCreatureDied += SubtractCreature;
+        CreatureManager.AnyCreatureDied += DefeatCreature;
         DebugControls.SpawnRandomCreature += SpawnRandomCreature;
     }
 
     protected virtual void OnDisable()
     {
-        CreatureManager.AnyCreatureDied -= SubtractCreature;
+        CreatureManager.AnyCreatureDied -= DefeatCreature;
         DebugControls.SpawnRandomCreature += SpawnRandomCreature;
     }
 
-    private void SubtractCreature()
+    private void DefeatCreature()
     {
         if (--_numCreaturesAlive <= 0)
         {
-            print("All creatures defeated in room!");
             FloorManager.AllCreaturesDefeated?.Invoke();
-            // spawn limb at currentmajorcreature transform?????
         }
     }
 
@@ -38,5 +36,12 @@ public class Room : MonoBehaviour
         int index = UnityEngine.Random.Range(0, creatures.Count);
         Instantiate(creatures[index], Vector3.zero, Quaternion.identity);
         _numCreaturesAlive++;
+    }
+
+    public void SpawnPlaqueIcon(GameObject plaqueIcon, int doorIndex)
+    {
+        Transform plaqueIconParent = exitDoors[doorIndex].Find("PlaqueIconHolder").transform;
+        GameObject spawnedPlaqueIcon = Instantiate(plaqueIcon, plaqueIconParent);
+        spawnedPlaqueIcon.transform.Rotate(0, -90, 0);
     }
 }

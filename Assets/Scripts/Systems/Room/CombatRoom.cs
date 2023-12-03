@@ -8,7 +8,7 @@ public class CombatRoom : Room
     [HideInInspector] public Creature currentMinorCreature;
     public Transform majorCreatureSpawnsParent;
     public Transform minorCreatureSpawnsParent;
-    int exitDoorIndex;
+
 
     protected override void OnEnable()
     {
@@ -68,36 +68,5 @@ public class CombatRoom : Room
     {
         Instantiate(currentMajorCreature, Vector3.zero, Quaternion.identity);
         _numCreaturesAlive++;
-    }
-
-    public void SpawnPlaqueIcon(GameObject plaqueIcon)
-    {
-        // cursed
-        Transform plaqueIconParent = exitDoors[exitDoorIndex].Find("PlaqueIconHolder").transform;
-        
-        GameObject spawnedPlaqueIcon = Instantiate(plaqueIcon, plaqueIconParent);
-        spawnedPlaqueIcon.transform.Rotate(0, -90, 0);
-
-        // DEBUG: adding a manual quaternion rotation for different room sides
-        // LeaveRoomTrigger exitDoorTrigger = exitDoors[exitDoorIndex].GetComponentInChildren<LeaveRoomTrigger>();
-
-        // if (exitDoorTrigger == null)
-        // {
-        //     Debug.LogError("Exit Door Trigger not found to instantiate plaque icon");
-        //     return;
-        // }
-
-        // if (exitDoorTrigger._exitRoomSide == RoomSide.Left)
-        //     Instantiate(plaqueIcon, plaqueIconParent.transform.position, Quaternion.identity, plaqueIconParent);
-        // else if (exitDoorTrigger._exitRoomSide == RoomSide.Right)
-        //     Instantiate(plaqueIcon, plaqueIconParent.transform.position, Quaternion.identity * Quaternion.Euler(0, 90, 0), plaqueIconParent);
-        // else
-        // {
-        //     Debug.LogError("Side unexpected when instantiating plaque icon.");
-        //     return;
-        // }
-
-        exitDoorIndex++;
-
     }
 }

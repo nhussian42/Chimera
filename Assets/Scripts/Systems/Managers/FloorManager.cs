@@ -6,13 +6,15 @@ using UnityEngine;
 public class FloorManager : Singleton<FloorManager>
 {
     public static Action LeaveRoom;
-    public static Action<Room> LeaveRoomRoom;
     public static Action LoadNextRoom;
     public static Action NextRoomLoaded;
     public static Action EnableFloor;
     public static Action AllCreaturesDefeated;
+
+    // statics
     public static RoomSide lastExitRoomSide;
     public static Room StoredNextRoom;
+    private static Creature previouslyGeneratedMajorCreature;
     private static int _currentRoomIndex;
 
     [field: Header("Floor Info")]
@@ -29,14 +31,12 @@ public class FloorManager : Singleton<FloorManager>
         get { return startTransform; }
     }
 
-
     private void OnEnable()
     {
         LoadNextRoom += LoadNextRoomIndex;
         AllCreaturesDefeated += GenerateNewCombatRooms;
         AllCreaturesDefeated += () => AudioManager.PlaySound2D(AudioEvents.Instance.OnRoomCleared);
         PostRunSummaryController.OnPressedMainMenu += LoadMainMenu;
-        //PlayerController.OnDie += LoadMainMenu;
     }
 
     private void OnDisable()
@@ -45,7 +45,6 @@ public class FloorManager : Singleton<FloorManager>
         AllCreaturesDefeated -= GenerateNewCombatRooms;
         AllCreaturesDefeated -= () => AudioManager.PlaySound2D(AudioEvents.Instance.OnRoomCleared);
         PostRunSummaryController.OnPressedMainMenu -= LoadMainMenu;
-        //PlayerController.OnDie -= LoadMainMenu;
     }
 
     private void Start()
@@ -64,9 +63,12 @@ public class FloorManager : Singleton<FloorManager>
         }
     }
 
+    // refactor later
     public void LoadMainMenu()
     {
         _currentRoomIndex = 0;
+        StoredNextRoom = null;
+        previouslyGeneratedMajorCreature = null;
         ChimeraSceneManager.Instance.LoadScene(0);
     }
 
@@ -86,11 +88,8 @@ public class FloorManager : Singleton<FloorManager>
                 _currentRoomIndex++;
                 DetermineNextRoom();
             }
-        }
-        // First combat room
-        else if (_currentRoomIndex == 2)
-        {
-            SpawnRoom(DetermineNextCombatRoom());
+
+            GenerateNewCombatRooms();
         }
         // Boss room
         else if (_currentRoomIndex > currentFloor.numCombatRooms)
@@ -107,31 +106,72 @@ public class FloorManager : Singleton<FloorManager>
         }
     }
 
+    // Attempts several times to generate new combat rooms until all spawnable conditions are met
     private CombatRoom DetermineNextCombatRoom()
-    {        
-        int totalRooms = currentFloor.spawnableCombatRooms.Count;
-        int nextRoomIndex = UnityEngine.Random.Range(0, totalRooms);
-        CombatRoom combatRoom = currentFloor.spawnableCombatRooms[nextRoomIndex];
+    {
+        int attemptsMax = 25;
+        int attempts = 0;
+        CombatRoom combatRoom = new CombatRoom();
 
-        // Keep generating new rooms until one has an entrance to spawn from (inefficient)
-        if (lastExitRoomSide == RoomSide.Left && combatRoom.bottomRightStartDoors.Count == 0)
+        do
         {
-            combatRoom = DetermineNextCombatRoom();
-        }
-        else if (lastExitRoomSide == RoomSide.Right && combatRoom.bottomLeftStartDoors.Count == 0)
-        {
-            combatRoom = DetermineNextCombatRoom();
-        }
+            if (++attempts > attemptsMax)
+            {
+                Debug.LogWarning("Hit max attempts to generate room");
+                combatRoom = (CombatRoom)StoredNextRoom;
+                break;
+            }
+            combatRoom = GenerateNewCombatRoom();
+            combatRoom.DetermineCreatures(currentFloor);
+        } 
+        while (
+            combatRoom == StoredNextRoom ||
+            (lastExitRoomSide == RoomSide.Left && combatRoom.bottomRightStartDoors.Count == 0) ||
+            (lastExitRoomSide == RoomSide.Right && combatRoom.bottomLeftStartDoors.Count == 0) ||
+            combatRoom.currentMajorCreature == previouslyGeneratedMajorCreature
+            );
 
-        combatRoom.DetermineCreatures(currentFloor);
+        previouslyGeneratedMajorCreature = combatRoom.currentMajorCreature;
         
         return combatRoom;
     }
 
+    private CombatRoom GenerateNewCombatRoom()
+    {
+        int totalRooms = currentFloor.spawnableCombatRooms.Count;
+        int nextRoomIndex = UnityEngine.Random.Range(0, totalRooms);
+        CombatRoom combatRoom = currentFloor.spawnableCombatRooms[nextRoomIndex];
+
+        return combatRoom;
+    }
+
+    private void GenerateNewCombatRooms()
+    {
+        if (_currentRoom is BossRoom) return;
+
+        for (int i = 0; i < _currentRoom.exitDoors.Count; i++)
+        {
+            if (_currentRoomIndex == currentFloor.numCombatRooms && _currentRoom is CombatRoom)
+            {
+                CombatRoom _currentCombatRoom = (CombatRoom)_currentRoom;
+                _currentCombatRoom.SpawnPlaqueIcon(currentFloor.bossPlaque, i);
+                continue;
+            }
+
+            CombatRoom newRoom = DetermineNextCombatRoom();
+            _currentRoom.exitDoors[i].GetComponentInChildren<LeaveRoomTrigger>()._nextRoom = newRoom;
+            _currentRoom.SpawnPlaqueIcon(newRoom.currentMajorCreature.CreatureInfo.plaqueIcon, i);
+
+            // debugging room creature / plaque mismatch
+            // CombatRoom c = (CombatRoom)_currentRoom.exitDoors[i].GetComponentInChildren<LeaveRoomTrigger>()._nextRoom;
+            // print(c.currentMajorCreature.CreatureInfo.plaqueIcon.gameObject.name);
+            // print(newRoom.currentMajorCreature.CreatureInfo.plaqueIcon.gameObject.name);
+        }
+    }
+
     private void SpawnRoom(Room room)
     {
-        GameObject environmentParent = Instantiate(new GameObject());
-        environmentParent.gameObject.name = "==== ENVIRONMENT ====";
+        GameObject environmentParent = new GameObject("==== ENVIRONMENT ====");
         _currentRoom = Instantiate(room, environmentParent.transform);
         
         if (_currentRoom is CombatRoom)
@@ -197,35 +237,5 @@ public class FloorManager : Singleton<FloorManager>
     {
         Debug.LogWarning("Last exit room side not found. Start transform set to 0,0,0 ");
         startTransform = Instantiate(new GameObject(), Vector3.zero, Quaternion.identity).transform;
-    }
-
-    private void GenerateNewCombatRooms()
-    {
-        for (int i = 0; i < _currentRoom.exitDoors.Count; i++)
-        {
-            if (_currentRoomIndex == currentFloor.numCombatRooms)
-            {
-                if (_currentRoom is CombatRoom)
-                {
-                    CombatRoom _currentCombatRoom = (CombatRoom)_currentRoom;
-                    _currentCombatRoom.SpawnPlaqueIcon(currentFloor.bossPlaque);
-                }
-                continue;
-            }
-
-            CombatRoom newRoom = DetermineNextCombatRoom();
-            _currentRoom.exitDoors[i].GetComponentInChildren<LeaveRoomTrigger>()._nextRoom = newRoom;
-
-            if (_currentRoom is CombatRoom)
-            {
-                CombatRoom _currentCombatRoom = (CombatRoom)_currentRoom;
-                Creature currentMajorCreature = newRoom.currentMajorCreature;
-                _currentCombatRoom.SpawnPlaqueIcon(currentMajorCreature.CreatureInfo.plaqueIcon);
-            }
-            else
-            {
-                Debug.LogWarning("CombatRoom expected, another room type detected.");
-            }
-        }
     }
 }
