@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class IntroCutsceneTrigger : MonoBehaviour
 {
-    private bool _triggered;
+    private static bool _triggered;
 
     // private Collider cutsceneTrigger;
 
-    public static Action IntroCutscene;
+    public static Action IntroWakeUp;
+
+    [SerializeField]
+    private float timeUntilPlayerMovementRestored;
 
     void Awake()
     {
@@ -22,7 +25,14 @@ public class IntroCutsceneTrigger : MonoBehaviour
         if (!_triggered && other.gameObject.GetComponent<PlayerController>() != null)
         {
             _triggered = true;
-            IntroCutscene?.Invoke();
+            IntroWakeUp?.Invoke();
+            PlayerController.Instance.DisableAllDefaultControls();
+            Invoke("ResumePlayerControls", timeUntilPlayerMovementRestored);
         }
+    }
+
+    private void ResumePlayerControls()
+    {
+        PlayerController.Instance.EnableAllDefaultControls();
     }
 }
