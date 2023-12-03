@@ -50,21 +50,40 @@ public class Rhino : NotBossAI
 
     protected override void Update()
     {
-
-        if (alive == true)
+        if(stunned != true)
         {
-            if (attacking == false)
+            if (alive == true)
             {
-                agent.destination = player.transform.position;
-                if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
+                if (attacking == false)
                 {
-                    //Player is in range
-                    //Perform attack coroutine
-                    StartCoroutine(Attack());
-                    attacking = true;
+                    agent.destination = player.transform.position;
+                    if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
+                    {
+                        //Player is in range
+                        //Perform attack coroutine
+                        StartCoroutine(Attack());
+                        attacking = true;
+                    }
                 }
             }
+
         }
+    }
+
+    public override void Stun(float duration, GameObject stunFX)
+    {
+        if (stunnable == true && animator.GetBool("Slam") != true && animator.GetBool("Charge") != true)
+        {
+            //Debug.Log("Called Stun()");
+            StopAllCoroutines();
+            StartCoroutine(Stunned(duration, stunFX));
+        }
+    }
+
+    public override void ResetAttackBooleans()
+    {
+        base.ResetAttackBooleans();
+        //slammed = false;
     }
 
     public override IEnumerator Attack()
@@ -181,5 +200,6 @@ public class Rhino : NotBossAI
         RhinoCharge.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         RhinoCharge.release();
         AudioManager.PlaySound3D(AudioEvents.Instance.OnRhinoDeath, transform.position);
+        Destroy(stunnedFX);
     }
 }
