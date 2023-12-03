@@ -131,7 +131,7 @@ public class BodyShopMenu : MonoBehaviour
             {
                 EventSystem.current.SetSelectedGameObject(ExitButton.gameObject);
             }
-
+            AudioManager.PlaySound2D(AudioEvents.Instance.OnPurchaseItems);
             DestroyButton(i);
         }
     }
