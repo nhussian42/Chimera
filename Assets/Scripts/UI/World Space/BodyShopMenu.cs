@@ -19,29 +19,35 @@ public class BodyShopMenu : MonoBehaviour
     [SerializeField] private float HealCost;
 
     [SerializeField] private List<Image> ItemImageList;
-
     [SerializeField] private List<TextMeshProUGUI> ItemTextList;
-    [SerializeField] private TextMeshProUGUI HealItemText;
-    [SerializeField] private TextMeshProUGUI limbText;
 
+    [SerializeField] private TextMeshProUGUI HealItemText;
+    [SerializeField] private float HealAmount;
+
+    [SerializeField] private TextMeshProUGUI limbText;
 
     [SerializeField] private List<TextMeshProUGUI> descList;
     [SerializeField] private List<GameObject> descObjList;
+
     [SerializeField] private GameObject confirmMenu;
 
     [SerializeField] private Button firstSelect;
 
     [SerializeField] private GameObject self;
 
+    private LimbDrop shopLimbDrop;
+    private Limb shopLimb;
+
     private int playerChoice;
     
     // Start is called before the first frame update
     void Start()
     {
+        playerController = PlayerController.Instance;
         SetupPrices();
         SetupSprites();
         SetupDescriptions();
-        playerController = PlayerController.Instance;
+        
     }
 
     private void OnEnable()
@@ -90,12 +96,9 @@ public class BodyShopMenu : MonoBehaviour
 
     private void SetupDescriptions()
     {
-        descList[0].text = $"{BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().LimbType}";
-        descList[1].text = null;
-        descList[2].text = null;
-        descList[3].text = null;
-
-        
+        SetArmDesc();
+        SetLegDesc();
+        //SetHeadDesc();
     }
 
     public void PurchaseOption(int i)
@@ -138,9 +141,9 @@ public class BodyShopMenu : MonoBehaviour
         if(HealCost < PlayerController.Instance.totalBones)
         {
             PlayerController.Instance.totalBones -= HealCost;
-            PlayerController.Instance.currentLeftArm.UpdateCurrentHealth(5);
-            PlayerController.Instance.currentRightArm.UpdateCurrentHealth(5);
-            PlayerController.Instance.UpdateCoreHealth(5);
+            PlayerController.Instance.currentLeftArm.UpdateCurrentHealth(HealAmount);
+            PlayerController.Instance.currentRightArm.UpdateCurrentHealth(HealAmount);
+            PlayerController.Instance.UpdateCoreHealth(HealAmount);
 
             HealItemButton.gameObject.SetActive(false);
             ItemImageList[3].gameObject.SetActive(false);
@@ -237,4 +240,56 @@ public class BodyShopMenu : MonoBehaviour
     {
         EnterExit.gameObject.SetActive(tf);
     }
+
+    private void SetArmDesc()
+    {
+        shopLimbDrop = BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>();
+        foreach (Arm arm in playerController.allArms)
+        {
+            if(arm.Classification == shopLimbDrop.Classification && arm.Weight == shopLimbDrop.Weight)
+            {
+                shopLimb = arm;
+                descList[0].text = $"{"HP:        " + arm.MaxHealth.ToString()}";
+                descList[1].text = $"{"ATK:      " + arm.DefaultAttackDamage.ToString()}";
+                descList[2].text = $"{"SPD:      " + arm.DefaultAttackSpeed.ToString("F1")}";
+
+                break;
+            }
+        }    
+    }
+
+    private void SetLegDesc()
+    {
+        shopLimbDrop = BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>();
+        foreach (Legs legs in playerController.allLegs)
+        {
+            if (legs.Classification == shopLimbDrop.Classification && legs.Weight == shopLimbDrop.Weight)
+            {
+                shopLimb = legs;
+                descList[3].text = $"{"HP:          " + legs.MaxHealth.ToString()}";
+                descList[4].text = $"{"SPD:       " + legs.DefaultMovementSpeed.ToString()}";
+                descList[5].text = $"{"CD:          " + legs.DefaultCooldownTime.ToString()}";
+
+                break;
+            }
+        }
+    }
+
+    private void SetHeadDesc()
+    {
+        shopLimbDrop = BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>();
+        foreach (Head head in playerController.allHeads)
+        {
+            if (head.Classification == shopLimbDrop.Classification && head.Weight == shopLimbDrop.Weight)
+            {
+                shopLimb = head;
+                descList[6].text = $"{"HP:        " + head.MaxHealth.ToString()}";
+                //descList[1].text = $"{"ATK: " + head..ToString()}";
+                //descList[2].text = $"{"SPD: " + legs.DefaultCooldownTime.ToString()}";
+
+                break;
+            }
+        }
+    }
+
 }
