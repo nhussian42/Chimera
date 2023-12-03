@@ -248,7 +248,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.4
+  m_fontSize: 18.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -284,7 +284,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 177.51587, w: 28.308838}
+  m_margin: {x: 0.49178314, y: 0.32323837, z: 178.48967, w: 28.774218}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 3068682579304332943}
   - component: {fileID: 3389592100537441466}
   - component: {fileID: 7619448678260197529}
+  - component: {fileID: 5014405377999500330}
   m_Layer: 5
   m_Name: TrinketDisplayButton
   m_TagString: Untagged
@@ -429,6 +430,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5014405377999500330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4085857752324210706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7621734119960698739, guid: ca9034841ed887d408b0411cb8a7bd27,
+            type: 3}
+          m_TargetAssemblyTypeName: EMScript, Assembly-CSharp
+          m_MethodName: ChangeDescriptionTrinket
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 7619448678260197529}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4897937436332838435
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,7 +757,7 @@ RectTransform:
   m_GameObject: {fileID: 7105144997769233334}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.23547882, y: 0.23547882, z: 0.23547882}
+  m_LocalScale: {x: 0.24478883, y: 0.24171901, z: 0.24171901}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5757703805569049002}

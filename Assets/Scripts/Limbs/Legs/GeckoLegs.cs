@@ -33,6 +33,8 @@ public class GeckoLegs : Legs
     {
         player.DisableAllDefaultControls();
         player.Animator.SetTrigger("Dash");
+        
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerBaseDash);
     }
 
     public override void ActivateAbility()

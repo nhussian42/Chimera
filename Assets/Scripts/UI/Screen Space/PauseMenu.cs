@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine.EventSystems;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject ResumeButton;
+
+    public static Action OnPressedQuit;
     public void OnEnable()
     {
         EventSystem.current.SetSelectedGameObject(null);
@@ -18,7 +21,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void QuitPressed()
     {
-        UIManager.QuitPressed?.Invoke();
+        OnPressedQuit?.Invoke();
     }
 
     public void RestartGame()

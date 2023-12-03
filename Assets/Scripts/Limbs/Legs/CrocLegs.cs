@@ -35,6 +35,8 @@ public class CrocLegs : Legs
         {
             trailEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
         }
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerBurrow);
+
     }
 
     public override void ActivateAbility()
@@ -83,6 +85,7 @@ public class CrocLegs : Legs
         VisualEffect burrowEffect = burrowParticleFX.GetComponentInChildren<VisualEffect>();
         burrowEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
         player.Animator.SetTrigger("Surface");
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnCrocResurface);
     }
 
     private void SetMeshVisibility(bool condition)
