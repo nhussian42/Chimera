@@ -22,6 +22,7 @@ public class CrocLegs : Legs
         player.Animator.SetTrigger("Burrow");
         //Vector3 burrowPos = new Vector3(player.transform.position.x, , player.transform.position.z);
         burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerBurrow);
     }
 
     public override void ActivateAbility()
@@ -62,6 +63,7 @@ public class CrocLegs : Legs
 
         Destroy(trailParticleFX);
         player.Animator.SetTrigger("Surface");
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnCrocResurface);
     }
 
     private void SetMeshVisibility(bool condition)

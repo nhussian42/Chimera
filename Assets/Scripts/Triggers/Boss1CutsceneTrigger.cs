@@ -35,6 +35,7 @@ public class Boss1CutsceneTrigger : MonoBehaviour
         {
             _triggered = true;
             Boss1Cutscene?.Invoke();
+            AudioManager.Instance.CrossFadeMusicOut();
             StartCoroutine(CloseGate(gateCloseTime));
             Invoke("SpawnBoss", bossSpawnDelay);
             PlayerController.Instance.DisableAllDefaultControls();
@@ -45,11 +46,13 @@ public class Boss1CutsceneTrigger : MonoBehaviour
     private void SpawnBoss()
     {
         bossRoom.SpawnBoss();
+        PlayBossMusic();
     }
 
     private IEnumerator CloseGate(float closeTime)
     {
         yield return new WaitForSeconds(0.3f);
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnBossDoorOpened, transform.position);
         float timer = 0;
         float startPosY = gate.transform.position.y;
         while (timer < closeTime)
@@ -60,6 +63,11 @@ public class Boss1CutsceneTrigger : MonoBehaviour
             yield return null;
         }
         yield return null;
+    }
+
+    private void PlayBossMusic()
+    {
+        AudioManager.Instance.CrossFadeMusic(AudioManager.Instance.CreateEventInstance(AudioEvents.Instance.OnDungeonBossStarted));
     }
 
     private void ResumePlayerControls()
