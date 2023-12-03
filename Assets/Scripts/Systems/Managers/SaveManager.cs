@@ -28,14 +28,14 @@ public class SaveManager : Singleton<SaveManager>
 
     public void SaveLimbData(Head head, Arm leftArm, Arm rightArm, Core core, Legs legs)
     {
-        // Add legs and head data here and in parameters later
         savedHead = head;
         savedLeftArm = leftArm;
         savedRightArm = rightArm;
         savedCore = core;
         savedLegs = legs;
         firstLoad = false;
-        //Debug.Log("Data saved");
+        Debug.Log("Data saved");
+        Debug.Log(savedHead.StringName);
         //Debug.Log(savedLeftArm.AttackDamage);
         //Debug.Log(savedLeftArm.AttackSpeed);
         //Debug.Log(savedLeftArm.Health);

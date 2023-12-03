@@ -2527,7 +2527,7 @@ Transform:
   - {fileID: 6976358354469409987}
   - {fileID: 2260742047345967660}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3048959359936504127
 Animator:
@@ -2862,6 +2862,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   allHeads:
+  - {fileID: 2845596060274842395}
   - {fileID: 822374487050714662}
   allArms:
   - {fileID: 4953931813178917154}
@@ -2892,6 +2893,7 @@ MonoBehaviour:
   animator: {fileID: 3048959359936504127}
   totalBones: 0
   bonesMultiplier: 0
+  nearShop: 0
 --- !u!1 &3125528580234289208
 GameObject:
   m_ObjectHideFlags: 0
@@ -3014,6 +3016,7 @@ GameObject:
   - component: {fileID: 5964361807935114637}
   - component: {fileID: 5889293144741832992}
   - component: {fileID: 3511795828935931250}
+  - component: {fileID: 2845596060274842395}
   m_Layer: 6
   m_Name: RhinoHead
   m_TagString: Untagged
@@ -3118,6 +3121,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   undissolvedHeight: 4.5
   fullyDissolvedHeight: -2.5
+--- !u!114 &2845596060274842395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3160109510805545153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39c24b2ab9e968f40a573e0ba5f1a111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  classification: 0
+  weight: 0
+  limbName: 3
+  stringName: Rhino Head
+  defaultHealth: 50
+  defaultMaxHealth: 50
+  limbSprite: {fileID: 21300000, guid: f97cab7106e097749ac0cbadf3bcf937, type: 3}
+  selectedSprite: {fileID: 21300000, guid: ca4f3b51120f02a47b68422d419404e3, type: 3}
+  vfxPrefab: {fileID: 7846225434873768419, guid: 48265f5cea7931e489200748af3618aa,
+    type: 3}
 --- !u!1 &3281926577933013807
 GameObject:
   m_ObjectHideFlags: 0
@@ -7415,7 +7440,7 @@ MonoBehaviour:
     type: 3}
   trailParticlePrefab: {fileID: 6076168403648690602, guid: 81619a577474e724ba2bce91c4e20447,
     type: 3}
-  burrowDuration: 5
+  burrowDuration: 3
 --- !u!1 &7510728523433662976
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,10 +13,12 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected float health;
     [SerializeField] protected float attackRange = 5f;
     [SerializeField] protected float currentHealth;
+    public float CurrentHealth { get { return currentHealth; } }
     [SerializeField] protected float attackDamage = 5f;
     [SerializeField] protected float iFrameDuration = 0.5f; //iFrame for creatures ONLY controls animations
     public float knockbackForce = 5;
     private bool iFrame = false;
+    protected bool dead = false;
 
     [field: SerializeField] public CreatureSO CreatureInfo { get; private set; }
 
@@ -108,8 +110,10 @@ public abstract class Creature : MonoBehaviour
     protected virtual void Die()
     {
         // SpawnDrop();
+        dead = true;
         animator.Play("Death");
         agent.isStopped = true;
+        agent.velocity = Vector3.zero;
         alive = false;
         GetComponent<BoxCollider>().enabled = false;
         healthbar.gameObject.SetActive(false);

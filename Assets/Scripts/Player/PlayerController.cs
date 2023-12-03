@@ -10,7 +10,7 @@ public class PlayerController : Singleton<PlayerController>
 {
     private PlayerInputActions _playerInputActions;
     private PlayerInput _playerInput;
-    private InputAction _movement;
+    public InputAction _movement { get; private set; }
     private InputAction _look; // for keyboard/mouse attack direction
     public InputAction _attackRight { get; private set; } // get, set these controls so other scripts can control when player shouldn't be able to do stuff
     public InputAction _attackLeft { get; private set; }
@@ -300,7 +300,8 @@ public class PlayerController : Singleton<PlayerController>
             LoadSavedLimb(saveManager.SavedRightArm);
             LoadSavedLimb(saveManager.SavedCore);
             LoadSavedLimb(saveManager.SavedLegs);
-            
+            Debug.Log("loaded saved limbs");
+
         }
         else
         {
@@ -320,6 +321,7 @@ public class PlayerController : Singleton<PlayerController>
             
             core.LoadDefaultStats();
         }
+        //Debug.Log(currentHead);
 
         canAttack = true;
         ResetAttackTriggers();
@@ -657,15 +659,16 @@ public class PlayerController : Singleton<PlayerController>
         if(newHead.LimbType == LimbType.Head)
         foreach (Head head in allHeads)
         {
-            if (head.Weight == newHead.Weight && head.Classification == newHead.Classification)
-            {
-                originalHead.gameObject.SetActive(false);
-                head.gameObject.SetActive(true);
-                head.LoadDefaultStats();
-                currentHead = head;
-                if (newHead.LimbHealth <= 0) { newHead.OverwriteLimbHealth(currentHead.DefaultMaxHealth); }
-                currentHead.Health = newHead.LimbHealth;
+                if (head.Weight == newHead.Weight && head.Classification == newHead.Classification)
+                {
+                    originalHead.gameObject.SetActive(false);
+                    head.gameObject.SetActive(true);
+                    head.LoadDefaultStats();
+                    currentHead = head;
+                    if (newHead.LimbHealth <= 0) { newHead.OverwriteLimbHealth(currentHead.DefaultMaxHealth); }
+                    currentHead.Health = newHead.LimbHealth;
                 }
+                Debug.Log(currentHead);
         }
         OnSwapLimbs.Invoke();
     }

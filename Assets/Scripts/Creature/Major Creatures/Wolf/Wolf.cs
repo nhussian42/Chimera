@@ -32,36 +32,50 @@ public class Wolf : NotBossAI
 
     protected override void Update()
     {
-        attackResetTime -= Time.deltaTime;
-        if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
+        if(stunned != true)
         {
-            //Player is in range
-            inAttackRange = true;
-        }
-
-        if (alive == true)
-        {
-            if (inAttackRange == false && circling == false)
+            Debug.Log("Update() called");
+            attackResetTime -= Time.deltaTime;
+            if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
             {
-                agent.destination = player.transform.position;
+                //Player is in range
+                inAttackRange = true;
             }
-            else if (inAttackRange == true)
+
+            if (alive == true)
             {
-                if (circling == false)
+                if (inAttackRange == false && circling == false)
                 {
-                    StartCoroutine(Attack());
-                    circling = true;
+                    agent.destination = player.transform.position;
+                }
+                else if (inAttackRange == true)
+                {
+                    if (circling == false)
+                    {
+                        StartCoroutine(Attack());
+                        circling = true;
+                    }
+                }
+
+                agent.FindClosestEdge(out NavMeshHit hit);
+                if ((Vector3.Distance(agent.destination, hit.position) < 2f) && changeDirectionCooldown == false)
+                {
+                    changeDirectionCooldown = true;
+                    Invoke("ResetCooldown", 1f);
+                    randomPositiveNegative = !randomPositiveNegative;
                 }
             }
-
-            agent.FindClosestEdge(out NavMeshHit hit);
-            if ((Vector3.Distance(agent.destination, hit.position) < 2f) && changeDirectionCooldown == false)
-            {
-                changeDirectionCooldown = true;
-                Invoke("ResetCooldown", 1f);
-                randomPositiveNegative = !randomPositiveNegative;
-            }
         }
+    }
+
+    public override void ResetAttackBooleans()
+    {
+        base.ResetAttackBooleans();
+        //inAttackRange = false;
+        circling = false;
+        attacking = false;
+        animator.SetBool("Attack", false);
+        //ResetCooldown();
     }
 
     private void ResetCooldown()
@@ -172,5 +186,6 @@ public class Wolf : NotBossAI
     {
         base.Die();
         AudioManager.PlaySound3D(AudioEvents.Instance.OnWolfDeath, transform.position);
+        Destroy(stunnedFX);
     }
 }
