@@ -82,10 +82,10 @@ public class BodyShopMenu : MonoBehaviour
      
         for (int i = 0; i < (ItemTextList.Count); i++) 
         {
-            ItemTextList[i].text = $"Buy: {ItemCostList[i].ToString()}";
+            ItemTextList[i].text = $"{ItemCostList[i].ToString()}";
         }
 
-        HealItemText.text = $"Buy: {HealCost.ToString()}";
+        HealItemText.text = $"{HealCost.ToString()}";
     }
 
     private void SetupSprites()

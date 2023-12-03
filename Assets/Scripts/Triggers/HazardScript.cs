@@ -12,6 +12,7 @@ public class HazardScript : MonoBehaviour
     public Transform endPos;
     private Transform currentPos;
     private Transform targetPos;
+    [SerializeField] private Transform raisedPos;
     private float sinTime;
 
     [SerializeField] private float moveSpeed;
@@ -75,13 +76,18 @@ public class HazardScript : MonoBehaviour
                 }
             }
         }
-        
+
+        if(currentPos.position == raisedPos.position)
+        {
+            swap();
+        }
         //swaps destination points
-        if(transform.position == targetPos.position)
+        else if(transform.position == targetPos.position)
         {
             swap();         
         }
-       
+        
+
     }
 
     //Damages players
