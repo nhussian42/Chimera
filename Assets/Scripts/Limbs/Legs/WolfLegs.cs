@@ -23,12 +23,13 @@ public class WolfLegs : Legs
         if (t >= 1)
         {
             activated = false;
-            player.EnableAllDefaultControls();
+            //player.EnableAllDefaultControls();
         }
     }
 
     public override void PlayAnim()
     {
+        //player.DisableAllDefaultControls();
         player.Animator.SetTrigger("Pounce");
         AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerPounce);
     }
@@ -38,7 +39,6 @@ public class WolfLegs : Legs
         //Debug.Log("pounce");
         t = 0;
         activated = true;
-        player.DisableAttackControls();
         StartCoroutine(Cooldown());
     }
 }

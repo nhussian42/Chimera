@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
+using UnityEngine.VFX.Utility;
 
 public class CrocLegs : Legs
 {
@@ -8,6 +10,7 @@ public class CrocLegs : Legs
     [SerializeField] GameObject trailParticlePrefab;
     private GameObject burrowParticleFX;
     private GameObject trailParticleFX;
+    private VisualEffect trailEffect;
     [SerializeField] float burrowDuration;
     bool isUnderground = false;
 
@@ -19,18 +22,31 @@ public class CrocLegs : Legs
 
     public override void PlayAnim()
     {
+        //player.DisableAllDefaultControls();
         player.Animator.SetTrigger("Burrow");
-        //Vector3 burrowPos = new Vector3(player.transform.position.x, , player.transform.position.z);
         burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
+        VisualEffect burrowEffect = burrowParticleFX.GetComponentInChildren<VisualEffect>();
+        burrowEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
+    }
+
+    private void Update()
+    {
+        if(isUnderground == true && trailEffect != null)
+        {
+            trailEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
+        }
         AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerBurrow);
+
     }
 
     public override void ActivateAbility()
     {
-        if(isUnderground == false)
+        Destroy(burrowParticleFX);
+        if (isUnderground == false)
         {
+            //player.EnableAllDefaultControls();
+            player.ToggleInvincibility();
             isUnderground = true;
-            Destroy(burrowParticleFX);
 
             // Get the Skinned Mesh Renderers of all the current limbs
             // (probably bad for performance to be getting all these components like this) but it could be fine?
@@ -42,26 +58,32 @@ public class CrocLegs : Legs
 
             Vector3 trailPos = new Vector3(player.transform.position.x, 0, player.transform.position.z);
             trailParticleFX = Instantiate(trailParticlePrefab, trailPos, Quaternion.identity, player.transform);
+            trailEffect = trailParticleFX.GetComponentInChildren<VisualEffect>();
             StartCoroutine(Burrow());
-            StartCoroutine(Cooldown());
         }
         else
         {
+            Destroy(burrowParticleFX);
             SetMeshVisibility(true);
             player.ToggleInvincibility();
             isUnderground = false;
+            //player.EnableAllDefaultControls();
+            StartCoroutine(Cooldown());
         }
 
     }
 
     private IEnumerator Burrow()
     {
-        player.ToggleInvincibility();
         SetMeshVisibility(false);
 
         yield return new WaitForSeconds(burrowDuration);
 
         Destroy(trailParticleFX);
+        //player.DisableAllDefaultControls();
+        burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
+        VisualEffect burrowEffect = burrowParticleFX.GetComponentInChildren<VisualEffect>();
+        burrowEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
         player.Animator.SetTrigger("Surface");
         AudioManager.PlaySound2D(AudioEvents.Instance.OnCrocResurface);
     }

@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.VFX;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(Rigidbody))]
 public class NotBossAI : Creature
 {
     protected GameObject player;
     private bool playerIFrame = false;
+    protected bool stunned = false; //temp variable for stun behavior, refactor this later - Amon
+    protected bool stunnable = true;
+    protected GameObject stunnedFX;
+    [SerializeField] private Transform stunSpawnTransform;
     [SerializeField] protected LayerMask playerLayerMask;    //Used to check distance from the player
 
     [SerializeField] protected bool attacking = false;   //Keeps track of if the creature is currently attacking
@@ -27,19 +32,22 @@ public class NotBossAI : Creature
 
     protected virtual void Update()
     {
-        agent.destination = player.transform.position;
-
-        if (attacking == false && alive == true)
+        if(stunned != true)
         {
-            if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
-            {
-                //Player is in range
-                //Perform attack coroutine
-                StartCoroutine(Attack());
-                attacking = true;
-            }
-        }
+            Debug.Log("Update() called");
+            agent.destination = player.transform.position;
 
+            if (attacking == false && alive == true)
+            {
+                if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
+                {
+                    //Player is in range
+                    //Perform attack coroutine
+                    StartCoroutine(Attack());
+                    attacking = true;
+                }
+            }
+        }        
     }
 
     public virtual void OnTriggerEnter(Collider other)
@@ -65,5 +73,52 @@ public class NotBossAI : Creature
     public virtual IEnumerator Attack()
     {
         yield return null;
+    }
+
+    public virtual void ResetAttackBooleans()
+    {
+        attacking = false;
+        agent.isStopped = false;
+    }
+
+    public virtual void Stun(float duration, GameObject stunFX)
+    {
+        if(stunnable == true)
+        {
+            //Debug.Log("Called Stun()");
+            StopAllCoroutines();
+            StartCoroutine(Stunned(duration, stunFX));
+        }      
+    }
+
+    // temp function for stun behavior, refactor this later - Amon
+    protected IEnumerator Stunned(float duration, GameObject stunFX)
+    {
+        // Debug.Log("Called Stunned()");
+        // set stunned bool to true for length of duration then set it back to false, instantiate stunned VFX at pos (See Update() function) - Amon 
+        stunned = true;
+        agent.isStopped = true;
+        StartCoroutine(StunCooldown(3.0f));
+        if(stunnedFX == null)
+            stunnedFX = Instantiate(stunFX, stunSpawnTransform);
+        yield return new WaitForSeconds(duration);
+        Destroy(stunnedFX);
+        stunned = false;
+        if(dead != true)
+            ResetAttackBooleans();
+    }
+
+    protected IEnumerator StunCooldown(float duration)
+    {
+        //Debug.Log("Called StunCooldown()");
+        stunnable = false;
+        yield return new WaitForSeconds(duration);
+        stunnable = true;
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        Destroy(stunnedFX);
     }
 }

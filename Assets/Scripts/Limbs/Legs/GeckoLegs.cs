@@ -25,11 +25,13 @@ public class GeckoLegs : Legs
         if (t >= 1)
         {
             activated = false;
+            //player.EnableAllDefaultControls();
         }
     }
 
     public override void PlayAnim()
     {
+        //player.DisableAllDefaultControls();
         player.Animator.SetTrigger("Dash");
         
         AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerBaseDash);
