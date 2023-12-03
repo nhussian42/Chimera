@@ -160,6 +160,9 @@ public class Gecko : NotBossAI
     {
         base.ResetAttackBooleans();
         fleeing = false;
+        animator.SetBool("Dash", false);
+        animator.SetBool("DashAttack", false);
+        animator.SetBool("DashBack", false);
     }
 
     private void FaceTarget(Vector3 destination)
