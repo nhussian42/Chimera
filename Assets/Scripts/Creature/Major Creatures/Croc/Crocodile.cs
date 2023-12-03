@@ -150,7 +150,7 @@ public class Crocodile : NotBossAI
 
     protected override void Update()
     {
-        if (alive == true)
+        if (alive == true && stunned == false)
         {
             agent.destination = player.transform.position;
 
@@ -164,6 +164,14 @@ public class Crocodile : NotBossAI
         }
 
         remainingDigCooldown -= Time.deltaTime;
+    }
+
+    public override void ResetAttackBooleans()
+    {
+        base.ResetAttackBooleans();
+        animator.SetBool("Idle", false);
+        if (particle != null)
+            Destroy(particle);
     }
 
     protected override void Die()

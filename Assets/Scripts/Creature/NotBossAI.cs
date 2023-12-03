@@ -81,7 +81,7 @@ public class NotBossAI : Creature
         agent.isStopped = false;
     }
 
-    public void Stun(float duration, GameObject stunFX)
+    public virtual void Stun(float duration, GameObject stunFX)
     {
         if(stunnable == true)
         {
@@ -103,8 +103,9 @@ public class NotBossAI : Creature
             stunnedFX = Instantiate(stunFX, stunSpawnTransform);
         yield return new WaitForSeconds(duration);
         Destroy(stunnedFX);
-        ResetAttackBooleans();
         stunned = false;
+        if(dead != true)
+            ResetAttackBooleans();
     }
 
     protected IEnumerator StunCooldown(float duration)

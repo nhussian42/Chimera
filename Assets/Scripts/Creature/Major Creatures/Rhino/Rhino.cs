@@ -70,6 +70,16 @@ public class Rhino : NotBossAI
         }
     }
 
+    public override void Stun(float duration, GameObject stunFX)
+    {
+        if (stunnable == true && animator.GetBool("Slam") != true && animator.GetBool("Charge") != true)
+        {
+            //Debug.Log("Called Stun()");
+            StopAllCoroutines();
+            StartCoroutine(Stunned(duration, stunFX));
+        }
+    }
+
     public override void ResetAttackBooleans()
     {
         base.ResetAttackBooleans();

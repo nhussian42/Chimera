@@ -113,6 +113,7 @@ public abstract class Creature : MonoBehaviour
         dead = true;
         animator.Play("Death");
         agent.isStopped = true;
+        agent.velocity = Vector3.zero;
         alive = false;
         GetComponent<BoxCollider>().enabled = false;
         healthbar.gameObject.SetActive(false);
