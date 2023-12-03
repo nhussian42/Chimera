@@ -101,7 +101,7 @@ MonoBehaviour:
   health: 250
   attackRange: 5
   currentHealth: 0
-  attackDamage: 5
+  attackDamage: 20
   iFrameDuration: 0.5
   knockbackForce: 5
   <CreatureInfo>k__BackingField: {fileID: 0}
@@ -111,22 +111,22 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  numberOfSpikes: 9
-  timeBetweenSpikes: 0.2
-  spikeDamage: 5
+  numberOfSpikes: 10
+  timeBetweenSpikes: 0.15
+  spikeDamage: 15
   angleBeteenSpikes: 45
   distanceBetweenSpikes: 2
   spike: {fileID: 7992538046275668304, guid: e95dafa6e69e7b149b89ffead601b0fb, type: 3}
-  timeBetweenProjectiles: 0.15
-  projectileDamage: 10
+  timeBetweenProjectiles: 0.1
+  projectileDamage: 15
   projectileSpeed: 700
   projectile: {fileID: 7992538046275668304, guid: 9df0a173dc0afa14d928ec572e9af16d,
     type: 3}
   projectileSpawnPos: {fileID: 2260627929132298804}
-  timeBeforeAttack: 1
+  timeBeforeAttack: 0.5
   amountOfTimeBurrowed: 2
   teleportRange: 16
-  burrowDelay: 6
+  burrowDelay: 4
   bossMesh: {fileID: 390749784955731379}
   bossAttack: []
   burrowed: 0
