@@ -15,6 +15,7 @@ public abstract class Limb : MonoBehaviour
     [SerializeField] public Sprite limbSprite;
     [SerializeField] public Sprite selectedSprite;
     [SerializeField] private LimbDrop limbDrop;
+    [SerializeField] private int boneValue;
 
     // Protected
     protected float currentHealth;
@@ -34,6 +35,7 @@ public abstract class Limb : MonoBehaviour
     public float DefaultHealth { get { return defaultHealth; } }
     public float DefaultMaxHealth { get { return defaultMaxHealth; } }
     public LimbDrop LimbDrop { get { return limbDrop; } }
+    public int BoneValue { get { return boneValue; } }
 
 
     public void UpdateHealth(float amount)
