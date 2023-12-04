@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1913788197453138403}
   - component: {fileID: 3363909580986957210}
   - component: {fileID: 2591206205946271377}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: GeckArm_L (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,10 +94,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2768634352585879418}
   - component: {fileID: 952462279069997666}
-  - component: {fileID: 2243717749598149906}
   - component: {fileID: 9172008504814477055}
+  - component: {fileID: 2243717749598149906}
   - component: {fileID: 2088174164489037308}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: GeckoArmDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,6 +149,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &9172008504814477055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3583152938891452061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd97a848e55974c4e9e957f98f3009d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spreadsOnSpawn: 1
+  spreadDistance: 2
+  flingsOnSpawn: 1
+  flingSpeed: 70
+  upwardForce: 49
+  pickupIndicator: {fileID: 1045908588095100936}
+  weight: 2
+  classification: 1
+  type: 1
+  limbName: 2
+  limbCost: 20
+  limbSprite: {fileID: 21300000, guid: 12a24fb0d30358e40910ea1df5c55202, type: 3}
 --- !u!65 &2243717749598149906
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -170,29 +194,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 5, z: 3}
   m_Center: {x: 0, y: 3, z: 0}
---- !u!114 &9172008504814477055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3583152938891452061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd97a848e55974c4e9e957f98f3009d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spreadsOnSpawn: 1
-  spreadDistance: 2
-  flingsOnSpawn: 1
-  flingSpeed: 70
-  upwardForce: 49
-  weight: 2
-  classification: 1
-  type: 1
-  limbName: 2
-  limbCost: 20
-  limbSprite: {fileID: 21300000, guid: 12a24fb0d30358e40910ea1df5c55202, type: 3}
 --- !u!65 &2088174164489037308
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -206,7 +207,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -225,7 +226,7 @@ GameObject:
   - component: {fileID: 5184238871808995710}
   - component: {fileID: 6897381932941167654}
   - component: {fileID: 1037426081744587299}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: GeckFingers_L2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +309,7 @@ GameObject:
   - component: {fileID: 1092562848940658663}
   - component: {fileID: 5075809629002847297}
   - component: {fileID: 6254449905099128389}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: GeckFingers_L1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -389,7 +390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1215175046518028851}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: GeckFingies_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +428,7 @@ GameObject:
   - component: {fileID: 8006106513943399602}
   - component: {fileID: 8214026503555694370}
   - component: {fileID: 5285762892211735209}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: GeckFingers_L4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,7 +511,7 @@ GameObject:
   - component: {fileID: 2308797041219235910}
   - component: {fileID: 7473570452582370832}
   - component: {fileID: 8649582638143666263}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: GeckFingers_L3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +594,7 @@ GameObject:
   - component: {fileID: 1674983891652669411}
   - component: {fileID: 1647419118313822584}
   - component: {fileID: 233880847124726116}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: GeckFingers_L5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -677,6 +678,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Loot Drop
+      objectReference: {fileID: 0}
+    - target: {fileID: 487859658420665908, guid: 2664cef1edddb9d4d9db647e950bae14,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2045317860842234213, guid: 2664cef1edddb9d4d9db647e950bae14,
         type: 3}
@@ -768,6 +774,11 @@ PrefabInstance:
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Overridden
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6029165676769356145, guid: 2664cef1edddb9d4d9db647e950bae14,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -794,8 +805,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2658231638124217085, guid: a05b4b7448a800d40943d9dfd290fecb,
         type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2658231638124217085, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538770454011260829, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7397749335219711842, guid: a05b4b7448a800d40943d9dfd290fecb,
         type: 3}
@@ -902,11 +923,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8653117299461033140, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a05b4b7448a800d40943d9dfd290fecb, type: 3}
+--- !u!114 &1045908588095100936 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3234204799244704433, guid: a05b4b7448a800d40943d9dfd290fecb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2477512443361247929}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0175badece64f0349a564ad214cf1f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4957321499750919643 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7397749335219711842, guid: a05b4b7448a800d40943d9dfd290fecb,
