@@ -31,9 +31,8 @@ public class GrolfinoAnimationEvents : MonoBehaviour
 
     public void IntroBurrow(float zPos)
     {
-        bossCrackUnburrowObject = Instantiate(bossCrackIntro, new Vector3(transform.position.x, 0.2f, transform.position.z) - (transform.forward * zPos), Quaternion.identity);
-        bossCrackUnburrowObject.GetComponentInChildren<VisualEffect>().SetVector3("Position", new Vector3(transform.position.x, 0.2f, transform.position.z) - (transform.forward * zPos));
-
+        bossCrackUnburrowObject = Instantiate(bossCrackIntro, new Vector3(transform.position.x, 0.2f, 28.75f), Quaternion.identity);
+        bossCrackUnburrowObject.GetComponentInChildren<VisualEffect>().SetVector3("Position", new Vector3(transform.position.x, 0.2f, 28.75f));
     }
 
     public void Unburrow(float zPos)
@@ -45,7 +44,7 @@ public class GrolfinoAnimationEvents : MonoBehaviour
     public void UnburrowEnd()
     {
         bossCrackUnburrowObject.GetComponentInChildren<Animator>().SetBool("Burrow", true);
-        Destroy(bossCrackUnburrowObject, 1.5f);
+        Destroy(bossCrackUnburrowObject, 1f);
     }
 
     public void Burrow(float zPos)
