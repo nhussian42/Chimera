@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1792528736450183952}
   - component: {fileID: 3752561250421884687}
   - component: {fileID: 7973750662964105468}
+  - component: {fileID: 2424496571608670759}
   m_Layer: 0
   m_Name: EarthBender
   m_TagString: Untagged
@@ -126,3 +127,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spikeSpeed: 0.1
   spikeDamage: 5
+--- !u!65 &2424496571608670759
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7897867791542112478}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
