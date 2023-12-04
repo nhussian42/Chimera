@@ -22,6 +22,7 @@ public class PostRunSummaryController : MonoBehaviour
     [SerializeField] GameObject trinketInventoryGrid;
     [SerializeField] TrinketCellSlot trinketCellPrefab;
     [SerializeField] Button mainMenuButton;
+    [SerializeField] GameObject menu;
 
     // Events
     public static Action OnPressedMainMenu;
@@ -40,7 +41,7 @@ public class PostRunSummaryController : MonoBehaviour
     {
         pRSManager = PostRunSummaryManager.Instance;
         PlayerController.OnDie += Display;
-        gameObject.SetActive(false);
+        menu.SetActive(false);
     }
 
     private void OnDestroy()
@@ -61,7 +62,13 @@ public class PostRunSummaryController : MonoBehaviour
     private void Display()
     {
         // Uses coroutines to display information in order
-        gameObject.SetActive(true);
+        StartCoroutine(Delay());
+    }
+
+    private IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(5f);
+        menu.SetActive(true);
         PlayerController.Instance.DisableAllDefaultControls();
         PlayerController.Instance.EnableAllUIControls();
         EventSystem.current.SetSelectedGameObject(mainMenuButton.gameObject);
@@ -133,7 +140,7 @@ public class PostRunSummaryController : MonoBehaviour
     {
         // gets lists from PostRunSummaryManager to display a snapshot of player's limb build after each room in sequential order
         if (snapshotIndex <= pRSManager.headsInRun.Count)
-        head.sprite = pRSManager.headsInRun[snapshotIndex];
+            head.sprite = pRSManager.headsInRun[snapshotIndex];
         else
             head.sprite = pRSManager.headsInRun[pRSManager.headsInRun.Count];
         if (snapshotIndex <= pRSManager.leftArmsInRun.Count)
