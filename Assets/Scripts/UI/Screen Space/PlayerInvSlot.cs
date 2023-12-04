@@ -25,6 +25,8 @@ public class PlayerInvSlot : MonoBehaviour
     [SerializeField] private GameObject LimbButtonGO;
     [SerializeField] private List<Button> LimbButtons;
     [SerializeField] private List<Button> LimbButtonHLs;
+    [SerializeField] private Image RelicHighlight;
+    [SerializeField] private Image ScrollHighlight;
 
     [SerializeField] private MasterTrinketList masterTrinketList;
 
@@ -155,8 +157,11 @@ public class PlayerInvSlot : MonoBehaviour
 
                 case "Relic":
                     if(masterTrinketList.Relic == null)
-                    {
+                    {                   
                         LimbButtons[5].GetComponent<Image>().sprite = null;
+                        ss.selectedSprite = RelicHighlight.sprite;
+                        LimbButtons[5].gameObject.GetComponent<Button>().spriteState = ss;
+                        RelicHighlight.GetComponent<Image>().sprite = null;
                         break;
                     }
                     else
@@ -185,4 +190,13 @@ public class PlayerInvSlot : MonoBehaviour
         ImgBox.sprite = trinketIcon;
     }
 
+    public void ToggleHighlightRelic()
+    {
+        RelicHighlight.gameObject.SetActive(!RelicHighlight.gameObject.activeSelf);
+    }
+
+    public void ToggleHighlightScroll()
+    {
+        ScrollHighlight.gameObject.SetActive(!ScrollHighlight.gameObject.activeSelf);
+    }
 }

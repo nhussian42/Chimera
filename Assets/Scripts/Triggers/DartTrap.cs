@@ -6,7 +6,7 @@ public class DartTrap : MonoBehaviour
 {
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform startLocation;
-    [SerializeField] private Quaternion startRotation;
+    [SerializeField] public Quaternion DartRotation;
 
     [SerializeField] private float spawnDelay;
 
@@ -17,6 +17,7 @@ public class DartTrap : MonoBehaviour
     void Start()
     {
         timeSinceSpawned = 0.75f;
+        DartTrigger = GetComponentInChildren<DartTriggerScript>();
     }
 
     // Update is called once per frame
@@ -28,8 +29,12 @@ public class DartTrap : MonoBehaviour
             timeSinceSpawned += Time.deltaTime;
             if (timeSinceSpawned > spawnDelay)
             {
-                Instantiate(projectile, startLocation.position, startRotation);
-                timeSinceSpawned = 0;
+                var dartToggle = projectile.GetComponent<ProjectileScript>();
+                
+                var dart = Instantiate(projectile, startLocation.position, DartRotation);
+                dart.transform.rotation = DartRotation;
+                timeSinceSpawned = 0;             
+                
             }
         }
 

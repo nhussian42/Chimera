@@ -10,7 +10,7 @@ public class PlayerController : Singleton<PlayerController>
 {
     private PlayerInputActions _playerInputActions;
     private PlayerInput _playerInput;
-    private InputAction _movement;
+    public InputAction _movement { get; private set; }
     private InputAction _look; // for keyboard/mouse attack direction
     public InputAction _attackRight { get; private set; } // get, set these controls so other scripts can control when player shouldn't be able to do stuff
     public InputAction _attackLeft { get; private set; }
@@ -106,6 +106,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private bool canAttack = true;
     private bool interacting;
+    public bool nearShop;
     private List<Drop> touchedDrops;
     private Drop nearestDrop;
 
@@ -299,7 +300,8 @@ public class PlayerController : Singleton<PlayerController>
             LoadSavedLimb(saveManager.SavedRightArm);
             LoadSavedLimb(saveManager.SavedCore);
             LoadSavedLimb(saveManager.SavedLegs);
-            
+            Debug.Log("loaded saved limbs");
+
         }
         else
         {
@@ -319,6 +321,7 @@ public class PlayerController : Singleton<PlayerController>
             
             core.LoadDefaultStats();
         }
+        //Debug.Log(currentHead);
 
         canAttack = true;
         ResetAttackTriggers();
@@ -429,16 +432,22 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_interact.triggered)
         {
-            if (nearestDrop != null)
+
+            if (nearShop)
+            {
+                BodyShop.Instance.ToggleMenu();
+            }
+            else if (nearestDrop != null)
             {
                 if (nearestDrop is LimbDrop)
                     EnableLimbSwapMenu((LimbDrop)nearestDrop);
                 if (nearestDrop is TrinketBagDrop)
+                {
                     EnableTrinketMenu();
-                
-                Drop dropToRemove = nearestDrop;
-                RemoveFromDrops(nearestDrop);
-                dropToRemove.DestroyDrop();
+                    Drop dropToRemove = nearestDrop;
+                    RemoveFromDrops(nearestDrop);
+                    dropToRemove.DestroyDrop();
+                }
             }
         }
 
@@ -651,15 +660,16 @@ public class PlayerController : Singleton<PlayerController>
         if(newHead.LimbType == LimbType.Head)
         foreach (Head head in allHeads)
         {
-            if (head.Weight == newHead.Weight && head.Classification == newHead.Classification)
-            {
-                originalHead.gameObject.SetActive(false);
-                head.gameObject.SetActive(true);
-                head.LoadDefaultStats();
-                currentHead = head;
-                if (newHead.LimbHealth <= 0) { newHead.OverwriteLimbHealth(currentHead.DefaultMaxHealth); }
-                currentHead.Health = newHead.LimbHealth;
+                if (head.Weight == newHead.Weight && head.Classification == newHead.Classification)
+                {
+                    originalHead.gameObject.SetActive(false);
+                    head.gameObject.SetActive(true);
+                    head.LoadDefaultStats();
+                    currentHead = head;
+                    if (newHead.LimbHealth <= 0) { newHead.OverwriteLimbHealth(currentHead.DefaultMaxHealth); }
+                    currentHead.Health = newHead.LimbHealth;
                 }
+                Debug.Log(currentHead);
         }
         OnSwapLimbs.Invoke();
     }
@@ -727,9 +737,31 @@ public class PlayerController : Singleton<PlayerController>
     
 
     // Called to instantiate a limb drop after swapping it
-    private void DropLimb(Limb droppedLimb)
+    public void DropLimb(Head droppedHead)
     {
-        // call after swap limb to drop your current limb on the ground
+        if (droppedHead != coreHead)
+        {
+            LimbDrop limbDrop = Instantiate(droppedHead.LimbDrop.gameObject, transform.position, Quaternion.identity).GetComponent<LimbDrop>();
+            limbDrop.OverwriteLimbHealth(droppedHead.Health);
+        }
+    }
+
+    public void DropLimb(Legs droppedLegs)
+    {
+        if (droppedLegs != coreLegs)
+        {
+            LimbDrop limbDrop = Instantiate(droppedLegs.LimbDrop.gameObject, transform.position, Quaternion.identity).GetComponent<LimbDrop>();
+            limbDrop.OverwriteLimbHealth(droppedLegs.Health);
+        }
+    }
+
+    public void DropLimb(Arm droppedArm)
+    {
+        if (droppedArm != coreLeftArm && droppedArm != coreRightArm)
+        {
+            LimbDrop limbDrop = Instantiate(droppedArm.LimbDrop.gameObject, transform.position, Quaternion.identity).GetComponent<LimbDrop>();
+            limbDrop.OverwriteLimbHealth(droppedArm.Health);
+        }
     }
 
     // Called to load saved data into limbs after loading a new scene

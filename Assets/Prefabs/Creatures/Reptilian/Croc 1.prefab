@@ -2088,6 +2088,7 @@ MonoBehaviour:
   <classification>k__BackingField: 1
   creatureType: 1
   healthbar: {fileID: 7913125339849204598}
+  stunSpawnTransform: {fileID: 7137685647115783976}
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -2474,6 +2475,7 @@ Transform:
   - {fileID: 88322571957647418}
   - {fileID: 6170480541842540409}
   - {fileID: 2292972093984760251}
+  - {fileID: 7137685647115783976}
   m_Father: {fileID: 4912314252783992090}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -2744,6 +2746,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6147543028769123044}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5880028462503858407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7137685647115783976}
+  m_Layer: 0
+  m_Name: StunSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7137685647115783976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5880028462503858407}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.82, y: 2.38, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5198609484298545844}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5903470782948818412

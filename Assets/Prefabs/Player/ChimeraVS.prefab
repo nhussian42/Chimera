@@ -1279,6 +1279,7 @@ MonoBehaviour:
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: 15673981f7fae424bab4aefba5c0f068, type: 3}
   selectedSprite: {fileID: 21300000, guid: 73c9a9d6d083aaa4db74641969fd12bc, type: 3}
+  limbDrop: {fileID: 0}
   defaultAttackDamage: 10
   defaultAttackSpeed: 0.8
   side: 0
@@ -2380,6 +2381,8 @@ MonoBehaviour:
   defaultMaxHealth: 30
   limbSprite: {fileID: 21300000, guid: 18fb43f679b6f1e40ba063392ccce1d3, type: 3}
   selectedSprite: {fileID: 21300000, guid: 23c20bb24fe7d1f41becbd3b728953ce, type: 3}
+  limbDrop: {fileID: 1669952791111070830, guid: dbcce601d3442aa438271b7491ae394c,
+    type: 3}
   defaultAttackDamage: 10
   defaultAttackSpeed: 1.25
   side: 0
@@ -2453,6 +2456,8 @@ MonoBehaviour:
   defaultMaxHealth: 30
   limbSprite: {fileID: 21300000, guid: d902f3ca518661043b034b9d0578332d, type: 3}
   selectedSprite: {fileID: 21300000, guid: b111b0144038e9547a6df29b0543c0eb, type: 3}
+  limbDrop: {fileID: 3196046703386848653, guid: 74894700abc37fc4e9efa48b667084d3,
+    type: 3}
   defaultMovementSpeed: 24
   defaultCooldownTime: 3
   dashDistance: 100
@@ -2502,6 +2507,7 @@ GameObject:
   - component: {fileID: 2793159458867588477}
   - component: {fileID: 7697647668054100860}
   - component: {fileID: 53259469810433876}
+  - component: {fileID: 9150373300084389753}
   m_Layer: 6
   m_Name: ChimeraVS
   m_TagString: Player
@@ -2527,7 +2533,7 @@ Transform:
   - {fileID: 6976358354469409987}
   - {fileID: 2260742047345967660}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3048959359936504127
 Animator:
@@ -2862,6 +2868,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   allHeads:
+  - {fileID: 2845596060274842395}
   - {fileID: 822374487050714662}
   allArms:
   - {fileID: 4953931813178917154}
@@ -2892,6 +2899,29 @@ MonoBehaviour:
   animator: {fileID: 3048959359936504127}
   totalBones: 0
   bonesMultiplier: 0
+  nearShop: 0
+--- !u!114 &9150373300084389753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3047811335271670910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfca4f58197c34396438168a7f6131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPool:
+  - {fileID: 7937426487983829427, guid: dbcce601d3442aa438271b7491ae394c, type: 3}
+  - {fileID: 3450614229154006231, guid: 8fd2e70130d4fd44299b88a77f3438b3, type: 3}
+  - {fileID: 7937426487983829427, guid: c553972cb9b63c148a5184b729a20b4d, type: 3}
+  - {fileID: 3450614229154006231, guid: 74894700abc37fc4e9efa48b667084d3, type: 3}
+  - {fileID: 8465967043707308671, guid: d6fcae7f3c1d6ff428a21ff15d19325a, type: 3}
+  - {fileID: 3583152938891452061, guid: 90e82dbc55b9d164a93bd1470c3edeba, type: 3}
+  - {fileID: 8372370546128528112, guid: 61fc4bc92a199aa4fb905c9915e08e41, type: 3}
+  - {fileID: 1991673379962358034, guid: 54d36cfbd2e769f4ba14012ccd0896ea, type: 3}
+  _spawnCondition: 2
 --- !u!1 &3125528580234289208
 GameObject:
   m_ObjectHideFlags: 0
@@ -3014,6 +3044,7 @@ GameObject:
   - component: {fileID: 5964361807935114637}
   - component: {fileID: 5889293144741832992}
   - component: {fileID: 3511795828935931250}
+  - component: {fileID: 2845596060274842395}
   m_Layer: 6
   m_Name: RhinoHead
   m_TagString: Untagged
@@ -3118,6 +3149,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   undissolvedHeight: 4.5
   fullyDissolvedHeight: -2.5
+--- !u!114 &2845596060274842395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3160109510805545153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39c24b2ab9e968f40a573e0ba5f1a111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  classification: 0
+  weight: 0
+  limbName: 3
+  stringName: Rhino Head
+  defaultHealth: 50
+  defaultMaxHealth: 50
+  limbSprite: {fileID: 21300000, guid: f97cab7106e097749ac0cbadf3bcf937, type: 3}
+  selectedSprite: {fileID: 21300000, guid: ca4f3b51120f02a47b68422d419404e3, type: 3}
+  limbDrop: {fileID: 1581230926361960152, guid: 2e6d60856735b6241b132db33374cbe9,
+    type: 3}
+  vfxPrefab: {fileID: 7846225434873768419, guid: 48265f5cea7931e489200748af3618aa,
+    type: 3}
 --- !u!1 &3281926577933013807
 GameObject:
   m_ObjectHideFlags: 0
@@ -3473,6 +3528,7 @@ MonoBehaviour:
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: 2f1d277ae408d844cb5852501b1ec17f, type: 3}
   selectedSprite: {fileID: 21300000, guid: d95f60d245a5af541a3727b297815a31, type: 3}
+  limbDrop: {fileID: 0}
   defaultMovementSpeed: 12
   defaultCooldownTime: 5
   dashDistance: 75
@@ -3637,6 +3693,8 @@ MonoBehaviour:
   defaultMaxHealth: 20
   limbSprite: {fileID: 21300000, guid: 4eee1bf4fe4ed0549b656a906d6806da, type: 3}
   selectedSprite: {fileID: 21300000, guid: c07ca37f5e55be848a97c47a22e826dd, type: 3}
+  limbDrop: {fileID: 9172008504814477055, guid: 90e82dbc55b9d164a93bd1470c3edeba,
+    type: 3}
   defaultAttackDamage: 7.2
   defaultAttackSpeed: 1.5
   side: 1
@@ -4126,6 +4184,8 @@ MonoBehaviour:
   defaultMaxHealth: 30
   limbSprite: {fileID: 21300000, guid: 9f2d0ff00438fd2408f8160f9934d933, type: 3}
   selectedSprite: {fileID: 21300000, guid: 3083191b95fd751449e70859d7f8723e, type: 3}
+  limbDrop: {fileID: 3676439032642074792, guid: 61fc4bc92a199aa4fb905c9915e08e41,
+    type: 3}
   defaultMovementSpeed: 24
   defaultCooldownTime: 3
   dashDistance: 65
@@ -4249,6 +4309,7 @@ MonoBehaviour:
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: 2fb987048962595488c5aa852f4cd282, type: 3}
   selectedSprite: {fileID: 21300000, guid: 53bce8ea7572b3045aae0187fef19f17, type: 3}
+  limbDrop: {fileID: 0}
 --- !u!114 &2402888011655991731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4488,6 +4549,7 @@ MonoBehaviour:
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: e4102422eadd3b64d947d927c86d4b18, type: 3}
   selectedSprite: {fileID: 21300000, guid: be2c634c57f8ca14abd3f973a64e8823, type: 3}
+  limbDrop: {fileID: 0}
 --- !u!114 &5780341038139770661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4652,6 +4714,7 @@ MonoBehaviour:
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: b7f0420002722514691dfa0697342ff3, type: 3}
   selectedSprite: {fileID: 21300000, guid: 3b9a031331db29749b5fa7109c5586ca, type: 3}
+  limbDrop: {fileID: 0}
   defaultAttackDamage: 10
   defaultAttackSpeed: 0.8
   side: 1
@@ -4830,6 +4893,8 @@ MonoBehaviour:
   defaultMaxHealth: 50
   limbSprite: {fileID: 21300000, guid: aa1fed58fc7bf884f8398e7a7a360128, type: 3}
   selectedSprite: {fileID: 21300000, guid: 3c67d4eb3eff0dd40964775773cc85fe, type: 3}
+  limbDrop: {fileID: 1669952791111070830, guid: c553972cb9b63c148a5184b729a20b4d,
+    type: 3}
   defaultAttackDamage: 15
   defaultAttackSpeed: 0.7
   side: 0
@@ -5872,6 +5937,8 @@ MonoBehaviour:
   defaultMaxHealth: 24
   limbSprite: {fileID: 21300000, guid: aee2ab2ef12c91748b0ee3a7cfb07650, type: 3}
   selectedSprite: {fileID: 21300000, guid: d71c29b366085c3428b51a00fdfeb509, type: 3}
+  limbDrop: {fileID: 7998381026548464130, guid: d6fcae7f3c1d6ff428a21ff15d19325a,
+    type: 3}
   defaultAttackDamage: 6.6
   defaultAttackSpeed: 1
   side: 0
@@ -6282,6 +6349,8 @@ MonoBehaviour:
   defaultMaxHealth: 30
   limbSprite: {fileID: 21300000, guid: 45bab60937251e3439d28d447141335a, type: 3}
   selectedSprite: {fileID: 21300000, guid: 18d5ebdf93406dd4bae1c8639fbf4bec, type: 3}
+  limbDrop: {fileID: 1669952791111070830, guid: dbcce601d3442aa438271b7491ae394c,
+    type: 3}
   defaultAttackDamage: 10
   defaultAttackSpeed: 1.25
   side: 1
@@ -6499,6 +6568,8 @@ MonoBehaviour:
   defaultMaxHealth: 20
   limbSprite: {fileID: 21300000, guid: 12a24fb0d30358e40910ea1df5c55202, type: 3}
   selectedSprite: {fileID: 21300000, guid: c07ca37f5e55be848a97c47a22e826dd, type: 3}
+  limbDrop: {fileID: 9172008504814477055, guid: 90e82dbc55b9d164a93bd1470c3edeba,
+    type: 3}
   defaultAttackDamage: 7.2
   defaultAttackSpeed: 1.5
   side: 0
@@ -6826,6 +6897,8 @@ MonoBehaviour:
   defaultMaxHealth: 24
   limbSprite: {fileID: 21300000, guid: 2ec0f54e68e7c8342bc14e00139c939e, type: 3}
   selectedSprite: {fileID: 21300000, guid: 0c31214fd48a0034e8263e5cd688466e, type: 3}
+  limbDrop: {fileID: 7998381026548464130, guid: d6fcae7f3c1d6ff428a21ff15d19325a,
+    type: 3}
   defaultAttackDamage: 6.6
   defaultAttackSpeed: 1
   side: 1
@@ -7336,6 +7409,8 @@ MonoBehaviour:
   defaultMaxHealth: 50
   limbSprite: {fileID: 21300000, guid: 28debb703e424a84d8fdc5a9ab935b36, type: 3}
   selectedSprite: {fileID: 21300000, guid: 6237f036c22f8b34e930f593c510c0bd, type: 3}
+  limbDrop: {fileID: 1669952791111070830, guid: c553972cb9b63c148a5184b729a20b4d,
+    type: 3}
   defaultAttackDamage: 15
   defaultAttackSpeed: 0.7
   side: 1
@@ -7409,13 +7484,15 @@ MonoBehaviour:
   defaultMaxHealth: 40
   limbSprite: {fileID: 21300000, guid: ec6854c71598aca459a7a79acf67b938, type: 3}
   selectedSprite: {fileID: 21300000, guid: 94de0433177b83644834413a585e1369, type: 3}
+  limbDrop: {fileID: 3196046703386848653, guid: 8fd2e70130d4fd44299b88a77f3438b3,
+    type: 3}
   defaultMovementSpeed: 12
   defaultCooldownTime: 5
   burrowParticlePrefab: {fileID: 5677019300947725377, guid: 7b5b405710fa0894f97166e53a36f499,
     type: 3}
   trailParticlePrefab: {fileID: 6076168403648690602, guid: 81619a577474e724ba2bce91c4e20447,
     type: 3}
-  burrowDuration: 5
+  burrowDuration: 3
 --- !u!1 &7510728523433662976
 GameObject:
   m_ObjectHideFlags: 0
