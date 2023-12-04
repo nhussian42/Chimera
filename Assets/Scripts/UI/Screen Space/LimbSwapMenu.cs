@@ -290,6 +290,7 @@ public class LimbSwapMenu : MonoBehaviour
         {
             case LimbType.Head:
                 {
+                    playerController.DropLimb(playerController.currentHead);
                     playerController.SwapLimb(playerController.currentHead, proposedLimbDrop);
                     //PlayerController.OnHeadSwapped?.Invoke(); (anticipated event)
                     break;
@@ -298,10 +299,12 @@ public class LimbSwapMenu : MonoBehaviour
                 { 
                     if(displayedArm == SideOfPlayer.Right)
                     {
+                        playerController.DropLimb(playerController.currentRightArm);
                         playerController.SwapLimb(playerController.currentRightArm, proposedLimbDrop);
                     }
                     else if(displayedArm == SideOfPlayer.Left)
                     {
+                        playerController.DropLimb(playerController.currentLeftArm);
                         playerController.SwapLimb(playerController.currentLeftArm, proposedLimbDrop);
                     }
                     PlayerController.OnArmSwapped?.Invoke();
@@ -309,12 +312,14 @@ public class LimbSwapMenu : MonoBehaviour
                 }
             case LimbType.Legs:
                 {
+                    playerController.DropLimb(playerController.currentLegs);
                     playerController.SwapLimb(playerController.currentLegs, proposedLimbDrop);
                     //PlayerController.OnLegsSwapped?.Invoke(); (anticipated event)
                     break;
                 }
         }
-
+        playerController.RemoveFromDrops(proposedLimbDrop);
+        proposedLimbDrop.DestroyDrop();
         playerController.EnableAllDefaultControls();
     }
 
@@ -322,6 +327,8 @@ public class LimbSwapMenu : MonoBehaviour
     public void ScrapLimb()
     {
         OnScrap?.Invoke(50); // replace with OnScrap?.Invoke(proposedLimb.BonesValue) when property is added to Limb class
+        playerController.RemoveFromDrops(proposedLimbDrop);
+        proposedLimbDrop.DestroyDrop();
         playerController.EnableAllDefaultControls();
     }
 

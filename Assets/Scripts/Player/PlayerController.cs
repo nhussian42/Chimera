@@ -442,11 +442,12 @@ public class PlayerController : Singleton<PlayerController>
                 if (nearestDrop is LimbDrop)
                     EnableLimbSwapMenu((LimbDrop)nearestDrop);
                 if (nearestDrop is TrinketBagDrop)
+                {
                     EnableTrinketMenu();
-                
-                Drop dropToRemove = nearestDrop;
-                RemoveFromDrops(nearestDrop);
-                dropToRemove.DestroyDrop();
+                    Drop dropToRemove = nearestDrop;
+                    RemoveFromDrops(nearestDrop);
+                    dropToRemove.DestroyDrop();
+                }
             }
         }
 
@@ -736,9 +737,31 @@ public class PlayerController : Singleton<PlayerController>
     
 
     // Called to instantiate a limb drop after swapping it
-    private void DropLimb(Limb droppedLimb)
+    public void DropLimb(Head droppedHead)
     {
-        // call after swap limb to drop your current limb on the ground
+        if (droppedHead != coreHead)
+        {
+            LimbDrop limbDrop = Instantiate(droppedHead.LimbDrop.gameObject, transform.position, Quaternion.identity).GetComponent<LimbDrop>();
+            limbDrop.OverwriteLimbHealth(droppedHead.Health);
+        }
+    }
+
+    public void DropLimb(Legs droppedLegs)
+    {
+        if (droppedLegs != coreLegs)
+        {
+            LimbDrop limbDrop = Instantiate(droppedLegs.LimbDrop.gameObject, transform.position, Quaternion.identity).GetComponent<LimbDrop>();
+            limbDrop.OverwriteLimbHealth(droppedLegs.Health);
+        }
+    }
+
+    public void DropLimb(Arm droppedArm)
+    {
+        if (droppedArm != coreLeftArm && droppedArm != coreRightArm)
+        {
+            LimbDrop limbDrop = Instantiate(droppedArm.LimbDrop.gameObject, transform.position, Quaternion.identity).GetComponent<LimbDrop>();
+            limbDrop.OverwriteLimbHealth(droppedArm.Health);
+        }
     }
 
     // Called to load saved data into limbs after loading a new scene
