@@ -22,6 +22,7 @@ public class CrocLegs : Legs
 
     public override void PlayAnim()
     {
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerBurrow);
         player.DisableAllDefaultControls();
         player.Animator.SetTrigger("Burrow");
         burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
@@ -31,12 +32,10 @@ public class CrocLegs : Legs
 
     private void Update()
     {
-        if(isUnderground == true && trailEffect != null)
+        if (isUnderground == true && trailEffect != null)
         {
             trailEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
         }
-        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerBurrow);
-
     }
 
     public override void ActivateAbility()
