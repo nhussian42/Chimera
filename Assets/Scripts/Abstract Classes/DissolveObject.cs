@@ -5,12 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(SkinnedMeshRenderer))]
 public class DissolveObject : MonoBehaviour
 {
-    [SerializeField] float undissolvedHeight = 0; 
+    [SerializeField] float undissolvedHeight = 0;
     [SerializeField] float fullyDissolvedHeight = 10;
 
     public static float dissolveDuration = 4f;
 
-    Material [] mats;
+    Material[] mats;
 
     private void OnEnable()
     {
@@ -49,11 +49,12 @@ public class DissolveObject : MonoBehaviour
 
             foreach (Material mat in mats)
                 mat.SetFloat("_DissolveHeight", dissolveHeight);
-            
+
             yield return null;
         }
 
         gameObject.SetActive(false);
-        if (destroyAfterComplete) Destroy(gameObject);
+        if (destroyAfterComplete)
+            Destroy(gameObject);
     }
 }
