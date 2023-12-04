@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 336955029031111433}
   - component: {fileID: 3573168968631109587}
   - component: {fileID: 5733100358252878131}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: WolfLegsDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,6 +56,7 @@ MonoBehaviour:
   flingsOnSpawn: 1
   flingSpeed: 0
   upwardForce: 0
+  pickupIndicator: {fileID: 8801783516793959754}
   weight: 2
   classification: 0
   type: 2
@@ -123,7 +124,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -142,7 +143,7 @@ GameObject:
   - component: {fileID: 6590192487991138022}
   - component: {fileID: 4685374509059518929}
   - component: {fileID: 1424945496084783119}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: WolfLeg_L (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +227,7 @@ GameObject:
   - component: {fileID: 6123069584775766647}
   - component: {fileID: 3069631497145910904}
   - component: {fileID: 3417639391184463207}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: WolfLegHair2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +310,7 @@ GameObject:
   - component: {fileID: 5660451508632116968}
   - component: {fileID: 4552600903494252624}
   - component: {fileID: 7577611534642429300}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: WolfLeg_R (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -393,7 +394,7 @@ GameObject:
   - component: {fileID: 6668061512343185702}
   - component: {fileID: 6078978094783553496}
   - component: {fileID: 2687932248608333044}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: WolfLegHair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -477,6 +478,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Loot Drop
+      objectReference: {fileID: 0}
+    - target: {fileID: 487859658420665908, guid: 2664cef1edddb9d4d9db647e950bae14,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1610312602487570492, guid: 2664cef1edddb9d4d9db647e950bae14,
         type: 3}
@@ -573,6 +579,11 @@ PrefabInstance:
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Overridden
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6029165676769356145, guid: 2664cef1edddb9d4d9db647e950bae14,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -599,8 +610,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2658231638124217085, guid: a05b4b7448a800d40943d9dfd290fecb,
         type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2658231638124217085, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538770454011260829, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7397749335219711842, guid: a05b4b7448a800d40943d9dfd290fecb,
         type: 3}
@@ -667,6 +688,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8653117299461033140, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -678,3 +704,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6252125861768359931}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8801783516793959754 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3234204799244704433, guid: a05b4b7448a800d40943d9dfd290fecb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6252125861768359931}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0175badece64f0349a564ad214cf1f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

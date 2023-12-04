@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1698830263675789389}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: Models
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 3092823201532479433}
   - component: {fileID: 5979952967255250641}
   - component: {fileID: 1695052971456201924}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: CrocLegTransition_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 5443683061992785626}
   - component: {fileID: 7216362158405397513}
   - component: {fileID: 4254359875684107945}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: CrocLeg_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 2676897641746812931}
   - component: {fileID: 5196896523879327977}
   - component: {fileID: 4610166875102524396}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: FootClaw_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 336955029031111433}
   - component: {fileID: 3573168968631109587}
   - component: {fileID: 5733100358252878131}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: CrocLegsDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,6 +339,7 @@ MonoBehaviour:
   flingsOnSpawn: 1
   flingSpeed: 30
   upwardForce: 59
+  pickupIndicator: {fileID: 4656894527383773285}
   weight: 0
   classification: 1
   type: 2
@@ -406,7 +407,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -425,7 +426,7 @@ GameObject:
   - component: {fileID: 8294598537040872700}
   - component: {fileID: 5219842760559062798}
   - component: {fileID: 2856121672072312747}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: CrocLeg_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,7 +511,7 @@ GameObject:
   - component: {fileID: 8539290946185373167}
   - component: {fileID: 1330749360611943246}
   - component: {fileID: 6277602562515105940}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: FootClaw_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +594,7 @@ GameObject:
   - component: {fileID: 2389625735345314736}
   - component: {fileID: 5185704779442029667}
   - component: {fileID: 8379570187927920018}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: CrocLegTransition_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -677,6 +678,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Loot Drop
+      objectReference: {fileID: 0}
+    - target: {fileID: 487859658420665908, guid: 2664cef1edddb9d4d9db647e950bae14,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1610312602487570492, guid: 2664cef1edddb9d4d9db647e950bae14,
         type: 3}
@@ -773,6 +779,11 @@ PrefabInstance:
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Overridden
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6029165676769356145, guid: 2664cef1edddb9d4d9db647e950bae14,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -799,8 +810,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2658231638124217085, guid: a05b4b7448a800d40943d9dfd290fecb,
         type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2658231638124217085, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538770454011260829, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7397749335219711842, guid: a05b4b7448a800d40943d9dfd290fecb,
         type: 3}
@@ -867,10 +888,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8653117299461033140, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3234204799244704433, guid: a05b4b7448a800d40943d9dfd290fecb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2658231638124217085, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4656894527383773285}
   m_SourcePrefab: {fileID: 100100000, guid: a05b4b7448a800d40943d9dfd290fecb, type: 3}
 --- !u!224 &3489751551115477145 stripped
 RectTransform:
@@ -878,3 +909,21 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6252125861768359931}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8225803621718371590 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2658231638124217085, guid: a05b4b7448a800d40943d9dfd290fecb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6252125861768359931}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4656894527383773285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8225803621718371590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0175badece64f0349a564ad214cf1f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
