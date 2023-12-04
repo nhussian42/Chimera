@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2654534315462975498}
   - component: {fileID: 3653024600277252923}
   - component: {fileID: 213544860972622858}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Rhino_Arm_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,10 +93,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6523781888698248655}
   - component: {fileID: 6718459261893513183}
-  - component: {fileID: 6778618636064483117}
   - component: {fileID: 1669952791111070830}
+  - component: {fileID: 6778618636064483117}
   - component: {fileID: 4876641304011081291}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: RhinoArmDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,6 +148,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1669952791111070830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7937426487983829427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd97a848e55974c4e9e957f98f3009d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spreadsOnSpawn: 1
+  spreadDistance: 2
+  flingsOnSpawn: 1
+  flingSpeed: 97
+  upwardForce: 43
+  pickupIndicator: {fileID: 5346577193801738122}
+  weight: 0
+  classification: 0
+  type: 1
+  limbName: 3
+  limbCost: 75
+  limbSprite: {fileID: 21300000, guid: aa1fed58fc7bf884f8398e7a7a360128, type: 3}
 --- !u!65 &6778618636064483117
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -169,29 +193,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 5, z: 3}
   m_Center: {x: 0, y: 3, z: 0}
---- !u!114 &1669952791111070830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7937426487983829427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd97a848e55974c4e9e957f98f3009d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spreadsOnSpawn: 1
-  spreadDistance: 2
-  flingsOnSpawn: 1
-  flingSpeed: 97
-  upwardForce: 43
-  weight: 0
-  classification: 0
-  type: 1
-  limbName: 3
-  limbCost: 75
-  limbSprite: {fileID: 21300000, guid: aa1fed58fc7bf884f8398e7a7a360128, type: 3}
 --- !u!65 &4876641304011081291
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -205,7 +206,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -225,6 +226,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Loot Drop
+      objectReference: {fileID: 0}
+    - target: {fileID: 487859658420665908, guid: 2664cef1edddb9d4d9db647e950bae14,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2045317860842234213, guid: 2664cef1edddb9d4d9db647e950bae14,
         type: 3}
@@ -316,6 +322,11 @@ PrefabInstance:
       propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Overridden
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6029165676769356145, guid: 2664cef1edddb9d4d9db647e950bae14,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -342,8 +353,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2658231638124217085, guid: a05b4b7448a800d40943d9dfd290fecb,
         type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2658231638124217085, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6538770454011260829, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7397749335219711842, guid: a05b4b7448a800d40943d9dfd290fecb,
         type: 3}
@@ -410,6 +431,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8653117299461033140, guid: a05b4b7448a800d40943d9dfd290fecb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -421,3 +447,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 7408684722158173499}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5346577193801738122 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3234204799244704433, guid: a05b4b7448a800d40943d9dfd290fecb,
+    type: 3}
+  m_PrefabInstance: {fileID: 7408684722158173499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0175badece64f0349a564ad214cf1f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

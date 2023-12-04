@@ -8,22 +8,21 @@ public class Drop : MonoBehaviour
     [SerializeField] protected bool spreadsOnSpawn = true;
     [SerializeField] protected float spreadDistance = 2f;
     [SerializeField] protected bool flingsOnSpawn = true;
-    [SerializeField] [Range(0, 1000)] protected float flingSpeed;
-    [SerializeField] [Range(0, 1000)] protected float upwardForce;
+    [SerializeField][Range(0, 1000)] protected float flingSpeed;
+    [SerializeField][Range(0, 1000)] protected float upwardForce;
 
-    PickupIndicator pickupIndicator;
+    [SerializeField] PickupIndicator pickupIndicator;
 
     private void OnEnable()
     {
         DebugControls.DestroyAllDrops += DestroyDrop;
-        pickupIndicator = GetComponentInChildren<PickupIndicator>(true);
     }
 
     private void OnDisable()
     {
         DebugControls.DestroyAllDrops -= DestroyDrop;
     }
-    
+
     private void Start()
     {
         DetermineDropSpawn();
@@ -37,7 +36,7 @@ public class Drop : MonoBehaviour
 
     private void DetermineDropSpawn()
     {
-        Vector3 spreadXZ = PointOnXZCircle(transform.position, spreadDistance, Random.Range(0,360)).normalized;
+        Vector3 spreadXZ = PointOnXZCircle(transform.position, spreadDistance, Random.Range(0, 360)).normalized;
 
         if (spreadsOnSpawn && !flingsOnSpawn)
             transform.position = spreadXZ;
