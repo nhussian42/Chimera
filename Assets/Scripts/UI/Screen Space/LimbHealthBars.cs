@@ -30,12 +30,10 @@ public class LimbHealthBars : MonoBehaviour
         //gets max health of limbs and current health to set the gradient
 
         float CoreHealthMax = PlayerController.Instance.Core.MaxHealth;
-        
-        float HeadMaxHealth = PlayerController.Instance.currentHead.MaxHealth;
 
         CoreHealth = PlayerController.Instance.Core.Health / CoreHealthMax;
         
-        //HeadHealth = PlayerController.Instance.Head.Health;
+        HeadHealth = PlayerController.Instance.currentHead.Health;
 
         CoreImage.color = gradient.Evaluate(CoreHealth);
 
@@ -52,7 +50,20 @@ public class LimbHealthBars : MonoBehaviour
             }
             
         }   
-        //HeadImage.color = gradient.Evaluate();
+
+        if (HeadEquipped)
+        {
+            float HeadHealthMax = PlayerController.Instance.currentHead.MaxHealth;
+            HeadHealth = PlayerController.Instance.currentHead.Health / HeadHealthMax;
+            HeadImage.color = gradient.Evaluate(HeadHealth);
+
+            if (HeadHealth == 0)
+            {
+                HeadImage.color = Color.white;
+                HeadEquipped = false;
+            }
+        }
+        
 
         if (LArmEquipped)
         {
@@ -114,7 +125,10 @@ public class LimbHealthBars : MonoBehaviour
 
     void OnLimbEquipped()
     {
-
+        if (PlayerController.Instance.currentHead.Classification.ToString() != "Core")
+        {
+            HeadEquipped = true;
+        }
         if (PlayerController.Instance.currentLeftArm.Classification.ToString() != "Core")
         {
             LArmEquipped = true;

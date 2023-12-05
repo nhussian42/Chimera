@@ -34,7 +34,6 @@ public class Wolf : NotBossAI
     {
         if(stunned != true)
         {
-            Debug.Log("Update() called");
             attackResetTime -= Time.deltaTime;
             if (Physics.CheckSphere(transform.position, attackRange, playerLayerMask))
             {
