@@ -14,7 +14,7 @@ public class SettingsController : MonoBehaviour
     [SerializeField]
     private GameObject SettingsGO;
     [SerializeField]
-    private GameObject CreditsGO, CreditsQuitGO;
+    private GameObject CreditsGO, CreditsQuitGO, ControlsGO, ControlsBackGO;
 
     [SerializeField]
     private TextMeshProUGUI masterPercent, musicPercent, sfxPercent;
@@ -59,6 +59,18 @@ public class SettingsController : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(CreditsGO);
+    }
+
+    public void SelectControls()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(ControlsBackGO);
+    }
+
+    public void ReSelectControls()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(ControlsGO);
     }
     public void MasterVolume()
     {
