@@ -54,7 +54,12 @@ public class PlayerInvSlot : MonoBehaviour
                     + PlayerController.Instance.currentLeftArm.MaxHealth.ToString() + " Health\v" 
                     + PlayerController.Instance.currentLeftArm.AttackDamage.ToString() + " Damage\v" 
                     + PlayerController.Instance.currentLeftArm.AttackSpeed.ToString("F2") + " ATK Speed");
-
+                if (PlayerController.Instance.currentLeftArm.Classification.ToString() == "Core")
+                {
+                    DescBox.text = ("[Core Limb] \v" +
+                      PlayerController.Instance.currentLeftArm.AttackDamage.ToString() + " Damage\v"
+                    + PlayerController.Instance.currentLeftArm.AttackSpeed.ToString("F2") + " ATK Speed");
+                }
                 SetInfoSprite(PlayerController.Instance.currentLeftArm, 2);
                 break;
 
@@ -64,6 +69,12 @@ public class PlayerInvSlot : MonoBehaviour
                     + PlayerController.Instance.currentRightArm.MaxHealth.ToString() + " Health\v"
                     + PlayerController.Instance.currentRightArm.AttackDamage.ToString() + " Damage\v"
                     + PlayerController.Instance.currentRightArm.AttackSpeed.ToString("F2") + " ATK Speed");
+                if (PlayerController.Instance.currentRightArm.Classification.ToString() == "Core")
+                {
+                    DescBox.text = ("[Core Limb] \v" +
+                      PlayerController.Instance.currentRightArm.AttackDamage.ToString() + " Damage\v"
+                    + PlayerController.Instance.currentRightArm.AttackSpeed.ToString("F2") + " ATK Speed");
+                }
                 SetInfoSprite(PlayerController.Instance.currentRightArm, 1);
                 break;
 
@@ -71,12 +82,23 @@ public class PlayerInvSlot : MonoBehaviour
                 NameBox.text = (PlayerController.Instance.currentHead.Name.ToString() + " Head");
                 DescBox.text = (PlayerController.Instance.currentHead.Health.ToString("F0") + " / "
                     + PlayerController.Instance.currentHead.MaxHealth.ToString() + " Health\v");
+                if (PlayerController.Instance.currentHead.Classification.ToString() == "Core")
+                {
+                    DescBox.text = ("[Core Limb] \v" +
+                      "No Additional Effect");
+                }
                 SetInfoSprite(PlayerController.Instance.currentHead, 3);
                 break;
             case "Core":
                 NameBox.text = "Chimera Core";
                 DescBox.text = (PlayerController.Instance.Core.Health.ToString("F0") + " / "
                     + PlayerController.Instance.Core.MaxHealth.ToString() + " Health\v");
+                if(PlayerController.Instance.Core.Classification.ToString() == "Core")
+                {
+                    DescBox.text = ("[Core Limb] \v" +
+                      PlayerController.Instance.Core.Health.ToString("F0") + " / "
+                    + PlayerController.Instance.Core.MaxHealth.ToString() + " Health\v");
+                }
                 SetInfoSprite(PlayerController.Instance.Core, 0);
                 break;
             case "Legs":
@@ -84,6 +106,11 @@ public class PlayerInvSlot : MonoBehaviour
                 DescBox.text = (PlayerController.Instance.currentLegs.Health.ToString("F0") + " / "
                 + PlayerController.Instance.currentLegs.MaxHealth.ToString() + " Health\v" 
                 + PlayerController.Instance.currentLegs.CooldownTime.ToString("F1") + " Dash Cooldown");
+                if (PlayerController.Instance.currentLegs.Classification.ToString() == "Core")
+                {
+                    DescBox.text = ("[Core Limb] \v" +
+                      PlayerController.Instance.currentLegs.CooldownTime.ToString("F1") + " Dash Cooldown");
+                }
                 SetInfoSprite(PlayerController.Instance.currentLegs, 4);
                 break;
             case "Relic":
@@ -162,7 +189,7 @@ public class PlayerInvSlot : MonoBehaviour
                 case "Relic":
                     if(masterTrinketList.Relic == null)
                     {                   
-                        LimbButtons[5].GetComponent<Image>().sprite = null;
+                        //LimbButtons[5].GetComponent<Image>().sprite = null;
                         ss.selectedSprite = RelicHighlight.sprite;
                         LimbButtons[5].gameObject.GetComponent<Button>().spriteState = ss;
                         RelicHighlight.GetComponent<Image>().sprite = null;
