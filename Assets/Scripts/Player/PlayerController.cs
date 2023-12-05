@@ -218,6 +218,7 @@ public class PlayerController : Singleton<PlayerController>
         _swapLimbs.Disable();
         _interact.Disable();
         _pause.Disable();
+        _openEM.Disable();
     }
 
     public void DisableAllUIControls()
@@ -232,6 +233,7 @@ public class PlayerController : Singleton<PlayerController>
     public void EnableAllUIControls()
     {
         _select.Enable();
+        _closeEM.Enable();
         _switchToLeftArm.Enable();
         _switchToRightArm.Enable();
     }
@@ -414,21 +416,18 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_openEM.triggered == true)
         {
-            EquipMenu.gameObject.SetActive(!EquipMenu.gameObject.activeSelf);
-            menuToggle = !menuToggle;
+            EquipMenu.gameObject.SetActive(true);
             EMScript.Instance.ListTrinkets();
 
-            if (menuToggle)
-            {
-                DisableAllDefaultControls();
-                EnableAllUIControls();
-            }
+            DisableAllDefaultControls();
+            EnableAllUIControls();
+        }
 
-            if (menuToggle == false)
-            {
-                EnableAllDefaultControls();
-                DisableAllUIControls();
-            }         
+        if (_closeEM.triggered)
+        {
+            EquipMenu.gameObject.SetActive(false);
+            EnableAllDefaultControls();
+            DisableAllUIControls();
         }
 
         if (_interact.triggered)
@@ -1016,6 +1015,23 @@ public class PlayerController : Singleton<PlayerController>
         OnDie?.Invoke();
         DisableAllDefaultControls();
         ToggleInvincibility();
+
+        if (currentLeftArm != coreLeftArm)
+            currentLeftArm.Disintegrate();
+        else
+            coreLeftArm.Disintegrate();
+        if (currentRightArm != coreRightArm)
+            currentRightArm.Disintegrate();
+        else
+            coreRightArm.Disintegrate();
+        if (currentLegs != coreLegs)
+            currentLegs.Disintegrate();
+        else
+            coreLegs.Disintegrate();
+        if (currentHead != coreHead)
+            currentHead.Disintegrate();
+        else
+            coreHead.Disintegrate();
     }
 
     // This function is obsolete, delete later when other scripts refactor 
