@@ -14,6 +14,8 @@ public abstract class Limb : MonoBehaviour
     [SerializeField] private float defaultMaxHealth;
     [SerializeField] public Sprite limbSprite;
     [SerializeField] public Sprite selectedSprite;
+    [SerializeField] private LimbDrop limbDrop;
+    [SerializeField] private int boneValue;
 
     // Protected
     protected float currentHealth;
@@ -28,21 +30,26 @@ public abstract class Limb : MonoBehaviour
     public string StringName { get { return stringName; } }
     public Weight Weight { get { return weight; } }
     public Sprite LimbSprite { get { return limbSprite; } }
-    public float Health { get { return currentHealth; } set { currentHealth = Mathf.Clamp(value, minHealth, maxHealth); }}
+    public float Health { get { return currentHealth; } set { currentHealth = Mathf.Clamp(value, minHealth, maxHealth); } }
     public float MaxHealth { get { return maxHealth; } }
     public float DefaultHealth { get { return defaultHealth; } }
     public float DefaultMaxHealth { get { return defaultMaxHealth; } }
+    public LimbDrop LimbDrop { get { return limbDrop; } }
+    public int BoneValue { get { return boneValue; } }
+
+    private int activeChildren;
 
 
     public void UpdateHealth(float amount)
     {
         currentHealth = Mathf.Clamp(currentHealth + amount, minHealth, maxHealth);
-        if(currentHealth <= minHealth) { Disintegrate(); }
+        if (currentHealth <= minHealth) { Disintegrate(); }
     }
 
     // called by PlayerController at beginning of session for each limb
     public virtual void LoadDefaultStats()
     {
+        activeChildren = gameObject.transform.childCount;
         maxHealth = defaultMaxHealth;
         currentHealth = Mathf.Clamp(defaultHealth, minHealth, maxHealth);
     }
@@ -57,6 +64,15 @@ public abstract class Limb : MonoBehaviour
         foreach (DissolveObject limb in GetComponentsInChildren<DissolveObject>())
         {
             limb.Dissolve(false);
+        }
+    }
+
+    public void CheckForChildren()
+    {
+        activeChildren--;
+        if (activeChildren <= 0)
+        {
+            gameObject.SetActive(false);
         }
     }
 

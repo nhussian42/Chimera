@@ -28,12 +28,14 @@ public class LimbSwapMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statText4; // 4-6 reserved for proposed limb stats
     [SerializeField] private TextMeshProUGUI statText5;
     [SerializeField] private TextMeshProUGUI statText6;
+    [SerializeField] private TextMeshProUGUI descText1;
+    [SerializeField] private TextMeshProUGUI descText2;
 
     [SerializeField] private Color upgradeColor;
     [SerializeField] private Color downgradeColor;
 
     [SerializeField] private TextMeshProUGUI scrapText;
-    [SerializeField] private TextMeshProUGUI switchArmText;
+    [SerializeField] private GameObject switchArmUI;
 
     public LimbType proposedLimbType { get; private set; }   
     private LimbDrop proposedLimbDrop;
@@ -51,11 +53,14 @@ public class LimbSwapMenu : MonoBehaviour
         //Debug.Log("Called Start() on LimbSwapMenu");
     }
 
-    public void Enable(LimbDrop proposedLimb)
+    public void Enable(LimbDrop limbDrop)
     {
-        proposedLimbDrop = proposedLimb;
+        proposedLimbDrop = limbDrop;
+        descText1.gameObject.SetActive(false);
+        descText2.gameObject.SetActive(false);
+        switchArmUI.SetActive(false);
         SetMenu();
-        scrapText.text = "Scrap(50)";
+        scrapText.text = proposedLimb.BoneValue.ToString();
         gameObject.SetActive(true);
         playerController.DisableAllDefaultControls();
         playerController.EnableAllUIControls();
@@ -65,35 +70,38 @@ public class LimbSwapMenu : MonoBehaviour
     // Determines which limb swap menu variant will display
     private void SetMenu()
     {
+        
         switch (proposedLimbDrop.LimbType)
         {
             case LimbType.Head:
                 {
                     proposedLimbType = LimbType.Head;
-                    switchArmText.gameObject.SetActive(false);
                     SetToHeads();
                     break;
                 }
             case LimbType.Arm:
                 {
                     proposedLimbType = LimbType.Arm;
-                    switchArmText.gameObject.SetActive(true);
+                    switchArmUI.SetActive(true);
                     SetToLeftArm();
                     break;
                 }
             case LimbType.Legs:
                 {
                     proposedLimbType = LimbType.Legs;
-                    switchArmText.gameObject.SetActive(false);
                     SetToLegs();
                     break;
                 }
         }
+
+       
     }
 
     // Heads variant
     private void SetToHeads()
     {
+        descText1.gameObject.SetActive(true);
+        descText2.gameObject.SetActive(true);
         foreach (Head head in playerController.allHeads)
         {
             if (head.Classification == proposedLimbDrop.Classification && head.Weight == proposedLimbDrop.Weight)
@@ -119,12 +127,17 @@ public class LimbSwapMenu : MonoBehaviour
                 proposedLegsIcon.gameObject.SetActive(false);
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
-                statText1.text = "HP: " + "(" + playerController.currentHead.Health + "/" + playerController.currentHead.DefaultMaxHealth + ")"; // current head's HP (current/maximum)
+                if (playerController.currentHead.Classification != Classification.Core)
+                    statText1.text = "HP: " + playerController.currentHead.Health + "/" + playerController.currentHead.DefaultMaxHealth; // current head's HP (current/maximum)
+                else
+                    statText1.text = "HP: -/-";
                 statText2.text = "";
                 statText3.text = "";
-                statText4.text = "HP: " + "(" + headHealth + "/" + head.DefaultMaxHealth + ")"; // proposed head's HP
+                statText4.text = "HP: " + headHealth + "/" + head.DefaultMaxHealth; // proposed head's HP
                 statText5.text = "";
                 statText6.text = "";
+                descText1.text = playerController.currentHead.Description;
+                descText2.text = head.Description;
 
                 // set scrap text here later with the bone value attached to the instance of the proposed limb
                 break;
@@ -135,7 +148,7 @@ public class LimbSwapMenu : MonoBehaviour
     // Left Arm variant
     public void SetToLeftArm()
     {
-
+        
         displayedArm = SideOfPlayer.Left;
 
         foreach (Arm arm in playerController.allArms)
@@ -165,12 +178,16 @@ public class LimbSwapMenu : MonoBehaviour
                 proposedLegsIcon.gameObject.SetActive(false);
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
-                statText1.text = "HP: " + "(" + playerController.currentLeftArm.Health + "/" + playerController.currentLeftArm.DefaultMaxHealth + ")";
+                if (playerController.currentLeftArm.Classification != Classification.Core)
+                    statText1.text = "HP: " + playerController.currentLeftArm.Health + "/" + playerController.currentLeftArm.DefaultMaxHealth;
+                else
+                    statText1.text = "HP: -/-";
                 statText2.text = "ATK: " + playerController.currentLeftArm.DefaultAttackDamage;
                 statText3.text = "SPD: " + playerController.currentLeftArm.DefaultAttackSpeed;
-                statText4.text = "HP: " + "(" + armHealth + "/" + arm.DefaultMaxHealth + ")";
+                statText4.text = "HP: " + armHealth + "/" + arm.DefaultMaxHealth;
                 statText5.text = "ATK: " + arm.DefaultAttackDamage;
                 statText6.text = "SPD: " + arm.DefaultAttackSpeed;
+                
 
                 // set scrap text here later with the bone value attached to the instance of the proposed limb
                 break;
@@ -212,12 +229,17 @@ public class LimbSwapMenu : MonoBehaviour
                 proposedLegsIcon.gameObject.SetActive(false);
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
-                statText1.text = "HP: " + "(" + playerController.currentRightArm.Health + "/" + playerController.currentRightArm.DefaultMaxHealth + ")";
+
+                if (playerController.currentRightArm.Classification != Classification.Core)
+                    statText1.text = "HP: " + playerController.currentRightArm.Health + "/" + playerController.currentRightArm.DefaultMaxHealth;
+                else
+                    statText1.text = "HP: -/-";
                 statText2.text = "ATK: " + playerController.currentRightArm.DefaultAttackDamage;
                 statText3.text = "SPD: " + playerController.currentRightArm.DefaultAttackSpeed;
-                statText4.text = "HP: " + "(" + armHealth + "/" + arm.DefaultMaxHealth + ")";
+                statText4.text = "HP: " + armHealth + "/" + arm.DefaultMaxHealth;
                 statText5.text = "ATK: " + arm.DefaultAttackDamage;
                 statText6.text = "SPD: " + arm.DefaultAttackSpeed;
+                
 
                 // set scrap text here later with the bone value attached to the instance of the proposed limb
                 break;
@@ -270,12 +292,16 @@ public class LimbSwapMenu : MonoBehaviour
                 proposedLegsIcon.sprite = legs.LimbSprite;
 
                 // POSSIBLE BUG HERE: if trinkets buff max health and current health is > the default max health, the fraction will be wrong for this stat
-                statText1.text = "HP: " + "(" + playerController.currentLegs.Health + "/" + playerController.currentLegs.DefaultMaxHealth + ")";
+                if(playerController.currentLegs.Classification != Classification.Core)
+                    statText1.text = "HP: " + playerController.currentLegs.Health + "/" + playerController.currentLegs.DefaultMaxHealth;
+                else
+                    statText1.text = "HP: -/-";
                 statText2.text = "SPD: " + playerController.currentLegs.DefaultMovementSpeed;
                 statText3.text = "CD: " + playerController.currentLegs.DefaultCooldownTime + " sec";
-                statText4.text = "HP: " + "(" + legsHealth + "/" + legs.DefaultMaxHealth + ")";
+                statText4.text = "HP: " + legsHealth + "/" + legs.DefaultMaxHealth;
                 statText5.text = "SPD: " + legs.DefaultMovementSpeed;
                 statText6.text = "CD: " + legs.DefaultCooldownTime + " sec";
+                
 
                 // set scrap text here later with the bone value attached to the instance of the proposed limb
                 break;
@@ -290,6 +316,7 @@ public class LimbSwapMenu : MonoBehaviour
         {
             case LimbType.Head:
                 {
+                    playerController.DropLimb(playerController.currentHead);
                     playerController.SwapLimb(playerController.currentHead, proposedLimbDrop);
                     //PlayerController.OnHeadSwapped?.Invoke(); (anticipated event)
                     break;
@@ -298,10 +325,12 @@ public class LimbSwapMenu : MonoBehaviour
                 { 
                     if(displayedArm == SideOfPlayer.Right)
                     {
+                        playerController.DropLimb(playerController.currentRightArm);
                         playerController.SwapLimb(playerController.currentRightArm, proposedLimbDrop);
                     }
                     else if(displayedArm == SideOfPlayer.Left)
                     {
+                        playerController.DropLimb(playerController.currentLeftArm);
                         playerController.SwapLimb(playerController.currentLeftArm, proposedLimbDrop);
                     }
                     PlayerController.OnArmSwapped?.Invoke();
@@ -309,19 +338,23 @@ public class LimbSwapMenu : MonoBehaviour
                 }
             case LimbType.Legs:
                 {
+                    playerController.DropLimb(playerController.currentLegs);
                     playerController.SwapLimb(playerController.currentLegs, proposedLimbDrop);
                     //PlayerController.OnLegsSwapped?.Invoke(); (anticipated event)
                     break;
                 }
         }
-
+        playerController.RemoveFromDrops(proposedLimbDrop);
+        proposedLimbDrop.DestroyDrop();
         playerController.EnableAllDefaultControls();
     }
 
     // Called by button to scrap the proposed limb
     public void ScrapLimb()
     {
-        OnScrap?.Invoke(50); // replace with OnScrap?.Invoke(proposedLimb.BonesValue) when property is added to Limb class
+        OnScrap?.Invoke(proposedLimb.BoneValue);
+        playerController.RemoveFromDrops(proposedLimbDrop);
+        proposedLimbDrop.DestroyDrop();
         playerController.EnableAllDefaultControls();
     }
 

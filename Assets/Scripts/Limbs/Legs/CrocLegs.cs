@@ -22,7 +22,8 @@ public class CrocLegs : Legs
 
     public override void PlayAnim()
     {
-        //player.DisableAllDefaultControls();
+        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerBurrow);
+        player.DisableAllDefaultControls();
         player.Animator.SetTrigger("Burrow");
         burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
         VisualEffect burrowEffect = burrowParticleFX.GetComponentInChildren<VisualEffect>();
@@ -31,12 +32,10 @@ public class CrocLegs : Legs
 
     private void Update()
     {
-        if(isUnderground == true && trailEffect != null)
+        if (isUnderground == true && trailEffect != null)
         {
             trailEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));
         }
-        AudioManager.PlaySound2D(AudioEvents.Instance.OnPlayerBurrow);
-
     }
 
     public override void ActivateAbility()
@@ -44,7 +43,7 @@ public class CrocLegs : Legs
         Destroy(burrowParticleFX);
         if (isUnderground == false)
         {
-            //player.EnableAllDefaultControls();
+            player.EnableAllDefaultControls();
             player.ToggleInvincibility();
             isUnderground = true;
 
@@ -67,7 +66,7 @@ public class CrocLegs : Legs
             SetMeshVisibility(true);
             player.ToggleInvincibility();
             isUnderground = false;
-            //player.EnableAllDefaultControls();
+            player.EnableAllDefaultControls();
             StartCoroutine(Cooldown());
         }
 
@@ -80,7 +79,7 @@ public class CrocLegs : Legs
         yield return new WaitForSeconds(burrowDuration);
 
         Destroy(trailParticleFX);
-        //player.DisableAllDefaultControls();
+        player.DisableAllDefaultControls();
         burrowParticleFX = Instantiate(burrowParticlePrefab, player.transform.position, Quaternion.identity);
         VisualEffect burrowEffect = burrowParticleFX.GetComponentInChildren<VisualEffect>();
         burrowEffect.SetVector3("Position", new Vector3(player.transform.position.x, 0, player.transform.position.z));

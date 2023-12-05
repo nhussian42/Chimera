@@ -8,7 +8,8 @@ public class Spike : MonoBehaviour
     public float spikeDamage;
     void Start()
     {
-        StartCoroutine(SpikeRiseFall(spikeSpeed));
+        Destroy(gameObject, 2f);
+        //StartCoroutine(SpikeRiseFall(spikeSpeed));
     }
 
     private IEnumerator SpikeRiseFall(float duration)

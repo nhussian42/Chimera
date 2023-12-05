@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
@@ -16,6 +17,7 @@ public abstract class Creature : MonoBehaviour
     public float CurrentHealth { get { return currentHealth; } }
     [SerializeField] protected float attackDamage = 5f;
     [SerializeField] protected float iFrameDuration = 0.5f; //iFrame for creatures ONLY controls animations
+    [SerializeField] protected float deathTime;
     public float knockbackForce = 5;
     private bool iFrame = false;
     protected bool dead = false;
@@ -36,7 +38,7 @@ public abstract class Creature : MonoBehaviour
         Major
     }
 
-    [SerializeField] private CreatureType creatureType;
+    public CreatureType creatureType;
 
     // [SerializeField] List<GameObject> drops;
 
@@ -118,14 +120,18 @@ public abstract class Creature : MonoBehaviour
         GetComponent<BoxCollider>().enabled = false;
         healthbar.gameObject.SetActive(false);
 
+        Collider[] collider = GetComponentsInChildren<Collider>();
+        foreach (Collider c in collider)
+        {
+            c.enabled = false;
+        }
+
         CreatureManager.AnyCreatureDied?.Invoke();
+
         // if (creatureType == CreatureType.Minor)
         //     DestroyCreature();
 
-        //Destroy(this.gameObject, 1.5f);
         StopAllCoroutines();
-        //Something happens
-        //Death
     }
 
     private void DestroyCreature()
