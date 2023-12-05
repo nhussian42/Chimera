@@ -8,7 +8,7 @@ public class Spike : MonoBehaviour
     public float spikeDamage;
     void Start()
     {
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 1.3f);
         //StartCoroutine(SpikeRiseFall(spikeSpeed));
     }
 
@@ -29,6 +29,7 @@ public class Spike : MonoBehaviour
             timer -= Time.deltaTime;
             posY = Mathf.Lerp(-1, 1, timer / duration);
             transform.position = new Vector3(transform.position.x, posY, transform.position.z);
+            GetComponent<BoxCollider>().enabled = false;
             yield return null;
         }
         Destroy(gameObject);
