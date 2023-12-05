@@ -45,7 +45,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2491315733026003620}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1923039037
   m_Radius: 7
   m_Speed: 3.5
   m_Acceleration: 8
@@ -103,6 +103,7 @@ MonoBehaviour:
   currentHealth: 0
   attackDamage: 20
   iFrameDuration: 0.5
+  deathTime: 0
   knockbackForce: 5
   <CreatureInfo>k__BackingField: {fileID: 0}
   <classification>k__BackingField: 3
@@ -111,12 +112,12 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  numberOfSpikes: 10
-  timeBetweenSpikes: 0.15
+  numberOfSpikes: 7
+  timeBetweenSpikes: 0.2
   spikeDamage: 15
   angleBeteenSpikes: 45
-  distanceBetweenSpikes: 2
-  spike: {fileID: 7992538046275668304, guid: e95dafa6e69e7b149b89ffead601b0fb, type: 3}
+  distanceBetweenSpikes: 3.5
+  spike: {fileID: 7897867791542112478, guid: d9ac7ebe17b0bfa4eae20f026eacec55, type: 3}
   timeBetweenProjectiles: 0.1
   projectileDamage: 15
   projectileSpeed: 700
@@ -126,7 +127,7 @@ MonoBehaviour:
   timeBeforeAttack: 0.5
   amountOfTimeBurrowed: 2
   teleportRange: 16
-  burrowDelay: 4
+  burrowDelay: 0
   bossMesh: {fileID: 390749784955731379}
   bossAttack: []
   burrowed: 0
