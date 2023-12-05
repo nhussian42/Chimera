@@ -249,7 +249,7 @@ public class BodyShopMenu : MonoBehaviour
             if(arm.Classification == shopLimbDrop.Classification && arm.Weight == shopLimbDrop.Weight)
             {
                 shopLimb = arm;
-                descList[0].text = $"{"HP:        " + arm.MaxHealth.ToString()}";
+                descList[0].text = $"{"HP:        " + arm.DefaultMaxHealth.ToString()}";
                 descList[1].text = $"{"ATK:      " + arm.DefaultAttackDamage.ToString()}";
                 descList[2].text = $"{"SPD:      " + arm.DefaultAttackSpeed.ToString("F1")}";
 
@@ -266,7 +266,7 @@ public class BodyShopMenu : MonoBehaviour
             if (legs.Classification == shopLimbDrop.Classification && legs.Weight == shopLimbDrop.Weight)
             {
                 shopLimb = legs;
-                descList[3].text = $"{"HP:          " + legs.MaxHealth.ToString()}";
+                descList[3].text = $"{"HP:          " + legs.DefaultMaxHealth.ToString()}";
                 descList[4].text = $"{"SPD:       " + legs.DefaultMovementSpeed.ToString()}";
                 descList[5].text = $"{"CD:          " + legs.DefaultCooldownTime.ToString()}";
 
@@ -283,7 +283,7 @@ public class BodyShopMenu : MonoBehaviour
             if (head.Classification == shopLimbDrop.Classification && head.Weight == shopLimbDrop.Weight)
             {
                 shopLimb = head;
-                descList[6].text = $"{"HP:        " + head.MaxHealth.ToString()}";
+                descList[6].text = $"{"HP:        " + head.DefaultMaxHealth.ToString()}";
                 //descList[1].text = $"{"ATK: " + head..ToString()}";
                 //descList[2].text = $"{"SPD: " + legs.DefaultCooldownTime.ToString()}";
 
