@@ -113,7 +113,7 @@ public class FloorManager : Singleton<FloorManager>
     {
         int attemptsMax = 25;
         int attempts = 0;
-        CombatRoom combatRoom = new CombatRoom();
+        CombatRoom combatRoom;
 
         do
         {
