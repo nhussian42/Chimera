@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.AI;
+using UnityEditor.UI;
 
 public class Grolfino : BossAI
 {
@@ -76,8 +77,8 @@ public class Grolfino : BossAI
         animator.SetBool("Sweep", true);
         //Makes collider active and sets the starting rotation
         yield return new WaitUntil(() => sweepAttack == true);
-        
-        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeSwipeAttack,transform.position);
+
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeSwipeAttack, transform.position);
 
         //Makes the collider inactive
         animator.SetBool("Sweep", false);
@@ -100,7 +101,7 @@ public class Grolfino : BossAI
         Vector3 dir4 = Quaternion.AngleAxis(angleBeteenSpikes, Vector3.up) * transform.forward;
         Vector3 dir5 = Quaternion.AngleAxis(angleBeteenSpikes * 2, Vector3.up) * transform.forward;
 
-        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeStompScreamAttack,transform.position);
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeStompScreamAttack, transform.position);
 
         //Instantiates spikes in a straight line with slightly random rotation
         for (int i = 0; i < numberOfSpikes; i++)
@@ -111,12 +112,12 @@ public class Grolfino : BossAI
             GameObject s4 = Instantiate(spike, spawnPos + (dir4 * distanceBetweenSpikes * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
             GameObject s5 = Instantiate(spike, spawnPos + (dir5 * distanceBetweenSpikes * i), Quaternion.Euler(Random.Range(0, 11), 0, Random.Range(0, 11)));
 
-            Vector3 newScale = new Vector3(1 + (i * 0.1f), 1 + (i * 0.1f), 1 + (i * 0.1f));
-            s.transform.localScale = newScale;
-            s2.transform.localScale = newScale;
-            s3.transform.localScale = newScale;
-            s4.transform.localScale = newScale;
-            s5.transform.localScale = newScale;
+            // Vector3 newScale = new Vector3(1 + (i * 0.1f), 1 + (i * 0.1f), 1 + (i * 0.1f));
+            // s.transform.localScale = newScale;
+            // s2.transform.localScale = newScale;
+            // s3.transform.localScale = newScale;
+            // s4.transform.localScale = newScale;
+            // s5.transform.localScale = newScale;
 
             s.GetComponent<Spike>().spikeDamage = spikeDamage;
             s2.GetComponent<Spike>().spikeDamage = spikeDamage;
@@ -143,7 +144,7 @@ public class Grolfino : BossAI
         //All projectiles are instantiated rotated away from the boss
         //Projectiles are automatically destroyed after 2.5s
 
-        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeSpreadAttack,transform.position);   
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeSpreadAttack, transform.position);
 
         while (projectileAttack == true)
         {
@@ -186,7 +187,7 @@ public class Grolfino : BossAI
             yield return new WaitUntil(() => burrowed == false);
             bossBurrow.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             bossBurrow.release();
-            AudioManager.PlaySound3D(AudioEvents.Instance.OnCrocResurface,transform.position); 
+            AudioManager.PlaySound3D(AudioEvents.Instance.OnCrocResurface, transform.position);
             yield return new WaitForSeconds(timeBeforeAttack);
             //Randomly picks an attack to perform
             //Once an attack is performed, it is removed from the list
@@ -244,9 +245,9 @@ public class Grolfino : BossAI
     protected override void Die()
     {
         animator.Play("Death");
-        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeDefeated,transform.position); 
+        AudioManager.PlaySound3D(AudioEvents.Instance.OnCentipedeDefeated, transform.position);
         bossBurrow.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        bossBurrow.release(); 
+        bossBurrow.release();
         agent.isStopped = true;
         alive = false;
         StopAllCoroutines();

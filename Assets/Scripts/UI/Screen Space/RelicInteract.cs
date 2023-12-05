@@ -30,6 +30,7 @@ public class RelicInteract : MonoBehaviour
         if (other.CompareTag("Player") && (menuToggle == false))
         {
             isInside = true;
+            PlayerController.Instance.nearRelic = true;
         }
     }
 
@@ -37,11 +38,18 @@ public class RelicInteract : MonoBehaviour
     {
         isInside = false;
         menuToggle = false;
+        PlayerController.Instance.nearRelic = false;
     }
     
-    private void Update()
+
+    private void DelayClose()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !menuToggle && !pickedYes && isInside)
+        canClose = true;
+    }
+
+    public void ToggleMenu()
+    {
+        if (!menuToggle && !pickedYes && isInside)
         {
             RelicMenu.SetActive(true);
             menuToggle = !menuToggle;
@@ -50,7 +58,7 @@ public class RelicInteract : MonoBehaviour
             Invoke("DelayClose", 1);
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && menuToggle && canClose && isInside)
+        if (menuToggle && canClose && isInside)
         {
             RelicMenu.SetActive(false);
             menuToggle = !menuToggle;
@@ -58,13 +66,6 @@ public class RelicInteract : MonoBehaviour
             playerController.DisableAllUIControls();
             canClose = false;
         }
-        
     }
-
-    private void DelayClose()
-    {
-        canClose = true;
-    }
-
 
 }

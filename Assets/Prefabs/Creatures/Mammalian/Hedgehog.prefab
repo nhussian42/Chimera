@@ -83,6 +83,7 @@ MonoBehaviour:
   currentHealth: 0
   attackDamage: 5
   iFrameDuration: 1
+  deathTime: 5
   knockbackForce: 5
   <CreatureInfo>k__BackingField: {fileID: 0}
   <classification>k__BackingField: 0
@@ -1148,6 +1149,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2095102185065609429}
+    - targetCorrespondingSourceObject: {fileID: 7014422322014956224, guid: a9698da221ff8c44c88359e69a992e2f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3500087828146538395}
   m_SourcePrefab: {fileID: 100100000, guid: a9698da221ff8c44c88359e69a992e2f, type: 3}
 --- !u!1 &894547462250472926 stripped
 GameObject:
@@ -1168,6 +1173,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hedgehogAttackCollider: {fileID: 4411463255079066695}
+--- !u!1 &2214815844259010356 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7014422322014956224, guid: a9698da221ff8c44c88359e69a992e2f,
+    type: 3}
+  m_PrefabInstance: {fileID: 9215667443462225396}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3500087828146538395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2214815844259010356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a7e184d8500d04fbc3a67fa0e6c964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undissolvedHeight: 3
+  fullyDissolvedHeight: -10
 --- !u!4 &3690933437186376095 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5538430084142709867, guid: a9698da221ff8c44c88359e69a992e2f,

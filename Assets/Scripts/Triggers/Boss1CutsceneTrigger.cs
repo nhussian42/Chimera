@@ -13,6 +13,7 @@ public class Boss1CutsceneTrigger : MonoBehaviour
     [SerializeField] private float timeUntilPlayerMovementRestored;
     [SerializeField] private float bossSpawnDelay;
     private BossRoom bossRoom;
+    [SerializeField] private BossHealthBarUI bossHPBar;
 
     // private Collider cutsceneTrigger;
 
@@ -34,10 +35,13 @@ public class Boss1CutsceneTrigger : MonoBehaviour
         if (!_triggered && other.gameObject.GetComponent<PlayerController>() != null)
         {
             _triggered = true;
+            
             Boss1Cutscene?.Invoke();
             AudioManager.Instance.CrossFadeMusicOut();
             StartCoroutine(CloseGate(gateCloseTime));
             Invoke("SpawnBoss", bossSpawnDelay);
+            
+            Debug.Log("Ran in trigger");
             PlayerController.Instance.DisableAllDefaultControls();
             Invoke("ResumePlayerControls", timeUntilPlayerMovementRestored);
         }
@@ -74,5 +78,8 @@ public class Boss1CutsceneTrigger : MonoBehaviour
     {
         // print("Player input reenabled");
         PlayerController.Instance.EnableAllDefaultControls();
+        var bossBar = Instantiate(bossHPBar);
+        bossBar.entered = true;
+        bossRoom.bossSpawned = true;
     }
 }

@@ -38,6 +38,12 @@ public class LeaveRoomTrigger : MonoBehaviour
             FloorManager.lastExitRoomSide = ExitRoomSide;
             FloorManager.StoredNextRoom = _nextRoom;
             FloorManager.LeaveRoom?.Invoke();
+
+            // debugging room creature / plaque mismatch
+            // CombatRoom c = (CombatRoom)FloorManager.StoredNextRoom;
+            // CombatRoom n = (CombatRoom)_nextRoom;
+            // print(n.currentMajorCreature);
+            // print(c.currentMajorCreature);
         }
     }
 }

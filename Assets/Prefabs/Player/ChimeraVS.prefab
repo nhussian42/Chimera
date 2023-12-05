@@ -1279,6 +1279,8 @@ MonoBehaviour:
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: 15673981f7fae424bab4aefba5c0f068, type: 3}
   selectedSprite: {fileID: 21300000, guid: 73c9a9d6d083aaa4db74641969fd12bc, type: 3}
+  limbDrop: {fileID: 0}
+  boneValue: 0
   defaultAttackDamage: 10
   defaultAttackSpeed: 0.8
   side: 0
@@ -2502,6 +2504,8 @@ GameObject:
   - component: {fileID: 2793159458867588477}
   - component: {fileID: 7697647668054100860}
   - component: {fileID: 53259469810433876}
+  - component: {fileID: 9150373300084389753}
+  - component: {fileID: 4351937546578689273}
   m_Layer: 6
   m_Name: ChimeraVS
   m_TagString: Player
@@ -2894,6 +2898,50 @@ MonoBehaviour:
   totalBones: 0
   bonesMultiplier: 0
   nearShop: 0
+--- !u!114 &9150373300084389753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3047811335271670910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfca4f58197c34396438168a7f6131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPool:
+  - {fileID: 7937426487983829427, guid: dbcce601d3442aa438271b7491ae394c, type: 3}
+  - {fileID: 3450614229154006231, guid: 8fd2e70130d4fd44299b88a77f3438b3, type: 3}
+  - {fileID: 7937426487983829427, guid: c553972cb9b63c148a5184b729a20b4d, type: 3}
+  - {fileID: 3450614229154006231, guid: 74894700abc37fc4e9efa48b667084d3, type: 3}
+  - {fileID: 8465967043707308671, guid: d6fcae7f3c1d6ff428a21ff15d19325a, type: 3}
+  - {fileID: 3583152938891452061, guid: 90e82dbc55b9d164a93bd1470c3edeba, type: 3}
+  - {fileID: 8372370546128528112, guid: 61fc4bc92a199aa4fb905c9915e08e41, type: 3}
+  - {fileID: 1991673379962358034, guid: 54d36cfbd2e769f4ba14012ccd0896ea, type: 3}
+  _spawnCondition: 2
+--- !u!114 &4351937546578689273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3047811335271670910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfca4f58197c34396438168a7f6131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnPool:
+  - {fileID: 7937426487983829427, guid: dbcce601d3442aa438271b7491ae394c, type: 3}
+  - {fileID: 3450614229154006231, guid: 8fd2e70130d4fd44299b88a77f3438b3, type: 3}
+  - {fileID: 7937426487983829427, guid: c553972cb9b63c148a5184b729a20b4d, type: 3}
+  - {fileID: 3450614229154006231, guid: 74894700abc37fc4e9efa48b667084d3, type: 3}
+  - {fileID: 8465967043707308671, guid: d6fcae7f3c1d6ff428a21ff15d19325a, type: 3}
+  - {fileID: 3583152938891452061, guid: 90e82dbc55b9d164a93bd1470c3edeba, type: 3}
+  - {fileID: 8372370546128528112, guid: 61fc4bc92a199aa4fb905c9915e08e41, type: 3}
+  - {fileID: 1991673379962358034, guid: 54d36cfbd2e769f4ba14012ccd0896ea, type: 3}
+  _spawnCondition: 2
 --- !u!1 &3125528580234289208
 GameObject:
   m_ObjectHideFlags: 0
@@ -3141,6 +3189,10 @@ MonoBehaviour:
   defaultMaxHealth: 50
   limbSprite: {fileID: 21300000, guid: f97cab7106e097749ac0cbadf3bcf937, type: 3}
   selectedSprite: {fileID: 21300000, guid: ca4f3b51120f02a47b68422d419404e3, type: 3}
+  limbDrop: {fileID: 1581230926361960152, guid: 2e6d60856735b6241b132db33374cbe9,
+    type: 3}
+  boneValue: 15
+  description: '*Attacks stun enemies for 0.75s. (3s. cooldown on same enemy)'
   vfxPrefab: {fileID: 7846225434873768419, guid: 48265f5cea7931e489200748af3618aa,
     type: 3}
 --- !u!1 &3281926577933013807
@@ -3498,6 +3550,8 @@ MonoBehaviour:
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: 2f1d277ae408d844cb5852501b1ec17f, type: 3}
   selectedSprite: {fileID: 21300000, guid: d95f60d245a5af541a3727b297815a31, type: 3}
+  limbDrop: {fileID: 0}
+  boneValue: 0
   defaultMovementSpeed: 12
   defaultCooldownTime: 5
   dashDistance: 75
@@ -4151,6 +4205,9 @@ MonoBehaviour:
   defaultMaxHealth: 20
   limbSprite: {fileID: 21300000, guid: 9f2d0ff00438fd2408f8160f9934d933, type: 3}
   selectedSprite: {fileID: 21300000, guid: 3083191b95fd751449e70859d7f8723e, type: 3}
+  limbDrop: {fileID: 3676439032642074792, guid: 61fc4bc92a199aa4fb905c9915e08e41,
+    type: 3}
+  boneValue: 15
   defaultMovementSpeed: 24
   defaultCooldownTime: 3
   dashDistance: 50
@@ -4274,6 +4331,9 @@ MonoBehaviour:
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: 2fb987048962595488c5aa852f4cd282, type: 3}
   selectedSprite: {fileID: 21300000, guid: 53bce8ea7572b3045aae0187fef19f17, type: 3}
+  limbDrop: {fileID: 0}
+  boneValue: 0
+  description: 
 --- !u!114 &2402888011655991731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4513,6 +4573,8 @@ MonoBehaviour:
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: e4102422eadd3b64d947d927c86d4b18, type: 3}
   selectedSprite: {fileID: 21300000, guid: be2c634c57f8ca14abd3f973a64e8823, type: 3}
+  limbDrop: {fileID: 0}
+  boneValue: 0
 --- !u!114 &5780341038139770661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4677,6 +4739,8 @@ MonoBehaviour:
   defaultMaxHealth: 100
   limbSprite: {fileID: 21300000, guid: b7f0420002722514691dfa0697342ff3, type: 3}
   selectedSprite: {fileID: 21300000, guid: 3b9a031331db29749b5fa7109c5586ca, type: 3}
+  limbDrop: {fileID: 0}
+  boneValue: 0
   defaultAttackDamage: 10
   defaultAttackSpeed: 0.8
   side: 1

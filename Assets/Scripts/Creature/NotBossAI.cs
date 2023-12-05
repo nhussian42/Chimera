@@ -32,9 +32,9 @@ public class NotBossAI : Creature
 
     protected virtual void Update()
     {
-        if(stunned != true)
+        if (stunned != true)
         {
-            Debug.Log("Update() called");
+            // Debug.Log("Update() called");
             agent.destination = player.transform.position;
 
             if (attacking == false && alive == true)
@@ -47,7 +47,7 @@ public class NotBossAI : Creature
                     attacking = true;
                 }
             }
-        }        
+        }
     }
 
     public virtual void OnTriggerEnter(Collider other)
@@ -83,12 +83,12 @@ public class NotBossAI : Creature
 
     public virtual void Stun(float duration, GameObject stunFX)
     {
-        if(stunnable == true)
+        if (stunnable == true)
         {
             //Debug.Log("Called Stun()");
             StopAllCoroutines();
             StartCoroutine(Stunned(duration, stunFX));
-        }      
+        }
     }
 
     // temp function for stun behavior, refactor this later - Amon
@@ -99,12 +99,12 @@ public class NotBossAI : Creature
         stunned = true;
         agent.isStopped = true;
         StartCoroutine(StunCooldown(3.0f));
-        if(stunnedFX == null)
+        if (stunnedFX == null)
             stunnedFX = Instantiate(stunFX, stunSpawnTransform);
         yield return new WaitForSeconds(duration);
         Destroy(stunnedFX);
         stunned = false;
-        if(dead != true)
+        if (dead != true)
             ResetAttackBooleans();
     }
 
@@ -119,6 +119,10 @@ public class NotBossAI : Creature
     protected override void Die()
     {
         base.Die();
+        if (creatureType == CreatureType.Major)
+        {
+            Destroy(gameObject, deathTime);
+        }
         Destroy(stunnedFX);
     }
 }
