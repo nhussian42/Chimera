@@ -53,8 +53,9 @@ public class DissolveObject : MonoBehaviour
             yield return null;
         }
 
-        gameObject.SetActive(false);
-        if (destroyAfterComplete)
-            Destroy(gameObject);
+        if (gameObject.GetComponentInParent<Limb>() != null)
+            gameObject.GetComponentInParent<Limb>().CheckForChildren();
+        //gameObject.SetActive(false);
+        if (destroyAfterComplete) Destroy(gameObject);
     }
 }

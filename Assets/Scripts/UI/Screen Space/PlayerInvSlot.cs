@@ -21,6 +21,7 @@ public class PlayerInvSlot : MonoBehaviour
     [SerializeField] private TMP_Text NameBox;
     [SerializeField] private TMP_Text DescBox;
     [SerializeField] private Image ImgBox;
+    [SerializeField] private List<Image> limbImgList;
 
     [SerializeField] private GameObject LimbButtonGO;
     [SerializeField] private List<Button> LimbButtons;
@@ -34,10 +35,12 @@ public class PlayerInvSlot : MonoBehaviour
 
     private void Update()
     {
+        UnityEngine.Debug.Log(EventSystem.current.currentSelectedGameObject);
         if(masterTrinketList.Relic != null)
         {
             relic.gameObject.SetActive(true);
         }
+
     }
     public void OnSelected(BaseEventData data)
     {
@@ -51,8 +54,13 @@ public class PlayerInvSlot : MonoBehaviour
                     + PlayerController.Instance.currentLeftArm.MaxHealth.ToString() + " Health\v" 
                     + PlayerController.Instance.currentLeftArm.AttackDamage.ToString() + " Damage\v" 
                     + PlayerController.Instance.currentLeftArm.AttackSpeed.ToString("F2") + " ATK Speed");
-
-                SetInfoSprite(PlayerController.Instance.currentLeftArm);
+                if (PlayerController.Instance.currentLeftArm.Classification.ToString() == "Core")
+                {
+                    DescBox.text = ("[Core Limb] \v" +
+                      PlayerController.Instance.currentLeftArm.AttackDamage.ToString() + " Damage\v"
+                    + PlayerController.Instance.currentLeftArm.AttackSpeed.ToString("F2") + " ATK Speed");
+                }
+                SetInfoSprite(PlayerController.Instance.currentLeftArm, 2);
                 break;
 
             case "Arm_R":
@@ -61,39 +69,62 @@ public class PlayerInvSlot : MonoBehaviour
                     + PlayerController.Instance.currentRightArm.MaxHealth.ToString() + " Health\v"
                     + PlayerController.Instance.currentRightArm.AttackDamage.ToString() + " Damage\v"
                     + PlayerController.Instance.currentRightArm.AttackSpeed.ToString("F2") + " ATK Speed");
-                SetInfoSprite(PlayerController.Instance.currentRightArm);
+                if (PlayerController.Instance.currentRightArm.Classification.ToString() == "Core")
+                {
+                    DescBox.text = ("[Core Limb] \v" +
+                      PlayerController.Instance.currentRightArm.AttackDamage.ToString() + " Damage\v"
+                    + PlayerController.Instance.currentRightArm.AttackSpeed.ToString("F2") + " ATK Speed");
+                }
+                SetInfoSprite(PlayerController.Instance.currentRightArm, 1);
                 break;
 
             case "Head":
                 NameBox.text = (PlayerController.Instance.currentHead.Name.ToString() + " Head");
                 DescBox.text = (PlayerController.Instance.currentHead.Health.ToString("F0") + " / "
                     + PlayerController.Instance.currentHead.MaxHealth.ToString() + " Health\v");
-                SetInfoSprite(PlayerController.Instance.currentHead);
+                if (PlayerController.Instance.currentHead.Classification.ToString() == "Core")
+                {
+                    DescBox.text = ("[Core Limb] \v" +
+                      "No Additional Effect");
+                }
+                SetInfoSprite(PlayerController.Instance.currentHead, 3);
                 break;
             case "Core":
                 NameBox.text = "Chimera Core";
                 DescBox.text = (PlayerController.Instance.Core.Health.ToString("F0") + " / "
                     + PlayerController.Instance.Core.MaxHealth.ToString() + " Health\v");
-                SetInfoSprite(PlayerController.Instance.Core);
+                if(PlayerController.Instance.Core.Classification.ToString() == "Core")
+                {
+                    DescBox.text = ("[Core Limb] \v" +
+                      PlayerController.Instance.Core.Health.ToString("F0") + " / "
+                    + PlayerController.Instance.Core.MaxHealth.ToString() + " Health\v");
+                }
+                SetInfoSprite(PlayerController.Instance.Core, 0);
                 break;
             case "Legs":
                 NameBox.text = (PlayerController.Instance.currentLegs.Name.ToString() + " Legs");
                 DescBox.text = (PlayerController.Instance.currentLegs.Health.ToString("F0") + " / "
                 + PlayerController.Instance.currentLegs.MaxHealth.ToString() + " Health\v" 
                 + PlayerController.Instance.currentLegs.CooldownTime.ToString("F1") + " Dash Cooldown");
-                SetInfoSprite(PlayerController.Instance.currentLegs);
+                if (PlayerController.Instance.currentLegs.Classification.ToString() == "Core")
+                {
+                    DescBox.text = ("[Core Limb] \v" +
+                      PlayerController.Instance.currentLegs.CooldownTime.ToString("F1") + " Dash Cooldown");
+                }
+                SetInfoSprite(PlayerController.Instance.currentLegs, 4);
                 break;
             case "Relic":
-                UnityEngine.Debug.Log("Relic");
+                ResetLimbImg();
                 if(masterTrinketList.Relic == null)
                 {
-                    NameBox.text = "No Relic Equipped";
-                    DescBox.text = "No Relic Equipped";
-                    ImgBox.sprite = null;
+                    NameBox.text = "Relic Slot";
+                    DescBox.text = "There is no Relic Currently Equipped";
+                    ImgBox.gameObject.SetActive(false);
                     break;
                 }
                 else
                 {
+                    //ImgBox.gameObject.SetActive(true);
                     NameBox.text = masterTrinketList.Relic.TrinketName.ToString();
                     DescBox.text = masterTrinketList.Relic.Description.ToString();
                     SetRelicSprite(masterTrinketList.Relic);
@@ -158,7 +189,7 @@ public class PlayerInvSlot : MonoBehaviour
                 case "Relic":
                     if(masterTrinketList.Relic == null)
                     {                   
-                        LimbButtons[5].GetComponent<Image>().sprite = null;
+                        //LimbButtons[5].GetComponent<Image>().sprite = null;
                         ss.selectedSprite = RelicHighlight.sprite;
                         LimbButtons[5].gameObject.GetComponent<Button>().spriteState = ss;
                         RelicHighlight.GetComponent<Image>().sprite = null;
@@ -174,20 +205,67 @@ public class PlayerInvSlot : MonoBehaviour
         }
     }
 
-    public void SetInfoSprite(Limb limb)
+    public void SetInfoSprite(Limb limb, int i)
     {
-        ImgBox.gameObject.SetActive(true);
         var limbSprite = limb.limbSprite;
+        ImgBox.gameObject.SetActive(false);
+        switch (i)
+        {
+            
+            case 0:
+                {
+                    ResetLimbImg();
+                    limbImgList[i].gameObject.SetActive(true);
+                    limbImgList[i].sprite = limbSprite;
+                    break;
+                }
+            case 1:
+                {
+                    ResetLimbImg();
+                    limbImgList[i].gameObject.SetActive(true);
+                    limbImgList[i].sprite = limbSprite;
+                    break;
+                }
+            case 2:
+                {
+                    ResetLimbImg();
+                    limbImgList[i].gameObject.SetActive(true);
+                    limbImgList[i].sprite = limbSprite;
+                    break;
+                }
+            case 3:
+                {
+                    ResetLimbImg();
+                    limbImgList[i].gameObject.SetActive(true);
+                    limbImgList[i].sprite = limbSprite;
+                    break;
+                }
+            case 4:
+                {
+                    ResetLimbImg();
+                    limbImgList[i].gameObject.SetActive(true);
+                    limbImgList[i].sprite = limbSprite;
+                    break;
+                }
+        }
 
-        ImgBox.sprite = limbSprite;
     }
 
     public void SetRelicSprite(Trinket trinket)
     {
+        ResetLimbImg();
         ImgBox.gameObject.SetActive(true);
         var trinketIcon = trinket.Icon;
 
         ImgBox.sprite = trinketIcon;
+    }
+
+    public void ResetLimbImg()
+    {
+        for (int i = 0; i < limbImgList.Count; i++)
+        {
+            limbImgList[i].gameObject.SetActive(false);
+        }
     }
 
     public void ToggleHighlightRelic()

@@ -14,6 +14,9 @@ public class SettingsController : MonoBehaviour
     [SerializeField]
     private GameObject SettingsGO;
     [SerializeField]
+    private GameObject CreditsGO, CreditsQuitGO, ControlsGO, ControlsBackGO;
+
+    [SerializeField]
     private TextMeshProUGUI masterPercent, musicPercent, sfxPercent;
 
     [SerializeField]
@@ -46,6 +49,29 @@ public class SettingsController : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(SettingsGO);
     }
 
+    public void SelectCredits()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(CreditsQuitGO);
+    }
+    
+    public void ReSelectCredits()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(CreditsGO);
+    }
+
+    public void SelectControls()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(ControlsBackGO);
+    }
+
+    public void ReSelectControls()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(ControlsGO);
+    }
     public void MasterVolume()
     {
         masterPercent.text = Mathf.RoundToInt(_masterSlider.value * 100) + "%";

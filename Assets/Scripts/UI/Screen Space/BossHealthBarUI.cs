@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossHealthBarUI : MonoBehaviour
+public class BossHealthBarUI : Singleton<BossHealthBarUI>
 {
     [SerializeField] TextMeshProUGUI bossNameText;
     [SerializeField] Slider bossHealthSliderR;
@@ -17,43 +17,48 @@ public class BossHealthBarUI : MonoBehaviour
     [SerializeField] private float healthBarFillSpeed;
     [SerializeField] private float highlightSpeed;
     private float sinTime;
-
-    private bool entered = false;
+    [SerializeField] private GameObject self;
+    public bool entered = false;
+    private bool healthBarFull;
     float a = 100;
     float b = 100;
     bool damaged;
 
   private void Start()
     {
-        entered = true;
         healthBarFillSpeed = healthBarFillSpeed / 1000;
         highlightSpeed = highlightSpeed / 100;
+        bossHealthSliderL.value = 0;
+        bossHealthSliderR.value = 0;
+
+        
     }    
     
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Q)) //Replace with boss taking damage
+        Grolfino.BossDead += OnBossDie;
+        if(bossHealthSliderR.value < .9 && healthBarFull)
         {
-            a = a - 20;
-            UpdateHealthBar(a, b);
-            
-            //Invoke("ShowDamageHighlight", 1);
+            highlightSpeed = .0025f;
         }
 
-        if (entered) //Meant for when to trigger the healthbar to go up (before/after cutscene?)
-        {
-            InitiateHealthBar();
-        }
-
-        if (damageHighlightL.value != bossHealthSliderL.value)
+        if (damageHighlightL.value != bossHealthSliderL.value && healthBarFull)
         {
             sinTime += Time.deltaTime * highlightSpeed;
             sinTime = Mathf.Clamp(sinTime, 0, Mathf.PI);
             float t = evaluate(sinTime);
 
+            damageHighlightL.gameObject.SetActive(true);
+            damageHighlightR.gameObject.SetActive(true);
+            
             damageHighlightL.value = Mathf.Lerp(damageHighlightL.value, bossHealthSliderL.value, t);
             damageHighlightR.value = Mathf.Lerp(damageHighlightR.value, bossHealthSliderR.value, t);
             //Creates the highlight effect after boss takes damage
+        }
+
+        if(entered)
+        {       
+            InitiateHealthBar();
         }
     }
     public void UpdateHealthBar(float currentHealth, float maxHealth)
@@ -61,20 +66,26 @@ public class BossHealthBarUI : MonoBehaviour
         bossHealthSliderL.value = currentHealth / maxHealth;
         bossHealthSliderR.value = currentHealth / maxHealth;
     }
-    private void InitiateHealthBar() //Sets the slider values to max
-    {
+    public void InitiateHealthBar() //Sets the slider values to max
+    {       
         bossHealthSliderR.value = bossHealthSliderR.value + healthBarFillSpeed;
         bossHealthSliderL.value = bossHealthSliderL.value + healthBarFillSpeed;
         if(bossHealthSliderR.value == 1)
         {
-            entered = false;
+            healthBarFull = true;
             damageHighlightL.value = 1;
-            damageHighlightR.value = 1; 
+            damageHighlightR.value = 1;    
+            entered = false;
         }
     }
 
     private float evaluate(float x)
     {
         return 0.5f * Mathf.Sin(x - Mathf.PI / 2f) + 0.5f;
+    }
+
+    private void OnBossDie()
+    {
+        self.SetActive(false);
     }
 }

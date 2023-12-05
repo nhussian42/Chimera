@@ -34,7 +34,7 @@ public class NotBossAI : Creature
     {
         if (stunned != true)
         {
-            Debug.Log("Update() called");
+            // Debug.Log("Update() called");
             agent.destination = player.transform.position;
 
             if (attacking == false && alive == true)

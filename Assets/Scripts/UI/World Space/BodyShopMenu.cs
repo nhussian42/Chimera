@@ -231,10 +231,10 @@ public class BodyShopMenu : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        Debug.Log(EventSystem.current.currentSelectedGameObject);
-    }
+    // private void Update()
+    // {
+    //     Debug.Log(EventSystem.current.currentSelectedGameObject);
+    // }
 
     private void EnterMenu(bool tf)
     {
