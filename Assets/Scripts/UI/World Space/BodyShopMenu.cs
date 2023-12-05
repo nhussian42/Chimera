@@ -92,6 +92,7 @@ public class BodyShopMenu : MonoBehaviour
     {
         ItemImageList[0].sprite = BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().limbSprite;
         ItemImageList[1].sprite = BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>().limbSprite;
+        ItemImageList[2].sprite = BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>().limbSprite;
     }
 
     private void SetupDescriptions()
@@ -173,22 +174,22 @@ public class BodyShopMenu : MonoBehaviour
         {
             case 0:
                 { 
-                    limbText.text = $"{BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().LimbType.ToString()}"+" ?";
+                    limbText.text = $"{BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedArm.GetComponent<LimbDrop>().LimbType.ToString()}"+"?";
                     break; 
                 }
             case 1:
                 {
-                    limbText.text = $"{BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>().LimbType.ToString()}"+" ?";
+                    limbText.text = $"{BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedLeg.GetComponent<LimbDrop>().LimbType.ToString()}"+"?";
                     break; 
                 }
             case 2:
                 {
-                    limbText.text = $"{BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>().LimbType.ToString()}"+" ?";
+                    limbText.text = $"{BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>().LimbType.ToString()}"+"?";
                     break; 
                 }
             case 3:
                 {
-                    limbText.text = $"Heal Grub";
+                    limbText.text = $"Heal Grub?";
                     break; 
                 }
         }

@@ -189,7 +189,7 @@ public class PlayerInvSlot : MonoBehaviour
                 case "Relic":
                     if(masterTrinketList.Relic == null)
                     {                   
-                        //LimbButtons[5].GetComponent<Image>().sprite = null;
+                        LimbButtons[5].GetComponent<Image>().sprite = null;
                         ss.selectedSprite = RelicHighlight.sprite;
                         LimbButtons[5].gameObject.GetComponent<Button>().spriteState = ss;
                         RelicHighlight.GetComponent<Image>().sprite = null;
