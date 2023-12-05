@@ -59,7 +59,7 @@ public class CameraZoom : MonoBehaviour
         Boss1CutsceneTrigger.Boss1Cutscene += BossZoom;
 
 
-        Grolfino.BossDead += DefaultZoom;
+        //Grolfino.BossDead += DefaultZoom;
     }
 
     private void OnDisable()
@@ -68,7 +68,7 @@ public class CameraZoom : MonoBehaviour
         IntroCutsceneTrigger.IntroWakeUp -= IntroZoom;
         Boss1CutsceneTrigger.Boss1Cutscene -= BossZoom;
 
-        Grolfino.BossDead -= DefaultZoom;
+        //Grolfino.BossDead -= DefaultZoom;
     }
 
     // Currently intro zoom working through this function, need to setup with CutsceneController
@@ -122,11 +122,11 @@ public class CameraZoom : MonoBehaviour
         // print(CinemachineVirtualCamera.m_Lens.OrthographicSize);
 
         while (timeElapsed < duration)
-        {        
+        {
             // print(CinemachineVirtualCamera.m_Lens.OrthographicSize);
 
             CinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(start, end, animCurve.Evaluate(timeElapsed / duration));
-            timeElapsed += Time.deltaTime;            
+            timeElapsed += Time.deltaTime;
             yield return null;
         }
 
