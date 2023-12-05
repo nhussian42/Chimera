@@ -41,9 +41,10 @@ public class LimbHealthBars : MonoBehaviour
         {
             float LegsHealthMax = PlayerController.Instance.currentLegs.MaxHealth;
             LegsHealth = PlayerController.Instance.currentLegs.Health / LegsHealthMax;
-            LegsImage.color = gradient.Evaluate(LegsHealth);
+            LegsImage.color = gradient.Evaluate(Mathf.Clamp(LegsHealth, 0, 1));
+            Debug.Log(LegsHealth);
 
-            if(LegsHealth == 0)
+            if (LegsHealth == 0)
             {
                 LegsImage.color = Color.white;
                 LegsEquipped = false;
@@ -69,9 +70,9 @@ public class LimbHealthBars : MonoBehaviour
         {
             float LeftArmHealthMax = PlayerController.Instance.currentLeftArm.MaxHealth;
             LeftArmHealth = PlayerController.Instance.currentLeftArm.Health / LeftArmHealthMax;
-            LeftArmImage.color = gradient.Evaluate(LeftArmHealth);
+            LeftArmImage.color = gradient.Evaluate(Mathf.Clamp(LeftArmHealth, 0, 1));
 
-            if(LeftArmHealth == 0) 
+            if (LeftArmHealth == 0)
             {
                 LeftArmImage.color = Color.white;
                 LArmEquipped = false;
@@ -81,7 +82,7 @@ public class LimbHealthBars : MonoBehaviour
         {
             float RightArmHealthMax = PlayerController.Instance.currentRightArm.MaxHealth;
             RightArmHealth = PlayerController.Instance.currentRightArm.Health / RightArmHealthMax;
-            RightArmImage.color = gradient.Evaluate(RightArmHealth);
+            RightArmImage.color = gradient.Evaluate(Mathf.Clamp(RightArmHealth, 0, 1));
 
             if (RightArmHealth == 0)
             {
@@ -94,10 +95,10 @@ public class LimbHealthBars : MonoBehaviour
     void Update()
     {
         OnLimbEquipped();
-        SetHealth();   
+        SetHealth();
         CheckLimbSwap();
 
-        if(Input.GetKeyDown(KeyCode.I)) 
+        if (Input.GetKeyDown(KeyCode.I))
         {
             PlayerController.Instance.currentLeftArm.Health -= 10;
             PlayerController.Instance.currentRightArm.Health -= 10;
@@ -141,7 +142,7 @@ public class LimbHealthBars : MonoBehaviour
 
         if (PlayerController.Instance.currentLegs.Classification.ToString() != "Core")
         {
-            LegsEquipped = true;  
+            LegsEquipped = true;
         }
 
         else return;
@@ -165,6 +166,6 @@ public class LimbHealthBars : MonoBehaviour
             LegsImage.color = Color.white;
         }
 
-     }
+    }
 
 }

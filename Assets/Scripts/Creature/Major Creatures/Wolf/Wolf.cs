@@ -23,7 +23,7 @@ public class Wolf : NotBossAI
     public bool attackCompleted = false;
     private bool circling = false;
 
-    
+
 
     private void Start()
     {
@@ -93,7 +93,7 @@ public class Wolf : NotBossAI
         dir = (player.transform.position - transform.position).normalized;
         angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + 180;
         agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
-        yield return new WaitUntil(() => agent.remainingDistance < 1f);
+        yield return new WaitUntil(() => agent.remainingDistance < 0.75f);
 
         float timer = 0;
         while (timer < circleTimer)
@@ -102,11 +102,11 @@ public class Wolf : NotBossAI
             agent.destination = PointOnXZCircle(player.transform.position, attackRange, angle);
             if (randomPositiveNegative)
             {
-                angle += 4;
+                angle += 3;
             }
             else
             {
-                angle -= 4;
+                angle -= 3;
             }
 
             if (Vector3.Distance(transform.position, player.transform.position) < 5)
@@ -140,6 +140,10 @@ public class Wolf : NotBossAI
             timer += Time.deltaTime;
             transform.LookAt(player.transform.position);
             transform.position = Vector3.MoveTowards(transform.position, endPos, chargeMultiplier * Time.deltaTime);
+            if (Vector3.Distance(transform.position, player.transform.position) < 3f)
+            {
+                break;
+            }
             yield return null;
         }
 
