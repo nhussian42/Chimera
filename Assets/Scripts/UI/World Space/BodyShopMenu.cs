@@ -16,7 +16,7 @@ public class BodyShopMenu : MonoBehaviour
     [SerializeField] private GameObject EnterExit;
 
     [SerializeField] private List<float> ItemCostList;
-    [SerializeField] private float HealCost;
+    [SerializeField] private int HealCost;
 
     [SerializeField] private List<Image> ItemImageList;
     [SerializeField] private List<TextMeshProUGUI> ItemTextList;
@@ -139,9 +139,9 @@ public class BodyShopMenu : MonoBehaviour
 
     public void PurchaseHeal()
     {
-        if(HealCost < PlayerController.Instance.totalBones)
+        if(HealCost < CurrencyManager.Instance.currentBones)
         {
-            PlayerController.Instance.totalBones -= HealCost;
+            CurrencyManager.Instance.RemoveBones(HealCost);
             PlayerController.Instance.currentLeftArm.UpdateCurrentHealth(HealAmount);
             PlayerController.Instance.currentRightArm.UpdateCurrentHealth(HealAmount);
             PlayerController.Instance.UpdateCoreHealth(HealAmount);
@@ -187,7 +187,7 @@ public class BodyShopMenu : MonoBehaviour
                     limbText.text = $"{BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>().Name.ToString() + " " + BodyShop.Instance.SpawnedHead.GetComponent<LimbDrop>().LimbType.ToString()}"+"?";
                     break; 
                 }
-            case 3:
+            case 4:
                 {
                     limbText.text = $"Heal Grub?";
                     break; 
