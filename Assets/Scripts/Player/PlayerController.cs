@@ -856,6 +856,7 @@ public class PlayerController : Singleton<PlayerController>
     // Called when a limb is disintegrated (no health)
     public void RevertToDefault (Head previousHead)
     {
+        Debug.Log("ReverToDefault()");
         previousHead.LoadDefaultStats();
         // previousHead.gameObject.SetActive(false); // dissolve script handles it
         coreHead.gameObject.SetActive(true);

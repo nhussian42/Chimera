@@ -13,4 +13,10 @@ public class Head : Limb
         maxHealth = maxHP;
         Health = currentHP;
     }
+
+    public override void Disintegrate()
+    {
+        base.Disintegrate();
+        PlayerController.Instance.RevertToDefault(this);
+    }
 }
