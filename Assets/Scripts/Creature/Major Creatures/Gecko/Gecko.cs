@@ -128,7 +128,6 @@ public class Gecko : NotBossAI
     {
         if (stunned != true)
         {
-            Debug.Log("Update() called");
             if (alive == true && remainingDashAttackCooldown < 0)
             {
                 FaceTarget(agent.destination);

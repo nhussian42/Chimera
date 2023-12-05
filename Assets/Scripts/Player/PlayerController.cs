@@ -107,6 +107,7 @@ public class PlayerController : Singleton<PlayerController>
     private bool canAttack = true;
     private bool interacting;
     public bool nearShop;
+    public bool nearRelic;
     private List<Drop> touchedDrops;
     private Drop nearestDrop;
 
@@ -436,6 +437,10 @@ public class PlayerController : Singleton<PlayerController>
             if (nearShop)
             {
                 BodyShop.Instance.ToggleMenu();
+            }
+            else if (nearRelic)
+            {
+                RelicInteract.instance.ToggleMenu();
             }
             else if (nearestDrop != null)
             {
